@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+
+<title>ECharts</title>
+<script src="../resources/js/echart/esl/esl.js"></script>
+
+</head>
+<body>
+	<a href="../index.jsp">home</a>
+	<span id="hover_console"></span>
+	<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+	<div id="main" style="height: 600px; border: 1px dashed #d0d0d0"></div>	
+	<canvas id="diagonal" style="border: 1px solid" width="300"
+		height="300"> 浏览器不支持此标签 </canvas>
+
+	<script type="text/javascript">
+		// 路径配置
+		require.config({
+			paths : {
+				'echarts' : '../resources/js/echart/echarts',
+				'echarts/chart/pie' : '../resources/js/echart/echarts',
+				'echarts/chart/force' : '../resources/js/echart/echarts'
+			//		'zrender' :   '../resources/js/echart/zrender',
+			//	'zrender/shape/Circle':  '../resources/js/echart/zrender'
+			}
+		});
+
+		// 使用
+		require([ 'echarts', 'echarts/chart/pie', 'echarts/chart/force' //,'zrender/shape/Circle' 使用饼图就加载pie模块，按需加载
+		], function(ec) {
+			// 基于准备好的dom，初始化echarts图表
+			var myChart = ec.init(document.getElementById('main'));
+			var labelCenter = {
+				normal : {
+					label : {
+						position : 'inner',
+						textStyle : {
+							fontSize : 14,
+							fontWeight : 'bold'
+						}
+					},
+					labelLine : {
+						show : false
+					}
+				}
+			};
+			var option = {
+				tooltip : {
+					trigger : 'item',
+					formatter : "{a} <br/>{b} : {c} ({d}%)"
+				},
+				legend : {
+					orient : 'vertical',
+					x : 'left',
+					data : [ '已验收', '已完成', '委托中', '开发中', '未分配' ]
+				},
+				toolbox : {
+					show : true,
+					feature : {
+						mark : {
+							show : true
+						},
+						dataView : {
+							show : true,
+							readOnly : false
+						},
+						restore : {
+							show : true
+						},
+						saveAsImage : {
+							show : true
+						}
+					}
+				},
+
+				series : [ {
+					name : '电子商务项目',
+					type : 'pie',
+					textAlign : 'center',
+					center : [ 600, 300 ],
+					radius : [ 0, 30 ],
+					itemStyle : labelCenter,
+					data : [ {
+						value : 100000,
+						name : '00168'
+					} ],
+					markLine : {				
+						effect : {
+							show : true,
+							period : 15,
+							scaleSize : 10,
+							color :'#a1ffc3',
+							shadowColor : null,
+							shadowBlur : null,
+						},
+						data : [ [ {
+							x : 600,
+							y : 300
+						}, {
+							x : 450,
+							y : 200
+						} ] ]
+					}
+				}, {
+					name : '电子商务项目',
+					type : 'pie',
+					center : [ 600, 300 ],
+					radius : [ 40, 60 ],
+					data : [ {
+						value : 335,
+						name : '已验收'
+					}, {
+						value : 310,
+						name : '已完成'
+					}, {
+						value : 234,
+						name : '委托中'
+					}, {
+						value : 135,
+						name : '开发中'
+					}, {
+						value : 1048,
+						name : '未分配'
+					} ]
+				}, {
+					type : 'pie',
+					center : [ 450, 200 ],
+					radius : [ 0, 30 ],
+					itemStyle : labelCenter,
+					data : [ {
+						name : '00966',
+						value : 56
+					} ]
+				}, {
+					name : '电子商务项目',
+					type : 'pie',
+					center : [ 450, 200 ],
+					radius : [ 40, 60 ],
+					data : [ {
+						value : 200,
+						name : '已验收'
+					}, {
+						value : 140,
+						name : '已完成'
+					}, {
+						value : 150,
+						name : '委托中'
+					}, {
+						value : 11,
+						name : '开发中'
+					}, {
+						value : 300,
+						name : '未分配'
+					} ]
+				} ]
+			};
+			
+			var ecConfig = require('echarts/config');
+			myChart.on(ecConfig.EVENT.CLICK, chartClick);
+			// 为echarts对象加载数据 
+			myChart.setOption(option)	
+
+				function chartClick(param) {
+		    var mes = '【' + param.type + '】';
+		    var sI = -1;
+		    var dI= -1;
+		    if (typeof param.seriesIndex != 'undefined') {
+		    	sI =  param.seriesIndex;
+		    	dI =  param.dataIndex;
+		        mes += '  seriesIndex : ' + param.seriesIndex;
+		        mes += '  dataIndex : ' + param.dataIndex;
+		    }
+		    if (sI == 0){
+		    	var s00186 = [{
+					type : 'pie',
+					center : [ 800, 200 ],
+					radius : [ 0, 30 ],
+					itemStyle : labelCenter,
+					data : [ {
+						name : '00186',
+						value : 56
+					} ]
+				}, {
+					name : '电子商务项目1',
+					type : 'pie',
+					center : [ 800, 200 ],
+					radius : [ 40, 60 ],
+					data : [ {
+						value : 200,
+						name : '已验收'
+					}, {
+						value : 140,
+						name : '已完成'
+					}, {
+						value : 150,
+						name : '委托中'
+					}, {
+						value : 11,
+						name : '开发中'
+					}, {
+						value : 300,
+						name : '未分配'
+					} ]
+				}];
+		    	var series = myChart.getSeries();		    	
+		    	series[0].markLine.data.push([ {
+					x : 600,
+					y : 300
+				}, {
+					x : 800,
+					y : 200
+				} ]);
+		    	myChart.setSeries(series.concat(s00186)); 
+		    }else if (sI==2){
+		    	var s01305 = [{
+					type : 'pie',
+					center : [ 250, 300 ],
+					radius : [ 0, 30 ],
+					itemStyle : labelCenter,
+					data : [ {
+						name : '01305',
+						value : 56
+					} ]
+				}, {
+					name : '电子商务项目1',
+					type : 'pie',
+					center : [ 250, 300 ],
+					radius : [ 40, 60 ],
+					data : [ {
+						value : 200,
+						name : '已验收'
+					}, {
+						value : 140,
+						name : '已完成'
+					}, {
+						value : 150,
+						name : '委托中'
+					}, {
+						value : 11,
+						name : '开发中'
+					}, {
+						value : 300,
+						name : '未分配'
+					} ]
+				}];
+		    	var series = myChart.getSeries();		
+		    	series[0].markLine.data.push( [ {
+							x : 450,
+							y : 200
+						}, {
+							x : 250,
+							y : 300
+						} ]);
+				
+		    	myChart.setSeries(series.concat(s01305)); 
+		    }
+		    document.getElementById('hover_console').innerHTML = 'Event Console : ' + mes;
+		}
+			
+			var c = document.getElementById("diagonal");
+			var cxt = c.getContext("2d");
+			//使用绝对坐标来创建一条路径  
+			cxt.beginPath();
+			cxt.moveTo(0, 0);
+			cxt.lineTo(140, 70);
+			//将这条线绘制到canvas上  
+			cxt.stroke();
+		});
+		
+	
+	</script>
+</body>

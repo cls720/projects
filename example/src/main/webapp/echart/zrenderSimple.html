@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+
+<title>ZRender Simple</title>
+<script src="../resources/js/echart/esl/esl.js"></script>
+</head>
+<body>
+	<a href="../index.jsp">home</a>
+	<a href="zrender.html" target="_self">Zrender</a>
+	<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+	<div id="main" style="height: 600px;"></div>
+	<span id='console' style="color: #1e90ff">Event Console</span>
+
+	<script type="text/javascript">
+		var zr; // 全局可用zrender对象
+		var domMain = document.getElementById('main');
+
+		var fileLocation = '../resources/js/echart/zrender';
+		require.config({
+			paths : {
+				zrender : fileLocation,
+				'zrender/shape/Rose' : fileLocation,
+				'zrender/shape/Trochoid' : fileLocation,
+				'zrender/shape/Circle' : fileLocation,
+				'zrender/shape/Sector' : fileLocation,
+				'zrender/shape/Ring' : fileLocation,
+				'zrender/shape/Ellipse' : fileLocation,
+				'zrender/shape/Rectangle' : fileLocation,
+				'zrender/shape/Text' : fileLocation,
+				'zrender/shape/Heart' : fileLocation,
+				'zrender/shape/Droplet' : fileLocation,
+				'zrender/shape/Line' : fileLocation,
+				'zrender/shape/Image' : fileLocation,
+				'zrender/shape/Star' : fileLocation,
+				'zrender/shape/Isogon' : fileLocation,
+				'zrender/shape/BezierCurve' : fileLocation,
+				'zrender/shape/BrokenLine' : fileLocation,
+				'zrender/shape/Path' : fileLocation,
+				'zrender/shape/Polygon' : fileLocation
+			}
+		});
+
+		require([ 'zrender', 'zrender/shape/Rose', 'zrender/shape/Trochoid',
+				'zrender/shape/Circle', 'zrender/shape/Sector',
+				'zrender/shape/Ring', 'zrender/shape/Ellipse',
+				'zrender/shape/Rectangle', 'zrender/shape/Text',
+				'zrender/shape/Heart', 'zrender/shape/Droplet',
+				'zrender/shape/Line', 'zrender/shape/Image',
+				'zrender/shape/Star', 'zrender/shape/Isogon',
+				'zrender/shape/BezierCurve', 'zrender/shape/BrokenLine',
+				'zrender/shape/Path', 'zrender/shape/Polygon' ], function(
+				zrender) {
+			var zr = zrender.init(document.getElementById('main'));
+			var CircleShape = require('zrender/shape/Circle');
+			// 04297
+			zr.addShape(new CircleShape({
+				style : {
+					id : 't1',
+					x : 100,
+					y : 200,
+					r : 50,
+					text : "04297",
+					textPosition : 'inside',
+					color : 'rgba(220, 20, 60, 0.8)'
+				},
+				// 图形元素上绑定事件
+				onmouseover : function(params) {
+					console.log('mouse over!');
+				}
+			}));
+			// 02947
+			zr.addShape(new CircleShape({
+				style : {
+					id : 't11',
+					x : 300,
+					y : 100,
+					r : 30,
+					text : "02947",
+					textPosition : 'inside',
+					color : 'rgba(120, 20, 60, 0.8)'
+				},
+				// 图形元素上绑定事件
+				onmouseover : function(params) {
+					console.log('mouse over!');
+				}
+			}));
+			// 05555
+			zr.addShape(new CircleShape({
+				style : {
+					id : 't12',
+					x : 300,
+					y : 200,
+					r : 30,
+					text : "05555",
+					textPosition : 'inside',
+					color : 'rgba(120, 20, 60, 0.8)'
+				},
+				// 图形元素上绑定事件
+				onmouseover : function(params) {
+					console.log('mouse over!');
+				}
+			}));
+			// 12896
+			zr.addShape(new CircleShape({
+				style : {
+					id : 't13',
+					x : 300,
+					y : 300,
+					r : 30,
+					text : "12896",
+					textPosition : 'inside',
+					color : 'rgba(120, 20, 60, 0.8)'
+				},
+				// 图形元素上绑定事件
+				onmouseover : function(params) {
+					console.log('mouse over!');
+				}
+			}));
+			// 直线
+			var LineShape = require('zrender/shape/Line');
+			zr.addShape(new LineShape({
+				style : {
+					xStart : 150,
+					yStart : 200,
+					xEnd : 270,
+					yEnd : 200,
+					lineWidth : 2
+				},
+				draggable : true
+			}));
+			// 贝赛尔曲线
+			var BezierCurveShape = require('zrender/shape/BezierCurve');
+			zr.addShape(new BezierCurveShape({
+				style : {
+					xStart : 150,
+					yStart : 200,
+					cpX1 : 300,
+					cpY1 : 200,
+					cpX2 : 240,
+					cpY2 : 150,
+					xEnd : 270,
+					yEnd : 100,
+					lineWidth : 2
+				},
+				draggable : true
+			}));
+
+			zr.addShape(new BezierCurveShape({
+				style : {
+					xStart : 150,
+					yStart : 200,
+					cpX1 : 300,
+					cpY1 : 200,
+					cpX2 : 240,
+					cpY2 : 250,
+					xEnd : 270,
+					yEnd : 300,
+					lineWidth : 2
+				},
+				draggable : true
+			}));
+
+			zr.render();
+			/*	zr.animate(CircleShape.id).when(1000, {
+					position : [ 300, 200 ]
+				}).when(2000, {
+					position : [ 30, 400 ]
+				}).start('BounceOut');*/
+			// 全局事件
+			zr.on('click', function(params) {
+				alert('Hello, zrender!')
+			});
+		})
+
+	
+	</script>
+</body>

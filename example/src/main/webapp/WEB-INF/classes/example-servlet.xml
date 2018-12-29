@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+	<!-- JSP视图解析器 -->
+	<context:component-scan base-package="com.spring.step.web" />
+	<context:component-scan base-package="com.qrcode.web" />
+	<context:component-scan base-package="com.example.web" />
+
+	<bean name="/products.do" class="com.spring.step.web.ProductController">
+		<property name="productManager" ref="productManager"></property>
+	</bean>
+
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="messages" />
+	</bean>
+	
+	<bean class="org.springframework.web.servlet.view.XmlViewResolver">
+		<property name="location">
+			<value>classpath:spring-excel-views.xml</value>
+		</property>
+		<property name="order" value="0" />
+	</bean>
+    
+	<!-- <bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/WEB-INF/jsp/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean> -->
+</beans>

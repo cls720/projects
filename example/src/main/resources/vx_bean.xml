@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="keylist1" class="com.spring.bean.ioc.KeyList" scope="prototype">
+		<property name="key" value="controlName1" />
+		<property name="list">
+			<list>
+				<value>cn1.prop1</value>
+				<value>cn1.prop2</value>
+				<value>cn1.prop3</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="vx" name="vx" class="com.spring.bean.ioc.VxBizModel"
+		p:propString="string DI test p:">
+		<constructor-arg name="kind" value="vx" />
+		<property name="propInt" value="1"></property>
+		<property name="propDate">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="2011-06-17" />
+			</bean>
+		</property>
+		<property name="propRefObject" ref="date1"></property>
+		<property name="propListString">
+			<list value-type="java.lang.String">
+				<value>str1</value>
+				<value>str2</value>
+				<value>str3</value>
+			</list>
+		</property>
+		<property name="propListObject">
+			<list value-type="java.util.Date" />
+		</property>
+		<property name="propListObject[0]" ref="date1"></property>
+		<property name="propListObject[1]" ref="date1"></property>
+		<property name="propListObject[2]" ref="date1"></property>
+		<property name="propArray">
+			<array>
+				<array>
+					<value>ary11</value>
+					<value>ary12</value>
+					<value>ary13</value>
+				</array>
+				<array>
+					<value>ary21</value>
+					<value>ary22</value>
+				</array>
+			</array>
+		</property>
+		<property name="propSetString">
+			<set>
+				<value>set1</value>
+				<value>set2</value>
+				<value>set3</value>
+			</set>
+		</property>
+		<property name="propMapString">
+			<map>
+				<entry key="m1" value="m1_val1" />
+				<entry key="m2" value="m2_val2" />
+				<entry key="m3" value="m3_val3" />
+			</map>
+		</property>
+		<property name="propMapObject">
+			<map>
+				<entry key="d1" value-ref="date1"></entry>
+				<entry key="d2" value-ref="date1"></entry>
+				<entry key="d3" value-ref="date1"></entry>
+			</map>
+		</property>
+		<property name="propProperties">
+			<props>
+				<prop key="p1">prop1</prop>
+				<prop key="p2">2</prop>
+				<prop key="p3">3.3</prop>
+			</props>
+		</property>
+		<property name="propKeyList">
+			<list>
+				<ref bean="keylist1" />
+				<bean class="com.spring.bean.ioc.KeyList">
+					<property name="key" value="controlName2" />
+					<property name="list">
+						<list>
+							<value>cn2.prop1</value>
+							<value>cn2.prop2</value>
+							<value>cn2.prop3</value>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="singleInject" ref="keylist1" />
+		<lookup-method name="getMultiInject" bean="keylist1" />
+	</bean>
+<!-- 
+
+<bean id="vx_model">
+		<property name="copyConfig">
+			<bean id="vxCopyConfig">
+				<property name="keyList">
+					<list>
+						<ref bean="keylist1" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+ -->	
+</beans>
