@@ -12,7 +12,7 @@ export default {
 }
 $(function(){
   $(".jj").click(function(){
-    alert("ok");
+    alert($.fn.jquery);
     $.each([1,2,3],function(){
       alert(this);
     })
