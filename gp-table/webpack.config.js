@@ -203,8 +203,13 @@ module.exports = function (env) {
         }),
         new InlineChunkManifestHtmlWebpackPlugin({
             dropAsset: true, // 不产生文件
-        })
-
+        }),
+        // 加载jquery 
+        new webpack.ProvidePlugin({ 
+            $:"jquery", 
+            jQuery:"jquery", 
+           "windows.jQuery":"jquery"
+        }) 
     ];
 
     var resolve = {

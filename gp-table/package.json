@@ -22,7 +22,8 @@
     "vue-template-compiler": "^2.2.6",
     "webpack": "^3.0.0",
     "webpack-chunk-hash": "^0.4.0",
-    "webpack-dev-server": "^2.5.0"
+    "webpack-dev-server": "^2.5.0",
+    "jquery":"^3.2.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <img src="./assets/logo.png">
+    <p class="jj">jquery test</p>
     <router-view/>
   </div>
 </template>
@@ -9,6 +10,14 @@
 export default {
   name: 'App'
 }
+$(function(){
+  $(".jj").click(function(){
+    alert("ok");
+    $.each([1,2,3],function(){
+      alert(this);
+    })
+  })
+})
 </script>
 
 <style>
