@@ -120,8 +120,25 @@
                                         :colspan="col.colspan"
                                         :rowspan="col.rowspan"
                                         :class="[setColumnCellClassName(rowIndex,col.field,item)]">
-                                       
-                                        <div :class="['v-table-body-cell',showVerticalBorder ? 'vertical-border':'',showHorizontalBorder?'horizontal-border':'']"
+                                        <!--存在列合并-->
+                                        <div v-if="isCellMergeRender(rowIndex,col.field,item)"
+                                             :class="['v-table-body-cell',showVerticalBorder ? 'vertical-border':'',showHorizontalBorder?'horizontal-border':'']"
+                                             :style="{'width':getRowWidthByColSpan(rowIndex,col.field,item)+'px','height': getRowHeightByRowSpan(rowIndex,col.field,item)+'px','line-height':getRowHeightByRowSpan(rowIndex,col.field,item)+'px','text-align':colField(col.field).columnAlign}"
+                                             :title="colField(col.field).overflowTitle ?  overflowTitle(item,rowIndex,colField(col.field)) :''"
+                                             @click.stop="rowCellClick(rowIndex,item,colField(col.field));cellEditClick($event,colField(col.field).isEdit,item,col.field,rowIndex)"
+                                             @dblclick.stop="rowCellDbClick(rowIndex,item,colField(col.field))"
+                                        >
+                                        <span v-if="cellMergeContentType(rowIndex,col.field,item).isComponent">
+                                            <component :rowData="item" :field="col.field ? col.field : ''"
+                                                       :index="rowIndex"
+                                                       :is="cellMerge(rowIndex,item,col.field).componentName"
+                                                       @on-custom-comp="customCompFunc"></component>
+                                        </span>
+                                            <span v-else v-html="cellMerge(rowIndex,item,col.field).content"></span>
+                                        </div>
+                                        <!--不存在列合并-->
+                                        <div v-else
+                                             :class="['v-table-body-cell',showVerticalBorder ? 'vertical-border':'',showHorizontalBorder?'horizontal-border':'']"
                                              :style="{'width':colField(col.field).width+'px','height': rowHeight * (col.rowspan || 1)+'px','line-height':rowHeight+'px','text-align':colField(col.field).columnAlign}"
                                              :title="colField(col.field).overflowTitle ?  overflowTitle(item,rowIndex,colField(col.field)) :''"
                                              @click.stop="rowCellClick(rowIndex,item,colField(col.field));cellEditClick($event,colField(col.field).isEdit,item,col.field,rowIndex)"
