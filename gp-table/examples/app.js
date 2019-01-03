@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import APP from './comp/app.vue'
 import router from './router'
+import $ from 'jquery';
 
 import NProgress from 'nprogress'; // Progress 进度条
 

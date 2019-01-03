@@ -8,8 +8,9 @@
                     <a class="main-banner-title-item" href="https://github.com/huangshuwei/vue-easytable">
                         <i class="icon iconfont icon-github"></i>&nbsp;&nbsp;github</a>
                     <a class="main-banner-title-item" href="https://github.com/huangshuwei/vue-easytable/releases">
-                        <i class="icon iconfont icon-gengxinrizhi"></i>&nbsp;&nbsp;更新日志</a>
-                </span>
+                        <i class="icon iconfont icon-gengxinrizhi"></i>&nbsp;&nbsp;更新日志1</a>
+                    <a class="jj">jquery test click me</a>
+                </span>                 
             </div>
         </div>
 
@@ -242,5 +243,13 @@
         }
     }
 
+     $(function () {
+        $(".jj").click(function () {
+            alert($.fn.jquery);
+            $.each([1, 2, 3], function () {
+                alert(this);
+            })
+        })
+    })
 
 </script>

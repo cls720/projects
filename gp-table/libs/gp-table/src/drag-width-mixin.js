@@ -130,7 +130,7 @@ export default {
 
         // 拖动时mouseup
         handleDragMouseUp(e){
-
+            debugger;
             if (!this.isDragging) {
                 return false;
             }

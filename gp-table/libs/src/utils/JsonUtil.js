@@ -117,18 +117,4 @@ jQuery.JsonUtil = jQuery.ju = {
 	}
 };
 
-function jsonUtil_findByKeyValue(jsonAry, key, val) {
-	for (var i = 0, l = jsonAry.length; i < l; i++) {
-		if (jsonAry[i][key] == val) {
-			return jsonAry[i];
-		}
-	}
-}
-
-function jsonUtil_findJaryByKeyValue(jsonAry, key, val) {
-	for (var i = 0, l = jsonAry.length; i < l; i++) {
-		if (jsonUtil_findByKeyValue(jsonAry[i], "value", val) != null) {
-			return jsonAry[i];
-		}
-	}
-}
+export default jQuery.JsonUtil

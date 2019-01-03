@@ -1,7 +1,7 @@
 /**
- * GroupTableLayoutUtil分组网格布局数据重组算法
+ * GroupTableLayout分组网格布局数据重组算法
  * 
- * 命名空间 $.GroupTableLayoutUtil 简写 $.gtlu
+ * 命名空间 $.GroupTableLayout 简写 $.gtl
  * 
  * @author cls
  * @modify 2018/11/27
@@ -38,16 +38,16 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 	 *            JSONArray数据源列表
 	 * @param groupFieldDependFieldsJa
 	 *            JSONArray依赖于分组的计算字段列表 计算类型：distinct(唯一合并)
-	 *            {name:"依赖fieldId1",type:"distinct"}
+	 *            {field:"依赖fieldId1",type:"distinct"}
 	 * @return
 	 */
 	getDependFieldsNameValue : function(recdsJa, groupFieldDependFieldsJa) {
 		var retuJa = [];
 		$.each(groupFieldDependFieldsJa, function() {
 					var distinctList = $.ju.getDistinctValues(recdsJa,
-							this.name);
+							this.field);
 					var itemJo = {
-						name : this.name,
+						field : this.field,
 						type : "distinct",
 						values : distinctList
 					};
@@ -56,7 +56,7 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 		return retuJa;
 	},
 	/**
-	 * 获取字段[{name:"字段名",value:"字段值"},...]格式
+	 * 获取字段[{field:"字段名",value:"字段值"},...]格式
 	 * 
 	 * @param recdJa
 	 *            JSONArray待转换记录
@@ -90,9 +90,9 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 		}
 		return alzChildren;
 	},
-	getNameValueJo : function(name, value) {
+	getNameValueJo : function(field, value) {
 		return {
-			name : name,
+			field : field,
 			value : value
 		};
 	},
@@ -123,7 +123,7 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 
 			$.each(jo, function(key, ja) {
 						var itemJo = {
-							name : fn,
+							field : fn,
 							value : key,
 							level : groupFields.length
 						};
@@ -155,7 +155,7 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 	 *            String[] 主分组字段
 	 * @param dependFields
 	 *            JSONObject 依赖于分组的计算字段列表 计算类型：distinct(唯一合并)
-	 *            {groupField1:[{name:"依赖fieldId1",type:"distinct"}]}
+	 *            {groupField1:[{field:"依赖fieldId1",type:"distinct"}]}
 	 * @param dataFields
 	 *            String[] 数据字段
 	 * @param isFirstLevel
@@ -173,7 +173,7 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 			var subGroupChildren = [];
 			$.each(jo, function(key, ja) {
 						var itemJo = {
-							name : fn,
+							field : fn,
 							value : key,
 							level : groupFields.length
 						};
@@ -219,8 +219,8 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 	 *            JSONArray总计项
 	 */
 	sumGroupSubAndAllItem : function(itemJo, totalJa) {
-		var key = itemJo.name;
-		var dataFieldJo = $.ju.findByKeyValue(totalJa, "name", key);
+		var key = itemJo.field;
+		var dataFieldJo = $.ju.findByKeyValue(totalJa, "field", key);
 		if (dataFieldJo == null) {
 			totalJa.add(itemJo);
 		} else {
@@ -263,7 +263,7 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 				} else {
 					if (totalJo.children) {
 						if (item.isGroup) {
-							var key = item.name;
+							var key = item.field;
 							var value = item.value;
 							var dataFieldJo = $.ju.findJaryByKeyValue(
 									totalJo.children, key, value);
@@ -304,7 +304,7 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 		var isTop = false;
 		if (allTotalJo == null) {
 			allTotalJo = {
-				name : "allTotal",
+				field : "allTotal",
 				value : "总计",
 				type : "allTotal"
 			};
@@ -319,7 +319,7 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 					if (child0.children) {
 						if (childrenJa.length > 1) {
 							var calcJo = {
-								name : itemJo.name,
+								field : itemJo.field,
 								value : itemJo.value,
 								span : itemJo.level,
 								type : "subTotal"
@@ -410,7 +410,7 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 	 * 计算children子节点个数，获取跨行列值
 	 * 
 	 * @param childrenJa
-	 *            [{name:"字段名",value:"值",span:5},{name:"字段名",value:"值",type:"subTotal",...},{name:"字段名",value:"值"}...]
+	 *            [{field:"字段名",value:"值",span:5},{field:"字段名",value:"值",type:"subTotal",...},{field:"字段名",value:"值"}...]
 	 *            子节点列表
 	 * @return
 	 */
@@ -446,7 +446,7 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 	},
 	/**
 	 * 获取数据策略依赖字段配置
-	 * {week:[{name:'FWNUM',desc:'周任务',width:200,col:4}],month:[{name:'FMNUM',desc:'月任务',width:200,col:5}],fjd:[{name:'FQNUM',desc:'季任务',width:200,col:6}],year:[{name:'FYNUM',desc:'年任务',width:200,col:7}]}
+	 * {week:[{field:'FWNUM',title:'周任务',width:200,col:4}],month:[{field:'FMNUM',title:'月任务',width:200,col:5}],fjd:[{field:'FQNUM',title:'季任务',width:200,col:6}],year:[{field:'FYNUM',title:'年任务',width:200,col:7}]}
 	 * 
 	 * @param {}
 	 *            policy.dependFields
@@ -476,16 +476,16 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 		var sumFields = {};
 		$.each(alzChildren, function() {
 					if (this.value) {
-						var val = sumFields[this.name] || 0;
+						var val = sumFields[this.field] || 0;
 						val += this.value;
-						sumFields[this.name] = val;
+						sumFields[this.field] = val;
 					}
 				})
 		var retuJa = [];
 		$.each(analyseFields, function() {
 					var item = {
-						name : this.name,
-						value : sumFields[this.name] || 0,
+						field : this.field,
+						value : sumFields[this.field] || 0,
 						count : count,
 						type : type
 					}
@@ -526,7 +526,7 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 		// 格式化列数据
 		$.each(alzChildren, function() {
 					var bizField = $.ju.findByKeyValue(analyseFields,
-							"name", this.name);
+							"field", this.field);
 					this.value = $.gtl.getFormatValue(bizField, this.value);
 				});
 		return alzChildren;
@@ -574,7 +574,7 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 	calcGroupRowSummaryJson : function(rowItem, newRecd, colsJa, groupFields2,
 			analyseFields, axis) {
 		var recdItem = {
-			name : rowItem.name,
+			field : rowItem.field,
 			value : rowItem.value,
 			type : rowItem.type,
 			axis : axis
@@ -594,7 +594,7 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 				// 格式化列数据
 				$.each(childrenJa, function() {
 							var bizField = $.ju.findByKeyValue(
-									analyseFields, "name", this.name);
+									analyseFields, "field", this.field);
 							this.value = $.gtl.getFormatValue(bizField,
 									this.value);
 						});
@@ -616,10 +616,10 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 	 *            policy
 	 */
 	rowAddGroupTd : function(rowsJaItem, newRecd, axis, policy) {
-		var bizField = $.ju.findByKeyValue(policy.rowGroupFields, "name",
-				rowsJaItem.name);
+		var bizField = $.ju.findByKeyValue(policy.rowGroupFields, "field",
+				rowsJaItem.field);
 		var gTd = {
-			name : rowsJaItem.name,
+			field : rowsJaItem.field,
 			value : $.gtl.getFormatValue(bizField, rowsJaItem.value),
 			span : rowsJaItem.span || 1,
 			level : rowsJaItem.level || 0,
@@ -629,11 +629,11 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 		$.ju.instObjToArrayByKeyOrder(newRecd, gTd, "col");
 
 		// 添加分组字段依赖列
-		var dependFields = $.gtl.getDependFields(policy, rowsJaItem.name);
+		var dependFields = $.gtl.getDependFields(policy, rowsJaItem.field);
 		if (dependFields) {
 			$.each(dependFields, function(i, dItem) {
 						var dItemData = $.ju.findByKeyValue(
-								rowsJaItem.dependFields, "name", dItem.name);
+								rowsJaItem.dependFields, "field", dItem.field);
 						var instObj = {
 							value : dItemData.values.join(dItem.split || "，"),
 							span : rowsJaItem.span || 1,
@@ -653,13 +653,13 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 	 * 
 	 * @param {}
 	 *            rowsJa
-	 *            行分组数据，[{name:"年",value:"2018",children:[{name:"季度",value:"第1季度",children:[{},{}]},{},{}]}],
+	 *            行分组数据，[{field:"年",value:"2018",children:[{field:"季度",value:"第1季度",children:[{},{}]},{},{}]}],
 	 *            最后一层叶节点为二维数据 {children:[[{数据字段1},{数据字段2}],[{数据字段1},{数据字段2}]]}
 	 * @param {}
 	 *            colsJa 列分组数据
 	 * @param {}
 	 *            retuJa 返回Tbody引用变量
-	 *            [[{name:"td1",value:"v1"},{name:"td2",value:"v2"}]]
+	 *            [[{field:"td1",value:"v1"},{field:"td2",value:"v2"}]]
 	 * @param {}
 	 *            curtRow 递归存储当前行对象
 	 * @param {}
@@ -707,7 +707,7 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 					// 格式化列数据
 					$.each(this, function() {
 						var bizField = $.ju.findByKeyValue(analyseFields,
-								"name", this.name);
+								"field", this.field);
 						this.value = $.gtl.getFormatValue(bizField, this.value);
 					});
 					newRecd = newRecd.concat(this);
@@ -720,3 +720,5 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 	}
 
 };
+
+export default jQuery.GroupTableLayout

@@ -81,6 +81,10 @@
     text-overflow: ellipsis;
 }
 
+.v-table-body-cell-warp{
+    white-space: inherit !important;
+}
+
 .v-table-body {
     margin:0;
     padding:0;

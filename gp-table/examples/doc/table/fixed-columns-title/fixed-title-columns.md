@@ -5,14 +5,11 @@
     <div>
         <gp-table
              is-horizontal-resize column-width-drag style="width:100%"                  
-             :height="400"
-             :columns="columns"
-             :table-data="tableData"
+             :height="400"                     
              :is-show-sub-total="true"
              :policy="policy"
              :datas="datas"
-             even-bg-color="#f4f4f4"
-             row-hover-color="#eee"
+             even-bg-color="#f4f4f4"             
              row-click-color="#edf7ff"
         ></gp-table>
     </div>
@@ -28,7 +25,7 @@
             return {
                  policy:{
                     rowGroupFields:[
-                        {field:'year',width: 150, isFrozen:true,isFold:true,title:"年", col:0},
+                        {field:'year',width: 150, isFrozen:true,isFold:true,title:"年",titleAlign: 'center',columnAlign: 'center', col:0},
                         {field:'fjd',width: 150, isFrozen:true,isFold:true,title:"季度", col:1},
                         {field:'month',width: 150, isFrozen:true,isFold:true,title:"月", col:2},
                         {field:'week',width: 150, isFrozen:false,isFold:false,title:"周", col:3}

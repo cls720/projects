@@ -13,7 +13,8 @@
     "libs",
     "umd"
   ],
-  "dependencies": {
+  "dependencies": {    
+    "jquery": "^3.2.1",
     "nprogress": "^0.2.0",
     "vue": "^2.2.6",
     "vue-loader": "^12.2.1",
@@ -22,8 +23,7 @@
     "vue-template-compiler": "^2.2.6",
     "webpack": "^3.0.0",
     "webpack-chunk-hash": "^0.4.0",
-    "webpack-dev-server": "^2.5.0",
-    "jquery":"^3.2.1"
+    "webpack-dev-server": "^2.5.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

@@ -23,7 +23,7 @@ export default {
         },
 
         handleMouseOut(rowIndex){
-
+            debugger;
             if (this.rowHoverColor && this.rowHoverColor.length > 0) {
 
                 this.hoverRowIndex = -1;
