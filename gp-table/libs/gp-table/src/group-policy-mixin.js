@@ -17,6 +17,15 @@ exports.default = {
             type: Boolean,
             default: true
         },
+        // 行号配置
+        rowNo: {
+            type: Object,
+            default: function () {
+                return {
+                    isShow: false                    
+                }
+            }
+        },
         // 网格默认列宽
         colWidth: {
             type: [Number, String],
@@ -40,6 +49,17 @@ exports.default = {
     computed: {
         isGroup2: function () {
             return this.colGroupFields.length > 0;
+        },
+        rowNoDefault: {
+            get: function () {
+                return $.extend({
+                    field: 'rowNo',
+                    width: 50,
+                    titleAlign: 'center',
+                    columnAlign: 'center',
+                    isFrozen: true
+                }, this.rowNo);
+            }
         },
         // 行分组字段列表
         rowGroupFields: {
@@ -80,7 +100,11 @@ exports.default = {
         columns: {
             get: function () {
                 debugger
-                var columns = this.getRowGroupColumns();
+                var columns = [];
+                if (this.rowNo.isShow) {
+                    columns.push(this.rowNoDefault);
+                }
+                columns = columns.concat(this.getRowGroupColumns());
 
 
                 return columns;
@@ -93,7 +117,7 @@ exports.default = {
             }
         },
         tableData: {
-            get: function () {                                
+            get: function () {
                 return this.datas;
             }
         },
@@ -194,10 +218,12 @@ exports.default = {
                 var rda = bodyDatas[i];
                 tr.axis = rda.length > 0 ? rda[0].axis : "";
                 // 添加序号td
-                // tr.tds.push({
-                //     isFrozen: true,
-                //     value: i + 1
-                // });
+                if (this.rowNo.isShow) {
+                    tr.frozenTds.push({
+                        field: "rowNo",
+                        value: i + 1
+                    });
+                }
                 var isType = false;
                 lastSpan--;
                 if (lastSpan <= 0) {
@@ -359,7 +385,7 @@ exports.default = {
                 return val;
             }
         },
-        getRowGroupColumns() {            
+        getRowGroupColumns() {
             var ra = [].concat(this.policy.rowGroupFields);
             for (var i = 0, l = ra.length; i < l; i++) {
                 var raItem = ra[i];
@@ -373,7 +399,7 @@ exports.default = {
         getFieldDependFields(fieldName) {
             return this.dependFields[fieldName];
         },
-        colField(field) {            
+        colField(field) {
             return JsonUtil.findByKeyValue(this.internalColumns, "field", field);
         }
     },

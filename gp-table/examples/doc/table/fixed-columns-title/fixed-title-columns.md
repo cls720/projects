@@ -7,6 +7,7 @@
              is-horizontal-resize column-width-drag style="width:100%"                  
              :height="400"                     
              :is-show-sub-total="true"
+             :row-no="rowNo"
              :policy="policy"
              :datas="datas"
              even-bg-color="#f4f4f4"             
@@ -39,6 +40,7 @@
                         year:[{field:'FYNUM',title:'年任务',width:200,col:7}]
                     }
                  },
+                 rowNo:{isShow: true,width:40},                                    
                  datas: dcimData                
             }
         }
