@@ -23,7 +23,7 @@
                                         @click.stop="titleCellClick(col.fields,col.title);"
                                         @dblclick.stop="titleCellDblClick(col.fields,col.title)">
                                         <div :class="['v-table-title-cell',showVerticalBorder?'vertical-border':'',showHorizontalBorder?'horizontal-border':'']"
-                                             :style="{'width':titleColumnWidth(col.fields)+'px','height':titleColumnHeight(col.rowspan)+'px','text-align':col.titleAlign}">
+                                             :style="{'width':titleColumnWidth(col.fields)+'px','height':titleColumnHeight(col.rowspan)+'px','text-align':col.titleAlign}">                                            
                                             <span class="table-title">
                                                <span v-if="isSelectionCol(col.fields)">
                                                      <v-checkbox
@@ -67,7 +67,12 @@
                                         @dblclick.stop="titleCellDblClick(col.field,col.title)">
                                         <div :class="['v-table-title-cell',showVerticalBorder?'vertical-border':'',showHorizontalBorder?'horizontal-border':'']"
                                              :style="{'width':col.width+'px','height':titleRowHeight+'px','text-align':col.titleAlign}">
+                                                                                  
                                                 <span class="table-title">
+                                                    <!--isFold-->
+                                                    <span @click.stop="sortControl(col.fields[0])" class="v-table-sort-icon" v-if="col.isFold">
+                                                        <i :class='["v-table-filter-icon","v-icon-cancel"]'></i>                                                        
+                                                    </span>      
                                                      <span v-if="col.type === 'selection'">
                                                          <v-checkbox
                                                                  @change="handleCheckAll"
@@ -156,7 +161,7 @@
                                                         :disabled="item._disabled" :label="rowIndex"></v-checkbox>
                                         </span>
                                             <span v-else>
-                                                {{col.value}}
+                                               {{col.value}}
                                         </span>
                                         </div>
                                     </td>
@@ -407,6 +412,7 @@
     import scrollBarControlMixin from './scroll-bar-control-mixin.js'
     import tableRowMouseEventsMixin from './table-row-mouse-events-mixin'
     import tableFiltersMixin from './table-filters-mixin'
+    import tableFoldMixin from './table-fold-mixin'
     import groupPolicyMixin from  './group-policy-mixin'
 
     import utils from '../../src/utils/utils.js'
@@ -423,7 +429,7 @@
         name: 'gp-table',
         mixins: [classesMixin, tableResizeMixin, frozenColumnsMixin, scrollControlMixin, sortControlMixin, tableEmptyMixin, dragWidthMixin, 
             cellEditMixin, bodyCellMergeMixin, titleCellMergeMixin, checkboxSelectionMixin, tableFooterMixin, scrollBarControlMixin, tableRowMouseEventsMixin, 
-            tableFiltersMixin,groupPolicyMixin],
+            tableFiltersMixin, tableFoldMixin, groupPolicyMixin],
         components: {tableEmpty, loading, VCheckboxGroup, VCheckbox, VDropdown},
         data(){
             return {

@@ -15,6 +15,7 @@ export default {
         },
         // 冻结的表头列集合
         frozenTitleCols(){
+            debugger;
             var frozenTitleCols = [], self = this;
 
             if (this.internalTitleRows.length > 0) {
