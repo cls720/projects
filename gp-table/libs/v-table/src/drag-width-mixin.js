@@ -133,8 +133,7 @@ exports.default = {
 
             dragLine.style.left = clientX - tableLeft + 'px';
         },
-        handleDragMouseUp: function handleDragMouseUp(e) {
-            debugger;
+        handleDragMouseUp: function handleDragMouseUp(e) {            
             if (!this.isDragging) {
                 return false;
             }

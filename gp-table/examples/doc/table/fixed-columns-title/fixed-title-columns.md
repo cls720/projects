@@ -27,7 +27,21 @@
                  policy:{
                     rowGroupFields:[
                         {field:'year',width: 150, isFrozen:true,isFold:true,title:"年",titleAlign: 'center',columnAlign: 'center', col:0},
-                        {field:'fjd',width: 150, isFrozen:true,isFold:true,title:"季度", col:1},
+                        {field:'fjd',width: 150, isFrozen:true,isFold:true,title:"季度", col:1,
+                         filterMultiple: true,
+                         filters: [{
+                            label: '第一季度',
+                            value: '1',
+                        }, {
+                            label: '第二季度',
+                            value: '2',
+                        }, {
+                            label: '第三季度',
+                            value: '3',
+                        }, {
+                            label: '第四季度',
+                            value: '4',
+                        }]},
                         {field:'month',width: 150, isFrozen:true,isFold:true,title:"月", col:2},
                         {field:'week',width: 150, isFrozen:false,isFold:false,title:"周", col:3}
                     ],

@@ -129,8 +129,7 @@ export default {
         },
 
         // 拖动时mouseup
-        handleDragMouseUp(e){
-            debugger;
+        handleDragMouseUp(e){            
             if (!this.isDragging) {
                 return false;
             }

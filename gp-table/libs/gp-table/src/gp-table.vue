@@ -70,8 +70,8 @@
                                                                                   
                                                 <span class="table-title">
                                                     <!--isFold-->
-                                                    <span @click.stop="sortControl(col.fields[0])" class="v-table-sort-icon" v-if="col.isFold">
-                                                        <i :class='["v-table-filter-icon","v-icon-cancel"]'></i>                                                        
+                                                    <span @click.stop="sortControl(col.fields[0])"  v-if="col.isFold">
+                                                        <i :class='["v-table-filter-icon","v-icon-minus-squared-alt"]'></i>                                                        
                                                     </span>      
                                                      <span v-if="col.type === 'selection'">
                                                          <v-checkbox
