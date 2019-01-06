@@ -14,8 +14,7 @@ export default {
             return this.internalColumns.filter(x => x.isFrozen !== true);
         },
         // 冻结的表头列集合
-        frozenTitleCols(){
-            debugger;
+        frozenTitleCols(){            
             var frozenTitleCols = [], self = this;
 
             if (this.internalTitleRows.length > 0) {

@@ -22,8 +22,7 @@ export default {
             this.rowMouseEnter && this.rowMouseEnter(rowIndex);
         },
 
-        handleMouseOut(rowIndex){
-            debugger;
+        handleMouseOut(rowIndex){            
             if (this.rowHoverColor && this.rowHoverColor.length > 0) {
 
                 this.hoverRowIndex = -1;

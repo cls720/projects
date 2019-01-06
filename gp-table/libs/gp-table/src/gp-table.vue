@@ -70,7 +70,7 @@
                                                                                   
                                                 <span class="table-title">
                                                     <!--isFold-->
-                                                    <span @click.stop="sortControl(col.fields[0])"  v-if="col.isFold">
+                                                    <span @click.stop="onGroupRowClose(col)"  v-if="col.isFold">
                                                         <i :class='["v-table-filter-icon","v-icon-minus-squared-alt"]'></i>                                                        
                                                     </span>      
                                                      <span v-if="col.type === 'selection'">
@@ -693,8 +693,7 @@
                 this.$emit('on-custom-comp', params);
             },
             // 行坐标，返回第一个td坐标
-            trAxis(tdItems){
-                debugger;
+            trAxis(tdItems){                
                 return tdItems.length > 0 ? tdItems[0].axis : "";
             },
             // 行颜色
