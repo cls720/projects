@@ -151,12 +151,28 @@ export default {
             // var tdPTrH = doDataRowExpend($table, axis);
             // $td.parent().height(tdPTrH);
         },
+        /**
+         * 更新折叠展开后单元格div宽度
+         * @param {* 当前操作单元格} $td 
+         * @param {* 更改列差值} changeSpan 
+         */
+        updateTdDivCellWidth($td, colspanDiff) {
+            var $div = $td.find("div").first();
+            var width = $div.width();            
+        },
+        /**
+         * 更新折叠展开后单元格div高度
+         * @param {* 当前操作单元格} $td 
+         * @param {* 更改行差值} rowspanDiff 
+         */
+        updateTdDivCellHeight($td, rowspanDiff) {
 
-        updateParentTdRowspan(rspan, axis) {
+        },
+        updateParentTdRowspan($tb, rspan, axis) {
             while (axis.lastIndexOf("_") > 0) {
                 axis = axis.substring(0, axis.lastIndexOf("_"));
-                var $ptd = this.$frozenTable.find("tbody").find("i[axis='" + axis + "']")
-                    .parents("td").first();
+                var $ptd = $tb.find("tbody").find("a[axis='" + axis + "']")
+                    .parent();
                 var span = parseInt($ptd.attr("rowspan") || 1);
                 var newspan = span - rspan;
                 $ptd.attr("rowspan", newspan);

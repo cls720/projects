@@ -107,7 +107,6 @@ export default {
 
         // 获取行高
         getRowHeightByRowSpan(rowIndex, field, rowData){
-
             let setting = this.cellMerge && this.cellMerge(rowIndex,rowData,field);
 
             if (setting && (setting.rowSpan && setting.rowSpan > 1)) {
@@ -123,7 +122,6 @@ export default {
          * isFrozenColumns:是否是固定列
          * */
         getRowWidthByColSpan(rowIndex, field, rowData){
-
             let endPosX,
                 startPosX,
                 columnsFields = this.getColumnsFields,
