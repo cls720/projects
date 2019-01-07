@@ -70,8 +70,8 @@
                                                                                   
                                                 <span class="table-title">
                                                     <!--isFold-->
-                                                    <span @click.stop="onGroupRowClose(col)"  v-if="col.isFold">
-                                                        <i :class='["v-table-filter-icon","v-icon-minus-squared-alt"]'></i>                                                        
+                                                    <span @click.stop="headRowCloseOpen()"  v-if="col.isFold">
+                                                        <i :class='["v-table-filter-icon","v-icon-minus-squared-alt"]' :level="getLevel(col)" fold="open"></i>                                                        
                                                     </span>      
                                                      <span v-if="col.type === 'selection'">
                                                          <v-checkbox
@@ -149,20 +149,24 @@
                                              @click.stop="rowCellClick(rowIndex,item,colField(col.field));cellEditClick($event,colField(col.field).isEdit,item,col.field,rowIndex)"
                                              @dblclick.stop="rowCellDbClick(rowIndex,item,colField(col.field))"
                                         >
-                                        <span v-if="typeof colField(col.field).componentName ==='string' && colField(col.field).componentName.length > 0">
-                                            <component :rowData="item" :field="col.field ? col.field : ''"
-                                                       :index="rowIndex" :is="colField(col.field).componentName"
-                                                       @on-custom-comp="customCompFunc"></component>
-                                        </span>
+                                             <!--isFold-->
+                                            <span @click.stop="bodyRowCloseOpen()"  v-if="colField(col.field).isFold">
+                                                <i :class='["v-table-filter-icon","v-icon-minus-squared-alt"]' :level="col.level" :axis="col.axis" fold="open"></i>                                                        
+                                            </span>    
+                                            <span v-if="typeof colField(col.field).componentName ==='string' && colField(col.field).componentName.length > 0">
+                                                <component :rowData="item" :field="col.field ? col.field : ''"
+                                                        :index="rowIndex" :is="colField(col.field).componentName"
+                                                        @on-custom-comp="customCompFunc"></component>
+                                            </span>
                                             <span v-else-if="typeof colField(col.field).formatter==='function'"
-                                                  v-html="colField(col.field).formatter(item,rowIndex,pagingIndex,col.field)"></span>
+                                                    v-html="colField(col.field).formatter(item,rowIndex,pagingIndex,col.field)"></span>
                                             <span v-else-if="colField(col.field).type === 'selection'">
-                                            <v-checkbox @change="handleCheckChange(item)" :show-slot="false"
-                                                        :disabled="item._disabled" :label="rowIndex"></v-checkbox>
-                                        </span>
+                                                <v-checkbox @change="handleCheckChange(item)" :show-slot="false"
+                                                            :disabled="item._disabled" :label="rowIndex"></v-checkbox>
+                                            </span>
                                             <span v-else>
-                                               {{col.value}}
-                                        </span>
+                                                {{col.value}}
+                                            </span>
                                         </div>
                                     </td>
                                 </tr>

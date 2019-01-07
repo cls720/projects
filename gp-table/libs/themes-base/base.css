@@ -67,6 +67,9 @@
 .v-icon-angle-double-right:before { content: '\f101'; } /* '' */
 .v-icon-angle-left:before { content: '\f104'; } /* '' */
 .v-icon-angle-right:before { content: '\f105'; } /* '' */
+.v-icon-search:before { content: '\e803'; }
+.v-icon-minus-squared-alt:before { content: '\f147'; }
+.v-icon-plus-squared-alt:before { content: '\f196'; }
 /*
    Animation example, for spinners
 */

@@ -22,7 +22,7 @@ exports.default = {
             type: Object,
             default: function () {
                 return {
-                    isShow: false                    
+                    isShow: false
                 }
             }
         },
@@ -47,6 +47,24 @@ exports.default = {
         }
     },
     computed: {
+        /**
+         * 返回锁定区网格 tbody dom
+         */
+        $frozenTable() {
+            return $(this.$el).find(".v-table-leftview").find(".v-table-btable");
+        },
+        /**
+         * 返回数据区网格 tbody dom
+         */
+        $dataTable() {
+            return $(this.$el).find(".v-table-rightview").find(".v-table-btable");
+        },
+        /**
+         * 返回锁定区与数据区 tbody dom
+         */
+        $bodyTable() {
+            return $(this.$el).find(".v-table-btable");
+        },
         isGroup2: function () {
             return this.colGroupFields.length > 0;
         },
@@ -401,6 +419,14 @@ exports.default = {
         },
         colField(field) {
             return JsonUtil.findByKeyValue(this.internalColumns, "field", field);
+        },
+        /**
+         * 获取分组字段层级
+         * @param {分组字段} fieldJo 
+         */
+        getLevel(fieldJo) {
+            var i = JsonUtil.findIndexByKeyValue(this.rowGroupFields, "field", fieldJo.field);
+            return this.rowGroupFields.length - i;
         }
     },
 };

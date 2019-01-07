@@ -17,10 +17,23 @@ jQuery.JsonUtil = jQuery.ju = {
 	 * @param val
 	 * @return
 	 */
-	findByKeyValue : function(jsonAry, key, val) {
+	findByKeyValue: function (jsonAry, key, val) {
 		for (var i = 0, l = jsonAry.length; i < l; i++) {
 			if (jsonAry[i][key] == val) {
 				return jsonAry[i];
+			}
+		}
+	},
+	/**
+	 * 从JSON数组找到相应Key与值相等的项下标
+	 * @param {*待找数组} jsonAry 
+	 * @param {*} key 
+	 * @param {*} val 
+	 */
+	findIndexByKeyValue: function (jsonAry, key, val) {
+		for (var i = 0, l = jsonAry.length; i < l; i++) {
+			if (jsonAry[i][key] == val) {
+				return i;
 			}
 		}
 	},
@@ -32,7 +45,7 @@ jQuery.JsonUtil = jQuery.ju = {
 	 * @param val
 	 * @return
 	 */
-	findJaryByKeyValue : function(jsonAry, key, val) {
+	findJaryByKeyValue: function (jsonAry, key, val) {
 		for (var i = 0, l = jsonAry.length; i < l; i++) {
 			if (this.findByKeyValue(jsonAry[i], "value", val) != null) {
 				return jsonAry[i];
@@ -49,15 +62,15 @@ jQuery.JsonUtil = jQuery.ju = {
 	 *            String
 	 * @return
 	 */
-	getDistinctValues : function(recdsJa, fieldName) {
+	getDistinctValues: function (recdsJa, fieldName) {
 		var retuList = [];
-		$.each(recdsJa, function() {
-					var value = this[fieldName];
-					if ((typeof value == "string" && value.trim())
-							&& retuList.indexOf(value) == -1) {
-						retuList.push(value);
-					}
-				})
+		$.each(recdsJa, function () {
+			var value = this[fieldName];
+			if ((typeof value == "string" && value.trim()) &&
+				retuList.indexOf(value) == -1) {
+				retuList.push(value);
+			}
+		})
 		return retuList;
 	},
 	/**
@@ -68,11 +81,11 @@ jQuery.JsonUtil = jQuery.ju = {
 	 * @param {}
 	 *            fieldName String 字段名
 	 */
-	getJaFieldValues : function(recdsJa, fieldName) {
+	getJaFieldValues: function (recdsJa, fieldName) {
 		var retuList = [];
-		$.each(recdsJa, function() {
-					retuList.push(this[fieldName]);
-				})
+		$.each(recdsJa, function () {
+			retuList.push(this[fieldName]);
+		})
 		return retuList;
 	},
 	/**
@@ -87,28 +100,28 @@ jQuery.JsonUtil = jQuery.ju = {
 	 * @param {}
 	 *            type 排序方向 asc 升序，desc 降序
 	 */
-	instObjToArrayByKeyOrder : function(arrayJa, instObj, keyFieldName, type) {
+	instObjToArrayByKeyOrder: function (arrayJa, instObj, keyFieldName, type) {
 		arrayJa = arrayJa || [];
 		type = type || "asc";
 		var isAdd = false;
 		var v1 = instObj[keyFieldName];
 		if (arrayJa.length > 0) {
-			$.each(arrayJa, function(i) {
-						var v2 = this[keyFieldName] || 0;
-						if (type == "asc") {
-							if (v1 < v2) {
-								arrayJa.splice(i, 0, instObj);
-								isAdd = true;
-								return false;
-							}
-						} else if (type == "desc") {
-							if (v1 > v2) {
-								arrayJa.splice(i, 0, instObj);
-								isAdd = true;
-								return false;
-							}
-						}
-					})
+			$.each(arrayJa, function (i) {
+				var v2 = this[keyFieldName] || 0;
+				if (type == "asc") {
+					if (v1 < v2) {
+						arrayJa.splice(i, 0, instObj);
+						isAdd = true;
+						return false;
+					}
+				} else if (type == "desc") {
+					if (v1 > v2) {
+						arrayJa.splice(i, 0, instObj);
+						isAdd = true;
+						return false;
+					}
+				}
+			})
 		}
 		if (!isAdd) {
 			arrayJa.push(instObj);
