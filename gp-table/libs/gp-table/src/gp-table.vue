@@ -121,7 +121,9 @@
                                     @mouseleave.stop="handleMouseOut(rowIndex)">
                                     <td v-if="cellMergeInit(rowIndex,col.field,item,true)"
                                         v-for="(col,colIndex) in item.frozenTds"
-                                        :key="colIndex"                                      
+                                        :key="colIndex"       
+                                        :field="col.field"
+                                        :level="col.level"                               
                                         :colspan="col.colspan"
                                         :rowspan="col.rowspan"
                                         :class="[setColumnCellClassName(rowIndex,col.field,item)]">
@@ -151,7 +153,7 @@
                                         >
                                              <!--isFold-->
                                             <span @click.stop="bodyRowCloseOpen()"  v-if="colField(col.field).isFold">
-                                                <i :class='["v-table-filter-icon","v-icon-minus-squared-alt"]' :level="col.level" :axis="item.axis" fold="open"></i>                                                        
+                                                <i :class='["v-table-filter-icon","v-icon-minus-squared-alt"]' :level="col.level" :axis="col.axis" fold="open"></i>                                                        
                                             </span>    
                                             <span v-if="typeof colField(col.field).componentName ==='string' && colField(col.field).componentName.length > 0">
                                                 <component :rowData="item" :field="col.field ? col.field : ''"
@@ -310,6 +312,7 @@
                             <td v-if="cellMergeInit(rowIndex,col.field,item,false)"
                                 v-for="(col,colIndex) in item.tds"
                                 :key="colIndex"
+                                :dlevel="col.dlevel"
                                 :colspan="col.colspan"
                                 :rowspan="col.rowspan"
                                 :class="[setColumnCellClassName(rowIndex,col.field,item)]">

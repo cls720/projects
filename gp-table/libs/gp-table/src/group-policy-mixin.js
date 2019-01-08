@@ -313,8 +313,8 @@ exports.default = {
                     }
 
                     if (rdaItem.level > 1 && !rdaItem.type && rdaItem.level <= this.rowGroupFields.length) {
-                        if (this.rowGroupFields[this.rowGroupFields.length - rdaItem.level].isRowFold) {
-                            td.isRowFold = true;
+                        if (this.rowGroupFields[this.rowGroupFields.length - rdaItem.level].isFold) {
+                            td.isFold = true;
                             td.axis = rdaItem.axis;
                             td.level = rdaItem.level;
                         }
@@ -385,8 +385,8 @@ exports.default = {
                 // if (Scp.data.Types.isNumberType(rgItem.dataType)) {
                 // 	th.style = "text-align: right;"
                 // }
-                if (level > 1 && rgItem.isRowFold) {
-                    th.isRowFold = true;
+                if (level > 1 && rgItem.isFold) {
+                    th.isFold = true;
                     th.level = level;
                 }
                 ths.push(th);
@@ -427,6 +427,37 @@ exports.default = {
         getLevel(fieldJo) {
             var i = JsonUtil.findIndexByKeyValue(this.rowGroupFields, "field", fieldJo.field);
             return this.rowGroupFields.length - i;
+        },
+        /**
+         * 获取字段跨列宽度
+         * @param {*} field 
+         * @param {*} colspan 
+         */
+        getFieldColspanWidth(field, colspan) {
+            let endPosX, startPosX, totalWidth = 0,
+                columnsFields = this.getColumnsFields;
+
+            startPosX = columnsFields.indexOf(field);
+            endPosX = startPosX + colspan - 1;
+
+            for (var i = startPosX; i <= endPosX; i++) {
+                this.internalColumns.forEach(x => {
+                    if (columnsFields[i] === x.field) {
+                        totalWidth += x.width;
+                    }
+                })
+            }
+            return totalWidth;
+        },
+        /**
+         * 获取字段跨行高度
+         * @param {* 分组字段名} field 
+         * @param {* 跨行值} rowspan 
+         */
+        getFieldRowspanHeight(field, rowspan){            
+            rowspan = rowspan || 1;
+            return this.rowHeight * rowspan;                        
         }
+
     },
 };
