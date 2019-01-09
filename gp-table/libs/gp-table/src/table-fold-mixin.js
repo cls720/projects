@@ -85,10 +85,6 @@ export default {
             let colspan = $nextLockTds.length + 1
             $td.attr("colspan", colspan); // level
             this.updateTdDivCellWidth($td, colspan);
-            // if ($td.parents(".ft_cwrapper").length == 0) {
-            //     $td.height($($("a[axis=" + axis + "]")[0]).parents("td")
-            //         .height());
-            // }
 
             var rowspan = parseInt($td.attr("rowspan"));
             if (rowspan > 1) {
