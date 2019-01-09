@@ -99,10 +99,15 @@ export default {
                 this.updateParentTdRowspan($tb, rowspan, axis);
 
                 // 更新同行单元格后所有依赖字段合并成一行
+                var level = $td.attr("level");
                 var trAxis = $td.parent().attr("axis");
                 var $dataAreaTr = this.$dataTable.find("tr[axis='" + trAxis + "']");
                 var scope = this;
-                $.each($dataAreaTr.find("td"), function () {
+                var $dataAreaTds = $dataAreaTr.find("td").filter(function(){
+                    var dlevel = $(this).attr("dlevel");
+                    return (dlevel > 1) && (dlevel <= level);
+                })
+                $.each($dataAreaTds, function () {
                     var r = parseInt($(this).attr("rowspan"));
                     if (r > 1) {
                         r = r - rowspan;
@@ -173,6 +178,12 @@ export default {
             var h = this.getFieldRowspanHeight(field, rowspan);
             $div.outerHeight(h);
         },
+        /**
+         * 更新子节点行折叠展开后父格跨行值
+         * @param {*} $tb 
+         * @param {*} rspan 
+         * @param {*} axis 
+         */
         updateParentTdRowspan($tb, rspan, axis) {
             while (axis.lastIndexOf("_") > 0) {
                 axis = axis.substring(0, axis.lastIndexOf("_"));
@@ -182,8 +193,9 @@ export default {
                 $ptd.attr("rowspan", newspan);
                 this.updateTdDivCellHeight($ptd, newspan);
                 
-                // 更新同行单元格依赖字段                
-                var $dataAreaTr = this.$dataTable.find("tr[axis='" + axis + "']");
+                // 更新同行单元格依赖字段            
+                var trAxis = $ptd.parent().attr("axis");
+                var $dataAreaTr = this.$dataTable.find("tr[axis='" + trAxis + "']");
                 var $dataAreaTd = $dataAreaTr.find("td[dlevel=" + $ptd.attr("level") + "]");
                 if ($dataAreaTd.length > 0){
                     $dataAreaTd.attr("rowspan", newspan);
