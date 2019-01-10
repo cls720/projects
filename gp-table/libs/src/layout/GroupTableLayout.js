@@ -364,7 +364,7 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 	 */
 	getRowExpendTrs : function($tb, axis, closeIcon) {
 		var $trs = $tb.find("tbody").find("tr[axis^='" + axis + "']");
-		var subCloseA = $(closeIcon, $tb).filter("a[axis^='" + axis + "_']");
+		var subCloseA = $(closeIcon, $tb).filter("i[axis^='" + axis + "_']");
 
 		if (subCloseA.length > 0) {
 			for (var i = 0, l = subCloseA.length; i < l; i++) {
@@ -375,8 +375,9 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 
 				var parentAxis = $.gtl.getParentAxis(subAxis);
 				// 判断是否存在父折叠，不存在添加該折叠行
-				if (subCloseA.filter("a[axis=" + parentAxis + "]").length == 0) {
-					$trs = $trs.add($domA.parent().parent());
+				if (subCloseA.filter("i[axis=" + parentAxis + "]").length == 0) {
+					var trAxis = $domA.parents("tr").first().attr("axis");
+					$trs = $trs.add($tb.find("tbody").find("tr[axis='" + trAxis + "']"));
 				};
 			}
 		}

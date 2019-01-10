@@ -51,9 +51,9 @@ export default {
             var scope = this;
             var $td = $icon.parents("td").first();
             $td.nextAll("td").each(function () {
-                var $openIcons = $(this).find("i[fold=open]");
+                var $openIcons = $(this).find("i[fold=open]");                
                 $openIcons.attr("fold", "close");
-                scope.changeIcon($openIcons, true);
+                scope.changeIcon($openIcons, true);                
             });
         },
         /**
@@ -111,7 +111,7 @@ export default {
          */
         bodyRowClose($icon) {
             debugger;
-            var axis = $icon.attr("axis");
+            var axis = $icon.attr("axis");            
             var $td = $icon.parents("td").first();
             var $trs = this.$bodyTable.find("tr[axis^='" + axis + "']");
 
@@ -144,14 +144,14 @@ export default {
         bodyRowOpen($icon) {
             debugger;
             var axis = $icon.attr("axis");
-            var $td = $icon.parents("td").first();
+            var $td = $icon.parents("td").first();            
             var $trs = GroupTableLayout.getRowExpendTrs(this.$bodyTable, axis, "." + this.closeIcon);
             var hiddenTrCount = $trs.filter(":hidden").length / 2;
             $trs.show();
             $td.nextAll("td").each(function () {
                 $(this).show();
                 // 遇到子集单元格存在折叠跳出,不显示子集折叠内单元格
-                if ($(this).find("i[fold=close]").length > 0) {
+                if ($("." + this.closeIcon, $(this)).length > 0) {
                     return false;
                 }
             });
@@ -163,7 +163,66 @@ export default {
                 $td.attr("rowspan", hiddenTrCount + 1);
                 this.updateTdDivCellHeight($td, hiddenTrCount + 1);
                 // 更新父级分组跨行值
-                this.updateParentTdRowspan(this.$frozenTable, -hiddenTrCount, axis);
+                this.updateParentTdRowspan(this.$frozenTable, -hiddenTrCount, axis);               
+                // 展开同行单元格后所有依赖字段跨行值
+                this.updateDependTdRowspan($td, -hiddenTrCount);
+            }
+        },
+        doRowClose($tb, $trs, $td, axis) {
+            $trs.filter(function (i) {
+                return axis != $(this).attr("axis");
+            }).hide();
+
+            var $nextLockTds = $td.nextAll("td");
+            $nextLockTds.hide();
+            let colspan = $nextLockTds.length + 1
+            $td.attr("colspan", colspan); // level
+            this.updateTdDivCellWidth($td, colspan);
+
+            var rowspan = parseInt($td.attr("rowspan"));
+            if (rowspan > 1) {
+                $td.attr("rowspan", 1);
+                this.updateTdDivCellHeight($td, 1);
+                var hasSubTotalTr = $trs.last().attr("axis") == axis;
+                rowspan -= (hasSubTotalTr ? 0 : 1);
+                // 更新父级分组跨行值
+                this.updateParentTdRowspan($tb, rowspan, axis);
+                // 折叠同行单元格后所有依赖字段跨行值
+                this.updateDependTdRowspan($td, rowspan);
+            }
+        },
+        doRowOpen($tb, $trs1, $td, axis) {
+            debugger;
+            var $trs = GroupTableLayout.getRowExpendTrs(this.$bodyTable, axis, "." + this.closeIcon);
+            var hiddenTrCount = $trs.filter(":hidden").length / 2;
+            $trs.show();
+            $td.nextAll("td").each(function () {
+                $(this).show();
+                // 遇到子集单元格存在折叠跳出,不显示子集折叠内单元格
+                if ($("." + this.closeIcon, $(this)).length > 0) {
+                    return false;
+                }
+            });
+            $td.removeAttr("colspan");
+            this.updateTdDivCellWidth($td, 1);
+            // $td.height("auto");
+
+            var rowspan = $trs.length / 2;
+            if (rowspan > 1) {
+                $td.attr("rowspan", hiddenTrCount + 1);
+                this.updateTdDivCellHeight($td, hiddenTrCount + 1);
+                // 更新父级分组跨行值
+                this.updateParentTdRowspan($tb, -hiddenTrCount, axis);
+                // 更新展开单元格后含折叠按钮单元格跨行值
+                // var scope = this;
+                // $.each($td.nextAll("td[level]"), function () {
+                //     var tdAxis = $(this).find("i").attr("axis");
+                //     if (tdAxis) {
+                //         var r = $trs.filter("tr[axis^=" + tdAxis + "]").length / 2 + 1;
+                //         $(this).attr("rowspan", r);
+                //         scope.updateTdDivCellHeight($td, hiddenTrCount + 1);
+                //     }
+                // })
                 // 展开同行单元格后所有依赖字段跨行值
                 this.updateDependTdRowspan($td, -hiddenTrCount);
             }

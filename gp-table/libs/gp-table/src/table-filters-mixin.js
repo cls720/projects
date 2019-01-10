@@ -1,5 +1,5 @@
 export default {
-    data(){
+    data() {
 
         return {
 
@@ -9,7 +9,7 @@ export default {
     methods: {
 
         // 初始化 columns filters
-        initColumnsFilters(){
+        initColumnsFilters() {
 
             // 如果是复杂表头
             if (this.isComplexTitle) {
@@ -20,7 +20,11 @@ export default {
 
                         if (this.enableFilters(col.filters, col.fields) && !col.filterMultiple) {
 
-                            col.filters.unshift({label: '全部', value: this.filterSpecialValue, selected: true});
+                            col.filters.unshift({
+                                label: '全部',
+                                value: this.filterSpecialValue,
+                                selected: true
+                            });
                         }
                     })
                 })
@@ -30,14 +34,18 @@ export default {
 
                     if (this.enableFilters(col.filters) && !col.filterMultiple) {
 
-                        col.filters.unshift({label: '全部', value: this.filterSpecialValue, selected: true});
+                        col.filters.unshift({
+                            label: '全部',
+                            value: this.filterSpecialValue,
+                            selected: true
+                        });
                     }
                 })
             }
         },
 
         // 单选条件改变
-        filterConditionChange(filterMultiple){
+        filterConditionChange(filterMultiple) {
 
             // 单选
             if (!filterMultiple) {
@@ -50,7 +58,7 @@ export default {
          * 是否包含 filters 功能
          * fields : 当是复杂表头时，必须保证不是 colspan 的列
          * */
-        enableFilters(filters, fields){
+        enableFilters(filters, fields) {
 
             let result = false
 
@@ -65,12 +73,12 @@ export default {
             return result;
         },
 
-        filterEvent(){
+        filterEvent() {
 
             this.filterSummary();
         },
 
-        filterSummary(){
+        filterSummary() {
 
             let result = {},
                 columns = [],

@@ -46,7 +46,7 @@ exports.default = {
             }
         }
     },
-    computed: {
+    computed: {       
         /**
          * 返回锁定区网格 tbody dom
          */
@@ -454,9 +454,9 @@ exports.default = {
          * @param {* 分组字段名} field 
          * @param {* 跨行值} rowspan 
          */
-        getFieldRowspanHeight(field, rowspan){            
+        getFieldRowspanHeight(field, rowspan) {
             rowspan = rowspan || 1;
-            return this.rowHeight * rowspan;                        
+            return this.rowHeight * rowspan;
         }
 
     },

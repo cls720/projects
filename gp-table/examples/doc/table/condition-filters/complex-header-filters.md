@@ -63,7 +63,7 @@
 
             // 数据筛选
             filterMethod(filters){
-
+                debugger;
                 let tableData = this.getTableData();
 
                 // filter gender

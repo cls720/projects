@@ -60,7 +60,7 @@ exports.default = {
             return result;
         },
         filterEvent: function filterEvent() {
-
+            debugger;
             this.filterSummary();
         },
         filterSummary: function filterSummary() {
