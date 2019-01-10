@@ -607,9 +607,7 @@
             // 单个checkbox change event
             selectChange: Function,
             // checkbox-group change event
-            selectGroupChange: Function,
-            // filter event
-            filterMethod: Function
+            selectGroupChange: Function
         },
         computed: {
 

@@ -1,16 +1,24 @@
 export default {
+    props: {
+        // filter event
+        filterMethod: {
+            type: Function,
+            default: function (filters) {
+                debugger;
+                Object.keys(filters).forEach((key, item) => {
+                    this.equalFilter(key,filters[key]);                    
+                })
+            }
+        }
+    },
     data() {
-
         return {
-
             filterSpecialValue: '__all__'
         }
     },
     methods: {
-
         // 初始化 columns filters
         initColumnsFilters() {
-
             // 如果是复杂表头
             if (this.isComplexTitle) {
 
@@ -129,6 +137,17 @@ export default {
             }
 
             this.filterMethod && this.filterMethod(result);
+        },
+        /**
+         * 默认相等过滤
+         * @param {* 过滤字段名} field 
+         * @param {* 过滤值数组} values 
+         */
+        equalFilter(field, values) {
+            let tableData = this.datas;
+            tableData = tableData.filter(item => values.indexOf(item[field]) > -1);
+            this.datas = tableData;
+            alert("aa" + tableData.length);
         }
     }
 }
