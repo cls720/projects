@@ -46,7 +46,13 @@ exports.default = {
             }
         }
     },
-    computed: {       
+    computed: {
+        /**
+         * 返回锁定区网格 表头
+         */
+        $frozenHeadTable() {
+            return $(this.$el).find(".v-table-leftview").find(".v-table-htable");
+        },
         /**
          * 返回锁定区网格 tbody dom
          */
@@ -348,7 +354,7 @@ exports.default = {
         getGroupRows: function () {
             var retuJa = [];
             var rgfs = $.ju.getJaFieldValues(this.rowGroupFields, "field");
-            $.gtl.getGroupAndDependJsonTree(this.datas, retuJa, rgfs,
+            $.gtl.getGroupAndDependJsonTree(this.internalTableData, retuJa, rgfs,
                 this.dependFields, this.dataFields, true)
             $.gtl.calcSpan(retuJa, this.isGroup2);
             return retuJa;

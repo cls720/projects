@@ -5,9 +5,12 @@ export default {
             type: Function,
             default: function (filters) {
                 debugger;
+                this.headRowAllOpen();
+                let tableDatas = this.tableData;
                 Object.keys(filters).forEach((key, item) => {
-                    this.equalFilter(key,filters[key]);                    
+                    tableDatas = this.equalFilter(key, filters[key], tableDatas);
                 })
+                this.internalTableData = tableDatas;
             }
         }
     },
@@ -143,11 +146,12 @@ export default {
          * @param {* 过滤字段名} field 
          * @param {* 过滤值数组} values 
          */
-        equalFilter(field, values) {
-            let tableData = this.datas;
-            tableData = tableData.filter(item => values.indexOf(item[field]) > -1);
-            this.datas = tableData;
-            alert("aa" + tableData.length);
+        equalFilter(field, values, tableDatas) {
+            if (values == null) {
+                return tableDatas;
+            } else {
+                return tableDatas.filter(item => values.indexOf(item[field]) > -1);
+            }
         }
     }
 }

@@ -27,12 +27,10 @@ export default {
                 fold = $icon.attr("fold");
             }
             if (fold == "open") {
-                this.headRowClose($icon);
-                $icon.attr("fold", "close");
+                this.headRowClose($icon);                
                 this.changeIcon($icon, true);
             } else {
-                this.headRowOpen($icon);
-                $icon.attr("fold", "open");
+                this.headRowOpen($icon);                
                 this.changeIcon($icon, false);
             }
         },
@@ -72,6 +70,23 @@ export default {
                 })
         },
         /**
+         * 处理折叠行批量展开
+         */
+        headRowAllOpen() {
+            var scope = this;
+            this.$frozenTable.find("i[fold=close]").each(
+                function () {
+                    scope.bodyRowOpen($(this));
+                    scope.changeIcon($(this), false);
+                }
+            )
+            this.$frozenHeadTable.find("i[fold=close]").each(
+                function(){
+                    scope.changeIcon($(this), false);
+                }
+            )             
+        },
+        /**
          * 表体分组值折叠展开
          */
         bodyRowCloseOpen() {
@@ -83,12 +98,10 @@ export default {
                 fold = $icon.attr("fold");
             }
             if (fold == "open") {
-                this.bodyRowClose($icon);
-                $icon.attr("fold", "close");
+                this.bodyRowClose($icon);                
                 this.changeIcon($icon, true);
             } else {
-                this.bodyRowOpen($icon);
-                $icon.attr("fold", "open");
+                this.bodyRowOpen($icon);                
                 this.changeIcon($icon, false);
             }
         },
@@ -259,9 +272,11 @@ export default {
             if (isClose) {
                 $icon.removeClass(this.openIcon);
                 $icon.addClass(this.closeIcon);
+                $icon.attr("fold", "close");
             } else {
                 $icon.removeClass(this.closeIcon);
                 $icon.addClass(this.openIcon);
+                $icon.attr("fold", "open");
             }
         }
     }
