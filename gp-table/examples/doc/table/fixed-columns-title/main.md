@@ -10,20 +10,27 @@
            </div>
 
             <div class="mt30">
+                  <anchor id="multi-header-suball-total" label="动态多表头小计总计" h4 ></anchor>
+                  <multi-header-suball-total></multi-header-suball-total>
+            </div>
+
+            <div class="mt30">
                   <anchor id="complex-header-fixed-column" label="固定复杂表头和固定列" h4 ></anchor>
                   <complex-header-fixed-column></complex-header-fixed-column>
-              </div>
+            </div>
         </div>
 </template>
 <script>
 
     import fixedTitleColumns from './fixed-title-columns.md'
+    import multiHeaderSuballTotal from './multi-header-suball-total.md'
     import complexHeaderFixedColumn from './complex-header-fixed-column.md'
 
     export default{
         name: "fixed-columns-title-main",
         components: {
             fixedTitleColumns,
+            multiHeaderSuballTotal,
             complexHeaderFixedColumn
         }
     }

@@ -3,10 +3,11 @@
  * htNo = 合同编号
  * htType = 合同类型
  * htMoney = 合同金额
+ * htHy = 所属行业
  * projectId = 项目ID
  * projectName = 项目名称
  * projectType = 项目类型
- * projectState = 项目状态
+ * projectState = 项目状态 
  * cpJl = 产品经理
  * cpJlXm = 产品经理姓名
  * kfJl = 开发经理
@@ -21,6 +22,7 @@ module.exports = [{
     htNo: "XMHT-20180108-001",
     htType: "项目",
     htMoney: 500000,
+    htHy:"矿业",
     projectId: "aqsc",
     projectName: "安全生产",
     projectType: "产品",
@@ -38,6 +40,7 @@ module.exports = [{
     htNo: "XMHT-20180408-001",
     htType: "项目增补",
     htMoney: 100000,
+    htHy:"矿业",
     projectId: "aqsc",
     projectName: "安全生产",
     projectType: "产品",

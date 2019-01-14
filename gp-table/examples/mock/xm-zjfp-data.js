@@ -1,17 +1,45 @@
 // 项目资金分配表数据
+/**
+ * fid = 分配方案ID
+ * fpid = 分配方案父ID
+ * fpath = 分配方案ID路径
+ * fpName = 分配方案名称
+ * fpPercent = 分配比例
+ */
 module.exports = [{
-    "year": 2018,
-    "fjd": 1,
-    "month": 1,
-    "week": 1,
-    "fc8": "电气",
-    "fc10": "周",
-    "FYNUM": "YEAR-TASK-001",
-    "FQNUM": "JCRW20180101103920",
-    "FMNUM": "JCRW20180101103954",
-    "FWNUM": "JCRW20180101104057",
-    "FC1": null,
-    "FC2": "未完成",
-    "FC3": "未完成",
-    "FC4": "未完成"
+    fid: "001",
+    fpid: "-1",
+    fpath: "001",
+    fpName: "资金分配方案1",
+    fpPercent: "1"
+}, {
+    fid: "002",
+    fpid: "001",
+    fpath: "001002",
+    fpName: "公司运营比例",
+    fpPercent: "0.3"
+}, {
+    fid: "002a",
+    fpid: "002",
+    fpath: "001002002a",
+    fpName: "招待风险比例",
+    fpPercent: "0.3"
+}, {
+    fid: "002b",
+    fpid: "002",
+    fpath: "001002002b",
+    fpName: "差旅风险比例",
+    fpPercent: "0.3"
+}, {
+    fid: "003",
+    fpid: "001",
+    fpath: "001003",
+    fpName: "项目比例",
+    fpPercent: "0.6"
+}, {
+    fid: "004",
+    fpid: "001",
+    fpath: "001004",
+    fpName: "奖金预留比例",
+    fpPercent: "0.1"
 }]

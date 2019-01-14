@@ -125,12 +125,18 @@ exports.default = {
             get: function () {
                 debugger
                 var columns = [];
+                // 添加行号
                 if (this.rowNo.isShow) {
                     columns.push(this.rowNoDefault);
                 }
+                // 添加行分组字段
                 columns = columns.concat(this.getRowGroupColumns());
-
-
+                if (this.colGroupFields.length > 0){
+                    columns = columns.concat(this.colGroupFields);
+                }
+                if (this.dataFields.length > 0){
+                    columns = columns.concat(this.dataFields);
+                }                 
                 return columns;
             }
         },
@@ -409,6 +415,7 @@ exports.default = {
                 return val;
             }
         },
+        // 获取行分组字段列
         getRowGroupColumns() {
             var ra = [].concat(this.policy.rowGroupFields);
             for (var i = 0, l = ra.length; i < l; i++) {
@@ -419,7 +426,7 @@ exports.default = {
                 });
             }
             return ra;
-        },
+        },        
         getFieldDependFields(fieldName) {
             return this.dependFields[fieldName];
         },
