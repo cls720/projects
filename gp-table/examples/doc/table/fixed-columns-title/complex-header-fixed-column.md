@@ -3,6 +3,7 @@
 ```html
 <template>
    <v-table
+            column-width-drag
             :width="1100"
             :height="280"
             even-bg-color="#f2f2f2"

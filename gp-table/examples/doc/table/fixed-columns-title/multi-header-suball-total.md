@@ -44,9 +44,9 @@
                         }]}
                     ],
                     colGroupFields:[
-                        {field:'htType',width: 70, isFrozen:true, title:"合同类型"}
+                        {field:'htType',width: 70,  title:"合同类型"}
                     ],
-                    dataFields:[{field:'htMoney',width: 70, isFrozen:true, title:"合同金额"}]
+                    dataFields:[{field:'htMoney',width: 70, title:"合同金额"}]
                  },
                  rowNo:{isShow: true,width:40},                                    
                  datas: htlbData                

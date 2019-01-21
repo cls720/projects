@@ -131,18 +131,34 @@ exports.default = {
                 }
                 // 添加行分组字段
                 columns = columns.concat(this.getRowGroupColumns());
-                if (this.colGroupFields.length > 0){
-                    columns = columns.concat(this.colGroupFields);
+                if (this.colGroupFields.length > 0) {
+                    // columns = columns.concat(this.colGroupFields);
+                    columns.push( {field:'htType_CP',width: 100,  title:"产品"});
+                    columns.push( {field:'htType_XM',width: 200,  title:"项目"});
                 }
-                if (this.dataFields.length > 0){
-                    columns = columns.concat(this.dataFields);
-                }                 
+                if (this.colGroupFields.length > 0) {
+                    // columns = columns.concat(this.dataFields);
+                    columns.push({field:'htMoney_CP',width: 100, title:"合同金额"});
+                    columns.push({field:'htMoney_XM',width: 100, title:"合同金额"});                    
+                }
                 return columns;
             }
         },
         // 特殊表头
         titleRows: {
             get: function () {
+                if (this.colGroupFields.length > 0) {
+                    return [
+                        [{ fields: ['rowNo'], title: '', titleAlign: 'center', rowspan: 2 },
+                        { fields: ['htHy'], title: '所属行业', titleAlign: 'center', rowspan: 2 },
+                        { fields: ['projectName'], title: '项目名称', titleAlign: 'center', rowspan: 2 },
+                        { fields: ['htMoney_CP'], title: '产品', titleAlign: 'center' },
+                        { fields: ['htMoney_XM'], title: '项目', titleAlign: 'center' }],
+
+                        [{ fields: ['htMoney_CP'], title: '合同金额', titleAlign: 'center' },
+                        { fields: ['htMoney_XM'], title: '合同金额', titleAlign: 'center' }]
+                    ];
+                }
                 return [];
             }
         },
@@ -426,7 +442,7 @@ exports.default = {
                 });
             }
             return ra;
-        },        
+        },
         getFieldDependFields(fieldName) {
             return this.dependFields[fieldName];
         },
