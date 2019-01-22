@@ -77,6 +77,9 @@
                                 <router-link to="/table/fixedColumnsTitle">固定表头固定列</router-link>
                             </li>
                             <li>
+                                <router-link to="/table/multiHeaderTotal">动态多表头小计总计</router-link>
+                            </li>
+                            <li>
                                 <router-link to="/table/hideTable">隐藏表格</router-link>
                             </li>
                             <li>

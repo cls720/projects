@@ -26,6 +26,7 @@ const footerSummary =  r => require.ensure([], () => r(require('./doc/table/foot
 const loading =  r => require.ensure([], () => r(require('./doc/table/loading/main.md')), 'loading');
 const sort =  r => require.ensure([], () => r(require('./doc/table/sort/main.md')), 'sort');
 const fixedColumnsTitle =  r => require.ensure([], () => r(require('./doc/table/fixed-columns-title/main.md')), 'fixedColumnsTitle');
+const multiHeaderTotal =  r => require.ensure([], () => r(require('./doc/table/multi-header-total/main.md')), 'multiHeaderTotal');
 const hideTable =  r => require.ensure([], () => r(require('./doc/table/hide-table/main.md')), 'hideTable');
 const combinedPaging =  r => require.ensure([], () => r(require('./doc/table/combined-paging/main.md')), 'combinedPaging');
 const api =  r => require.ensure([], () => r(require('./doc/table/api/main.md')), 'api');
@@ -58,6 +59,7 @@ export default new VueRouter({
                 {path : 'loading', component :loading, name : 'loading 以及错误提示'},
                 {path : 'sort', component :sort, name : '排序'},
                 {path : 'fixedColumnsTitle', component :fixedColumnsTitle, name : '固定表头固定列'},
+                {path : 'multiHeaderTotal', component :multiHeaderTotal, name : '动态多表头小计总计'},                
                 {path : 'hideTable', component :hideTable, name : '隐藏表格'},
                 {path : 'combinedPaging', component :combinedPaging, name : '表格结合分页'},
                 {path : 'api', component :api, name : 'api'}
