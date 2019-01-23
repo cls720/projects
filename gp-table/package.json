@@ -13,7 +13,7 @@
     "libs",
     "umd"
   ],
-  "dependencies": {    
+  "dependencies": {
     "jquery": "^3.2.1",
     "nprogress": "^0.2.0",
     "vue": "^2.2.6",

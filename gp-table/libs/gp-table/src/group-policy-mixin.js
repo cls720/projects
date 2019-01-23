@@ -103,6 +103,20 @@ exports.default = {
                 this.policy.colGroupFields = cgFields;
             }
         },
+        /**
+         * 获取按列分组树型JsonAry数据
+         */
+        getGroupCols: {
+            get: function () {
+                debugger;
+                var retuJa = [];
+                var g1Ary = $.ju.getJaFieldValues(this.colGroupFields, "field");
+                $.gtl.getGroupJsonTree(this.datas, retuJa, g1Ary, [],
+                    this.dependFields, [], true)
+                $.gtl.calcSpan(retuJa, false);
+                return retuJa;
+            }
+        },
         // 数据字段列表
         dataFields: {
             get: function () {
@@ -132,7 +146,7 @@ exports.default = {
                 // 添加行分组列
                 columns = columns.concat(this.getRowGroupColumns());
                 if (this.colGroupFields.length > 0) {
-                    let gCols = this.getColGroupColumns(this.getGroupCols());
+                    let gCols = this.getColGroupColumns(this.getGroupCols);
                     if (gCols && gCols.length > 0) {
                         // 添加列分组列
                         columns = columns.concat(gCols);
@@ -146,61 +160,140 @@ exports.default = {
                                     columns.push(dColItem);
                                 }
                             }
-                        }                        
+                        }
                     }
-                }              
+                }
                 return columns;
             }
         },
         // 特殊表头
         titleRows: {
             get: function () {
-                if (this.colGroupFields.length > 0) {
-                    return [
-                        [{
-                                fields: ['rowNo'],
-                                title: '',
-                                titleAlign: 'center',
-                                rowspan: 2
-                            },
-                            {
-                                fields: ['htHy'],
-                                title: '所属行业',
-                                titleAlign: 'center',
-                                rowspan: 2
-                            },
-                            {
-                                fields: ['projectName'],
-                                title: '项目名称',
-                                titleAlign: 'center',
-                                rowspan: 2
-                            },
-                            {
-                                fields: ['htMoney_0_0'],
-                                title: '初始合同',
-                                titleAlign: 'center'
-                            },
-                            {
-                                fields: ['htMoney_1_0'],
-                                title: '增补合同',
-                                titleAlign: 'center'
-                            }
-                        ],
+                let multiHeader = [];
+                let gCols = this.getGroupCols;
+                if (gCols.length > 0) {
+                    let gColItem0 = gCols[0];
+                    let level = gColItem0.level;
+                    let rowspan = level + 1;
+                    let header0 = [];
+                    // 添加行号
+                    if (this.rowNo.isShow) {
+                        let hRowNo = this.rowNoDefault;
+                        hRowNo.rowspan = rowspan;
+                        hRowNo.fields = [hRowNo.field];
+                        header0.push(hRowNo);
+                    }
+                    // 添加行分组列
+                    let hRowColumns = this.getRowGroupColumns();
+                    for (var i = 0, l = hRowColumns.length; i < l; i++) {
+                        let hrci = $.extend({}, hRowColumns[i]);
+                        hrci.rowspan = rowspan;
+                        hrci.fields = [hrci.field];
+                        header0.push(hrci);
+                    }
 
-                        [{
-                                fields: ['htMoney_0_0'],
-                                title: '合同金额',
-                                titleAlign: 'center'
-                            },
-                            {
-                                fields: ['htMoney_1_0'],
-                                title: '合同金额',
-                                titleAlign: 'center'
+                    // 添加列分组列                   
+                    let scope = this;
+                    let multiColFun = function (gColsAry, colHeaders, axis) {
+                        if (colHeaders == undefined) {
+                            colHeaders = [];
+                        }
+                        let rowHead = [];
+                        $.each(gColsAry, function (i, item) {
+                            let bizField = scope.getPolicyField(item.field);
+                            let bizField2 = $.extend({}, bizField);
+                            let caxis = (axis || "") + "_" + i;
+                            let isLeaf = !item.children || (item.children.length == 0);
+
+                            bizField2.axis = caxis;
+                            bizField2.fields = [bizField2.field + caxis];
+                            bizField2.title = item.value;
+
+                            if (!isLeaf) {
+                                bizField2.colspan = item.children.length;
+                                let subFields = [];
+                                $.each(item.children, function () {
+                                    subFields.push(this.field);
+                                })
+                                bizField2.fields = subFields;
+                                multiColFun(item.children, colHeaders, caxis);
                             }
-                        ]
-                    ];
+                            rowHead.push(bizField2);
+                        })
+                        colHeaders.push(rowHead);
+                        return colHeaders;
+                    }
+
+                    let hColColumns = multiColFun(gCols);
+                    let hcci0 = hColColumns[0];
+                    let hcciLast = hColColumns[hColColumns.length - 1];
+
+                    // 添加数据区列
+                    let headerData = [];
+                    for (var i = 0, l = hcciLast.length; i < l; i++) {
+                        let gcLeafItem = hcciLast[i];
+                        let subFields = [];
+                        for (var j = 0, m = this.dataFields.length; j < m; j++) {
+                            let dColItem = $.extend({}, this.dataFields[j]);
+                            let fieldName = dColItem.field + gcLeafItem.axis + "_" + j;
+                            subFields.push(fieldName);
+                            dColItem.fields = [fieldName];
+                            headerData.push(dColItem);
+                        }
+                        gcLeafItem.fields = subFields;
+                    }
+
+                    if (hColColumns.length > 1) {
+                        header0 = header0.concat(hcci0);
+                    } else {
+                        header0 = header0.concat(hcciLast);
+                    }
+
+                    multiHeader.push(header0);
+                    multiHeader = multiHeader.concat(hColColumns.splice(1, hColColumns.length));
+                    multiHeader.push(headerData);
+                    // return [
+                    //     [{
+                    //         fields: ['rowNo'],
+                    //         title: '',
+                    //         titleAlign: 'center',
+                    //         rowspan: 2
+                    //     },
+                    //     {
+                    //         fields: ['htHy'],
+                    //         title: '所属行业',
+                    //         titleAlign: 'center',
+                    //         rowspan: 2
+                    //     },
+                    //     {
+                    //         fields: ['projectName'],
+                    //         title: '项目名称',
+                    //         titleAlign: 'center',
+                    //         rowspan: 2
+                    //     },
+                    //     {
+                    //         fields: ['htMoney_0_0'],
+                    //         title: '初始合同',
+                    //         titleAlign: 'center'
+                    //     },
+                    //     {
+                    //         fields: ['htMoney_1_0'],
+                    //         title: '增补合同',
+                    //         titleAlign: 'center'
+                    //     }],
+                    //     [{
+                    //         fields: ['htMoney_0_0'],
+                    //         title: '合同金额',
+                    //         titleAlign: 'center'
+                    //     },
+                    //     {
+                    //         fields: ['htMoney_1_0'],
+                    //         title: '合同金额',
+                    //         titleAlign: 'center'
+                    //     }]
+                    // ];
                 }
-                return [];
+                return multiHeader;
             }
         },
         tableData: {
@@ -224,7 +317,7 @@ exports.default = {
             tr = tr.concat(rowGroupFieldsTh);
 
             // 添加列分组字段列
-            var groupCols = this.getGroupCols() || [];
+            var groupCols = this.getGroupCols || [];
             var len = groupCols.length || 1;
             if (groupCols.length > 0) {
                 for (var i = 0, l = groupCols.length; i < l; i++) {
@@ -425,23 +518,11 @@ exports.default = {
             return retuJa;
         },
         /**
-         * 获取按列分组树型JsonAry数据
-         */
-        getGroupCols: function () {
-            debugger;
-            var retuJa = [];
-            var g1Ary = $.ju.getJaFieldValues(this.colGroupFields, "field");
-            $.gtl.getGroupJsonTree(this.datas, retuJa, g1Ary, [],
-                this.dependFields, [], true)
-            $.gtl.calcSpan(retuJa, false);
-            return retuJa;
-        },
-        /**
          * 获取表格TBody rows模型定义
          */
         getTBodyJa: function () {
             var retuTBody = [];
-            $.gtl.calcTreeJa2TbodyJa(this.getGroupRows(), this.getGroupCols(),
+            $.gtl.calcTreeJa2TbodyJa(this.getGroupRows(), this.getGroupCols,
                 retuTBody, null, this.policy);
             return retuTBody;
         },
