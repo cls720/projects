@@ -1,21 +1,18 @@
-'use strict';
+export default {
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = {
-    data: function data() {
+    data(){
 
         return {
 
             hoverRowIndex: -1,
             clickRowIndex: -1
-        };
+        }
     },
 
-
     methods: {
-        handleMouseEnter: function handleMouseEnter(rowIndex) {
+
+
+        handleMouseEnter(rowIndex){
 
             if (this.rowHoverColor && this.rowHoverColor.length > 0) {
 
@@ -24,7 +21,9 @@ exports.default = {
 
             this.rowMouseEnter && this.rowMouseEnter(rowIndex);
         },
-        handleMouseOut: function handleMouseOut(rowIndex) {            
+
+        handleMouseOut(rowIndex){
+
             if (this.rowHoverColor && this.rowHoverColor.length > 0) {
 
                 this.hoverRowIndex = -1;
@@ -32,15 +31,27 @@ exports.default = {
 
             this.rowMouseLeave && this.rowMouseLeave(rowIndex);
         },
-        titleCellClick: function titleCellClick(field, title) {
 
-            this.titleClick && this.titleClick(title, field);
-        },
-        titleCellDblClick: function titleCellDblClick(field, title) {
+        /*
+         * 表头单元格单击事件
+         * 注意：如果为复杂表头，field 为数组
+         * */
+        titleCellClick(field,title){
 
-            this.titleDblclick && this.titleDblclick(title, field);
+            this.titleClick && this.titleClick(title,field);
         },
-        rowCellClick: function rowCellClick(rowIndex, rowData, column) {
+
+        /*
+         * 表头单元格双击事件
+         * 注意：如果为复杂表头，field 为数组
+         * */
+        titleCellDblClick(field,title){
+
+            this.titleDblclick && this.titleDblclick(title,field);
+        },
+
+        // 行单击事件
+        rowCellClick(rowIndex, rowData, column){
             if (this.rowClickColor && this.rowClickColor.length > 0) {
 
                 this.clickRowIndex = rowIndex;
@@ -48,17 +59,24 @@ exports.default = {
 
             this.rowClick && this.rowClick(rowIndex, rowData, column);
         },
-        rowCellDbClick: function rowCellDbClick(rowIndex, rowData, column) {
+
+        // 行双击事件
+        rowCellDbClick(rowIndex, rowData, column){
 
             this.rowDblclick && this.rowDblclick(rowIndex, rowData, column);
         },
-        getHighPriorityBgColor: function getHighPriorityBgColor(rowIndex) {
+
+        /*
+         * @method getHighPriorityBgColor 获取高优先级的行背景色 优先级 click color > hover color > 奇偶color > table bg color
+         * */
+        getHighPriorityBgColor(rowIndex){
 
             var result = '';
 
             if (this.clickRowIndex === rowIndex) {
 
                 result = this.rowClickColor;
+
             } else if (this.hoverRowIndex === rowIndex) {
 
                 result = this.rowHoverColor;
@@ -66,7 +84,7 @@ exports.default = {
 
             if (result.length <= 0) {
 
-                if (this.evenBgColor && this.evenBgColor.length > 0 || this.oddBgColor && this.oddBgColor.length > 0) {
+                if ((this.evenBgColor && this.evenBgColor.length > 0) || (this.oddBgColor && this.oddBgColor.length > 0)) {
 
                     result = (rowIndex + 1) % 2 === 0 ? this.evenBgColor : this.oddBgColor;
                 }
@@ -79,18 +97,17 @@ exports.default = {
 
             return result;
         },
-        setRowBgColor: function setRowBgColor(newVal, oldVal, color) {
-            var _this = this;
 
-            var el = this.$el;
+        setRowBgColor(newVal, oldVal, color){
+
+            let el = this.$el;
 
             if (!el) {
                 return false;
             }
 
-            var rowsCollection = [],
-                oldRow = void 0,
-                newRow = void 0;
+            let rowsCollection = [],
+                oldRow, newRow;
 
             if (this.hasFrozenColumn) {
 
@@ -99,38 +116,41 @@ exports.default = {
 
             rowsCollection.push(el.querySelectorAll('.v-table-rightview .v-table-row'));
 
-            rowsCollection.forEach(function (rows) {
+            rowsCollection.forEach(rows => {
 
                 oldRow = rows[oldVal];
                 newRow = rows[newVal];
 
                 if (oldRow) {
 
-                    oldRow.style.backgroundColor = _this.getHighPriorityBgColor(oldVal);
+                    oldRow.style.backgroundColor = this.getHighPriorityBgColor(oldVal);
                 }
 
                 if (newRow) {
 
                     newRow.style.backgroundColor = color;
                 }
-            });
+            })
         },
-        clearCurrentRow: function clearCurrentRow() {
+
+        // 取消当前选中的行
+        clearCurrentRow(){
 
             this.clickRowIndex = -1;
         }
+
     },
 
     watch: {
 
-        'hoverRowIndex': function hoverRowIndex(newVal, oldVal) {
+        'hoverRowIndex': function (newVal, oldVal) {
 
             this.setRowBgColor(newVal, oldVal, this.rowHoverColor);
         },
 
-        'clickRowIndex': function clickRowIndex(newVal, oldVal) {
+        'clickRowIndex': function (newVal, oldVal) {
 
             this.setRowBgColor(newVal, oldVal, this.rowClickColor);
         }
     }
-};
+}

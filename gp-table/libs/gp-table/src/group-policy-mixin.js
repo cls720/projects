@@ -106,10 +106,10 @@ exports.default = {
         // 数据字段列表
         dataFields: {
             get: function () {
-                return this.policy.dataFiedls || [];
+                return this.policy.dataFields || [];
             },
             set: function (dFields) {
-                this.policy.dataFiedls = dFields;
+                this.policy.dataFields = dFields;
             }
         },
         // 依赖字段列表
@@ -129,18 +129,26 @@ exports.default = {
                 if (this.rowNo.isShow) {
                     columns.push(this.rowNoDefault);
                 }
-                // 添加行分组字段
+                // 添加行分组列
                 columns = columns.concat(this.getRowGroupColumns());
                 if (this.colGroupFields.length > 0) {
-                    // columns = columns.concat(this.colGroupFields);
-                    columns.push( {field:'htType_CP',width: 100,  title:"产品"});
-                    columns.push( {field:'htType_XM',width: 200,  title:"项目"});
-                }
-                if (this.colGroupFields.length > 0) {
-                    // columns = columns.concat(this.dataFields);
-                    columns.push({field:'htMoney_CP',width: 100, title:"合同金额"});
-                    columns.push({field:'htMoney_XM',width: 100, title:"合同金额"});                    
-                }
+                    let gCols = this.getColGroupColumns(this.getGroupCols());
+                    if (gCols && gCols.length > 0) {
+                        // 添加列分组列
+                        columns = columns.concat(gCols);
+                        // 添加数据区列
+                        for (var i = 0, l = gCols.length; i < l; i++) {
+                            let gColItem = gCols[i];
+                            if (gColItem.isLeaf) {
+                                for (var j = 0, m = this.dataFields.length; j < m; j++) {
+                                    let dColItem = $.extend({}, this.dataFields[j]);
+                                    dColItem.field += gColItem.axis + "_" + j;
+                                    columns.push(dColItem);
+                                }
+                            }
+                        }                        
+                    }
+                }              
                 return columns;
             }
         },
@@ -149,14 +157,47 @@ exports.default = {
             get: function () {
                 if (this.colGroupFields.length > 0) {
                     return [
-                        [{ fields: ['rowNo'], title: '', titleAlign: 'center', rowspan: 2 },
-                        { fields: ['htHy'], title: '所属行业', titleAlign: 'center', rowspan: 2 },
-                        { fields: ['projectName'], title: '项目名称', titleAlign: 'center', rowspan: 2 },
-                        { fields: ['htMoney_CP'], title: '产品', titleAlign: 'center' },
-                        { fields: ['htMoney_XM'], title: '项目', titleAlign: 'center' }],
+                        [{
+                                fields: ['rowNo'],
+                                title: '',
+                                titleAlign: 'center',
+                                rowspan: 2
+                            },
+                            {
+                                fields: ['htHy'],
+                                title: '所属行业',
+                                titleAlign: 'center',
+                                rowspan: 2
+                            },
+                            {
+                                fields: ['projectName'],
+                                title: '项目名称',
+                                titleAlign: 'center',
+                                rowspan: 2
+                            },
+                            {
+                                fields: ['htMoney_0_0'],
+                                title: '初始合同',
+                                titleAlign: 'center'
+                            },
+                            {
+                                fields: ['htMoney_1_0'],
+                                title: '增补合同',
+                                titleAlign: 'center'
+                            }
+                        ],
 
-                        [{ fields: ['htMoney_CP'], title: '合同金额', titleAlign: 'center' },
-                        { fields: ['htMoney_XM'], title: '合同金额', titleAlign: 'center' }]
+                        [{
+                                fields: ['htMoney_0_0'],
+                                title: '合同金额',
+                                titleAlign: 'center'
+                            },
+                            {
+                                fields: ['htMoney_1_0'],
+                                title: '合同金额',
+                                titleAlign: 'center'
+                            }
+                        ]
                     ];
                 }
                 return [];
@@ -189,14 +230,14 @@ exports.default = {
                 for (var i = 0, l = groupCols.length; i < l; i++) {
                     var cItem = groupCols[i];
                     var th = {
-                        colspan: this.dataFiedls.length || 1,
+                        colspan: this.dataFields.length || 1,
                         value: this.getValue(cItem.value)
                     };
                     tr.push(th);
                 }
                 if (this.isShowAllTotal) {
                     tr.push({
-                        colspan: this.dataFiedls.length || 1,
+                        colspan: this.dataFields.length || 1,
                         value: "总计"
                     });
                     var ntr = tr.concat();
@@ -208,7 +249,7 @@ exports.default = {
 
             // 添加数据字段
             for (var i = 0; i < len; i++) {
-                $.each(this.dataFiedls || [], function () {
+                $.each(this.dataFields || [], function () {
                     var th = {
                         isLeaf: true,
                         width: this.width || 100,
@@ -375,9 +416,11 @@ exports.default = {
          */
         getGroupRows: function () {
             var retuJa = [];
-            var rgfs = $.ju.getJaFieldValues(this.rowGroupFields, "field");
-            $.gtl.getGroupAndDependJsonTree(this.internalTableData, retuJa, rgfs,
-                this.dependFields, this.dataFields, true)
+            var g1Ary = $.ju.getJaFieldValues(this.rowGroupFields, "field");
+            var g2Ary = $.ju.getJaFieldValues(this.colGroupFields, "field");
+            var dAry = $.ju.getJaFieldValues(this.dataFields, "field");
+            $.gtl.getGroupJsonTree(this.internalTableData, retuJa, g1Ary, g2Ary,
+                this.dependFields, dAry, true);
             $.gtl.calcSpan(retuJa, this.isGroup2);
             return retuJa;
         },
@@ -385,7 +428,13 @@ exports.default = {
          * 获取按列分组树型JsonAry数据
          */
         getGroupCols: function () {
-            return [];
+            debugger;
+            var retuJa = [];
+            var g1Ary = $.ju.getJaFieldValues(this.colGroupFields, "field");
+            $.gtl.getGroupJsonTree(this.datas, retuJa, g1Ary, [],
+                this.dependFields, [], true)
+            $.gtl.calcSpan(retuJa, false);
+            return retuJa;
         },
         /**
          * 获取表格TBody rows模型定义
@@ -443,11 +492,50 @@ exports.default = {
             }
             return ra;
         },
+        // 获取列分组字段列
+        getColGroupColumns(gColsAry, gcolumns, axis) {
+            if (gcolumns == undefined) {
+                gcolumns = [];
+            }
+            let scope = this;
+            $.each(gColsAry, function (i, item) {
+                let bizField = scope.getPolicyField(item.field);
+                let bizField2 = $.extend({}, bizField);
+                let caxis = (axis || "") + "_" + i;
+                bizField2.field = bizField2.field + caxis;
+                bizField2.isLeaf = !item.children || (item.children.length == 0);
+                bizField2.axis = caxis;
+                gcolumns.push(bizField2);
+                if (!bizField2.isLeaf) {
+                    scope.getColGroupColumns(item.children, gcolumns, caxis);
+                }
+            })
+            return gcolumns;
+        },
         getFieldDependFields(fieldName) {
             return this.dependFields[fieldName];
         },
+        /**
+         * 获取策略字段配置
+         * @param {* 字段名} fieldName 
+         * @param {* 被查找数组,选填} fieldsAry 
+         */
+        getPolicyField(fieldName, fieldsAry) {
+            if (fieldsAry && fieldsAry.length > 0) {
+                return JsonUtil.findByKeyValue(fieldsAry, "field", fieldName);
+            } else {
+                let field;
+                field = JsonUtil.findByKeyValue(this.rowGroupFields, "field", fieldName);
+                if (field) return field;
+                field = JsonUtil.findByKeyValue(this.colGroupFields, "field", fieldName);
+                if (field) return field;
+                field = JsonUtil.findByKeyValue(this.dataFields, "field", fieldName);
+                if (field) return field;
+            }
+        },
+        // 获取列分组字段配置
         colField(field) {
-            return JsonUtil.findByKeyValue(this.internalColumns, "field", field);
+            return JsonUtil.findByKeyValue(this.internalColumns, "field", field) || {};
         },
         /**
          * 获取分组字段层级

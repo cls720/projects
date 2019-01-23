@@ -1,90 +1,94 @@
-'use strict';
+/*
+ * 鼠标滚动，滚动条改变
+ * */
 
-Object.defineProperty(exports, "__esModule", {
-            value: true
-});
+import utils from '../../src/utils/utils.js'
+export default {
+    methods: {
+        body1Mousewheel(e){
 
-var _utils = require('../../src/utils/utils.js');
+            var body2 = this.$el.querySelector('.v-table-rightview .v-table-body');
 
-var _utils2 = _interopRequireDefault(_utils);
+            var e1 = e.originalEvent || window.event || e;
+            var scrollHeight = e1.wheelDelta || e1.detail * (-1);
+            body2.scrollTop = (body2.scrollTop - scrollHeight);
+        },
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+        // 表格内容滚动到顶部（常用与分页）
+        bodyScrollTop(){
 
-exports.default = {
-            methods: {
-                        body1Mousewheel: function body1Mousewheel(e) {
+            var body1 = this.$el.querySelector('.v-table-leftview .v-table-body');
+            var body2 = this.$el.querySelector('.v-table-rightview .v-table-body');
 
-                                    var body2 = this.$el.querySelector('.v-table-rightview .v-table-body');
-
-                                    var e1 = e.originalEvent || window.event || e;
-                                    var scrollHeight = e1.wheelDelta || e1.detail * -1;
-                                    body2.scrollTop = body2.scrollTop - scrollHeight;
-                        },
-                        bodyScrollTop: function bodyScrollTop() {
-
-                                    var body1 = this.$el.querySelector('.v-table-leftview .v-table-body');
-                                    var body2 = this.$el.querySelector('.v-table-rightview .v-table-body');
-
-                                    if (body1) {
-                                                body1.scrollTop = 0;
-                                    }
-                                    body2.scrollTop = 0;
-                        },
-                        body2Scroll: function body2Scroll(e) {
-
-                                    var view2 = this.$el.querySelector('.v-table-rightview');
-                                    var body1 = this.$el.querySelector('.v-table-leftview .v-table-body');
-                                    var body2 = this.$el.querySelector('.v-table-rightview .v-table-body');
-
-                                    if (body1) {
-                                                body1.scrollTop = body2.scrollTop;
-                                    }
-
-                                    view2.querySelector('.v-table-header').scrollLeft = body2.scrollLeft;
-                        },
-                        rightViewFooterScroll: function rightViewFooterScroll() {
-
-                                    var view2 = this.$el.querySelector('.v-table-rightview');
-
-                                    var rightViewFooter = this.$el.querySelector('.v-table-rightview .v-table-footer');
-
-                                    view2.querySelector('.v-table-header').scrollLeft = rightViewFooter.scrollLeft;
-                                    view2.querySelector('.v-table-body').scrollLeft = rightViewFooter.scrollLeft;
-                        },
-                        scrollControl: function scrollControl() {
-                                    var _this = this;
-
-                                    this.unbindEvents();
-
-                                    setTimeout(function (x) {
-
-                                                var body1 = _this.$el.querySelector('.v-table-leftview .v-table-body');
-                                                var body2 = _this.$el.querySelector('.v-table-rightview .v-table-body');
-                                                var rightViewFooter = _this.$el.querySelector('.v-table-rightview .v-table-footer');
-
-                                                _utils2.default.bind(body1, 'mousewheel', _this.body1Mousewheel);
-                                                _utils2.default.bind(body2, 'scroll', _this.body2Scroll);
-                                                _utils2.default.bind(rightViewFooter, 'scroll', _this.rightViewFooterScroll);
-                                    });
-                        },
-                        unbindEvents: function unbindEvents() {
-
-                                    var body1 = this.$el.querySelector('.v-table-leftview .v-table-body');
-                                    var body2 = this.$el.querySelector('.v-table-rightview .v-table-body');
-                                    var rightViewFooter = this.$el.querySelector('.v-table-rightview .v-table-footer');
-
-                                    _utils2.default.unbind(body1, 'mousewheel', this.body1Mousewheel);
-                                    _utils2.default.unbind(body2, 'scroll', this.body2Scroll);
-                                    _utils2.default.unbind(rightViewFooter, 'scroll', this.rightViewFooterScroll);
-                        },
-                        scrollToTop: function scrollToTop() {
-
-                                    this.bodyScrollTop();
-                        }
-            },
-
-            beforeDestroy: function beforeDestroy() {
-
-                        this.unbindEvents();
+            if (body1) {
+                body1.scrollTop = 0;
             }
-};
+            body2.scrollTop = 0;
+        },
+
+        body2Scroll(e){
+
+            var view2 = this.$el.querySelector('.v-table-rightview');
+            var body1 = this.$el.querySelector('.v-table-leftview .v-table-body');
+            var body2 = this.$el.querySelector('.v-table-rightview .v-table-body');
+
+            if (body1) {
+                body1.scrollTop = body2.scrollTop;
+            }
+
+
+            view2.querySelector('.v-table-header').scrollLeft = body2.scrollLeft;
+        },
+
+        rightViewFooterScroll(){
+
+            var view2 = this.$el.querySelector('.v-table-rightview');
+
+            var rightViewFooter = this.$el.querySelector('.v-table-rightview .v-table-footer');
+
+            view2.querySelector('.v-table-header').scrollLeft = rightViewFooter.scrollLeft;
+            view2.querySelector('.v-table-body').scrollLeft = rightViewFooter.scrollLeft;
+
+        },
+
+        // 列表中滚动条控制
+        scrollControl(){
+
+            this.unbindEvents();
+
+            // 修复左侧固定列绑定滚动事件失效的问题
+            setTimeout(x => {
+
+                var body1 = this.$el.querySelector('.v-table-leftview .v-table-body');
+                var body2 = this.$el.querySelector('.v-table-rightview .v-table-body');
+                var rightViewFooter = this.$el.querySelector('.v-table-rightview .v-table-footer');
+
+                utils.bind(body1, 'mousewheel', this.body1Mousewheel);
+                utils.bind(body2, 'scroll', this.body2Scroll);
+                utils.bind(rightViewFooter, 'scroll', this.rightViewFooterScroll);
+            })
+        },
+
+        unbindEvents(){
+
+            var body1 = this.$el.querySelector('.v-table-leftview .v-table-body');
+            var body2 = this.$el.querySelector('.v-table-rightview .v-table-body');
+            var rightViewFooter = this.$el.querySelector('.v-table-rightview .v-table-footer');
+
+            utils.unbind(body1, 'mousewheel', this.body1Mousewheel);
+            utils.unbind(body2, 'scroll', this.body2Scroll);
+            utils.unbind(rightViewFooter, 'scroll', this.rightViewFooterScroll);
+        },
+
+        // 对外暴露的方法
+        scrollToTop(){
+
+            this.bodyScrollTop();
+        }
+    },
+
+    beforeDestroy(){
+
+        this.unbindEvents();
+    }
+}

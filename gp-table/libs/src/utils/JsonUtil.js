@@ -52,6 +52,23 @@ jQuery.JsonUtil = jQuery.ju = {
 			}
 		}
 	},
+	/**
+	 * 从二维Json数组中找到相应key值的数据项
+	 * 
+	 * @param jsonAry
+	 * @param key
+	 * @param val
+	 * @return 
+	 */
+	find2JaryByKeyValue: function (jsonAry, key, val) {
+	  var retuAry = [];
+	  for (var i = 0, l = jsonAry.length; i < l; i++) {
+		if (this.findByKeyValue(jsonAry[i], key, val) != null) {
+		  retuAry.push(jsonAry[i]);
+		}
+	  }
+	  return retuAry;
+	},
 
 	/**
 	 * 根据字段名获取数据唯一值列表

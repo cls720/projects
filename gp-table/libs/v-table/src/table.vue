@@ -1,5 +1,5 @@
-<template>
-    <div class="v-table-views v-table-class"
+<template>    
+    <div tag="aaa" class="v-table-views v-table-class"
          :style="{'width': internalWidth+'px', 'height': getTableHeight+'px','background-color':tableBgColor}">
         <!--左列-->
         <template v-if="frozenCols.length > 0">
@@ -404,7 +404,6 @@
     import scrollBarControlMixin from './scroll-bar-control-mixin.js'
     import tableRowMouseEventsMixin from './table-row-mouse-events-mixin'
     import tableFiltersMixin from './table-filters-mixin'
-    import groupPolicyMixin from  './group-policy-mixin'
 
     import utils from '../../src/utils/utils.js'
     import deepClone from '../../src/utils/deepClone.js'
@@ -418,9 +417,7 @@
 
     export default {
         name: 'v-table',
-        mixins: [classesMixin, tableResizeMixin, frozenColumnsMixin, scrollControlMixin, sortControlMixin, tableEmptyMixin, dragWidthMixin, 
-            cellEditMixin, bodyCellMergeMixin, titleCellMergeMixin, checkboxSelectionMixin, tableFooterMixin, scrollBarControlMixin, tableRowMouseEventsMixin, 
-            tableFiltersMixin,groupPolicyMixin],
+        mixins: [classesMixin, tableResizeMixin, frozenColumnsMixin, scrollControlMixin, sortControlMixin, tableEmptyMixin, dragWidthMixin, cellEditMixin, bodyCellMergeMixin, titleCellMergeMixin, checkboxSelectionMixin, tableFooterMixin, scrollBarControlMixin, tableRowMouseEventsMixin, tableFiltersMixin],
         components: {tableEmpty, loading, VCheckboxGroup, VCheckbox, VDropdown},
         data(){
             return {
@@ -441,8 +438,7 @@
                 resizeTimer: null
             }
         },
-        props: {           
-            isshow:1,
+        props: {
             width: [Number, String],
             minWidth: {
                 type: Number,
@@ -866,7 +862,8 @@
                 })
             }
         },
-        created(){            
+        created(){
+
             this.internalTableData = this.initInternalTableData(this.tableData);
 
             if (Array.isArray(this.columns) && this.columns.length > 0) {
