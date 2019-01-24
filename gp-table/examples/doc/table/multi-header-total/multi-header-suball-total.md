@@ -27,7 +27,7 @@
                  policy:{
                     rowGroupFields:[
                         {field:'htHy',width: 100, isFrozen:true,isFold:true,title:"所属行业",titleAlign: 'center',columnAlign: 'center', col:0},
-                        {field:'projectName',width: 100, isFrozen:true,isFold:true,title:"项目名称", col:1,
+                        {field:'projectName',width: 150, isFrozen:true,isFold:true,title:"项目名称", col:1,
                          filterMultiple: true,
                          filters: [{
                             label: '第一季度',
@@ -44,9 +44,9 @@
                         }]}
                     ],
                     colGroupFields:[
-                        {field:'htType',width: 70,  title:"合同类型"}
+                        {field:'htType',width: 120,  title:"合同类型"}
                     ],
-                    dataFields:[{field:'htMoney',width: 70, title:"合同金额"}]
+                    dataFields:[{field:'htMoney',width: 120, title:"合同金额"}]
                  },
                  rowNo:{isShow: true,width:40},                                    
                  datas: htlbData                

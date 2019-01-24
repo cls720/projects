@@ -482,9 +482,10 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 		var sumFields = {};
 		$.each(alzChildren, function () {
 			if (this.value) {
-				var val = sumFields[this.field] || 0;
+				var fn = this.field.replace(this.axis || "", "");
+				var val = sumFields[fn] || 0;
 				val += this.value;
-				sumFields[this.field] = val;
+				sumFields[fn] = val;
 			}
 		})
 		var retuJa = [];
@@ -515,30 +516,39 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 	getGroupColRecd: function (colsJa, rowsJa, colGroupFields, analyseFields) {
 		var alzChildren = [];
 		// 这样写暂时只支持1个列分组字段
-		$.each(colsJa, function () {
-			var ji = $.ju.find2JaryByKeyValue(rowsJa, "value", this.value);
-			if (ji) {
-				let axis = this.axis;
-				let subAlz = [];
-				// 二维数组截取数据区字段
-				$.each(ji, function () {
-					subAlz = subAlz.concat(this.splice(colGroupFields.length), this.length);
-				});				
-				let sumAlz = $.gtl.getColSum(analyseFields, subAlz, 1, "");
-				$.each(sumAlz, function (i) {
-					this.field = this.field + axis + "_" + i;
+		$.each(colsJa, function () {			
+			let axis = this.axis;
+			if (this.type == "allColTotal") {
+				// 添加列总计
+				var colTotalJa = $.gtl.getColSum(analyseFields, alzChildren, colsJa.length, "allColTotal");
+				$.each(colTotalJa, function (i) {
+					this.field = this.field + axis + "_" + i;					
 				})
-				alzChildren = alzChildren.concat(sumAlz);
-				
+				alzChildren = alzChildren.concat(colTotalJa);
 			} else {
-				$.each(analyseFields, function () {
-					alzChildren.push({});
-				})
+				var ji = $.ju.find2JaryByKeyValue(rowsJa, "value", this.value);
+				if (ji) {					
+					let subAlz = [];
+					// 二维数组截取数据区字段
+					$.each(ji, function () {
+						subAlz = subAlz.concat(this.splice(colGroupFields.length), this.length);
+					});
+					let sumAlz = $.gtl.getColSum(analyseFields, subAlz, 1, "");
+					$.each(sumAlz, function (i) {
+						this.field = this.field + axis + "_" + i;
+						// getColSum 计算汇总值使用
+						this.axis = axis + "_" + i;
+					})
+					alzChildren = alzChildren.concat(sumAlz);
+
+				} else {
+					$.each(analyseFields, function () {
+						alzChildren.push({});
+					})
+				}
 			}
 		});
-		var colTotalJa = $.gtl.getColSum(analyseFields, alzChildren,
-			colsJa.length, "allColTotal");
-		alzChildren = alzChildren.concat(colTotalJa);
+
 		// 格式化列数据
 		$.each(alzChildren, function () {
 			var bizField = $.ju.findByKeyValue(analyseFields,

@@ -15,7 +15,7 @@ exports.default = {
         // 是否显示总计
         isShowAllTotal: {
             type: Boolean,
-            default: true 
+            default: true
         },
         // 行号配置
         rowNo: {
@@ -110,9 +110,23 @@ exports.default = {
             get: function () {
                 debugger;
                 var retuJa = [];
-                var g1Ary = $.ju.getJaFieldValues(this.colGroupFields, "field");
-                $.gtl.getGroupJsonTree(this.datas, retuJa, g1Ary, [], this.dependFields, [], true)
-                $.gtl.calcColSpan(retuJa, this.dataFields.length);
+                if (this.colGroupFields.length > 0) {
+                    var g1Ary = $.ju.getJaFieldValues(this.colGroupFields, "field");
+                    $.gtl.getGroupJsonTree(this.datas, retuJa, g1Ary, [], this.dependFields, [], true)
+                    $.gtl.calcColSpan(retuJa, this.dataFields.length);
+                    // 是否显示总计
+                    if (this.isShowAllTotal) {
+                        let firstGroupColFN = this.colGroupFields[0].field;
+                        retuJa.push({ 
+                            field: firstGroupColFN, 
+                            type: "allColTotal", 
+                            value: "总计", 
+                            axis: "_" + retuJa.length, 
+                            level: this.colGroupFields.length, 
+                            span: this.dataFields.length 
+                        });
+                    }
+                }
                 return retuJa;
             }
         },
@@ -242,11 +256,14 @@ exports.default = {
                         gcLeafItem.fields = subFields;
                     }
 
+
                     if (hColColumns.length > 1) {
                         header0 = header0.concat(hcci0);
                     } else {
                         header0 = header0.concat(hcciLast);
                     }
+
+
 
                     multiHeader.push(header0);
                     multiHeader = multiHeader.concat(hColColumns.splice(1, hColColumns.length));
