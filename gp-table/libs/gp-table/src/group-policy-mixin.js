@@ -15,7 +15,7 @@ exports.default = {
         // 是否显示总计
         isShowAllTotal: {
             type: Boolean,
-            default: true
+            default: true 
         },
         // 行号配置
         rowNo: {
@@ -111,9 +111,8 @@ exports.default = {
                 debugger;
                 var retuJa = [];
                 var g1Ary = $.ju.getJaFieldValues(this.colGroupFields, "field");
-                $.gtl.getGroupJsonTree(this.datas, retuJa, g1Ary, [],
-                    this.dependFields, [], true)
-                $.gtl.calcSpan(retuJa, false);
+                $.gtl.getGroupJsonTree(this.datas, retuJa, g1Ary, [], this.dependFields, [], true)
+                $.gtl.calcColSpan(retuJa, this.dataFields.length);
                 return retuJa;
             }
         },
@@ -514,7 +513,7 @@ exports.default = {
             var dAry = $.ju.getJaFieldValues(this.dataFields, "field");
             $.gtl.getGroupJsonTree(this.internalTableData, retuJa, g1Ary, g2Ary,
                 this.dependFields, dAry, true);
-            $.gtl.calcSpan(retuJa, this.isGroup2);
+            $.gtl.calcRowSpan(retuJa, this.isGroup2);
             return retuJa;
         },
         /**

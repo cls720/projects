@@ -514,18 +514,22 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 	 */
 	getGroupColRecd: function (colsJa, rowsJa, colGroupFields, analyseFields) {
 		var alzChildren = [];
+		// 这样写暂时只支持1个列分组字段
 		$.each(colsJa, function () {
 			var ji = $.ju.find2JaryByKeyValue(rowsJa, "value", this.value);
 			if (ji) {
+				let axis = this.axis;
 				let subAlz = [];
 				// 二维数组截取数据区字段
-				$.each(ji, function(){
-					subAlz = subAlz.concat(this.splice(colGroupFields.length),this.length);
-				});
+				$.each(ji, function () {
+					subAlz = subAlz.concat(this.splice(colGroupFields.length), this.length);
+				});				
 				let sumAlz = $.gtl.getColSum(analyseFields, subAlz, 1, "");
+				$.each(sumAlz, function (i) {
+					this.field = this.field + axis + "_" + i;
+				})
 				alzChildren = alzChildren.concat(sumAlz);
-				// alzChildren = alzChildren.concat(ji.slice(
-				// 	colGroupFields.length, ji.length));
+				
 			} else {
 				$.each(analyseFields, function () {
 					alzChildren.push({});
@@ -544,25 +548,49 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 		return alzChildren;
 	},
 	/**
-	 * 计算分组数据跨行跨列值 span
+	 * 计算分组数据跨行值 span
 	 * 
 	 * @param {}
 	 *            jsonTreeJa 被计算树型数组
 	 * @param {}
 	 *            isGroup2 是否二维分组（同时包含行列分组)
 	 */
-	calcSpan: function (jsonTreeJa, isGroup2) {
+	calcRowSpan: function (jsonTreeJa, isGroup2) {
 		$.each(jsonTreeJa, function () {
 			if (this.children && !this.type) {
 				if (this.children.length > 0) {
 					if (this.children[0] instanceof Array) {
 						this.span = isGroup2 ? 1 : this.children.length;
 					} else {
-						$.gtl.calcSpan(this.children, isGroup2);
-						this.span = $.gtl
-							.getChildrenSpan(this.children) ||
-							1;
+						$.gtl.calcRowSpan(this.children, isGroup2);
+						this.span = $.gtl.getChildrenSpan(this.children) || 1;
 					}
+				}
+			}
+		})
+	},
+	/**
+	 * 计算分组数据跨列值 span
+	 * 
+	 * @param {}
+	 *            jsonTreeJa 被计算树型数组
+	 * @param {}
+	 * 			  dataFieldLen 数据区字段个数
+	 * @param {}
+	 * 			  axis 列字段坐标
+	 */
+	calcColSpan: function (jsonTreeJa, dataFieldLen, axis) {
+		if (axis == undefined) {
+			axis = "";
+		}
+		$.each(jsonTreeJa, function (i) {
+			if (this.children && !this.type) {
+				this.axis = axis + "_" + i;
+				if (this.level > 1) {
+					$.gtl.calcColSpan(this.children, dataFieldLen, this.axis);
+					this.span = $.gtl.getChildrenSpan(this.children) || 1;
+				} else {
+					this.span = dataFieldLen;
 				}
 			}
 		})

@@ -403,7 +403,6 @@
 </template>
 
 <script>
-
     import classesMixin from './classes-mixin.js'
     import scrollControlMixin from './scroll-control-mixin.js'
     import frozenColumnsMixin from './frozen-columns-mixin.js'
