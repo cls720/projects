@@ -458,8 +458,9 @@ exports.default = {
          * 获取表格TBody rows模型定义
          */
         getTBodyJa: function () {
-            var retuTBody = [];
-            $.gtl.calcTreeJa2TbodyJa(this.getGroupRows(), this.getGroupCols,
+            var retuTBody = [];      
+            // 添加深度克隆，删除小计数据项异常未找到引用      
+            $.gtl.calcTreeJa2TbodyJa($.extend(true,[],this.getGroupRows()), this.getGroupCols,
                 retuTBody, null, this.policy);
             return retuTBody;
         },

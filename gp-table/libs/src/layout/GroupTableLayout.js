@@ -253,7 +253,7 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 	sumGroupSubAndAllTotal: function (ja, totalJo) {
 		if (totalJo != null) {
 			for (var i = 0, l = ja.length; i < l; i++) {
-				var item = ja[i];
+				var item = $.extend(true, {}, ja[i]);
 				if (Array.isArray(item)) {
 					if (totalJo.children) {
 						$.gtl.sumGroupSubAndAllTotal(item, totalJo);
@@ -283,8 +283,7 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 							}
 							break;
 						} else {
-							$.gtl.sumGroupSubAndAllItem(itemJo,
-								totalJo.children);
+							$.gtl.sumGroupSubAndAllItem(item, totalJo.children);
 						}
 					} else {
 						totalJo.children = [];
@@ -331,7 +330,7 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 								span: itemJo.level,
 								type: "subTotal"
 							}
-							groupJa.splice(++i, 0, calcJo)
+							groupJa.splice(++i, 0, calcJo);
 							$.gtl.calcGroupSubAndAllTotal(childrenJa, groupJa[i], allTotalJo);
 							if (subTotalJo != null) {
 								var totalTypeJa = groupJa[i].children;
@@ -550,8 +549,8 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 
 		// 格式化列数据
 		$.each(alzChildren, function () {
-			var bizField = $.ju.findByKeyValue(analyseFields,
-				"field", this.field);
+			// this.field 存在下标取不到字段配置
+			var bizField = $.ju.findByKeyValue(analyseFields, "field", this.field);
 			this.value = $.gtl.getFormatValue(bizField, this.value);
 		});
 		return alzChildren;
@@ -721,20 +720,23 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 		var colGroupFields = policy.colGroupFields;
 		var analyseFields = policy.dataFields;
 		var newRecd = null;
-		$.each(rowsJa, function (i, rowsJaItem) {
+		// $.each(rowsJa, function (i, rowsJaItem) {
+		// if (i==0) return true;
+		for (var i = 0, l = rowsJa.length; i < l; i++) {
+			let rowsJaItem = rowsJa[i];
 			newRecd = (i == 0 && curtRow != null) ? curtRow : [];
-			if (!Array.isArray(this)) { // 非数组代表分组层级节点 this 等价于 rowsJaItem
-				if (this.type) { // 是否是小计，总计统计行
-					var axis = $.gtl.getAxis(parentAxis, this.span || 1, i - 1);
-					newRecd = $.gtl.calcGroupRowSummaryJson(this, newRecd, colsJa,
+			if (!Array.isArray(rowsJaItem)) { // 非数组代表分组层级节点 this 等价于 rowsJaItem
+				if (rowsJaItem.type) { // 是否是小计，总计统计行
+					var axis = $.gtl.getAxis(parentAxis, rowsJaItem.span || 1, i - 1);
+					newRecd = $.gtl.calcGroupRowSummaryJson(rowsJaItem, newRecd, colsJa,
 						colGroupFields, analyseFields, axis);
 					// 添加分组统计行
 					retuJa.push(newRecd);
-				} else if (this.children) { // 当前为分组项，下有子节点
-					var axis = $.gtl.getAxis(parentAxis, this.level || 1, i);
-					$.gtl.rowAddGroupTd(this, newRecd, axis, policy);
+				} else if (rowsJaItem.children) { // 当前为分组项，下有子节点
+					var axis = $.gtl.getAxis(parentAxis, rowsJaItem.level || 1, i);
+					$.gtl.rowAddGroupTd(rowsJaItem, newRecd, axis, policy);
 
-					var childrenJa = this.children;
+					var childrenJa = rowsJaItem.children;
 					if (childrenJa && childrenJa.length > 0) {
 						$.gtl.calcTreeJa2TbodyJa(childrenJa, colsJa, retuJa,
 							newRecd, policy, axis);
@@ -743,7 +745,7 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 						retuJa.push(newRecd);
 					}
 				} else {
-					retuJa.push(this);
+					retuJa.push(rowsJaItem);
 				}
 			} else {
 				if (colGroupFields != null && colGroupFields.length > 0) {
@@ -751,20 +753,20 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 						colGroupFields, analyseFields);
 					newRecd = newRecd.concat(alzChildren);
 					retuJa.push(newRecd);
-					return false;
+					break;
+					// return false;
 				} else {
 					// 格式化列数据
-					$.each(this, function () {
-						var bizField = $.ju.findByKeyValue(analyseFields,
-							"field", this.field);
+					$.each(rowsJaItem, function () {
+						var bizField = $.ju.findByKeyValue(analyseFields, "field", this.field);
 						this.value = $.gtl.getFormatValue(bizField, this.value);
 					});
-					newRecd = newRecd.concat(this);
+					newRecd = newRecd.concat(rowsJaItem);
 					retuJa.push(newRecd);
 				}
 			}
-
-		})
+		}
+		// })
 		return 0;
 	}
 
