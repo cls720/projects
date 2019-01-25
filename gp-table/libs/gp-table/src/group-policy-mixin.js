@@ -117,13 +117,13 @@ exports.default = {
                     // 是否显示总计
                     if (this.isShowAllTotal) {
                         let firstGroupColFN = this.colGroupFields[0].field;
-                        retuJa.push({ 
-                            field: firstGroupColFN, 
-                            type: "allColTotal", 
-                            value: "总计", 
-                            axis: "_" + retuJa.length, 
-                            level: this.colGroupFields.length, 
-                            span: this.dataFields.length 
+                        retuJa.push({
+                            field: firstGroupColFN,
+                            type: "allColTotal",
+                            value: "总计",
+                            axis: "_" + retuJa.length,
+                            rowspan: this.colGroupFields.length,
+                            colspan: this.dataFields.length
                         });
                     }
                 }
@@ -158,23 +158,20 @@ exports.default = {
                 }
                 // 添加行分组列
                 columns = columns.concat(this.getRowGroupColumns());
+                // 添加列分组列
                 if (this.colGroupFields.length > 0) {
                     let gCols = this.getColGroupColumns(this.getGroupCols);
-                    if (gCols && gCols.length > 0) {
-                        // 添加列分组列
-                        columns = columns.concat(gCols);
-                        // 添加数据区列
-                        for (var i = 0, l = gCols.length; i < l; i++) {
-                            let gColItem = gCols[i];
-                            if (gColItem.isLeaf) {
-                                for (var j = 0, m = this.dataFields.length; j < m; j++) {
-                                    let dColItem = $.extend({}, this.dataFields[j]);
-                                    dColItem.field += gColItem.axis + "_" + j;
-                                    columns.push(dColItem);
-                                }
-                            }
+                    columns = columns.concat(gCols);
+                    // 添加列分组下数据区列
+                    for (var i = 0, l = gCols.length; i < l; i++) {
+                        let gColItem = gCols[i];
+                        if (gColItem.isLeaf) {
+                            columns = columns.concat(this.getDataColumns(gColItem.axis));
                         }
                     }
+                } else if (this.dataFields.length > 0) {
+                    // 添加没有列表分组下的数据区列
+                    columns = columns.concat(this.getDataColumns());
                 }
                 return columns;
             }
@@ -205,109 +202,30 @@ exports.default = {
                         header0.push(hrci);
                     }
 
-                    // 添加列分组列                   
-                    let scope = this;
-                    let multiColFun = function (gColsAry, colHeaders, axis) {
-                        if (colHeaders == undefined) {
-                            colHeaders = [];
-                        }
-                        let rowHead = [];
-                        $.each(gColsAry, function (i, item) {
-                            let bizField = scope.getPolicyField(item.field);
-                            let bizField2 = $.extend({}, bizField);
-                            let caxis = (axis || "") + "_" + i;
-                            let isLeaf = !item.children || (item.children.length == 0);
-
-                            bizField2.axis = caxis;
-                            bizField2.fields = [bizField2.field + caxis];
-                            bizField2.title = item.value;
-
-                            if (!isLeaf) {
-                                bizField2.colspan = item.children.length;
-                                let subFields = [];
-                                $.each(item.children, function () {
-                                    subFields.push(this.field);
-                                })
-                                bizField2.fields = subFields;
-                                multiColFun(item.children, colHeaders, caxis);
-                            }
-                            rowHead.push(bizField2);
-                        })
-                        colHeaders.push(rowHead);
-                        return colHeaders;
-                    }
-
-                    let hColColumns = multiColFun(gCols);
-                    let hcci0 = hColColumns[0];
-                    let hcciLast = hColColumns[hColColumns.length - 1];
+                    // 添加列分组列                                   
+                    let hColColumns = this.getColGroupMultiHeader(gCols);
+                    let hcFirst = hColColumns[0];
+                    let hcLast = hColColumns[hColColumns.length - 1];
 
                     // 添加数据区列
                     let headerData = [];
-                    for (var i = 0, l = hcciLast.length; i < l; i++) {
-                        let gcLeafItem = hcciLast[i];
-                        let subFields = [];
-                        for (var j = 0, m = this.dataFields.length; j < m; j++) {
-                            let dColItem = $.extend({}, this.dataFields[j]);
-                            let fieldName = dColItem.field + gcLeafItem.axis + "_" + j;
-                            subFields.push(fieldName);
-                            dColItem.fields = [fieldName];
-                            headerData.push(dColItem);
-                        }
-                        gcLeafItem.fields = subFields;
+                    for (var i = 0, l = hcLast.length; i < l; i++) {
+                        let gcLeafItem = hcLast[i];
+                        let dataColumns = this.getDataColumns(gcLeafItem.axis, true);
+                        
+                        headerData = headerData.concat(dataColumns);
+                        gcLeafItem.fields = $.ju.getJaFieldValues(dataColumns, "field");
                     }
-
 
                     if (hColColumns.length > 1) {
-                        header0 = header0.concat(hcci0);
+                        header0 = header0.concat(hcFirst);
                     } else {
-                        header0 = header0.concat(hcciLast);
+                        header0 = header0.concat(hcLast);
                     }
-
-
 
                     multiHeader.push(header0);
                     multiHeader = multiHeader.concat(hColColumns.splice(1, hColColumns.length));
                     multiHeader.push(headerData);
-                    // return [
-                    //     [{
-                    //         fields: ['rowNo'],
-                    //         title: '',
-                    //         titleAlign: 'center',
-                    //         rowspan: 2
-                    //     },
-                    //     {
-                    //         fields: ['htHy'],
-                    //         title: '所属行业',
-                    //         titleAlign: 'center',
-                    //         rowspan: 2
-                    //     },
-                    //     {
-                    //         fields: ['projectName'],
-                    //         title: '项目名称',
-                    //         titleAlign: 'center',
-                    //         rowspan: 2
-                    //     },
-                    //     {
-                    //         fields: ['htMoney_0_0'],
-                    //         title: '初始合同',
-                    //         titleAlign: 'center'
-                    //     },
-                    //     {
-                    //         fields: ['htMoney_1_0'],
-                    //         title: '增补合同',
-                    //         titleAlign: 'center'
-                    //     }],
-                    //     [{
-                    //         fields: ['htMoney_0_0'],
-                    //         title: '合同金额',
-                    //         titleAlign: 'center'
-                    //     },
-                    //     {
-                    //         fields: ['htMoney_1_0'],
-                    //         title: '合同金额',
-                    //         titleAlign: 'center'
-                    //     }]
-                    // ];
                 }
                 return multiHeader;
             }
@@ -530,6 +448,9 @@ exports.default = {
             var dAry = $.ju.getJaFieldValues(this.dataFields, "field");
             $.gtl.getGroupJsonTree(this.internalTableData, retuJa, g1Ary, g2Ary,
                 this.dependFields, dAry, true);
+            if(this.dataFields.length > 0){
+                $.gtl.calcGroupSubAndAllTotal(retuJa);
+            }            
             $.gtl.calcRowSpan(retuJa, this.isGroup2);
             return retuJa;
         },
@@ -577,7 +498,7 @@ exports.default = {
                 return val;
             }
         },
-        // 获取行分组字段列
+        // 获取行分组区字段列
         getRowGroupColumns() {
             var ra = [].concat(this.policy.rowGroupFields);
             for (var i = 0, l = ra.length; i < l; i++) {
@@ -589,8 +510,12 @@ exports.default = {
             }
             return ra;
         },
-        // 获取列分组字段列
-        getColGroupColumns(gColsAry, gcolumns, axis) {
+        /**
+         * 获取列分组区字段列
+         * @param {*} gColsAry 列分组树型Ja
+         * @param {*} gcolumns 返回的列集合数组（一维）
+         */
+        getColGroupColumns(gColsAry, gcolumns) {
             if (gcolumns == undefined) {
                 gcolumns = [];
             }
@@ -598,16 +523,65 @@ exports.default = {
             $.each(gColsAry, function (i, item) {
                 let bizField = scope.getPolicyField(item.field);
                 let bizField2 = $.extend({}, bizField);
-                let caxis = (axis || "") + "_" + i;
-                bizField2.field = bizField2.field + caxis;
+                bizField2.field = bizField2.field + item.axis;
                 bizField2.isLeaf = !item.children || (item.children.length == 0);
-                bizField2.axis = caxis;
+                bizField2.axis = item.axis;
                 gcolumns.push(bizField2);
                 if (!bizField2.isLeaf) {
-                    scope.getColGroupColumns(item.children, gcolumns, caxis);
+                    scope.getColGroupColumns(item.children, gcolumns);
                 }
             })
             return gcolumns;
+        },
+        /**
+         * 获取列分组区多表头
+         * @param {*} gColsAry 
+         * @param {*} colHeaders          
+         */
+        getColGroupMultiHeader(gColsAry, colHeaders) {
+            if (colHeaders == undefined) {
+                colHeaders = [];
+            }
+            let scope = this;
+            let rowHead = [];
+            $.each(gColsAry, function (i, item) {
+                let isLeaf = !item.children || (item.children.length == 0);
+                let bizField2 = $.extend({}, item);
+
+                bizField2.title = item.value;
+                bizField2.fields = [item.field + item.axis];
+
+                if (!isLeaf) {
+                    let subFields = [];
+                    $.each(item.children, function () {
+                        subFields.push(this.field);
+                    })
+                    bizField2.fields = subFields;
+                    scope.getColGroupMultiHeader(item.children, colHeaders);
+                }
+                rowHead.push(bizField2);
+            })
+            colHeaders.push(rowHead);
+            return colHeaders;
+        },
+        /**
+         * 添加数据区字段列
+         * @param {*} axis 列分组下数据字段坐标
+         * @param {*} isMuitiHead 是否多表头列
+         */
+        getDataColumns(axis, isMuitiHead) {
+            let dataColumns = [];
+            for (var j = 0, m = this.dataFields.length; j < m; j++) {
+                let dColItem = $.extend({}, this.dataFields[j]);
+                if (axis) {
+                    dColItem.field += axis + "_" + j;
+                }
+                if (isMuitiHead) {
+                    dColItem.fields = [dColItem.field];
+                }
+                dataColumns.push(dColItem);
+            }
+            return dataColumns;
         },
         getFieldDependFields(fieldName) {
             return this.dependFields[fieldName];
@@ -648,10 +622,11 @@ exports.default = {
          * @param {*} colspan 
          */
         getFieldColspanWidth(field, colspan) {
+            colspan = colspan || 1;
             let endPosX, startPosX, totalWidth = 0,
                 columnsFields = this.getColumnsFields;
 
-            startPosX = columnsFields.indexOf(field);
+            startPosX = columnsFields.indexOf(field);            
             endPosX = startPosX + colspan - 1;
 
             for (var i = startPosX; i <= endPosX; i++) {

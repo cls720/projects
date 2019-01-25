@@ -88,6 +88,353 @@
             "span": 1
         }
     ],
+    "groupRows2": [
+        {
+            "field": "htHy",
+            "value": "矿业",
+            "level": 2,
+            "children": [
+                {
+                    "field": "projectName",
+                    "value": "安全生产",
+                    "level": 1,
+                    "children": [
+                        [
+                            {
+                                "field": "htType",
+                                "value": "初始合同",
+                                "isGroup": true
+                            },
+                            {
+                                "field": "htMoney",
+                                "value": 500000
+                            },
+                            {
+                                "field": "yfkMoney",
+                                "value": 100000
+                            }
+                        ],
+                        [
+                            {
+                                "field": "htType",
+                                "value": "增补合同",
+                                "isGroup": true
+                            },
+                            {
+                                "field": "htMoney",
+                                "value": 100000
+                            },
+                            {
+                                "field": "yfkMoney",
+                                "value": 10000
+                            }
+                        ],
+                        [
+                            {
+                                "field": "htType",
+                                "value": "增补合同",
+                                "isGroup": true
+                            },
+                            {
+                                "field": "htMoney",
+                                "value": 20000
+                            },
+                            {
+                                "field": "yfkMoney",
+                                "value": 2000
+                            }
+                        ]
+                    ]
+                },
+                {
+                    "field": "projectName",
+                    "value": "设备管理",
+                    "level": 1,
+                    "children": [
+                        [
+                            {
+                                "field": "htType",
+                                "value": "初始合同",
+                                "isGroup": true
+                            },
+                            {
+                                "field": "htMoney",
+                                "value": 500000
+                            },
+                            {
+                                "field": "yfkMoney",
+                                "value": 100000
+                            }
+                        ]
+                    ]
+                }
+            ]
+        },
+        {
+            "field": "htHy",
+            "value": "云计算",
+            "level": 2,
+            "children": [
+                {
+                    "field": "projectName",
+                    "value": "长乐云计算机房",
+                    "level": 1,
+                    "children": [
+                        [
+                            {
+                                "field": "htType",
+                                "value": "初始合同",
+                                "isGroup": true
+                            },
+                            {
+                                "field": "htMoney",
+                                "value": 1000000
+                            },
+                            {
+                                "field": "yfkMoney",
+                                "value": 50000
+                            }
+                        ],
+                        [
+                            {
+                                "field": "htType",
+                                "value": "增补合同",
+                                "isGroup": true
+                            },
+                            {
+                                "field": "htMoney",
+                                "value": 100000
+                            },
+                            {
+                                "field": "yfkMoney",
+                                "value": 10000
+                            }
+                        ]
+                    ]
+                }
+            ]
+        }
+    ],
+    "groupRows3": [
+        {
+            "field": "htHy",
+            "value": "矿业",
+            "level": 2,
+            "children": [
+                {
+                    "field": "projectName",
+                    "value": "安全生产",
+                    "level": 1,
+                    "children": [
+                        [
+                            {
+                                "field": "htType",
+                                "value": "初始合同",
+                                "isGroup": true
+                            },
+                            {
+                                "field": "htMoney",
+                                "value": 2500000,
+                                "count": 6
+                            },
+                            {
+                                "field": "yfkMoney",
+                                "value": 350000,
+                                "count": 6
+                            }
+                        ],
+                        [
+                            {
+                                "field": "htType",
+                                "value": "增补合同",
+                                "isGroup": true
+                            },
+                            {
+                                "field": "htMoney",
+                                "value": 240000,
+                                "count": 6
+                            },
+                            {
+                                "field": "yfkMoney",
+                                "value": 24000,
+                                "count": 6
+                            }
+                        ],
+                        [
+                            {
+                                "field": "htType",
+                                "value": "增补合同",
+                                "isGroup": true
+                            },
+                            {
+                                "field": "htMoney",
+                                "value": 20000
+                            },
+                            {
+                                "field": "yfkMoney",
+                                "value": 2000
+                            }
+                        ]
+                    ],
+                    "span": 1
+                },
+                {
+                    "field": "projectName",
+                    "value": "设备管理",
+                    "level": 1,
+                    "children": [
+                        [
+                            {
+                                "field": "htType",
+                                "value": "初始合同",
+                                "isGroup": true
+                            },
+                            {
+                                "field": "htMoney",
+                                "value": 500000
+                            },
+                            {
+                                "field": "yfkMoney",
+                                "value": 100000
+                            }
+                        ]
+                    ],
+                    "span": 1
+                }
+            ],
+            "span": 2
+        },
+        {
+            "field": "htHy",
+            "value": "矿业",
+            "span": 2,
+            "type": "subTotal",
+            "children": [
+                [
+                    {
+                        "field": "htType",
+                        "value": "初始合同",
+                        "isGroup": true
+                    },
+                    {
+                        "field": "htMoney",
+                        "value": 2500000,
+                        "count": 6
+                    },
+                    {
+                        "field": "yfkMoney",
+                        "value": 350000,
+                        "count": 6
+                    }
+                ],
+                [
+                    {
+                        "field": "htType",
+                        "value": "增补合同",
+                        "isGroup": true
+                    },
+                    {
+                        "field": "htMoney",
+                        "value": 240000,
+                        "count": 6
+                    },
+                    {
+                        "field": "yfkMoney",
+                        "value": 24000,
+                        "count": 6
+                    }
+                ]
+            ]
+        },
+        {
+            "field": "htHy",
+            "value": "云计算",
+            "level": 2,
+            "children": [
+                {
+                    "field": "projectName",
+                    "value": "长乐云计算机房",
+                    "level": 1,
+                    "children": [
+                        [
+                            {
+                                "field": "htType",
+                                "value": "初始合同",
+                                "isGroup": true
+                            },
+                            {
+                                "field": "htMoney",
+                                "value": 1000000
+                            },
+                            {
+                                "field": "yfkMoney",
+                                "value": 50000
+                            }
+                        ],
+                        [
+                            {
+                                "field": "htType",
+                                "value": "增补合同",
+                                "isGroup": true
+                            },
+                            {
+                                "field": "htMoney",
+                                "value": 100000
+                            },
+                            {
+                                "field": "yfkMoney",
+                                "value": 10000
+                            }
+                        ]
+                    ],
+                    "span": 1
+                }
+            ],
+            "span": 1
+        },
+        {
+            "field": "allTotal",
+            "value": "总计",
+            "type": "allTotal",
+            "colspan": 2,
+            "children": [
+                [
+                    {
+                        "field": "htType",
+                        "value": "初始合同",
+                        "isGroup": true
+                    },
+                    {
+                        "field": "htMoney",
+                        "value": 2500000,
+                        "count": 6
+                    },
+                    {
+                        "field": "yfkMoney",
+                        "value": 350000,
+                        "count": 6
+                    }
+                ],
+                [
+                    {
+                        "field": "htType",
+                        "value": "增补合同",
+                        "isGroup": true
+                    },
+                    {
+                        "field": "htMoney",
+                        "value": 240000,
+                        "count": 6
+                    },
+                    {
+                        "field": "yfkMoney",
+                        "value": 24000,
+                        "count": 6
+                    }
+                ]
+            ]
+        }
+    ],
     "groupCols": [
         {
             "field": "htType",
@@ -304,5 +651,490 @@
                 ]
             }
         ]
+    ],
+    "titleRows2": [
+        [
+            {
+                "field": "rowNo",
+                "width": 40,
+                "titleAlign": "center",
+                "columnAlign": "center",
+                "isFrozen": true,
+                "isShow": true,
+                "rowspan": 2,
+                "fields": [
+                    "rowNo"
+                ]
+            },
+            {
+                "field": "htHy",
+                "width": 100,
+                "isFrozen": true,
+                "isFold": true,
+                "title": "所属行业",
+                "titleAlign": "center",
+                "columnAlign": "center",
+                "col": 0,
+                "rowspan": 2,
+                "fields": [
+                    "htHy"
+                ]
+            },
+            {
+                "field": "projectName",
+                "width": 150,
+                "isFrozen": true,
+                "isFold": true,
+                "title": "项目名称",
+                "col": 1,
+                "filterMultiple": true,
+                "filters": [
+                    {
+                        "label": "第一季度",
+                        "value": 1
+                    },
+                    {
+                        "label": "第二季度",
+                        "value": 2
+                    },
+                    {
+                        "label": "第三季度",
+                        "value": 3
+                    },
+                    {
+                        "label": "第四季度",
+                        "value": 4
+                    }
+                ],
+                "rowspan": 2,
+                "fields": [
+                    "projectName"
+                ]
+            },
+            {
+                "axis": "_0",
+                "fields": [
+                    "htMoney_0_0",
+                    "yfkMoney_0_1"
+                ],
+                "title": "初始合同"
+            },
+            {
+                "axis": "_1",
+                "fields": [
+                    "htMoney_1_0",
+                    "yfkMoney_1_1"
+                ],
+                "title": "增补合同"
+            },
+            {
+                "axis": "_2",
+                "fields": [
+                    "htMoney_2_0",
+                    "yfkMoney_2_1"
+                ],
+                "title": "总计"
+            }
+        ],
+        [
+            {
+                "field": "htMoney",
+                "width": 100,
+                "title": "合同金额",
+                "fields": [
+                    "htMoney_0_0"
+                ]
+            },
+            {
+                "field": "yfkMoney",
+                "width": 100,
+                "title": "预付款金额",
+                "fields": [
+                    "yfkMoney_0_1"
+                ]
+            },
+            {
+                "field": "htMoney",
+                "width": 100,
+                "title": "合同金额",
+                "fields": [
+                    "htMoney_1_0"
+                ]
+            },
+            {
+                "field": "yfkMoney",
+                "width": 100,
+                "title": "预付款金额",
+                "fields": [
+                    "yfkMoney_1_1"
+                ]
+            },
+            {
+                "field": "htMoney",
+                "width": 100,
+                "title": "合同金额",
+                "fields": [
+                    "htMoney_2_0"
+                ]
+            },
+            {
+                "field": "yfkMoney",
+                "width": 100,
+                "title": "预付款金额",
+                "fields": [
+                    "yfkMoney_2_1"
+                ]
+            }
+        ]
+    ],
+    "bodyTrs2": [
+        {
+            "frozenTds": [
+                {
+                    "field": "rowNo",
+                    "value": 1
+                },
+                {
+                    "field": "htHy",
+                    "rowspan": 2,
+                    "isFrozen": true,
+                    "spanVal": 2,
+                    "isFold": true,
+                    "axis": "B0",
+                    "level": 2,
+                    "valign": "top",
+                    "value": "矿业"
+                },
+                {
+                    "field": "projectName",
+                    "rowspan": 1,
+                    "isFrozen": true,
+                    "spanVal": 1,
+                    "level": 1,
+                    "value": "安全生产"
+                }
+            ],
+            "tds": [
+                {
+                    "field": "htMoney_0_0",
+                    "rowspan": 1,
+                    "isFrozen": false,
+                    "spanVal": 1,
+                    "value": 2500000
+                },
+                {
+                    "field": "yfkMoney_0_1",
+                    "rowspan": 1,
+                    "isFrozen": false,
+                    "spanVal": 1,
+                    "value": 350000
+                },
+                {
+                    "field": "htMoney_1_0",
+                    "rowspan": 1,
+                    "isFrozen": false,
+                    "spanVal": 1,
+                    "value": 260000
+                },
+                {
+                    "field": "yfkMoney_1_1",
+                    "rowspan": 1,
+                    "isFrozen": false,
+                    "spanVal": 1,
+                    "value": 26000
+                },
+                {
+                    "field": "htMoney_2_0",
+                    "colspan": 1,
+                    "value": 2760000,
+                    "class": "allColTotal",
+                    "isFrozen": false,
+                    "style": "undefinedtext-align: right;",
+                    "spanVal": 1
+                },
+                {
+                    "field": "yfkMoney_2_1",
+                    "colspan": 1,
+                    "value": 376000,
+                    "class": "allColTotal",
+                    "isFrozen": false,
+                    "style": "undefinedtext-align: right;",
+                    "spanVal": 1
+                }
+            ],
+            "axis": "B0"
+        },
+        {
+            "frozenTds": [
+                {
+                    "field": "rowNo",
+                    "value": 2
+                },
+                {
+                    "field": "projectName",
+                    "rowspan": 1,
+                    "isFrozen": true,
+                    "spanVal": 1,
+                    "level": 1,
+                    "value": "设备管理"
+                }
+            ],
+            "tds": [
+                {
+                    "field": "htMoney_0_0",
+                    "rowspan": 1,
+                    "isFrozen": false,
+                    "spanVal": 1,
+                    "value": 500000
+                },
+                {
+                    "field": "yfkMoney_0_1",
+                    "rowspan": 1,
+                    "isFrozen": false,
+                    "spanVal": 1,
+                    "value": 100000
+                },
+                {
+                    "field": "htMoney_1_0",
+                    "rowspan": 1,
+                    "isFrozen": false,
+                    "spanVal": 1,
+                    "value": 0
+                },
+                {
+                    "field": "yfkMoney_1_1",
+                    "rowspan": 1,
+                    "isFrozen": false,
+                    "spanVal": 1,
+                    "value": 0
+                },
+                {
+                    "field": "htMoney_2_0",
+                    "colspan": 1,
+                    "value": 500000,
+                    "class": "allColTotal",
+                    "isFrozen": false,
+                    "style": "undefinedtext-align: right;",
+                    "spanVal": 1
+                },
+                {
+                    "field": "yfkMoney_2_1",
+                    "colspan": 1,
+                    "value": 100000,
+                    "class": "allColTotal",
+                    "isFrozen": false,
+                    "style": "undefinedtext-align: right;",
+                    "spanVal": 1
+                }
+            ],
+            "axis": "B0_A1"
+        },
+        {
+            "frozenTds": [
+                {
+                    "field": "rowNo",
+                    "value": 3
+                },
+                {
+                    "field": "htHy",
+                    "colspan": 2,
+                    "value": "矿业",
+                    "class": "subTotal",
+                    "isFrozen": true,
+                    "spanVal": 2,
+                    "valign": "top"
+                }
+            ],
+            "tds": [
+                {
+                    "field": "htMoney_0_0",
+                    "rowspan": 1,
+                    "isFrozen": false,
+                    "spanVal": 1,
+                    "value": 0
+                },
+                {
+                    "field": "yfkMoney_0_1",
+                    "rowspan": 1,
+                    "isFrozen": false,
+                    "spanVal": 1,
+                    "value": 0
+                },
+                {
+                    "field": "htMoney_1_0",
+                    "rowspan": 1,
+                    "isFrozen": false,
+                    "spanVal": 1,
+                    "value": 0
+                },
+                {
+                    "field": "yfkMoney_1_1",
+                    "rowspan": 1,
+                    "isFrozen": false,
+                    "spanVal": 1,
+                    "value": 0
+                },
+                {
+                    "field": "htMoney_2_0",
+                    "colspan": 1,
+                    "value": 0,
+                    "class": "allColTotal",
+                    "isFrozen": false,
+                    "style": "undefinedtext-align: right;",
+                    "spanVal": 1
+                },
+                {
+                    "field": "yfkMoney_2_1",
+                    "colspan": 1,
+                    "value": 0,
+                    "class": "allColTotal",
+                    "isFrozen": false,
+                    "style": "undefinedtext-align: right;",
+                    "spanVal": 1
+                }
+            ],
+            "axis": "B0"
+        },
+        {
+            "frozenTds": [
+                {
+                    "field": "rowNo",
+                    "value": 4
+                },
+                {
+                    "field": "htHy",
+                    "rowspan": 1,
+                    "isFrozen": true,
+                    "spanVal": 1,
+                    "isFold": true,
+                    "axis": "B2",
+                    "level": 2,
+                    "value": "云计算"
+                },
+                {
+                    "field": "projectName",
+                    "rowspan": 1,
+                    "isFrozen": true,
+                    "spanVal": 1,
+                    "level": 1,
+                    "value": "长乐云计算机房"
+                }
+            ],
+            "tds": [
+                {
+                    "field": "htMoney_0_0",
+                    "rowspan": 1,
+                    "isFrozen": false,
+                    "spanVal": 1,
+                    "value": 1000000
+                },
+                {
+                    "field": "yfkMoney_0_1",
+                    "rowspan": 1,
+                    "isFrozen": false,
+                    "spanVal": 1,
+                    "value": 50000
+                },
+                {
+                    "field": "htMoney_1_0",
+                    "rowspan": 1,
+                    "isFrozen": false,
+                    "spanVal": 1,
+                    "value": 100000
+                },
+                {
+                    "field": "yfkMoney_1_1",
+                    "rowspan": 1,
+                    "isFrozen": false,
+                    "spanVal": 1,
+                    "value": 10000
+                },
+                {
+                    "field": "htMoney_2_0",
+                    "colspan": 1,
+                    "value": 1100000,
+                    "class": "allColTotal",
+                    "isFrozen": false,
+                    "style": "undefinedtext-align: right;",
+                    "spanVal": 1
+                },
+                {
+                    "field": "yfkMoney_2_1",
+                    "colspan": 1,
+                    "value": 60000,
+                    "class": "allColTotal",
+                    "isFrozen": false,
+                    "style": "undefinedtext-align: right;",
+                    "spanVal": 1
+                }
+            ],
+            "axis": "B2"
+        },
+        {
+            "frozenTds": [
+                {
+                    "field": "rowNo",
+                    "value": 5
+                },
+                {
+                    "field": "allTotal",
+                    "colspan": 1,
+                    "value": "总计",
+                    "class": "allTotal",
+                    "isFrozen": true,
+                    "spanVal": 2,
+                    "valign": "top"
+                }
+            ],
+            "tds": [
+                {
+                    "field": "htMoney_0_0",
+                    "rowspan": 1,
+                    "isFrozen": false,
+                    "spanVal": 1,
+                    "value": 0
+                },
+                {
+                    "field": "yfkMoney_0_1",
+                    "rowspan": 1,
+                    "isFrozen": false,
+                    "spanVal": 1,
+                    "value": 0
+                },
+                {
+                    "field": "htMoney_1_0",
+                    "rowspan": 1,
+                    "isFrozen": false,
+                    "spanVal": 1,
+                    "value": 0
+                },
+                {
+                    "field": "yfkMoney_1_1",
+                    "rowspan": 1,
+                    "isFrozen": false,
+                    "spanVal": 1,
+                    "value": 0
+                },
+                {
+                    "field": "htMoney_2_0",
+                    "colspan": 1,
+                    "value": 0,
+                    "class": "allColTotal",
+                    "isFrozen": false,
+                    "style": "undefinedtext-align: right;",
+                    "spanVal": 1
+                },
+                {
+                    "field": "yfkMoney_2_1",
+                    "colspan": 1,
+                    "value": 0,
+                    "class": "allColTotal",
+                    "isFrozen": false,
+                    "style": "undefinedtext-align: right;",
+                    "spanVal": 1
+                }
+            ],
+            "axis": "A2"
+        }
     ]
 }

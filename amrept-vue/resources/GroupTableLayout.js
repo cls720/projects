@@ -347,7 +347,7 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 			}
 		}
 		if (isTop) {
-			groupJa.add(allTotalJo);
+			groupJa.push(allTotalJo);
 		}
 	},
 	/**

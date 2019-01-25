@@ -209,7 +209,7 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 	},
 	getJsonDoubleValue: function (jo, valKey) {
 		var val = jo[valKey];
-		if (val == null || "NULL".equals(val)) {
+		if (val == null || "NULL" == val) {
 			return 0;
 		} else {
 			return parseFloat(val);
@@ -308,10 +308,12 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 	calcGroupSubAndAllTotal: function (groupJa, subTotalJo, allTotalJo) {
 		var isTop = false;
 		if (allTotalJo == null) {
+			// 暂时放这
 			allTotalJo = {
 				field: "allTotal",
 				value: "总计",
-				type: "allTotal"
+				type: "allTotal",
+				colspan: groupJa[0].level
 			};
 			isTop = true;
 		}
@@ -329,17 +331,14 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 								span: itemJo.level,
 								type: "subTotal"
 							}
-							groupJa.push(++i, calcJo);
-							$.gtl.calcGroupSubAndAllTotal(childrenJa,
-								groupJa[i], allTotalJo);
+							groupJa.splice(++i, 0, calcJo)
+							$.gtl.calcGroupSubAndAllTotal(childrenJa, groupJa[i], allTotalJo);
 							if (subTotalJo != null) {
 								var totalTypeJa = groupJa[i].children;
-								$.gtl.sumGroupSubAndAllTotal(totalTypeJa,
-									subTotalJo);
+								$.gtl.sumGroupSubAndAllTotal(totalTypeJa, subTotalJo);
 							}
 						} else {
-							$.gtl.calcGroupSubAndAllTotal(childrenJa,
-								subTotalJo, allTotalJo);
+							$.gtl.calcGroupSubAndAllTotal(childrenJa, subTotalJo, allTotalJo);
 						}
 					} else {
 						$.gtl.sumGroupSubAndAllTotal(childrenJa, subTotalJo);
@@ -352,7 +351,7 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 			}
 		}
 		if (isTop) {
-			groupJa.add(allTotalJo);
+			groupJa.push(allTotalJo);
 		}
 	},
 	/**
@@ -516,18 +515,18 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 	getGroupColRecd: function (colsJa, rowsJa, colGroupFields, analyseFields) {
 		var alzChildren = [];
 		// 这样写暂时只支持1个列分组字段
-		$.each(colsJa, function () {			
+		$.each(colsJa, function () {
 			let axis = this.axis;
 			if (this.type == "allColTotal") {
 				// 添加列总计
 				var colTotalJa = $.gtl.getColSum(analyseFields, alzChildren, colsJa.length, "allColTotal");
 				$.each(colTotalJa, function (i) {
-					this.field = this.field + axis + "_" + i;					
+					this.field = this.field + axis + "_" + i;
 				})
 				alzChildren = alzChildren.concat(colTotalJa);
 			} else {
 				var ji = $.ju.find2JaryByKeyValue(rowsJa, "value", this.value);
-				if (ji) {					
+				if (ji) {
 					let subAlz = [];
 					// 二维数组截取数据区字段
 					$.each(ji, function () {
@@ -598,9 +597,9 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 				this.axis = axis + "_" + i;
 				if (this.level > 1) {
 					$.gtl.calcColSpan(this.children, dataFieldLen, this.axis);
-					this.span = $.gtl.getChildrenSpan(this.children) || 1;
+					this.colspan = $.gtl.getChildrenSpan(this.children) || 1;
 				} else {
-					this.span = dataFieldLen;
+					this.colspan = dataFieldLen;
 				}
 			}
 		})

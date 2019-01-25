@@ -146,7 +146,7 @@
                                         <!--不存在列合并-->
                                         <div v-else
                                              :class="['v-table-body-cell',showVerticalBorder ? 'vertical-border':'',showHorizontalBorder?'horizontal-border':'']"
-                                             :style="{'width':colField(col.field).width+'px','height': rowHeight * (col.rowspan || 1)+'px','line-height':rowHeight+'px','text-align':colField(col.field).columnAlign}"
+                                             :style="{'width':getFieldColspanWidth(col.field, col.colspan) +'px','height': rowHeight * (col.rowspan || 1)+'px','line-height':rowHeight+'px','text-align':colField(col.field).columnAlign}"
                                              :title="colField(col.field).overflowTitle ?  overflowTitle(item,rowIndex,colField(col.field)) :''"
                                              @click.stop="rowCellClick(rowIndex,item,colField(col.field));cellEditClick($event,colField(col.field).isEdit,item,col.field,rowIndex)"
                                              @dblclick.stop="rowCellDbClick(rowIndex,item,colField(col.field))"
