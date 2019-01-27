@@ -450,6 +450,7 @@ exports.default = {
                 this.dependFields, dAry, true);
             if(this.dataFields.length > 0){
                 $.gtl.calcGroupSubAndAllTotal(retuJa);
+                // $.gtl.calcSubTotal(retuJa);
             }            
             $.gtl.calcRowSpan(retuJa, this.isGroup2);
             return retuJa;
@@ -647,6 +648,18 @@ exports.default = {
         getFieldRowspanHeight(field, rowspan) {
             rowspan = rowspan || 1;
             return this.rowHeight * rowspan;
+        },
+        /**
+         * 判断当前记录是否折叠
+         * @param {*} curtRecd 
+         */
+        isFold(curtRecd){
+            let colFieldJa = this.colField(curtRecd.field);
+            if (colFieldJa){
+                // curtRecd.class = subTotal,allTotal 小计，总计样式
+                return colFieldJa.isFold && !curtRecd.class;
+            }
+            return false;
         }
 
     },

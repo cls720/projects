@@ -253,7 +253,7 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 	sumGroupSubAndAllTotal: function (ja, totalJo) {
 		if (totalJo != null) {
 			for (var i = 0, l = ja.length; i < l; i++) {
-				var item = $.extend(true, {}, ja[i]);
+				var item = ja[i];// $.extend(true, {}, ja[i]);
 				if (Array.isArray(item)) {
 					if (totalJo.children) {
 						$.gtl.sumGroupSubAndAllTotal(item, totalJo);
@@ -309,10 +309,10 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 		if (allTotalJo == null) {
 			// 暂时放这
 			allTotalJo = {
-				field: "allTotal",
+				field: groupJa[0].field,
 				value: "总计",
 				type: "allTotal",
-				colspan: groupJa[0].level
+				span: groupJa[0].level
 			};
 			isTop = true;
 		}
@@ -324,12 +324,7 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 					var child0 = childrenJa[0];
 					if (child0.children) {
 						if (childrenJa.length > 1) {
-							var calcJo = {
-								field: itemJo.field,
-								value: itemJo.value,
-								span: itemJo.level,
-								type: "subTotal"
-							}
+							var calcJo = this.newSubTotalJo(itemJo);
 							groupJa.splice(++i, 0, calcJo);
 							$.gtl.calcGroupSubAndAllTotal(childrenJa, groupJa[i], allTotalJo);
 							if (subTotalJo != null) {
@@ -339,18 +334,147 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 						} else {
 							$.gtl.calcGroupSubAndAllTotal(childrenJa, subTotalJo, allTotalJo);
 						}
-					} else {
-						$.gtl.sumGroupSubAndAllTotal(childrenJa, subTotalJo);
-						$.gtl.sumGroupSubAndAllTotal(childrenJa, allTotalJo);
+					} else {						
+						$.gtl.sumGroupSubAndAllTotal($.extend(true, [], childrenJa), subTotalJo);
+						$.gtl.sumGroupSubAndAllTotal($.extend(true, [], childrenJa), allTotalJo);
 					}
 				}
-			} else if (Array.isArray(itemJo) && subTotalJo) {
-				$.gtl.sumGroupSubAndAllTotal(itemJo, subTotalJo);
-				$.gtl.sumGroupSubAndAllTotal(itemJo, allTotalJo);
+			} else if (Array.isArray(itemJo) && subTotalJo) {				
+				$.gtl.sumGroupSubAndAllTotal($.extend(true, [], itemJo), subTotalJo);
+				$.gtl.sumGroupSubAndAllTotal($.extend(true, [], itemJo), allTotalJo);
 			}
 		}
 		if (isTop) {
 			groupJa.push(allTotalJo);
+		}
+	},
+	/**
+	 * 添加一项累计 和
+	 * @param {*} itemJo 累加项
+	 * @param {*} totalJa 已累计值
+	 */
+	sumTotalItem: function (itemJo, totalJa) {
+		var key = itemJo.field;
+		var dataFieldJo = $.ju.findByKeyValue(totalJa, "field", key);
+		if (dataFieldJo == null) {
+			totalJa.add(itemJo);
+		} else {
+			var val = $.gtl.getJsonDoubleValue(dataFieldJo, "value");
+			if (val != null) {
+				// ArithUtil.add 大数据精度待解决
+				val += $.gtl.getJsonDoubleValue(itemJo, "value");
+				var count = 2;
+				if (dataFieldJo.count != undefined) {
+					count += parseInt(dataFieldJo.count);
+				}
+				dataFieldJo.value = val;
+				dataFieldJo.count = count;
+			}
+		}
+	},
+	/**
+	 * 小计求和
+	 * 
+	 * @param newRcedsJa
+	 *            JSONArray 新入累加记录集
+	 * @param totalJo
+	 *            JSONObject 已累计小计对象
+	 */
+	sumSubTotal: function (newRcedsJa, totalJo) {
+		if (totalJo != null) {
+			for (var i = 0, l = newRcedsJa.length; i < l; i++) {
+				var item = newRcedsJa[i];
+				if (Array.isArray(item)) {
+					if (totalJo.children) {
+						$.gtl.sumSubTotal(item, totalJo);
+					} else {
+						totalJo.children = [];
+						if (item.length > 0 && (item[0].isGroup != undefined)) {
+							totalJo.children.push(item);
+						} else {
+							totalJo.children = totalJo.children.concat(item);
+						}
+					}
+				} else {
+					if (totalJo.children) {
+						if (item.isGroup) {
+							var key = item.field;
+							var value = item.value;
+							var dataFieldJo = $.ju.findJaryByKeyValue(totalJo.children, key, value);
+							if (dataFieldJo == null) {
+								totalJo.children.push(newRcedsJa);
+							} else {
+								for (var j = i + 1; j < l; j++) {
+									$.gtl.sumTotalItem(newRcedsJa[j], dataFieldJo);
+								}
+							}
+							break;
+						} else {
+							$.gtl.sumTotalItem(item, totalJo.children);
+						}
+					} else {
+						totalJo.children = [];
+						totalJo.children = totalJo.children.concat(newRcedsJa);
+						break;
+					}
+				}
+			}
+		}
+	},
+	/**
+	 * 计算小计
+	 * @param {*} treeJa 树型分组数据getGroupRows or getGroupCols 返回值
+	 */
+	calcSubTotal: function (treeJa, subTotalJo) {
+		for (var i = 0; i < treeJa.length; i++) {
+			var itemJo = treeJa[i];
+			var itemChildren = itemJo.children;
+
+			if (itemChildren && itemChildren.length > 0) {
+				var child0 = itemChildren[0];
+				if ($.gtl.isSubGroup(child0)) {
+					// 判断分组值>1条，添加小计汇总
+					if (itemChildren.length > 1) {
+						var newSubTotal = this.newSubTotalJo(itemJo);
+						treeJa.splice(++i, 0, newSubTotal);
+						$.gtl.calcSubTotal(itemChildren, newSubTotal);
+						if (subTotalJo != null) {
+							var totalTypeJa = treeJa[i].children;
+							$.gtl.sumSubTotal(totalTypeJa, subTotalJo);
+						}
+					} else {
+						$.gtl.calcSubTotal(itemChildren, subTotalJo);
+					}
+				} else {
+					// 此时itemChildren 二维数组[[行记录1],[{字段列1},{字段列2}],[行记录3]]
+					$.gtl.sumSubTotal($.extend(true, [], itemChildren), subTotalJo);
+					// $.gtl.sumGroupSubAndAllTotal(itemChildren, allTotalJo);
+				}
+			}
+		}
+	},
+	/**
+	 * 新增返回记录小计对象
+	 * @param {*} groupRecd 其中一组分组数据
+	 */
+	newSubTotalJo: function (groupRecd) {
+		var subTotalJo = {
+			field: groupRecd.field,
+			value: "小计", //groupRecd.value,
+			span: groupRecd.level,
+			type: "subTotal"
+		}
+		return subTotalJo;
+	},
+	/**
+	 * 判断是否为子分组, 判断子节点是json对象，包含children说明是子分组，否则为二维数组是数据区字段值
+	 * @param {*} childrenItem0 
+	 */
+	isSubGroup: function (childrenItem0) {
+		if (childrenItem0.children) {
+			return true;
+		} else {
+			return false;
 		}
 	},
 	/**

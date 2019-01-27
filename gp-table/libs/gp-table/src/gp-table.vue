@@ -152,7 +152,7 @@
                                              @dblclick.stop="rowCellDbClick(rowIndex,item,colField(col.field))"
                                         >
                                              <!--isFold-->
-                                            <span @click.stop="bodyRowCloseOpen()"  v-if="colField(col.field).isFold">
+                                            <span @click.stop="bodyRowCloseOpen()"  v-if="isFold(col)">
                                                 <i :class='["v-table-filter-icon","v-icon-minus-squared-alt"]' :level="col.level" :axis="col.axis" fold="open"></i>                                                        
                                             </span>    
                                             <span v-if="typeof colField(col.field).componentName ==='string' && colField(col.field).componentName.length > 0">
