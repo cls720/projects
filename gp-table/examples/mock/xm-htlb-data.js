@@ -95,6 +95,25 @@ module.exports = [{
     endDate: "2018-5-20",
     endMoneyDate: "2018-6-15"
 },{
+    htNo: "XMHT-20180108-002",
+    htType: "初始合同",
+    htMoney: 300000,
+    yfkMoney: 60000,
+    htHy:"矿业",
+    projectId: "aqxj",
+    projectName: "安全巡检",
+    projectType: "产品",
+    projectState: "结束",
+    cpJl: "1111",
+    cpJlXm: "张小安",
+    kfJl: "1112",
+    kfJlXm: "王小开",
+    xmTeamId: "xm-team-001",
+    createDate: "2018-01-20",
+    startDate: "2018-01-25",
+    endDate: "2018-5-20",
+    endMoneyDate: "2018-6-15"
+},{
     htNo: "XMHT-20180115-001",
     htType: "初始合同",
     htMoney: 1000000,

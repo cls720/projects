@@ -26,8 +26,10 @@
             return {
                  policy:{
                     rowGroupFields:[
-                        {field:'htHy',width: 100, isFrozen:true,isFold:true,title:"所属行业",titleAlign: 'center',columnAlign: 'center', col:0},
-                        {field:'projectName',width: 150, isFrozen:true,isFold:false,title:"项目名称", col:1,
+                        {field:'htHy',width: 80, isFrozen:true,isFold:true,title:"所属行业",titleAlign: 'center',
+                        columnAlign: 'center', col:0},
+                        {field:'cpJlXm',width: 80, isFrozen:true,isFold:true,title:"产品经理",titleAlign: 'center',columnAlign: 'center', col:1},                        
+                        {field:'projectName',width: 130, isFrozen:true,isFold:false,title:"项目名称", col:2,
                          filterMultiple: true,
                          filters: [{
                             label: '第一季度',
@@ -47,8 +49,8 @@
                         {field:'htType',width: 120,  title:"合同类型"}
                     ],
                     dataFields:[
-                        {field:'htMoney',width: 100, title:"合同金额"},
-                        {field:'yfkMoney',width: 100, title:"预付款金额"}
+                        {field:'htMoney',width: 80, title:"合同金额"},
+                        {field:'yfkMoney',width: 90, title:"预付款金额"}
                     ]
                  },
                  rowNo:{isShow: true,width:40},                                    

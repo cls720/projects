@@ -449,8 +449,9 @@ exports.default = {
             $.gtl.getGroupJsonTree(this.internalTableData, retuJa, g1Ary, g2Ary,
                 this.dependFields, dAry, true);
             if(this.dataFields.length > 0){
-                $.gtl.calcGroupSubAndAllTotal(retuJa);
-                // $.gtl.calcSubTotal(retuJa);
+                // $.gtl.calcGroupSubAndAllTotal(retuJa);
+                $.gtl.calcSubTotal(retuJa);
+                $.gtl.calcAllTotal(retuJa);
             }            
             $.gtl.calcRowSpan(retuJa, this.isGroup2);
             return retuJa;
