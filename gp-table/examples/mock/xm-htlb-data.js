@@ -34,6 +34,7 @@ module.exports = [{
     kfJlXm: "王小开",
     xmTeamId: "xm-team-001",
     createDate: "2018-01-08",
+    createMonth:"2018-01",
     startDate: "2018-01-15",
     endDate: "2018-4-20",
     endMoneyDate: "2018-6-15"
@@ -53,6 +54,7 @@ module.exports = [{
     kfJlXm: "王小开",
     xmTeamId: "xm-team-001",
     createDate: "2018-04-15",
+    createMonth:"2018-04",
     startDate: "2018-04-15",
     endDate: "2018-6-20",
     endMoneyDate: "2018-7-15"
@@ -72,6 +74,7 @@ module.exports = [{
     kfJlXm: "王小开",
     xmTeamId: "xm-team-001",
     createDate: "2018-05-15",
+    createMonth:"2018-05",
     startDate: "2018-05-15",
     endDate: "2018-7-20",
     endMoneyDate: "2018-8-15"
@@ -91,6 +94,7 @@ module.exports = [{
     kfJlXm: "王小开",
     xmTeamId: "xm-team-003",
     createDate: "2018-02-08",
+    createMonth:"2018-02",
     startDate: "2018-02-15",
     endDate: "2018-5-20",
     endMoneyDate: "2018-6-15"
@@ -110,6 +114,7 @@ module.exports = [{
     kfJlXm: "王小开",
     xmTeamId: "xm-team-001",
     createDate: "2018-01-20",
+    createMonth:"2018-01",
     startDate: "2018-01-25",
     endDate: "2018-5-20",
     endMoneyDate: "2018-6-15"
@@ -129,6 +134,7 @@ module.exports = [{
     kfJlXm: "赵小云",
     xmTeamId: "xm-team-002",
     createDate: "2018-01-15",
+    createMonth:"2018-01",
     startDate: "2018-01-20",
     endDate: "2018-6-20",
     endMoneyDate: "2018-7-15"
@@ -148,6 +154,7 @@ module.exports = [{
     kfJlXm: "赵小云",
     xmTeamId: "xm-team-002",
     createDate: "2018-08-10",
+    createMonth:"2018-08",
     startDate: "2018-08-12",
     endDate: "2018-8-30",
     endMoneyDate: "2018-9-15"

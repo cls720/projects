@@ -45,7 +45,8 @@
                             value: 4,
                         }]}
                     ],
-                    colGroupFields:[
+                    colGroupFields:[                        
+                        {field:'createMonth',width: 120,  title:"月份"},
                         {field:'htType',width: 120,  title:"合同类型"}
                     ],
                     dataFields:[

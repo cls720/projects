@@ -241,6 +241,7 @@
             "span": 1
         }
     ],
+    "groupCols2":[{"field":"createMonth","value":"2018-01","level":2,"children":[{"field":"htType","value":"初始合同","level":1,"children":[]}]},{"field":"createMonth","value":"2018-04","level":2,"children":[{"field":"htType","value":"增补合同","level":1,"children":[]}]},{"field":"createMonth","value":"2018-05","level":2,"children":[{"field":"htType","value":"增补合同","level":1,"children":[]}]},{"field":"createMonth","value":"2018-02","level":2,"children":[{"field":"htType","value":"初始合同","level":1,"children":[]}]},{"field":"createMonth","value":"2018-08","level":2,"children":[{"field":"htType","value":"增补合同","level":1,"children":[]}]}],
     "bodyDatas": [
         [
             {

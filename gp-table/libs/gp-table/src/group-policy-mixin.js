@@ -208,14 +208,15 @@ exports.default = {
                     let hcLast = hColColumns[hColColumns.length - 1];
 
                     // 添加数据区列
-                    let headerData = [];
-                    for (var i = 0, l = hcLast.length; i < l; i++) {
-                        let gcLeafItem = hcLast[i];
-                        let dataColumns = this.getDataColumns(gcLeafItem.axis, true);
-                        
-                        headerData = headerData.concat(dataColumns);
-                        gcLeafItem.fields = $.ju.getJaFieldValues(dataColumns, "field");
-                    }
+                    let headerData = this.getDataMultiHeader(hColColumns);
+                    // for (var i = 0, l = hcLast.length; i < l; i++) {
+                    //     let gcLeafItem = hcLast[i];
+                    //     let dataColumns = this.getDataColumns(gcLeafItem.axis, true);
+
+                    //     headerData = headerData.concat(dataColumns);
+                    //     gcLeafItem.fields = $.ju.getJaFieldValues(dataColumns, "field");
+                    // }
+
 
                     if (hColColumns.length > 1) {
                         header0 = header0.concat(hcFirst);
@@ -448,11 +449,11 @@ exports.default = {
             var dAry = $.ju.getJaFieldValues(this.dataFields, "field");
             $.gtl.getGroupJsonTree(this.internalTableData, retuJa, g1Ary, g2Ary,
                 this.dependFields, dAry, true);
-            if(this.dataFields.length > 0){
+            if (this.dataFields.length > 0) {
                 // $.gtl.calcGroupSubAndAllTotal(retuJa);
                 $.gtl.calcSubTotal(retuJa);
                 $.gtl.calcAllTotal(retuJa);
-            }            
+            }
             $.gtl.calcRowSpan(retuJa, this.isGroup2);
             return retuJa;
         },
@@ -460,9 +461,9 @@ exports.default = {
          * 获取表格TBody rows模型定义
          */
         getTBodyJa: function () {
-            var retuTBody = [];      
+            var retuTBody = [];
             // 添加深度克隆，删除小计数据项异常未找到引用      
-            $.gtl.calcTreeJa2TbodyJa($.extend(true,[],this.getGroupRows()), this.getGroupCols,
+            $.gtl.calcTreeJa2TbodyJa($.extend(true, [], this.getGroupRows()), this.getGroupCols,
                 retuTBody, null, this.policy);
             return retuTBody;
         },
@@ -539,33 +540,112 @@ exports.default = {
         /**
          * 获取列分组区多表头
          * @param {*} gColsAry 
-         * @param {*} colHeaders          
+         * @param {*} colHeaders    
+         * @param {*} level 多表头层级     
          */
-        getColGroupMultiHeader(gColsAry, colHeaders) {
+        getColGroupMultiHeader(gColsAry, colHeaders, level) {
             if (colHeaders == undefined) {
+                level = 1;
                 colHeaders = [];
             }
             let scope = this;
-            let rowHead = [];
+            let rowHead;
+            if (level <= colHeaders.length) {
+                rowHead = colHeaders[level - 1];
+            } else {
+                rowHead = []
+                colHeaders.push(rowHead);
+            }
+
             $.each(gColsAry, function (i, item) {
-                let isLeaf = !item.children || (item.children.length == 0);
-                let bizField2 = $.extend({}, item);
-
-                bizField2.title = item.value;
-                bizField2.fields = [item.field + item.axis];
-
-                if (!isLeaf) {
-                    let subFields = [];
-                    $.each(item.children, function () {
-                        subFields.push(this.field);
-                    })
-                    bizField2.fields = subFields;
-                    scope.getColGroupMultiHeader(item.children, colHeaders);
+                let hd = {
+                    fields: scope.getMultiHeaderFields(item),
+                    title: item.value,
+                    axis: item.axis,
+                    colspan: item.colspan || 1,
+                    rowspan: item.rowspan || 1,
+                    level: item.level
+                };
+                if (item.type) {
+                    hd.type = item.type;
                 }
-                rowHead.push(bizField2);
+                rowHead.push(hd);
             })
-            colHeaders.push(rowHead);
+
+            $.each(gColsAry, function (i, item) {
+                if (item.children && item.children.length > 0) {
+                    scope.getColGroupMultiHeader(item.children, colHeaders, item.level);
+                }
+            })
             return colHeaders;
+        },
+        /**
+         * 添加数据区多表头
+         * @param {*} colGroupMultiHeaders 列分组多表头数据getColGroupMultiHeader()返回值 
+         */
+        getDataMultiHeader(colGroupMultiHeaders) {
+            let hcLen = colGroupMultiHeaders.length;
+            let hcLastIndex = hcLen - 1;
+            let headerData = [];
+
+            for (var i = hcLastIndex; i >= 0; i--) {
+                let hcRow = colGroupMultiHeaders[i];
+                for (var j = 0, m = hcRow.length; j < m; j++) {
+                    let hcRowItem = hcRow[j];
+                    if (i == hcLastIndex) {
+                        let dataColumns = this.getDataColumns(hcRowItem.axis, true);
+                        headerData = headerData.concat(dataColumns);
+                        hcRowItem.fields = $.ju.getJaFieldValues(dataColumns, "field");
+                    } else {
+                        // 当前跨行数=多表头数据长度说明是叶节点
+                        if (hcRowItem.rowspan == hcLen) {
+                            let instIndex = this.getDataHeaderInstIndex(hcRowItem, headerData);
+                            let dataColumns = this.getDataColumns(hcRowItem.axis, true);
+                            $.each(dataColumns, function () {
+                                headerData.splice(instIndex++, 0, this);
+                            })
+                            hcRowItem.fields = $.ju.getJaFieldValues(dataColumns, "field");
+                        }
+                    }
+                }
+            }
+            return headerData;
+        },
+        /**
+         * 获取数据区表头插入下标
+         * @param {*} instItem 预插入表头项
+         * @param {*} dataHeaders 已存在表头列表
+         */
+        getDataHeaderInstIndex(instItem, dataHeaders) {
+            let instIndex = dataHeaders.length;
+            $.each(dataHeaders, function (i) {
+                if (this.axis > instItem.axis) {
+                    instIndex = i;
+                    return false;
+                }
+            });
+            return instIndex;
+        },
+        /**
+         * 获取多表头子字段fields属性数组
+         * @param {*} groupColsRecd 
+         * @param {*} fields 子字段列表
+         */
+        getMultiHeaderFields(groupColsRecd, fields) {
+            if (fields == undefined) {
+                fields = [];
+            }
+            if (groupColsRecd.children && groupColsRecd.children.length > 0) {
+                let scope = this;
+                $.each(groupColsRecd.children, function () {
+                    scope.getMultiHeaderFields(this, fields);
+                })
+            } else {
+                $.each(this.dataFields, function (i) {
+                    fields.push(this.field + groupColsRecd.axis + "_" + i);
+                })
+            }
+            return fields;
         },
         /**
          * 添加数据区字段列
@@ -629,7 +709,7 @@ exports.default = {
             let endPosX, startPosX, totalWidth = 0,
                 columnsFields = this.getColumnsFields;
 
-            startPosX = columnsFields.indexOf(field);            
+            startPosX = columnsFields.indexOf(field);
             endPosX = startPosX + colspan - 1;
 
             for (var i = startPosX; i <= endPosX; i++) {
@@ -654,9 +734,9 @@ exports.default = {
          * 判断当前记录是否折叠
          * @param {*} curtRecd 
          */
-        isFold(curtRecd){
+        isFold(curtRecd) {
             let colFieldJa = this.colField(curtRecd.field);
-            if (colFieldJa){
+            if (colFieldJa) {
                 // curtRecd.class = subTotal,allTotal 小计，总计样式
                 return colFieldJa.isFold && !curtRecd.class;
             }

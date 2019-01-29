@@ -435,14 +435,14 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 						$.gtl.calcSubTotal(itemChildren, newSubTotal);
 						if (subTotalJo != null) {
 							var totalTypeJa = treeJa[i].children;
-							$.gtl.sumSubTotal($.extend(true,[],totalTypeJa), subTotalJo);
+							$.gtl.sumSubTotal($.extend(true, [], totalTypeJa), subTotalJo);
 						}
 					} else {
 						$.gtl.calcSubTotal(itemChildren, subTotalJo);
 					}
 				} else {
 					// 此时itemChildren 二维数组[[行记录1],[{字段列1},{字段列2}],[行记录3]]
-					$.gtl.sumSubTotal($.extend(true, [], itemChildren), subTotalJo);					
+					$.gtl.sumSubTotal($.extend(true, [], itemChildren), subTotalJo);
 				}
 			}
 		}
@@ -584,15 +584,17 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 	 * @param childrenJa
 	 *            [{field:"字段名",value:"值",span:5},{field:"字段名",value:"值",type:"subTotal",...},{field:"字段名",value:"值"}...]
 	 *            子节点列表
+	 * @param spanKey  span类型[span, rowspan, colspan]
 	 * @return
 	 */
-	getChildrenSpan: function (childrenJa) {
+	getChildrenSpan: function (childrenJa, spanKey) {
+		spanKey = spanKey || "span";
 		var span = 0;
 		$.each(childrenJa, function () {
 			if (this.type) {
 				span++;
-			} else if (this.span) {
-				span += this.span;
+			} else if (this[spanKey]) {
+				span += this[spanKey];
 			} else {
 				span++;
 			}
@@ -764,7 +766,7 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 				this.axis = axis + "_" + i;
 				if (this.level > 1) {
 					$.gtl.calcColSpan(this.children, dataFieldLen, this.axis);
-					this.colspan = $.gtl.getChildrenSpan(this.children) || 1;
+					this.colspan = $.gtl.getChildrenSpan(this.children, "colspan") || 1;
 				} else {
 					this.colspan = dataFieldLen;
 				}
