@@ -400,7 +400,9 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 								totalJo.children.push(newRcedsJa);
 							} else {
 								for (var j = i + 1; j < l; j++) {
-									$.gtl.sumTotalItem(newRcedsJa[j], dataFieldJo);
+									if (!newRcedsJa[j].isGroup){
+										$.gtl.sumTotalItem(newRcedsJa[j], dataFieldJo);
+									}									
 								}
 							}
 							break;
@@ -679,51 +681,59 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 	 *            colGroupFields 列区分组字段列表
 	 * @param {}
 	 *            analyseFields 数据区字段字段
+	 * @param {}  
+	 * 			  retuRecd 返回列分组下数据区字段集合
 	 * @return {}
 	 */
-	getGroupColRecd: function (colsJa, rowsJa, colGroupFields, analyseFields) {
-		var alzChildren = [];
+	getGroupColRecd: function (colsJa, rowsJa, colGroupFields, analyseFields, retuRecd) {
+		if (retuRecd == undefined) {
+			retuRecd = [];
+		}
 		// 这样写暂时只支持1个列分组字段
 		$.each(colsJa, function () {
 			let axis = this.axis;
 			if (this.type == "allColTotal") {
 				// 添加列总计
-				var colTotalJa = $.gtl.getColSum(analyseFields, alzChildren, colsJa.length, "allColTotal");
+				var colTotalJa = $.gtl.getColSum(analyseFields, retuRecd, colsJa.length, "allColTotal");
 				$.each(colTotalJa, function (i) {
 					this.field = this.field + axis + "_" + i;
 				})
-				alzChildren = alzChildren.concat(colTotalJa);
+				retuRecd = retuRecd.concat(colTotalJa);
 			} else {
 				var ji = $.ju.find2JaryByKeyValue(rowsJa, "value", this.value);
-				if (ji) {
-					let subAlz = [];
-					// 二维数组截取数据区字段
-					$.each(ji, function () {
-						subAlz = subAlz.concat(this.splice(colGroupFields.length), this.length);
-					});
-					let sumAlz = $.gtl.getColSum(analyseFields, subAlz, 1, "");
-					$.each(sumAlz, function (i) {
-						this.field = this.field + axis + "_" + i;
-						// getColSum 计算汇总值使用
-						this.axis = axis + "_" + i;
-					})
-					alzChildren = alzChildren.concat(sumAlz);
-
+				if (this.level > 1) {
+					retuRecd = $.gtl.getGroupColRecd(this.children, ji, colGroupFields, analyseFields, retuRecd);
 				} else {
-					$.each(analyseFields, function () {
-						alzChildren.push({});
-					})
+					if (ji) {
+						let subAlz = [];
+						// 二维数组截取数据区字段
+						$.each(ji, function () {
+							subAlz = subAlz.concat(this.splice(colGroupFields.length), this.length);
+						});
+						let sumAlz = $.gtl.getColSum(analyseFields, subAlz, 1, "");
+						$.each(sumAlz, function (i) {
+							this.field = this.field + axis + "_" + i;
+							// getColSum 计算汇总值使用
+							this.axis = axis + "_" + i;
+						})
+						retuRecd = retuRecd.concat(sumAlz);
+
+					} else {
+						$.each(analyseFields, function () {
+							retuRecd.push({});
+						})
+					}
 				}
 			}
 		});
 
 		// 格式化列数据
-		$.each(alzChildren, function () {
+		$.each(retuRecd, function () {
 			// this.field 存在下标取不到字段配置
 			var bizField = $.ju.findByKeyValue(analyseFields, "field", this.field);
 			this.value = $.gtl.getFormatValue(bizField, this.value);
 		});
-		return alzChildren;
+		return retuRecd;
 	},
 	/**
 	 * 计算分组数据跨行值 span

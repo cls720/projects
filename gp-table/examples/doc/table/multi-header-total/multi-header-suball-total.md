@@ -5,7 +5,7 @@
     <div>
         <gp-table
              is-horizontal-resize column-width-drag style="width:100%"                  
-             :height="400"                     
+             :height="500"                     
              :is-show-sub-total="true"
              :row-no="rowNo"
              :policy="policy"
