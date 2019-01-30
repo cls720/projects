@@ -395,14 +395,15 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 						if (item.isGroup) {
 							var key = item.field;
 							var value = item.value;
-							var dataFieldJo = $.ju.findJaryByKeyValue(totalJo.children, key, value);
+							// var dataFieldJo = $.ju.findJaryByKeyValue(totalJo.children, key, value);
+							var dataFieldJo = this.getEqualJaByIsGroup(newRcedsJa, totalJo.children);
 							if (dataFieldJo == null) {
 								totalJo.children.push(newRcedsJa);
 							} else {
 								for (var j = i + 1; j < l; j++) {
-									if (!newRcedsJa[j].isGroup){
+									if (!newRcedsJa[j].isGroup) {
 										$.gtl.sumTotalItem(newRcedsJa[j], dataFieldJo);
-									}									
+									}
 								}
 							}
 							break;
@@ -522,6 +523,43 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 		} else {
 			return false;
 		}
+	},
+	/**
+	 * 在被查找列表中获取分组值相等的项，可能存在多分组 isGroup=true
+	 * @param {*} recdJa 
+	 * @param {*} beFindJa 
+	 */
+	getEqualJaByIsGroup(recdJa, beFindJa) {
+		let dataFieldJo;
+		let scope = this;
+		$.each(recdJa, function (i) {			
+			if (!this.isGroup) return false;
+			if (i == 0) {
+				dataFieldJo = scope.getEqual2JaByFieldAndValue(beFindJa, this);
+			} else {
+				dataFieldJo = scope.getEqual2JaByFieldAndValue(dataFieldJo, this);
+			}
+			if (!dataFieldJo || dataFieldJo.length == 0) {
+				return false;
+			}
+		})
+		if (dataFieldJo && dataFieldJo.length > 0) {
+			return dataFieldJo[0];
+		}
+		return null;
+	},
+	getEqual2JaByFieldAndValue(beFindJa, recdItem) {
+		var retuAry = [];
+		for (var i = 0, l = beFindJa.length; i < l; i++) {
+			let beFindJaItem = beFindJa[i];
+			for (var j = 0, m = beFindJaItem.length; j < m; j++) {
+				let curtItem = beFindJaItem[j];
+				if ((curtItem.field == recdItem.field) && (curtItem.value == recdItem.value)) {
+					retuAry.push(beFindJaItem);
+				}
+			}
+		}
+		return retuAry;
 	},
 	/**
 	 * 获取已折叠需展开的行集合
