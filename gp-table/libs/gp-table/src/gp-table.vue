@@ -25,6 +25,10 @@
                                         <div :class="['v-table-title-cell',showVerticalBorder?'vertical-border':'',showHorizontalBorder?'horizontal-border':'']"
                                              :style="{'width':titleColumnWidth(col.fields)+'px','height':titleColumnHeight(col.rowspan)+'px','text-align':col.titleAlign}">                                            
                                             <span class="table-title">
+                                                <!--isFold-->
+                                                <span @click.stop="headRowCloseOpen()"  v-if="col.isFold">
+                                                    <i :class='["v-table-filter-icon","v-icon-minus-squared-alt"]' :level="getLevel(col)" fold="open"></i>                                                        
+                                                </span>   
                                                <span v-if="isSelectionCol(col.fields)">
                                                      <v-checkbox
                                                              @change="handleCheckAll"

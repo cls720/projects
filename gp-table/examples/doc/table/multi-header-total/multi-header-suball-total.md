@@ -21,14 +21,14 @@
     import htlbData from '../../../mock/xm-htlb-data.js'
 
     export default{
-        name: 'multi-header-suball-total',
+        name: 'multi-header-suball-total1',
         data(){
             return {
                  policy:{
                     rowGroupFields:[
-                        {field:'htHy',width: 80, isFrozen:true,isFold:true,title:"所属行业",titleAlign: 'center',
+                        {field:'htHy',width: 100, isFrozen:true,isFold:true,title:"所属行业",titleAlign: 'center',
                         columnAlign: 'center', col:0},
-                        {field:'cpJlXm',width: 80, isFrozen:true,isFold:true,title:"产品经理",titleAlign: 'center',columnAlign: 'center', col:1},                        
+                        {field:'cpJlXm',width: 100, isFrozen:true,isFold:true,title:"产品经理",titleAlign: 'center',columnAlign: 'center', col:1},                        
                         {field:'projectName',width: 130, isFrozen:true,isFold:false,title:"项目名称", col:2,
                          filterMultiple: true,
                          filters: [{

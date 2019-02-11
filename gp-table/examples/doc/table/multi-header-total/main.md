@@ -21,7 +21,7 @@
     import complexHeaderFixedColumn from './complex-header-fixed-column.md'
 
     export default{
-        name: "multi-header-total",
+        name: "multi-header-total1",
         components: {            
             multiHeaderSuballTotal,
             complexHeaderFixedColumn

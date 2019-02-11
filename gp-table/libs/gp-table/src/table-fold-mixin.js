@@ -27,10 +27,10 @@ export default {
                 fold = $icon.attr("fold");
             }
             if (fold == "open") {
-                this.headRowClose($icon);                
+                this.headRowClose($icon);
                 this.changeIcon($icon, true);
             } else {
-                this.headRowOpen($icon);                
+                this.headRowOpen($icon);
                 this.changeIcon($icon, false);
             }
         },
@@ -81,10 +81,10 @@ export default {
                 }
             )
             this.$frozenHeadTable.find("i[fold=close]").each(
-                function(){
+                function () {
                     scope.changeIcon($(this), false);
                 }
-            )             
+            )
         },
         /**
          * 表体分组值折叠展开
@@ -98,10 +98,10 @@ export default {
                 fold = $icon.attr("fold");
             }
             if (fold == "open") {
-                this.bodyRowClose($icon);                
+                this.bodyRowClose($icon);
                 this.changeIcon($icon, true);
             } else {
-                this.bodyRowOpen($icon);                
+                this.bodyRowOpen($icon);
                 this.changeIcon($icon, false);
             }
         },
@@ -127,10 +127,19 @@ export default {
             var axis = $icon.attr("axis");
             var $td = $icon.parents("td").first();
             var $trs = this.$bodyTable.find("tr[axis^='" + axis + "']");
+            var hasSubTotalTr = $trs.last().attr("axis") == axis;
 
+            if (hasSubTotalTr) {
+                let curtTrAxis = $td.parent().attr("axis");
+                // 第一条是数据区分组一行，用小计数据行代替其位置
+                this.$dataTable.find("tr[axis ='" + curtTrAxis + "']").first().hide();
+                // 隐藏小计，暂时写
+                $($trs.get($trs.length / 2 - 1)).hide();
+            }
             $trs.filter(function (i) {
                 return axis != $(this).attr("axis");
             }).hide();
+
 
             var $nextLockTds = $td.nextAll("td");
             $nextLockTds.hide();
@@ -142,7 +151,7 @@ export default {
             if (rowspan > 1) {
                 $td.attr("rowspan", 1);
                 this.updateTdDivCellHeight($td, 1);
-                var hasSubTotalTr = $trs.last().attr("axis") == axis;
+
                 rowspan -= (hasSubTotalTr ? 0 : 1);
                 // 更新父级分组跨行值
                 this.updateParentTdRowspan(this.$frozenTable, rowspan, axis);
@@ -156,10 +165,18 @@ export default {
          */
         bodyRowOpen($icon) {
             debugger;
-            var axis = $icon.attr("axis");
-            var $td = $icon.parents("td").first();
-            var $trs = GroupTableLayout.getRowExpendTrs(this.$bodyTable, axis, "." + this.closeIcon);
-            var hiddenTrCount = $trs.filter(":hidden").length / 2;
+            let axis = $icon.attr("axis");
+            let $td = $icon.parents("td").first();
+            let curtTrAxis = $td.parent().attr("axis");
+            let $trs = GroupTableLayout.getRowExpendTrs(this.$bodyTable, axis, "." + this.closeIcon);
+            let hasSubTotalTr = $trs.last().attr("axis") == axis;
+            let hiddenTrCount = $trs.filter(":hidden").length;
+            if (hasSubTotalTr) {
+                hiddenTrCount++;                
+                this.$dataTable.find("tr[axis ='" + curtTrAxis + "']").show();
+            }
+            // 数据区与锁定区，所以要除2
+            hiddenTrCount = hiddenTrCount / 2;
             $trs.show();
             $td.nextAll("td").each(function () {
                 $(this).show();
@@ -171,13 +188,24 @@ export default {
             $td.removeAttr("colspan");
             this.updateTdDivCellWidth($td, 1);
 
-            var rowspan = $trs.length / 2;
+            let distinctAxis = [];
+            if (!hasSubTotalTr){
+                distinctAxis.push(curtTrAxis);
+            }
+            $trs.each(function (i, item) {
+                let itemAxis = $(item).attr("axis");
+                if (distinctAxis.indexOf(itemAxis) == -1) {
+                    distinctAxis.push(itemAxis);
+                }
+            })
+            let rowspan = distinctAxis.length; // $trs.length / 2
             if (rowspan > 1) {
-                $td.attr("rowspan", hiddenTrCount + 1);
-                this.updateTdDivCellHeight($td, hiddenTrCount + 1);
-                // 更新父级分组跨行值
+                // rowspan += hasSubTotalTr ? 0 : 1;
+                $td.attr("rowspan", rowspan);
+                this.updateTdDivCellHeight($td, rowspan);
+                // 更新父级分组跨行值 hiddenTrCount被rowspan替换
                 this.updateParentTdRowspan(this.$frozenTable, -hiddenTrCount, axis);
-                // 展开同行单元格后所有依赖字段跨行值
+                // 展开同行单元格后所有依赖字段跨行值 hiddenTrCount被rowspan替换
                 this.updateDependTdRowspan($td, -hiddenTrCount);
             }
         },
