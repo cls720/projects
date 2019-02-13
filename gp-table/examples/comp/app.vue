@@ -3,13 +3,14 @@
 
         <div class="main-banner">
             <div class="main-banner-title">
-                <span><i style="font-size:20px" class="icon iconfont icon-table"></i>&nbsp;vue-easytable</span>
+                <span><i style="font-size:20px" class="icon iconfont icon-table"></i>&nbsp;gp-table</span>
                 <span class="main-banner-title-items">
-                    <a class="main-banner-title-item" href="https://github.com/huangshuwei/vue-easytable">
+                  <!--  <a class="main-banner-title-item" href="https://github.com/huangshuwei/vue-easytable">
                         <i class="icon iconfont icon-github"></i>&nbsp;&nbsp;github</a>
                     <a class="main-banner-title-item" href="https://github.com/huangshuwei/vue-easytable/releases">
                         <i class="icon iconfont icon-gengxinrizhi"></i>&nbsp;&nbsp;更新日志1</a>
                     <a class="jj">jquery test click me</a>
+                  -->
                 </span>                 
             </div>
         </div>
