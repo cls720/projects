@@ -17,6 +17,14 @@ exports.default = {
             type: Boolean,
             default: true
         },
+        subTotalClass: {
+            type: String,
+            default: "gp-table-sub-total"
+        },
+        allTotalClass: {
+            type: String,
+            default: "gp-table-all-total"
+        },
         // 行号配置
         rowNo: {
             type: Object,
@@ -349,14 +357,14 @@ exports.default = {
                     var rdaItem = rda[j];
                     var td = {
                         field: rdaItem.field,
-                        rowspan: rdaItem.span || 1
+                        rowspan: rdaItem.span || 1,
+                        type: rdaItem.type || rda[0].type || ""
                     };
 
                     if (rdaItem.type) {
                         td.colspan = td.rowspan;
                         delete td.rowspan;
-                        td.value = rdaItem.value + ((this.type == "subTotal") ? "  小计" : "");
-                        td.class = rdaItem.type;
+                        td.value = rdaItem.value + ((this.type == "subTotal") ? "  小计" : "");                        
                         isType = true;
                     } else if (!isType && (hlExprs.length > 0)) {
                         $.each(hlExprs, function () {
@@ -439,6 +447,18 @@ exports.default = {
         }
     },
     methods: {
+        /**
+         * 根据单元格类型获取相应样式
+         * @param {* } tdType 
+         */
+        getTdTypeClass(tdType) {
+            if (tdType == "subTotal") {
+                return this.subTotalClass;
+            } else if (tdType == "allTotal" || tdType=="allColTotal") {
+                return this.allTotalClass
+            }
+            return "";
+        },
         /**
          * 获取按行分组树型JsonAry数据
          */
@@ -738,7 +758,7 @@ exports.default = {
             let colFieldJa = this.colField(curtRecd.field);
             if (colFieldJa) {
                 // curtRecd.class = subTotal,allTotal 小计，总计样式
-                return colFieldJa.isFold && !curtRecd.class;
+                return colFieldJa.isFold && !curtRecd.type;
             }
             return false;
         }

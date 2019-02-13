@@ -1,6 +1,7 @@
-:::demo 表头合并需要设置 `titleRows`对象：<br>`titleRows`数组中的每一项代表表头的每一行，通过 `fields`属性设置当前要合并的表头列，如果需要和并列则使用`colspan`,如果需要行合并则设置`rowspan`
+:::demo 表头合并需要设置 `titleRows`对象：<br>`titleRows`数组中的每一项代表表头的每一行，通过 `fields`属性设置当前要合并的表头列，如果需要和并列则使用`colspan`,如果需要行合并则设置`rowspan` 
 
 ```html
+
 <template>
     <div>
         <gp-table
@@ -12,6 +13,7 @@
              :datas="datas"
              even-bg-color="#f4f4f4"             
              row-click-color="#edf7ff"
+             all-total-class="allTotal"
         ></gp-table>
     </div>
 </template>

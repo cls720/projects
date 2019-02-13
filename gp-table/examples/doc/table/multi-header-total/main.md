@@ -6,6 +6,8 @@
         
             <div class="mt30">
                   <anchor id="multi-header-suball-total" label="动态多表头小计总计" h4 ></anchor>
+                  实现 是否小计 是否总计 小计样式 总计样式
+                  <br>webpack 打包样式
                   <multi-header-suball-total></multi-header-suball-total>
             </div>
 
@@ -15,6 +17,7 @@
             </div>
         </div>
 </template>
+
 <script>
     
     import multiHeaderSuballTotal from './multi-header-suball-total.md'

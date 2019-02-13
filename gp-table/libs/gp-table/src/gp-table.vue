@@ -130,7 +130,7 @@
                                         :level="col.level"                               
                                         :colspan="col.colspan"
                                         :rowspan="col.rowspan"
-                                        :class="[setColumnCellClassName(rowIndex,col.field,item)]">
+                                        :class="[setColumnCellClassName(rowIndex,col.field,item),getTdTypeClass(col.type)]">
                                         <!--存在列合并-->
                                         <div v-if="isCellMergeRender(rowIndex,col.field,item)"
                                              :class="['v-table-body-cell',showVerticalBorder ? 'vertical-border':'',showHorizontalBorder?'horizontal-border':'']"
@@ -319,7 +319,7 @@
                                 :dlevel="col.dlevel"
                                 :colspan="col.colspan"
                                 :rowspan="col.rowspan"
-                                :class="[setColumnCellClassName(rowIndex,col.field,item)]">
+                                :class="[setColumnCellClassName(rowIndex,col.field,item),getTdTypeClass(col.type)]">
                                 <!--存在列合并-->
                                 <div v-if="isCellMergeRender(rowIndex,col.field,item)"
                                      :class="['v-table-body-cell',showVerticalBorder ? 'vertical-border':'',showHorizontalBorder?'horizontal-border':'']"
@@ -405,6 +405,16 @@
         <div v-show="isDragging" class="v-table-drag-line"></div>
     </div>
 </template>
+
+<style scoped>
+    .gp-table-sub-total{
+        background-color:beige;
+    }
+
+    .gp-table-all-total{
+        background-color:rgb(243, 199, 199);
+    }
+</style>
 
 <script>
     import classesMixin from './classes-mixin.js'

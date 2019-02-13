@@ -564,14 +564,7 @@ export default {
       resizeTimer: null
     };
   },
-  props: {
-    // 是否显示小计
-    isShowSubTotal: true,
-    // 是否显示总计
-    isShowAllTotal: {
-      type: Boolean,
-      default: true
-    },
+  props: {    
     // 网格默认列宽
     colWidth: {
       type: [Number, String],

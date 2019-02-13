@@ -755,3 +755,7 @@ code {
 .hljs{
     background-color: #eee !important;
 }
+
+.allTotal{
+    background-color: rgb(247, 232, 204);
+}
