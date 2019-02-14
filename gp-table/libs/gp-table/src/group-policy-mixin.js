@@ -335,11 +335,15 @@ exports.default = {
             var rowStyle = "";
             for (var i = 0, l = bodyDatas.length; i < l; i++) {
                 var tr = {
+                    axis: "",
                     frozenTds: [],
                     tds: []
                 };
                 var rda = bodyDatas[i];
-                tr.axis = rda.length > 0 ? rda[0].axis : "";
+                if (rda.length > 0) {
+                    tr.axis = rda[0].axis;
+                    tr.type = rda[0].type || "";
+                }
                 // 添加序号td
                 if (this.rowNo.isShow) {
                     tr.frozenTds.push({
@@ -364,7 +368,7 @@ exports.default = {
                     if (rdaItem.type) {
                         td.colspan = td.rowspan;
                         delete td.rowspan;
-                        td.value = rdaItem.value + ((this.type == "subTotal") ? "  小计" : "");                        
+                        td.value = rdaItem.value + ((this.type == "subTotal") ? "  小计" : "");
                         isType = true;
                     } else if (!isType && (hlExprs.length > 0)) {
                         $.each(hlExprs, function () {
@@ -447,18 +451,7 @@ exports.default = {
         }
     },
     methods: {
-        /**
-         * 根据单元格类型获取相应样式
-         * @param {* } tdType 
-         */
-        getTdTypeClass(tdType) {
-            if (tdType == "subTotal") {
-                return this.subTotalClass;
-            } else if (tdType == "allTotal" || tdType=="allColTotal") {
-                return this.allTotalClass
-            }
-            return "";
-        },
+
         /**
          * 获取按行分组树型JsonAry数据
          */
@@ -471,8 +464,19 @@ exports.default = {
                 this.dependFields, dAry, true);
             if (this.dataFields.length > 0) {
                 // $.gtl.calcGroupSubAndAllTotal(retuJa);
-                $.gtl.calcSubTotal(retuJa);
-                $.gtl.calcAllTotal(retuJa);
+                if (this.isShowSubTotal){
+                    $.gtl.calcSubTotal(retuJa);
+                }                
+                if (this.isShowAllTotal){
+                    if (this.isShowSubTotal){
+                        $.gtl.calcAllTotal(retuJa);
+                    }else{
+                        let cloneRetuJa = $.extend(true, [], retuJa);
+                        $.gtl.calcSubTotal(cloneRetuJa);
+                        $.gtl.calcAllTotal(cloneRetuJa);
+                        retuJa.push(cloneRetuJa[cloneRetuJa.length-1]);
+                    }                
+                }                
             }
             $.gtl.calcRowSpan(retuJa, this.isGroup2);
             return retuJa;
@@ -751,6 +755,32 @@ exports.default = {
             return this.rowHeight * rowspan;
         },
         /**
+        * 根据单元格类型获取相应样式
+        * @param {* } tdType 
+        */
+        getTdTypeClass(tdType) {
+            if (this.isSubTotal(tdType)) {
+                return this.subTotalClass;
+            } else if (this.isAllTotal(tdType)) {
+                return this.allTotalClass
+            }
+            return "";
+        },
+        /**
+         * 判断是否小计
+         * @param {*} type 
+         */
+        isSubTotal(type) {
+            return type == "subTotal";
+        },
+        /**
+         * 判断是否总计
+         * @param {*} type 
+         */
+        isAllTotal(type) {
+            return type == "allTotal" || type == "allColTotal";
+        },
+        /**
          * 判断当前记录是否折叠
          * @param {*} curtRecd 
          */
@@ -762,6 +792,5 @@ exports.default = {
             }
             return false;
         }
-
     },
 };

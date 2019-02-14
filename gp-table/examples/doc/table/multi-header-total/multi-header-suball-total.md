@@ -8,6 +8,7 @@
              is-horizontal-resize column-width-drag style="width:100%"                  
              :height="500"                     
              :is-show-sub-total="true"
+             :is-show-all-total="true"
              :row-no="rowNo"
              :policy="policy"
              :datas="datas"

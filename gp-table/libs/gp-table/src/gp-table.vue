@@ -118,7 +118,8 @@
                         <v-checkbox-group v-model="checkboxGroupModel" @change="handleCheckGroupChange">
                             <table class="v-table-btable" cellspacing="0" cellpadding="0" border="0">
                                 <tbody>
-                                <tr v-for="(item,rowIndex) in tbodyTrs" class="v-table-row"
+                                <tr v-for="(item,rowIndex) in tbodyTrs"                                     
+                                    class="v-table-row"
                                     :axis="item.axis"
                                     :style="[trBgColor(rowIndex+1)]"
                                     @mouseenter.stop="handleMouseEnter(rowIndex)"
@@ -306,7 +307,8 @@
                 <v-checkbox-group v-model="checkboxGroupModel" @change="handleCheckGroupChange">
                     <table class="v-table-btable" cellspacing="0" cellpadding="0" border="0">
                         <tbody>
-                        <tr v-for="(item,rowIndex) in tbodyTrs" class="v-table-row"
+                        <tr v-for="(item,rowIndex) in tbodyTrs"                             
+                            class="v-table-row"
                             :key="rowIndex" 
                             :axis="item.axis"
                             :style="[trBgColor(rowIndex+1)]"
