@@ -127,7 +127,8 @@ export default {
             var axis = $icon.attr("axis");
             var $td = $icon.parents("td").first();
             var $trs = this.$bodyTable.find("tr[axis^='" + axis + "']");
-            var hasSubTotalTr = $trs.last().attr("axis") == axis;
+
+            var hasSubTotalTr = this.hasSubTotalTr($trs); //$trs.length > 2 && $trs.last().attr("axis") == axis;
 
             if (hasSubTotalTr) {
                 let curtTrAxis = $td.parent().attr("axis");
@@ -169,10 +170,10 @@ export default {
             let $td = $icon.parents("td").first();
             let curtTrAxis = $td.parent().attr("axis");
             let $trs = GroupTableLayout.getRowExpendTrs(this.$bodyTable, axis, "." + this.closeIcon);
-            let hasSubTotalTr = $trs.last().attr("axis") == axis;
+            let hasSubTotalTr = this.hasSubTotalTr($trs); //$trs.last().attr("axis") == axis;
             let hiddenTrCount = $trs.filter(":hidden").length;
             if (hasSubTotalTr) {
-                hiddenTrCount++;                
+                hiddenTrCount++;
                 this.$dataTable.find("tr[axis ='" + curtTrAxis + "']").show();
             }
             // 数据区与锁定区，所以要除2
@@ -189,7 +190,7 @@ export default {
             this.updateTdDivCellWidth($td, 1);
 
             let distinctAxis = [];
-            if (!hasSubTotalTr){
+            if (!hasSubTotalTr) {
                 distinctAxis.push(curtTrAxis);
             }
             $trs.each(function (i, item) {
@@ -306,6 +307,13 @@ export default {
                 $icon.addClass(this.openIcon);
                 $icon.attr("fold", "open");
             }
+        },
+        /**
+         * 判断当前坐标是否包含小计行
+         * @param {*} $trs 当前行集合 
+         */
+        hasSubTotalTr($trs) {
+            return $trs.find("td").hasClass(this.subTotalClass);
         }
     }
 }
