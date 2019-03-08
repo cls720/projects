@@ -171,16 +171,20 @@ exports.default = {
                     let gCols = this.getColGroupColumns(this.getGroupCols);
                     columns = columns.concat(gCols);
                     // 添加列分组下数据区列
-                    for (var i = 0, l = gCols.length; i < l; i++) {
-                        let gColItem = gCols[i];
+                    gCols.map(gColItem =>{
                         if (gColItem.isLeaf) {
                             columns = columns.concat(this.getDataColumns(gColItem.axis));
                         }
-                    }
+                    })
                 } else if (this.dataFields.length > 0) {
                     // 添加没有列表分组下的数据区列
                     columns = columns.concat(this.getDataColumns());
                 }
+
+                // 初始化默认过滤项数据
+                columns.map(col =>{
+                    this.initColumnsDefalutFilters(col);
+                })
                 return columns;
             }
         },
@@ -530,7 +534,7 @@ exports.default = {
         getRowGroupColumns() {
             var ra = [].concat(this.policy.rowGroupFields);
             for (var i = 0, l = ra.length; i < l; i++) {
-                var raItem = ra[i];
+                var raItem = ra[i];            
                 var dfs = this.getFieldDependFields(raItem.field);
                 $.each(dfs || [], function (i, dfsItem) {
                     JsonUtil.instObjToArrayByKeyOrder(ra, dfsItem, "col");

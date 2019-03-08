@@ -83,9 +83,10 @@ jQuery.JsonUtil = jQuery.ju = {
 		var retuList = [];
 		$.each(recdsJa, function () {
 			var value = this[fieldName];
-			if ((typeof value == "string" && value.trim()) &&
-				retuList.indexOf(value) == -1) {
-				retuList.push(value);
+			if ((typeof value == "string" && value.trim()) || (typeof value == "number")) {
+				if (retuList.indexOf(value) == -1){
+					retuList.push(value);
+				}				
 			}
 		})
 		return retuList;

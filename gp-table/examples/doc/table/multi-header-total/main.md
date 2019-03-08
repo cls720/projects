@@ -6,9 +6,10 @@
         
             <div class="mt30">
                   <anchor id="multi-header-suball-total" label="动态多表头小计总计" h4 ></anchor>
-                  实现 是否小计 是否总计 小计样式 总计样式
+                  实现 是否显示小计 是否显示总计 小计样式 总计样式
                   <br>webpack 打包样式                  
-                  <br>单元格字段值  fromat 突出显示
+                  <br>单元格字段值  fromat 突出显示, titleCellClassName单元格表头固定样式，columnCellClass单元格注入函数样式
+                  <br>表头添加默认过滤 “等于”，整列去从过滤数据源列表
                   <br>配置工具条 引用 饿了么套件
                   <multi-header-suball-total></multi-header-suball-total>
             </div>

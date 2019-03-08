@@ -46,7 +46,7 @@
                                                 </span>
                                             </span>
                                             <!--filters-->
-                                            <v-dropdown class="v-table-dropdown" v-if="enableFilters(col.filters,col.fields)"
+                                            <v-dropdown class="v-table-dropdown" v-if="enableFilters(col)"
                                                         v-model="col.filters"
                                                         :show-operation="col.filterMultiple"
                                                         :is-multiple="col.filterMultiple"
@@ -94,7 +94,7 @@
                                                     </span>
                                                 </span>
                                                 <!--filters-->
-                                                <v-dropdown class="v-table-dropdown" v-if="enableFilters(col.filters)"
+                                                <v-dropdown class="v-table-dropdown" v-if="enableFilters(col)"
                                                             v-model="col.filters"
                                                             :show-operation="col.filterMultiple"
                                                             :is-multiple="col.filterMultiple"
@@ -166,7 +166,7 @@
                                                         @on-custom-comp="customCompFunc"></component>
                                             </span>
                                             <span v-else-if="typeof colField(col.field).formatter==='function'"
-                                                    v-html="colField(col.field).formatter(item,rowIndex,pagingIndex,col.field)"></span>
+                                                    v-html="colField(col.field).formatter(col,rowIndex,pagingIndex,col.field)"></span>
                                             <span v-else-if="colField(col.field).type === 'selection'">
                                                 <v-checkbox @change="handleCheckChange(item)" :show-slot="false"
                                                             :disabled="item._disabled" :label="rowIndex"></v-checkbox>
@@ -240,7 +240,7 @@
                                             </span>
                                         </span>
                                         <!--filters-->
-                                        <v-dropdown class="v-table-dropdown" v-if="enableFilters(col.filters,col.fields)"
+                                        <v-dropdown class="v-table-dropdown" v-if="enableFilters(col)"
                                                     v-model="col.filters"
                                                     :show-operation="col.filterMultiple"
                                                     :is-multiple="col.filterMultiple"
@@ -283,7 +283,7 @@
                                                         <i :class='["v-icon-down-dir",getCurrentSort(col.field) ==="desc" ? "checked":""]'></i>
                                             </span>
                                             <!--filters-->
-                                            <v-dropdown class="v-table-dropdown" v-if="enableFilters(col.filters)"
+                                            <v-dropdown class="v-table-dropdown" v-if="enableFilters(col)"
                                                         v-model="col.filters"
                                                         :show-operation="col.filterMultiple"
                                                         :is-multiple="col.filterMultiple"
@@ -351,7 +351,7 @@
                                                :is="colField(col.field).componentName" @on-custom-comp="customCompFunc"></component>
                                 </span>
                                     <span v-else-if="typeof colField(col.field).formatter==='function'"
-                                          v-html="colField(col.field).formatter(item,rowIndex,pagingIndex,col.field)">
+                                          v-html="colField(col.field).formatter(col,rowIndex,pagingIndex,col.field)">
                                 </span>
                                     <span v-else-if="colField(col.field).type === 'selection'">
                                         <v-checkbox @change="handleCheckChange(item)" :show-slot="false"

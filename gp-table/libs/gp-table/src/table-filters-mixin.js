@@ -1,3 +1,12 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+import $ from 'jquery'
+import JsonUtil from '../../src/utils/JsonUtil.js'
+
 export default {
     props: {
         // filter event
@@ -27,9 +36,8 @@ export default {
 
                 this.internalTitleRows.forEach(rows => {
 
-                    rows.forEach(col => {
-
-                        if (this.enableFilters(col.filters, col.fields) && !col.filterMultiple) {
+                    rows.forEach(col => {                        
+                        if (this.enableFilters(col) && !col.filterMultiple) {
 
                             col.filters.unshift({
                                 label: '全部',
@@ -41,9 +49,8 @@ export default {
                 })
             } else {
 
-                this.internalColumns.map(col => {
-
-                    if (this.enableFilters(col.filters) && !col.filterMultiple) {
+                this.internalColumns.map(col => {                    
+                    if (this.enableFilters(col) && !col.filterMultiple) {
 
                         col.filters.unshift({
                             label: '全部',
@@ -52,6 +59,26 @@ export default {
                         });
                     }
                 })
+            }
+        },
+        // 初始化列默认过滤项
+        initColumnsDefalutFilters(col) {
+            // 有配置表头过滤
+            if (col && col.isFilter) {
+                // 没有设置过滤项
+                if (!col.filters || (col.filters.length == 0)) {
+                    let distinctValues = JsonUtil.getDistinctValues(this.datas, col.field);
+                    let filters = [];
+                    distinctValues.map(val => {
+                        // let label = col.filterLabelExpr ? $.format(col.filterLabelExpr, val) : val;
+                        let label = col.filterLabelExpr ? col.filterLabelExpr.replace("{0}", val) : val;
+                        filters.push({
+                            label: label,
+                            value: val
+                        })
+                    });
+                    col.filters = filters;
+                }
             }
         },
 
@@ -67,20 +94,22 @@ export default {
 
         /*
          * 是否包含 filters 功能
+         * col 列配置
          * fields : 当是复杂表头时，必须保证不是 colspan 的列
          * */
-        enableFilters(filters, fields) {
-
+        enableFilters(col) {
+            if (!col) return false;
+            let filters = col.filters || null;
+            let fields = col.fields || [];
             let result = false
 
             if (Array.isArray(fields) && fields.length > 1) {
-
                 result = false;
             }
             if (Array.isArray(filters) && filters.length > 0) {
-
                 result = true;
             }
+            if (col.isFilter) return true;
             return result;
         },
 
@@ -105,7 +134,7 @@ export default {
                     rows.forEach(col => {
 
                         tempArr = [];
-                        if (this.enableFilters(col.filters, col.fields)) {
+                        if (this.enableFilters(col)) {
 
                             col.filters.forEach(f => {
 
@@ -125,7 +154,7 @@ export default {
                 columns.forEach(col => {
 
                     tempArr = [];
-                    if (this.enableFilters(col.filters)) {
+                    if (this.enableFilters(col)) {
 
                         col.filters.forEach(f => {
 
