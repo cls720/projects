@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 import $ from 'jquery'
+import JValidate from '../../src/plugins/jquery.validate.js'
 import JsonUtil from '../../src/utils/JsonUtil.js'
 
 export default {
@@ -70,8 +71,7 @@ export default {
                     let distinctValues = JsonUtil.getDistinctValues(this.datas, col.field);
                     let filters = [];
                     distinctValues.map(val => {
-                        // let label = col.filterLabelExpr ? $.format(col.filterLabelExpr, val) : val;
-                        let label = col.filterLabelExpr ? col.filterLabelExpr.replace("{0}", val) : val;
+                        let label = col.filterLabelExpr ? $.format(col.filterLabelExpr, val) : val;                        
                         filters.push({
                             label: label,
                             value: val
