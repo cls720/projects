@@ -119,7 +119,8 @@ module.exports = function (env) {
         extensions: ['.js', '.css', '.scss', '.ejs', '.png', '.jpg', '.vue'],
         modules: [path.resolve('./node_modules')],
         alias: {
-            'vue$': 'vue/dist/vue'
+            'vue$': 'vue/dist/vue',
+            '@lib': path.resolve('libs')
         }
     }
 

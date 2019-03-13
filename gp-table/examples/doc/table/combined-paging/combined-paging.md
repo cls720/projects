@@ -19,7 +19,7 @@
               :paging-index="(pageIndex-1)*pageSize"
       ></v-table>
 
-       <div class="mt20 mb20 bold"></div>
+       <div class="mt20 mb20 bold">
                        <v-pagination @page-change="pageChange" @page-size-change="pageSizeChange" :total="50" :page-size="pageSize" :layout="['total', 'prev', 'pager', 'next', 'sizer', 'jumper']"></v-pagination>
        </div>
   </div>

@@ -10,7 +10,9 @@
                   <br>webpack 打包样式                  
                   <br>单元格字段值  fromat 突出显示, titleCellClassName单元格表头固定样式，columnCellClass单元格注入函数样式
                   <br>表头添加默认过滤 “等于”，整列去从过滤数据源列表
-                  <br>配置工具条 引用 饿了么套件
+                  <br>引用 饿了么套件
+                  <br>集成分页工具条 element-ui,内置分布v-pagination
+                  <br>添加工具条，排序，突出显示，自定义过滤项，分组策略，复制事务  
                   <multi-header-suball-total></multi-header-suball-total>
             </div>
 

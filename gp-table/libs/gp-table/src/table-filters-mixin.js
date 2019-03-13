@@ -67,7 +67,7 @@ export default {
             // 有配置表头过滤
             if (col && col.isFilter) {
                 // 没有设置过滤项
-                if (!col.filters || (col.filters.length == 0)) {
+                if (col.isDefaultFilters || !col.filters || (col.filters.length == 0)) {
                     let distinctValues = JsonUtil.getDistinctValues(this.datas, col.field);
                     let filters = [];
                     distinctValues.map(val => {
@@ -78,6 +78,7 @@ export default {
                         })
                     });
                     col.filters = filters;
+                    col.isDefaultFilters = true;
                 }
             }
         },

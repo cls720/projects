@@ -5,6 +5,10 @@ import $ from 'jquery';
 
 import NProgress from 'nprogress'; // Progress 进度条
 
+// 引用element-ui
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+
 import './css/index.css'
 import './css/custom.css'
 
@@ -33,6 +37,7 @@ Vue.component(VCheckbox.name, VCheckbox)
 Vue.component(VCheckboxGroup.name, VCheckboxGroup)
 Vue.component(VSelect.name, VSelect)
 Vue.component(VDropdown.name, VDropdown)
+Vue.use(ElementUI)
 
 
 
