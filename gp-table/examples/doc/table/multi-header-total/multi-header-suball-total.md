@@ -3,37 +3,7 @@
 
 <template>
     <div>
-        <div style="padding:5px 0px;">
-            <el-dropdown @command="handleSort">
-                <el-button size="small" icon="el-icon-sort">
-                    {{sort.title}}<i class="el-icon-arrow-down el-icon--right"></i>
-                </el-button>
-                <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item command="none" icon="el-icon-check">不排序</el-dropdown-item>
-                    <el-dropdown-item command="field" icon="el-icon-empty" v-for="item in sort.items">
-                        {{item.title}}                       
-                        <i class="el-icon-sort-up el-icon--right" v-on:click.stop='handleFieldSort(item,0)'></i>
-                        <i class="el-icon-sort-down el-icon--right" v-on:click.stop='handleFieldSort(item,1)'></i>
-                    </el-dropdown-item>
-                    <el-dropdown-item command="add_self" divided>添加自定义排序</el-dropdown-item>
-                </el-dropdown-menu>
-            </el-dropdown>            
-            <el-dialog v-el-drag-dialog :visible.sync="dialogAddSelfSortVisible" title="Shipping address" @dragDialog="handleDrag">
-                <el-select ref="select" v-model="value" placeholder="请选择">
-                    <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"/>
-                </el-select>
-                <el-table :data="gridData">
-                    <el-table-column property="date" label="Date" width="150"/>
-                    <el-table-column property="name" label="Name" width="200"/>
-                    <el-table-column property="address" label="Address"/>
-                </el-table>
-            </el-dialog>
-            <el-button-group>
-                <el-button size="small" type="primary" icon="el-icon-edit"></el-button>
-                <el-button size="small" type="primary" icon="el-icon-share"></el-button>
-                <el-button size="small" type="primary" icon="el-icon-delete"></el-button>
-            </el-button-group>
-        </div>        
+        <hc-sort-dropmenu></hc-sort-dropmenu>      
         <gp-table
              is-horizontal-resize column-width-drag style="width:100%"    
              is-vertical-resize              

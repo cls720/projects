@@ -24,7 +24,7 @@ Vue.component('anchor', anchor);
 
 // product
 import '../libs/themes-base/index.css'
- import {VTable,GPTable,VPagination,VCheckbox,VCheckboxGroup,VSelect,VDropdown} from '../libs/index.js'
+ import {VTable,GPTable,VPagination,VCheckbox,VCheckboxGroup,VSelect,VDropdown,HcSortDropmenu} from '../libs/index.js'
 
 // dev
 /*import '../packages/themes-base/index.css'
@@ -37,7 +37,9 @@ Vue.component(VCheckbox.name, VCheckbox)
 Vue.component(VCheckboxGroup.name, VCheckboxGroup)
 Vue.component(VSelect.name, VSelect)
 Vue.component(VDropdown.name, VDropdown)
+Vue.component(HcSortDropmenu.name, HcSortDropmenu)
 Vue.use(ElementUI)
+
 
 
 
