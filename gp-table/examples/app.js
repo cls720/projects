@@ -19,12 +19,17 @@ import 'highlight.js/styles/color-brewer.css';
 
 import demoBox from './comp/demo-box.vue'
 import anchor from './comp/anchor.vue'
+import HcSortDialog from './comp/hc-sort/hc-sort-dialog.vue'
+import HcSortDropmenu from './comp/hc-sort/hc-sort-dropmenu.vue'
 Vue.component('demo-box', demoBox);
 Vue.component('anchor', anchor);
+Vue.component(HcSortDialog.name, HcSortDialog);
+Vue.component(HcSortDropmenu.name, HcSortDropmenu);
+
 
 // product
 import '../libs/themes-base/index.css'
- import {VTable,GPTable,VPagination,VCheckbox,VCheckboxGroup,VSelect,VDropdown,HcSortDropmenu} from '../libs/index.js'
+import {VTable,GPTable,VPagination,VCheckbox,VCheckboxGroup,VSelect,VDropdown} from '../libs/index.js'
 
 // dev
 /*import '../packages/themes-base/index.css'
@@ -37,7 +42,6 @@ Vue.component(VCheckbox.name, VCheckbox)
 Vue.component(VCheckboxGroup.name, VCheckboxGroup)
 Vue.component(VSelect.name, VSelect)
 Vue.component(VDropdown.name, VDropdown)
-Vue.component(HcSortDropmenu.name, HcSortDropmenu)
 Vue.use(ElementUI)
 
 

@@ -5,7 +5,6 @@ import VCheckbox from './v-checkbox/index'
 import VCheckboxGroup from './v-checkbox-group/index'
 import VSelect from './v-select/index'
 import VDropdown from './v-dropdown/index'
-import HcSortDropmenu from './hc-sort-dropmenu/index'
 
 
 
@@ -17,9 +16,7 @@ const install = function (Vue, opts = {}) {
     Vue.component(VCheckbox.name, VCheckbox);
     Vue.component(VCheckboxGroup.name, VCheckboxGroup);
     Vue.component(VSelect.name, VSelect);
-    Vue.component(VDropdown.name, VDropdown);
-    Vue.component(HcSortDropmenu.name, HcSortDropmenu);
-
+    Vue.component(VDropdown.name, VDropdown);  
 }
 
 // auto install
@@ -34,6 +31,6 @@ module.exports = {
     VCheckbox,
     VCheckboxGroup,
     VSelect,
-    VDropdown,
-    HcSortDropmenu
+    VDropdown
 };
+

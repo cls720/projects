@@ -28,9 +28,9 @@ var _index13 = require("./gp-table/index");
 
 var _index14 = _interopRequireDefault(_index13);
 
-var _index15 = require("./hc-sort-dropmenu/index");
+// var _index15 = require("./hc-sort/index");
 
-var _index16 = _interopRequireDefault(_index15);
+// var _index16 = _interopRequireDefault(_index15);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -45,7 +45,6 @@ var install = function install(Vue) {
     Vue.component(_index10.default.name, _index10.default);
     Vue.component(_index12.default.name, _index12.default);
     Vue.component(_index14.default.name, _index14.default);
-    Vue.component(_index16.default.name, _index16.default);
 };
 
 if (typeof window !== 'undefined' && window.Vue) {
@@ -59,6 +58,5 @@ module.exports = {
     VCheckboxGroup: _index8.default,
     VSelect: _index10.default,
     VDropdown: _index12.default,
-    GPTable: _index14.default,
-    HcSortDropmenu: _index16.default,
+    GPTable: _index14.default
 };

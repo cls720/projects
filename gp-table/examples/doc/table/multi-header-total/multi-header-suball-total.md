@@ -3,7 +3,7 @@
 
 <template>
     <div>
-        <hc-sort-dropmenu></hc-sort-dropmenu>      
+        <hc-sort-dropmenu></hc-sort-dropmenu>        
         <gp-table
              is-horizontal-resize column-width-drag style="width:100%"    
              is-vertical-resize              
@@ -71,7 +71,6 @@
             return {
                  pageIndex:1,
                  pageSize:4,      
-                 dialogAddSelfSortVisible: false,           
                  sort:{
                      title:'排序',
                      items:[{field:'htHy',title:'所属行业'},{field:'cpJlXm',title:'产品经理'},{field:'projectName',title:'项目名称'},{field:'createMonth',title:'月份'},{field:'htMoney',title:'合同金额'}],
@@ -157,23 +156,7 @@
                         }
                     });
                 }
-            },            
-            handleSort(command) {
-                if (command == "add_self"){
-                    this.dialogAddSelfSortVisible = true;
-                }else{
-                    this.$message('click on item ' + command);
-                }                
-            },
-            handleFieldSort: function (item, type) {
-                console.log(JSON.stringify(item)+"," + type);
-                var evmousedown = document.createEvent('HTMLEvents');
-                evmousedown.initEvent('mousedown', false, true);
-                var evmouseup = document.createEvent('HTMLEvents');
-                evmouseup.initEvent('mouseup', false, true);
-                document.dispatchEvent(evmousedown)
-                document.dispatchEvent(evmouseup)
-            },
+            }
         },
         created(){
             this.getTableData();

@@ -7,7 +7,7 @@
       </el-button>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item command="none" icon="el-icon-check">不排序</el-dropdown-item>
-        <el-dropdown-item command="field" icon="el-icon-empty" v-for="item in sort.items">
+        <el-dropdown-item command="field" icon="el-icon-empty" v-for="item in sort.orderFields">
           {{item.title}}
           <i
             class="el-icon-sort-up el-icon--right"
@@ -18,32 +18,28 @@
         <el-dropdown-item command="add_self" divided>添加自定义排序</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
-    <el-dialog v-el-drag-dialog :visible.sync="dialogAddSelfSortVisible" title="Shipping address"></el-dialog>
+    <hc-sort-dialog ref="add_self_dialog" :order-fields="sort.orderFields"></hc-sort-dialog>
   </div>
 </template>
 
 <script>
-import settings from "../../src/settings/settings.js";
-import clickoutside from "../../src/directives/clickoutside.js";
-import elDragDialog from "../../src/directives/el-dragDialog";
-
-// import VCheckboxGroup from '../../v-checkbox-group/index'
-// import VCheckbox from '../../v-checkbox/index'
+import HcSortDialog from "./hc-sort-dialog.vue";
+import elDragDialog from "../../../libs/src/directives/el-dragDialog";
 
 export default {
   name: "hc-sort-dropmenu",
   components: {
-    // VCheckboxGroup, VCheckbox
+    HcSortDialog
   },
   directives: {
     elDragDialog
   },
   data() {
     return {
-      dialogAddSelfSortVisible: false,
+      dialogShow: false,
       sort: {
-        title: "排序",
-        items: [
+        title: "排序1",      
+        orderFields: [
           { field: "htHy", title: "所属行业" },
           { field: "cpJlXm", title: "产品经理" },
           { field: "projectName", title: "项目名称" },
@@ -59,7 +55,7 @@ export default {
   methods: {
     handleSort(command) {
       if (command == "add_self") {
-        this.dialogAddSelfSortVisible = true;
+        this.$refs.add_self_dialog.show = true;
       } else {
         this.$message("click on item " + command);
       }
