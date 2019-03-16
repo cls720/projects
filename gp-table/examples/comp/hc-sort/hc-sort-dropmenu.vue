@@ -9,10 +9,7 @@
         <el-dropdown-item command="none" icon="el-icon-check">不排序</el-dropdown-item>
         <el-dropdown-item command="field" icon="el-icon-empty" v-for="item in sort.orderFields">
           {{item.title}}
-          <i
-            class="el-icon-sort-up el-icon--right"
-            v-on:click.stop="handleFieldSort(item,0)"
-          ></i>
+          <i class="el-icon-sort-up el-icon--right" v-on:click.stop="handleFieldSort(item,0)"></i>
           <i class="el-icon-sort-down el-icon--right" v-on:click.stop="handleFieldSort(item,1)"></i>
         </el-dropdown-item>
         <el-dropdown-item command="add_self" divided>添加自定义排序</el-dropdown-item>
@@ -38,7 +35,7 @@ export default {
     return {
       dialogShow: false,
       sort: {
-        title: "排序1",      
+        title: "排序",
         orderFields: [
           { field: "htHy", title: "所属行业" },
           { field: "cpJlXm", title: "产品经理" },

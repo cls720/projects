@@ -22,7 +22,7 @@ import anchor from './comp/anchor.vue'
 import HcSortDialog from './comp/hc-sort/hc-sort-dialog.vue'
 import HcSortDropmenu from './comp/hc-sort/hc-sort-dropmenu.vue'
 Vue.component('demo-box', demoBox);
-Vue.component('anchor', anchor);
+Vue.component('anchor', anchor);    
 Vue.component(HcSortDialog.name, HcSortDialog);
 Vue.component(HcSortDropmenu.name, HcSortDropmenu);
 

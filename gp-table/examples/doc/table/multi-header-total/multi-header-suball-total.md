@@ -3,6 +3,7 @@
 
 <template>
     <div>
+     
         <hc-sort-dropmenu></hc-sort-dropmenu>        
         <gp-table
              is-horizontal-resize column-width-drag style="width:100%"    

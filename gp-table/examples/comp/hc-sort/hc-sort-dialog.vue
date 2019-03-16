@@ -3,7 +3,7 @@
     <el-dialog v-el-drag-dialog :visible.sync="show" title="添加自定义排序">
       <el-row>
         <el-col :span="12">
-          <el-button size="small" icon="el-icon-plus">添加字段</el-button>
+          <el-button size="small" icon="el-icon-plus" v-on:click="addSortField()">添加字段</el-button>
         </el-col>
         <el-col :span="12" style="text-align:right">
           <el-button-group>
@@ -19,7 +19,7 @@
         </el-col>
       </el-row>
       <el-row style="padding:5px 0px">
-        <el-table :data="orderMultiFields" style="width: 100%" height="200" >
+        <el-table :data="orderMultiFields" style="width: 100%" height="200">
           <el-table-column label="排序字段">
             <template slot-scope="scope">
               <el-select v-model="scope.row.field" placeholder="请选择">
@@ -49,10 +49,10 @@
         <el-button size="small" type="success" plain v-for="item in orderMultiFields">
           {{getFieldTitle(item.field)}}
           <span v-if="item.type == 'asc'">
-            <i class="el-icon-sort-up"></i>
+            <i class="el-icon-arrow-up"></i>
           </span>
           <span v-else>
-            <i class="el-icon-sort-down"></i>
+            <i class="el-icon-arrow-down"></i>
           </span>
         </el-button>
       </el-row>
@@ -102,6 +102,12 @@ export default {
   },
   computed: {},
   methods: {
+    addSortField() {
+      this.orderMultiFields.push({
+        field: "",
+        type: "asc"
+      });
+    },
     getFieldTitle(field) {
       let ja = JsonUtil.findByKeyValue(this.orderFields, "field", field);
       if (ja) {
