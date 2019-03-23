@@ -70,7 +70,8 @@ export default {
     dashboard: 'Dashboard',
     github: 'Github',
     theme: 'Theme',
-    size: 'Global Size'
+    size: 'Global Size',
+    searchPlaceholder: 'Search'
   },
   login: {
     title: 'Login Form',

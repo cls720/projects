@@ -70,7 +70,8 @@ export default {
     dashboard: 'Panel de control',
     github: 'Github',
     theme: 'Tema',
-    size: 'Tamaño global'
+    size: 'Tamaño global',
+    searchPlaceholder: 'Search'
   },
   login: {
     title: 'Formulario de acceso',
