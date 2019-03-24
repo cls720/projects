@@ -4,10 +4,10 @@
       ref="headerSearchSelect"
       v-model="search"
       :remote-method="querySearch"
+      :placeholder="$t('navbar.searchPlaceholder')"
       filterable
       default-first-option
       remote
-      :placeholder="$t('navbar.searchPlaceholder')"
       class="header-search-select"
       @change="change"
     >
@@ -23,72 +23,73 @@
 </template>
 
 <script>
-import Fuse from "fuse.js";
-import path from "path";
-import i18n from "@/lang";
-import PinyinMatch from "pinyin-match";
-import pinyinUtil from "@/utils/pinyin.js"
+import Fuse from 'fuse.js'
+import path from 'path'
+import i18n from '@/lang'
+import PinyinMatch from 'pinyin-match'
+import Pinyin from 'js-pinyin'
+import { getZhFirstChars } from '@/utils/pinyin'
 
 export default {
-  name: "HeaderSearch",
+  name: 'HeaderSearch',
   data() {
     return {
-      search: "",
+      search: '',
       options: [],
       searchPool: [],
       show: false,
       fuse: undefined
-    };
+    }
   },
   computed: {
     routers() {
-      return this.$store.getters.permission_routers;
+      return this.$store.getters.permission_routers
     },
     lang() {
-      return this.$store.getters.language;
+      return this.$store.getters.language
     }
   },
   watch: {
     lang() {
-      this.searchPool = this.generateRouters(this.routers);
+      this.searchPool = this.generateRouters(this.routers)
     },
     routers() {
-      this.searchPool = this.generateRouters(this.routers);
+      this.searchPool = this.generateRouters(this.routers)
     },
     searchPool(list) {
-      this.initFuse(list);
+      this.initFuse(list)
     },
     show(value) {
       if (value) {
-        document.body.addEventListener("click", this.close);
+        document.body.addEventListener('click', this.close)
       } else {
-        document.body.removeEventListener("click", this.close);
+        document.body.removeEventListener('click', this.close)
       }
     }
   },
   mounted() {
-    this.searchPool = this.generateRouters(this.routers);
+    this.searchPool = this.generateRouters(this.routers)
   },
   methods: {
     click() {
-      this.show = !this.show;
+      this.show = !this.show
       if (this.show) {
-        this.$refs.headerSearchSelect && this.$refs.headerSearchSelect.focus();
+        this.$refs.headerSearchSelect && this.$refs.headerSearchSelect.focus()
       }
     },
     close() {
-      this.$refs.headerSearchSelect && this.$refs.headerSearchSelect.blur();
-      this.options = [];
-      this.show = false;
+      this.$refs.headerSearchSelect && this.$refs.headerSearchSelect.blur()
+      this.options = []
+      this.show = false
     },
     change(val) {
-      debugger;
-      this.$router.push(val.path);
-      this.search = "";
-      this.options = [];
+      debugger
+      this.$router.push(val.path)
+      this.search = ''
+      this.options = []
       this.$nextTick(() => {
-        this.show = false;
-      });
+        this.show = false
+      })
     },
     initFuse(list) {
       this.fuse = new Fuse(list, {
@@ -100,44 +101,51 @@ export default {
         minMatchCharLength: 1,
         keys: [
           {
-            name: "title",
-            weight: 0.7
+            name: 'pytitle',
+            weight: 0.5
           },
           {
-            name: "path",
+            name: 'title',
             weight: 0.3
+          },
+          {
+            name: 'path',
+            weight: 0.2
           }
         ]
-      });
+      })
     },
     // Filter out the routes that can be displayed in the sidebar
     // And generate the internationalized title
-    generateRouters(routers, basePath = "/", prefixTitle = []) {
-      let res = [];
+    generateRouters(routers, basePath = '/', prefixTitle = []) {
+      let res = []
 
       for (const router of routers) {
         // skip hidden router
         if (router.hidden) {
-          continue;
+          continue
         }
 
         const data = {
           path: path.resolve(basePath, router.path),
           title: [...prefixTitle]
-        };
+        }
 
         if (router.meta && router.meta.title) {
           // generate internationalized title
-          const i18ntitle = i18n.t(`route.${router.meta.title}`);
+          const i18ntitle = i18n.t(`route.${router.meta.title}`)
 
-          data.title = [...data.title, i18ntitle];
+          data.title = [...data.title, i18ntitle]
 
-          if (router.redirect !== "noredirect") {
+          if (router.redirect !== 'noredirect') {
             // only push the routes with title
             // special case: need to exclude parent router without redirect
-            res.push(data);
+            res.push(data)
           }
         }
+
+        // 加入中文拼音
+        data.pytitle = getZhFirstChars(data.title)
 
         // recursive child routers
         if (router.children) {
@@ -145,25 +153,26 @@ export default {
             router.children,
             data.path,
             data.title
-          );
+          )
           if (tempRouters.length >= 1) {
-            res = [...res, ...tempRouters];
+            res = [...res, ...tempRouters]
           }
         }
       }
-      return res;
+      return res
     },
     querySearch(query) {
-      pinyinUtil.getFirstLetter('多的');
-      PinyinMatch.match('   我 爱你 中   国   ', 'nzg');
-      if (query !== "") {
-        this.options = this.fuse.search(query);
+      console.log(Pinyin.getFullChars('管理员'))
+      console.log(Pinyin.getCamelChars('管理员'))
+      PinyinMatch.match('   我 爱你 中   国   ', 'nzg')
+      if (query !== '') {
+        this.options = this.fuse.search(query)
       } else {
-        this.options = [];
+        this.options = []
       }
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
