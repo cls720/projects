@@ -3,6 +3,9 @@ export default {
     dashboard: 'Dashboard',
     introduction: 'Introduction',
     documentation: 'Documentation',
+    eapcloud: 'EAP Cloud',
+    developerMain: 'Developer Platform Main',
+    serverMonitor: 'Server Monitor',
     guide: 'Guide',
     permission: 'Permission',
     pagePermission: 'Page Permission',
@@ -153,6 +156,8 @@ export default {
     tips: 'Tips: It is different from the theme-pick on the navbar is two different skinning methods, each with different application scenarios. Refer to the documentation for details.'
   },
   tagsView: {
+    fullScreen:'Fullscreen',
+    exitFullScreen: 'Exit Fullscreen',
     refresh: 'Refresh',
     close: 'Close',
     closeOthers: 'Close Others',

@@ -3,6 +3,9 @@ export default {
     dashboard: '首页',
     introduction: '简述',
     documentation: '文档',
+    eapcloud: 'EAP云开发平台',
+    developerMain: '开发者平台驾驶舱',
+    serverMonitor: '服务器监控',
     guide: '引导页',
     permission: '权限测试页',
     pagePermission: '页面权限',
@@ -153,6 +156,8 @@ export default {
     tips: 'Tips: 它区别于 navbar 上的 theme-pick, 是两种不同的换肤方法，各自有不同的应用场景，具体请参考文档。'
   },
   tagsView: {
+    fullScreen:'全屏',
+    exitFullScreen: '退出全屏',
     refresh: '刷新',
     close: '关闭',
     closeOthers: '关闭其它',

@@ -11,6 +11,7 @@ import componentsRouter from './modules/components'
 import chartsRouter from './modules/charts'
 import tableRouter from './modules/table'
 import nestedRouter from './modules/nested'
+import eapcloudRouter from './modules/eapcloud'
 
 /** note: sub-menu only appear when children.length>=1
  *  detail see  https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -76,7 +77,7 @@ export const constantRouterMap = [
         meta: { title: 'dashboard', icon: 'dashboard', noCache: true, affix: true }
       }
     ]
-  },
+  },  
   {
     path: '/documentation',
     component: Layout,
@@ -90,6 +91,7 @@ export const constantRouterMap = [
       }
     ]
   },
+  eapcloudRouter,
   {
     path: '/guide',
     component: Layout,
@@ -161,7 +163,7 @@ export const asyncRouterMap = [
   componentsRouter,
   chartsRouter,
   nestedRouter,
-  tableRouter,
+  tableRouter,  
 
   {
     path: '/example',
