@@ -1,5 +1,5 @@
 <template>
-  <div :class="className" :style="imageStyle">
+  <div :class="className" :style="textStyle">
     <slot></slot>
   </div>
 </template>
@@ -9,7 +9,7 @@ export default {
   props: {
     className: {
       type: String,
-      default: "image-title"
+      default: ""
     },
     width: {
       type: String,
@@ -17,43 +17,37 @@ export default {
     },
     height: {
       type: String,
-      default: "60px"
+      default: "30px"
     },
-    imageUrl: {
+    color: {
       type: String,
       default: ""
     },
-    textIndent: {
-      type: [String, Number],
-      default: 10
+    fontSize: {
+      type: [Number, String],
+      default: 16
+    },
+    textAlign: {
+      type: String,
+      default: "center"
     }
   },
   data() {
     return {
-
-    };
-  },
-  computed: {
-    imageStyle() {
-      return {
+      textStyle: {
         width: this.width,
         height: this.height,
-        backgroundImage: this.imageUrl,
         "line-height": this.height,
-        "text-indent": this.textIndent + "px"
-      };
-    }
+        color: this.color,
+        "font-size": this.fontSize + "px",
+        "text-align": this.textAlign
+      }
+    };
   },
+  mounted() {},
   methods: {}
 };
 </script>
 
 <style lang="scss" scoped>
-.image-title {
-  font-size: 16px;
-  color: #ffffff;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  // border: 1px solid red;
-}
 </style>
