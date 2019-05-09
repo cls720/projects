@@ -5,8 +5,9 @@ exports.getSettings = function (env) {
 
     var settings = {
         // 通过代理访问的后台地址
-        proxyTarget: 'http://localhost:15147/',
+        proxyTarget: 'http://192.168.7.22:15147/',
 
+        host: '192.168.7.22',
         // 当前启动的端口
         visitPort: '8098',
 

@@ -1,14 +1,10 @@
 {
-  "name": "vue-easytable",
-  "version": "1.7.1",
-  "description": "vue table component",
+  "name": "zhc-gp-table",
+  "version": "1.0.5",
+  "description": "vue group policy table component",
   "main": "libs/index.js",
-  "author": "https://github.com/huangshuwei",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/huangshuwei/vue-easytable.git"
-  },
+  "author": "04297",
+  "license": "MIT",  
   "files": [
     "libs",
     "umd"

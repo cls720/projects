@@ -1,64 +1,52 @@
-[![npm](https://img.shields.io/npm/v/vue-easytable.svg)](https://www.npmjs.com/package/vue-easytable)
-[![npm](https://img.shields.io/npm/l/vue-easytable.svg?maxAge=2592000)](http://www.opensource.org/licenses/mit-license.php)
+[![npm](https://img.shields.io/npm/v/zhc-gp-table.svg)](https://www.npmjs.com/package/zhc-gp-table)
+[![npm](https://img.shields.io/npm/l/zhc-gp-table.svg?maxAge=2592000)](http://www.opensource.org/licenses/mit-license.php)
 
-# vue-easytable
-
-[切换中文](https://github.com/huangshuwei/vue-easytable/blob/master/README-CN.md)
+# zhc-gp-table
 
 
-## Introduction
-Based on vue2.x flexible table components.
+## 介绍
+基于 vue2.x 的分组策略网格组件
 
-## API & Examples(如果访问不了说明被墙了，我也很无奈......)
-[API&Examples](http://doc.huangsw.com/vue-easytable/app.html#/install)
+## API & 实例(如果访问不了说明服务器没启动)
+[API&实例](http://192.168.7.22:8098/examples/app.html#/intro)
 
-## Features
-- [x] [Adaptive, you can automatically adapt to the browser window changes](http://doc.huangsw.com/vue-easytable/app.html#/table/horizontalResize)
-- [x] [Fixed column, header fixed](http://doc.huangsw.com/vue-easytable/app.html#/table/fixedColumnsTitle)  
-- [x] [Support column width drag](http://doc.huangsw.com/vue-easytable/app.html#/table/columnWidthDrag)
-- [x] [Supports single field sorting and multiple field sorting](http://doc.huangsw.com/vue-easytable/app.html#/table/sort)
-- [x] [Custom columns, custom cell styles](http://doc.huangsw.com/vue-easytable/app.html#/table/cellStyle)
-- [x] [Loading effects, custom loading, etc](http://doc.huangsw.com/vue-easytable/app.html#/table/loading)
-- [x] [Own paging component](http://doc.huangsw.com/vue-easytable/app.html#/pagination)
-- [x] [Cell Editing](http://doc.huangsw.com/vue-easytable/app.html#/table/cellEdit)
-- [x] [Support cell merge (colSpan and rowSpan)](http://doc.huangsw.com/vue-easytable/app.html#/table/cellMerge)
-- [x] [Support checkbox selection](http://doc.huangsw.com/vue-easytable/app.html#/table/selection)  
-- [x] [Footer summary](http://doc.huangsw.com/vue-easytable/app.html#/table/footerSummary)
-- [x] [Conditional filter](http://doc.huangsw.com/vue-easytable/app.html#/table/conditionFilters)
-- [ ] Export excel
-- [ ] Export PDF
-- [ ] Row expansion
-- [ ] Vertical column drag
+## 功能
+- [x] [自适应，可以随着浏览器窗口改变自动适应]
+- [x] [固定列，表头固定]
+- [x] [支持列宽拖动]
+- [x] [支持单个字段排序和多个字段排序]
+- [x] [自定义列、自定义单元格样式]
+- [x] [loading效果、自定义loading 等]
+- [x] [自带分页组件]
+- [x] [单元格编辑]
+- [x] [支持单元格合并 (colSpan and rowSpan)]
+- [x] [支持 checkbox 多选功能]
+- [x] [footer 汇总功能]
+- [x] [添加条件过滤功能]
+- [ ] 添加导出 excel 功能  
+- [ ] 添加导出 pdf 功能  
+- [ ] 添加行展开功能  
+- [ ] 纵向整列拖动
    
 
-## Install
+## 安装
 
 ```javascript
-npm install vue-easytable --save-dev
+npm install zhc-gp-table --save-dev
 ```
 
-## Usage（[more usage](http://doc.huangsw.com/vue-easytable/app.html)）
-
-
 ```javascript
-// import css
-import 'vue-easytable/libs/themes-base/index.css'
+// 导入 css
+import 'zhc-gp-table/libs/themes-base/index.css'
 
-// import table and pagination comp
-import {VTable,VPagination} from 'vue-easytable'
+// 导入 table 组件 和分页组件
+import {VTable,VPagination} from 'zhc-gp-table'
 
-// Register to global
+// 将组件注册到全局
 Vue.component(VTable.name, VTable)
 Vue.component(VPagination.name, VPagination)
 ```
 
-> also you can use it **[by cdn](http://doc.huangsw.com/vue-easytable/app.html#/install)**
-
-
-## Discussion group
-Group discussion by adding WeChat
-
-![weixin](./examples/images/weixin.png)
 
 ## License
 http://www.opensource.org/licenses/mit-license.php

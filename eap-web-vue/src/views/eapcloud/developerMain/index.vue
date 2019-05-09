@@ -1,5 +1,5 @@
 <template>
-  <div class="developer-main-container" @tagFullscreenChange="onTagFullscreenChange">
+  <div class="developer-main-container">
     <el-container>
       <el-header style="padding-top:30px;">
         <el-col :xs="24" :sm="24" :lg="9">
@@ -12,8 +12,8 @@
           <image-title width="100%" height="30px" :image-url="borderTitleRight"></image-title>
         </el-col>
       </el-header>
-      <el-main>
-        <el-col :xs="24" :sm="24" :lg="7">
+      <el-main ref="elMain">
+        <el-col :xs="24" :sm="24" :lg="6">
           <image-title
             :image-url="imageTitle01"
             width="150px"
@@ -28,9 +28,9 @@
             width="150px"
             height="40px"
             style="margin:5px 0px;"
-          >行业统计</image-title>
+          >行业销售统计</image-title>
           <div :style="backgroundDiv">
-            <bar-chart-ptcz :height="barChartPtczHeight"></bar-chart-ptcz>
+            <pie-chart-hyxs :height="barChartPtczHeight"></pie-chart-hyxs>
           </div>
           <image-title
             :image-url="imageTitle01"
@@ -39,19 +39,43 @@
             style="margin:5px 0px;"
           >热门产品</image-title>
           <div :style="backgroundDiv">
-            <bar-chart-ptcz :height="barChartPtczHeight"></bar-chart-ptcz>
+            <bar-chart-rmcp :height="barChartPtczHeight"></bar-chart-rmcp>
           </div>
         </el-col>
-        <el-col :xs="24" :sm="24" :lg="10">
+        <el-col :xs="24" :sm="24" :lg="12">
           <div class="chart-wrapper">
             六、实时用户地图（中国地图-》深度省份）
             总用户数，在线用户（点亮）
           </div>
         </el-col>
-        <el-col :xs="24" :sm="24" :lg="7">
-          <div class="chart-wrapper">微服务统计</div>
-          <div class="chart-wrapper">用户类型（金字塔）</div>
-          <div class="chart-wrapper">实时用户（网格）</div>
+        <el-col :xs="24" :sm="24" :lg="6">
+          <image-title
+            :image-url="imageTitle01"
+            width="150px"
+            height="40px"
+            style="margin:5px 0px;"
+          >微服务统计</image-title>
+          <div :style="backgroundDiv">
+            <composite-chart-wfw :height="barChartPtczHeight"></composite-chart-wfw>
+          </div>
+          <image-title
+            :image-url="imageTitle01"
+            width="150px"
+            height="40px"
+            style="margin:5px 0px;"
+          >用户类型</image-title>
+          <div :style="backgroundDiv">
+            <funnel-chart-yhlx :height="barChartPtczHeight"></funnel-chart-yhlx>
+          </div>
+          <image-title
+            :image-url="imageTitle01"
+            width="150px"
+            height="40px"
+            style="margin:5px 0px;"
+          >在线用户</image-title>
+          <div :style="backgroundDiv">
+            <on-line-user :height="onLineUserHeight"></on-line-user>
+          </div>
         </el-col>
       </el-main>
     </el-container>
@@ -62,15 +86,25 @@
 import ImageTitle from "@/components/ImageTitle";
 import TextLabel from "@/components/TextLabel";
 import BarChartPtcz from "./components/BarChartPtcz";
+import PieChartHyxs from "./components/PieChartHyxs";
+import BarChartRmcp from "./components/BarChartRmcp";
+import CompositeChartWfw from "./components/CompositeChartWfw";
+import FunnelChartYhlx from "./components/FunnelChartYhlx";
+import OnLineUser from "./components/OnLineUser";
 
 export default {
   name: "DeveloperMain",
   components: {
     ImageTitle,
     TextLabel,
-    BarChartPtcz
+    BarChartPtcz,
+    PieChartHyxs,
+    BarChartRmcp,
+    CompositeChartWfw,
+    FunnelChartYhlx,
+    OnLineUser
   },
-  props:{
+  props: {
     isTagFullscreen: false
   },
   data() {
@@ -88,10 +122,18 @@ export default {
     };
   },
   computed: {
-    barChartPtczHeight() {
+    mainHeight() {
       let height = this.screenHeight - 100 - 150;
-      height = Math.floor(height / 3);
-      return height + "px";
+      if (!this.$store.state.tagsView.isTagFullscreen) {
+        height -= 84;
+      }
+      return height;
+    },
+    barChartPtczHeight() {
+      return Math.floor(this.mainHeight / 3) + "px";
+    },
+    onLineUserHeight() {
+      return Math.floor(this.mainHeight / 3);
     }
   },
   mounted() {
@@ -102,12 +144,19 @@ export default {
       })();
     };
   },
-  methods: {
-    onTagFullscreenChange(isTagFullscreen) {
-      console.log("eap:" + isTagFullscreen);
-      this.isTagFullscreen = isTagFullscreen;      
+  watch: {
+    screenHeight(val) {
+      if (!this.timer) {
+        this.screenHeight = val;
+        this.timer = true;
+        let that = this;
+        setTimeout(function() {
+          that.timer = false;
+        }, 400);
+      }
     }
-  }
+  },
+  methods: {}
 };
 // "min-height": "calc(10vh)"
 </script>

@@ -41,6 +41,7 @@ import screenfull from "screenfull";
 import ScrollPane from "@/components/ScrollPane";
 import { generateTitle } from "@/utils/i18n";
 import path from "path";
+import { debug } from 'util';
 
 export default {
   components: { ScrollPane },
@@ -123,9 +124,11 @@ export default {
     },
     initFullscreen() {
       if (screenfull.enabled) {
-        screenfull.on("change", () => {          
+        screenfull.on("change", () => {       
+          debugger;   
           this.isTagFullscreen = screenfull.isFullscreen;
-          this.$emit("tagFullscreenChange", this.isTagFullscreen);
+          this.$store.dispatch("changeTagFullscreen", this.isTagFullscreen);
+          this.$emit("tagFullscreenChange", this.isTagFullscreen);          
         });
       }
     },

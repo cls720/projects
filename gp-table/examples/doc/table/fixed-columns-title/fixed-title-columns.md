@@ -1,11 +1,11 @@
 :::demo **固定表头**：<br> - 只需要设置`height`属性即可，如果设置的高度大于实际表格的高度，将以实际表格高度为准<br> **固定列**：<br> - 通过给**需要固定的列**，设置 `isFrozen: true` 即可
 
 ```html
-<template>
-    <div>
+<template>    
+    <div>        
         <gp-table
              is-horizontal-resize column-width-drag style="width:100%"                  
-             :height="400"                     
+             :height="600"                     
              :is-show-sub-total="true"
              :row-no="rowNo"
              :policy="policy"

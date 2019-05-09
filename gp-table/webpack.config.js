@@ -229,13 +229,14 @@ module.exports = function (env) {
         plugins.push(new webpack.HotModuleReplacementPlugin());
 
         // 编译完成自动打开浏览器
-        plugins.push(new OpenBrowserPlugin({url: 'http://localhost:' + SETTINGS.visitPort + SETTINGS.path.publicPath + 'app.html'}));
+        plugins.push(new OpenBrowserPlugin({url: 'http://192.168.7.22:' + SETTINGS.visitPort + SETTINGS.path.publicPath + 'app.html'}));
 
 
         devServer = {
             hot: true, // 告诉 dev-server 我们在使用 HMR
             contentBase: path.join(__dirname, SETTINGS.path.outputPath, SETTINGS.outputFolderName),
             publicPath: SETTINGS.path.publicPath,
+            host: SETTINGS.host,
             port: SETTINGS.visitPort,
             compress: true,
             inline: true,

@@ -1,9 +1,13 @@
 const tagsView = {
   state: {
+    isTagFullscreen: false,
     visitedViews: [],
     cachedViews: []
   },
   mutations: {
+    CHANGE_TAG_FULLSCREEN:(state,val) =>{
+      state.isTagFullscreen = val;
+    },
     ADD_VISITED_VIEW: (state, view) => {
       if (state.visitedViews.some(v => v.path === view.path)) return
       state.visitedViews.push(
@@ -72,6 +76,9 @@ const tagsView = {
 
   },
   actions: {
+    changeTagFullscreen({commit},val){
+      commit('CHANGE_TAG_FULLSCREEN', val)
+    },
     addView({ dispatch }, view) {
       dispatch('addVisitedView', view)
       dispatch('addCachedView', view)
