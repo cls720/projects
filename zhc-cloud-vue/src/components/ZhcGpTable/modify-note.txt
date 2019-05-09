@@ -1,0 +1,6 @@
+2019-5-9
+this.getTopLevelSubTotalTr(this.$dataTable.find("tr[axis^='" + axis + "']")).show()
+解决多分组，大分组只包含一条小分组小计无法显示问题
+
+const totalIndex = $.gtl.isAllTotal(rowsJaItem.type) ? i : i - 1
+总计行另取编码，原先和最后一行一样，小计与当前分组行一样
