@@ -139,6 +139,7 @@ export default {
       $trs.filter(function (i) {
         return axis != $(this).attr('axis')
       }).hide()
+      this.getTopLevelSubTotalTr(this.$dataTable.find("tr[axis^='" + axis + "']")).show()
 
       var $nextLockTds = $td.nextAll('td')
       $nextLockTds.hide()
@@ -311,6 +312,29 @@ export default {
          */
     hasSubTotalTr($trs) {
       return $trs.find('td').hasClass(this.subTotalClass)
+    },
+    /**
+     * 获取行分组最顶层小计，多分组,子分组为1时折叠使用
+     * @param {*} $trs 
+     */
+    getTopLevelSubTotalTr($trs) {
+      debugger;
+      let $tds = $trs.find("td").filter("." + this.subTotalClass);
+      if ($tds.length === 1) {
+        return $tds.parent()
+      } else {
+        let $topTd = $tds.first()
+        let topAxis = $topTd.parent().attr("axis")
+        for (var i = 0, l = $tds.length; i < l; i++) {
+          let $curtTd = $($tds[i]);
+          let curtAxis = $curtTd.parent().attr("axis")
+          if (topAxis > curtAxis) {
+            topAxis = curtAxis
+            $topTd = $curtTd
+          }
+        }
+        return $topTd.parent()
+      }
     }
   }
 }

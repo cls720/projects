@@ -532,7 +532,7 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 	getEqualJaByIsGroup(recdJa, beFindJa) {
 		let dataFieldJo;
 		let scope = this;
-		$.each(recdJa, function (i) {			
+		$.each(recdJa, function (i) {
 			if (!this.isGroup) return false;
 			if (i == 0) {
 				dataFieldJo = scope.getEqual2JaByFieldAndValue(beFindJa, this);
@@ -945,7 +945,8 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 			newRecd = (i == 0 && curtRow != null) ? curtRow : [];
 			if (!Array.isArray(rowsJaItem)) { // 非数组代表分组层级节点 this 等价于 rowsJaItem
 				if (rowsJaItem.type) { // 是否是小计，总计统计行
-					var axis = $.gtl.getAxis(parentAxis, rowsJaItem.span || 1, i - 1);
+					const totalIndex = $.gtl.isAllTotal(rowsJaItem.type) ? i : i - 1
+					var axis = $.gtl.getAxis(parentAxis, rowsJaItem.span || 1, totalIndex);
 					newRecd = $.gtl.calcGroupRowSummaryJson(rowsJaItem, newRecd, colsJa,
 						colGroupFields, analyseFields, axis);
 					// 添加分组统计行
@@ -986,8 +987,21 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 		}
 		// })
 		return 0;
+	},
+	/**
+	 * 判断是否小计
+	 * @param {*} type 
+	 */
+	isSubTotal(type) {
+		return type == 'subTotal'
+	},
+	/**
+	 * 判断是否总计
+	 * @param {*} type
+	 */
+	isAllTotal(type) {
+		return type == 'allTotal' || type == 'allColTotal'
 	}
-
 };
 
 export default jQuery.GroupTableLayout

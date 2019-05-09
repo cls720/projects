@@ -753,26 +753,12 @@ export default {
      * @param {* } tdType
      */
     getTdTypeClass(tdType) {
-      if (this.isSubTotal(tdType)) {
+      if ($.gtl.isSubTotal(tdType)) {
         return this.subTotalClass
-      } else if (this.isAllTotal(tdType)) {
+      } else if ($.gtl.isAllTotal(tdType)) {
         return this.allTotalClass
       }
       return ''
-    },
-    /**
-     * 判断是否小计
-     * @param {*} type
-     */
-    isSubTotal(type) {
-      return type == 'subTotal'
-    },
-    /**
-     * 判断是否总计
-     * @param {*} type
-     */
-    isAllTotal(type) {
-      return type == 'allTotal' || type == 'allColTotal'
     },
     /**
      * 判断当前记录是否折叠
