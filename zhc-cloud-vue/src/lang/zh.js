@@ -2,10 +2,12 @@ export default {
   route: {
     dashboard: '首页',
     documentation: '文档',
-    eapcloud: 'EAP云开发平台',
+    eapcloud: '海创云开发平台',
     architectureDiagram: '平台架构导航图',
     developerMain: '开发者平台驾驶舱',
     serverMonitor: '服务器监控',
+    bootService: '微服务',
+    serviceStat: '微服务统计',
     user: '用户管理',
     userQuery: '用户查询',
     userAdd: '添加用户',
@@ -70,7 +72,8 @@ export default {
     clipboardDemo: 'Clipboard',
     i18n: '国际化',
     externalLink: '外链',
-    profile: '个人中心'
+    profile: '个人中心',
+    login:'系统登录'
   },
   navbar: {
     dashboard: '首页',

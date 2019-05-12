@@ -2,10 +2,12 @@ export default {
   route: {
     dashboard: 'Dashboard',
     documentation: 'Documentation',
-    eapcloud: 'EAP Cloud',
+    eapcloud: 'Histron Cloud',
     architectureDiagram: 'Architecture Diagram',
     developerMain: 'Developer Platform Main',
     serverMonitor: 'Server Monitor',
+    bootService: 'Boot Service',
+    serviceStat: 'Service Stat',
     user: 'User Manager',
     userQuery: 'Query User',
     userAdd: 'Add User',
@@ -177,9 +179,9 @@ export default {
     closeAll: 'Close All'
   },
   eapcloud: {
-    architectureDiagram: 'EAP Architecture Diagram',
-    developerMain: 'EAP Developer Main',
-    serverMonitor: 'EAP Server Monitor'
+    architectureDiagram: 'Histron Architecture Diagram',
+    developerMain: 'Histron Developer Main',
+    serverMonitor: 'Histron Server Monitor'
   },
   settings: {
     title: 'Page style setting',

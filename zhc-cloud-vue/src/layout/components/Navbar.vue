@@ -16,22 +16,23 @@
           <size-select id="size-select" class="right-menu-item hover-effect" />
         </el-tooltip>
 
-        <lang-select class="right-menu-item hover-effect" />
+        <lang-select class="right-menu-item hover-effect" style="font-size:20px;"/>
 
       </template>
 
       <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="avatar+'?imageView2/1/w/30/h/30'">
+          <svg-icon icon-class="user" />
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item>
-            <img
+            <!--<img
               :src="avatar+'?imageView2/1/w/80/h/80'"
               class="user-avatar"
               style="width:40px;height:40px;vertical-align:middle"
-            >
+            >-->
+            <svg-icon icon-class="user" />
             {{ $store.state.user.name }}
           </el-dropdown-item>
           <el-dropdown-item divided>
@@ -110,14 +111,11 @@ export default {
   .breadcrumb-container {
     float: left;
     &.app-breadcrumb.el-breadcrumb {
-      /deep/.no-redirect{
+      /deep/.no-redirect,/deep/a{
         color: #fff;
       }
-      /deep/a{
-        color: #fff;
-        &:hover{
-          color:#1890ff;
-        }
+      /deep/a:hover{
+        color:#1890ff;
       }      
     }
   }
@@ -143,7 +141,28 @@ export default {
       font-size: 18px;
       color: #fff;
       vertical-align: text-bottom;
-
+      /*搜索栏*/
+      &.header-search{
+        position:relative;
+        /deep/.search-icon {
+          position: absolute;
+          color:#fff;
+          top: 0;
+          bottom: 0;
+          right:10px;
+          margin: auto;
+          z-index: 2;
+        }
+        &.show {
+          /deep/.el-input__inner{
+            padding-right:22px;
+            margin-left:0;
+          }
+          /deep/.search-icon{
+            color: #333;
+          }
+        }
+      }
       &.hover-effect {
         cursor: pointer;
         transition: background .3s;

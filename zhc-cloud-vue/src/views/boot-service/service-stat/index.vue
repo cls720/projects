@@ -2,11 +2,7 @@
   <div class="user-online-stat">
     <el-row>
       <el-col :span="12">
-        <el-form
-          :inline="true"
-          :model="userLogin"
-          label-width="80px"
-        >
+        <el-form :inline="true" :model="userLogin" label-width="80px">
           <el-form-item label="登录时间">
             <div class="block">
               <el-date-picker
@@ -26,45 +22,27 @@
         </el-form>
       </el-col>
       <el-col :span="12">
-        <el-radio-group
-          v-model="onlineScheme"
-          style="float:right;"
-        >
+        <el-radio-group v-model="onlineScheme" style="float:right;">
           <el-radio-button label="today">今日在线</el-radio-button>
           <el-radio-button label="week">本周在线</el-radio-button>
           <el-radio-button label="month">本月在线</el-radio-button>
         </el-radio-group>
       </el-col>
     </el-row>
-    <el-row>
-      <el-col :span="18">
-        <gp-table
-          is-horizontal-resize
-          is-vertical-resize
-          column-width-drag
-          style="width:100%"
-          :height="500"
-          ref="gptable"
-          :is-show-sub-total="true"
-          :row-no="rowNo"
-          :policy="policy"
-          :datas="datas"
-          even-bg-color="#f4f4f4"
-          row-click-color="#edf7ff"
-        />
-      </el-col>
-      <el-col :span="6">
-        <GpPie
-          :datas="datas"
-          ref="gppie"
-        ></GpPie>
-      </el-col>
-    </el-row>
-    <GpLine
+    <gp-table
+      is-horizontal-resize
+      is-vertical-resize
+      column-width-drag
+      style="width:100%"
+      :height="500"
+      ref="gptable"
+      :is-show-sub-total="true"
+      :row-no="rowNo"
+      :policy="policy"
       :datas="datas"
-      ref="gpline"
-    ></GpLine>
-
+      even-bg-color="#f4f4f4"
+      row-click-color="#edf7ff"
+    />
   </div>
 </template>
 
@@ -81,29 +59,12 @@ import "@/components/ZhcGpTable/css/custom.css";
 import "@/components/ZhcGpTable/css/themes-base/index.css";
 
 import GpTable from "@/components/ZhcGpTable/gp-table.vue";
-import GpPie from "./pie.vue";
-import GpLine from "./line.vue";
-import { logLogin } from "@/api/log-login";
-
-// let userlogLogins = []
-// new Promise((resolve, reject) => {
-//   logLogin({})
-//     .then(response => {
-//       const { data } = response
-//       userlogLogins = data.dataPack.rows
-//       resolve()
-//     })
-//     .catch(error => {
-//       reject(error)
-//     })
-// })
+import { logRequest } from "@/api/log-request";
 
 export default {
   name: "FrozenTitleColumns",
   components: {
-    GpTable,
-    GpPie,
-    GpLine
+    GpTable
   },
   data() {
     return {
@@ -143,63 +104,34 @@ export default {
       policy: {
         rowGroupFields: [
           {
-            field: 'userProvince',
+            field: "serviceGroupName",
             width: 200,
             isFrozen: true,
             isFold: true,
-            title: '省份',
+            title: "服务分类",
             col: 0,
             isFilter: true,
             filterMultiple: true
           },
           {
-            field: "userCity",
+            field: "serviceName",
             width: 200,
             isFrozen: true,
             isFold: true,
-            title: "城市",
+            title: "服务名称",
             col: 0,
             isFilter: true,
             filterMultiple: true
-          }
-          ,
+          },
           {
-            field: "userXm",
+            field: "appId",
             width: 200,
-            isFrozen: true,
-            title: "姓名",
-            col: 1,
-            filterMultiple: true
+            isFrozen: true,            
+            title: "调用ID"            
           }
         ],
         colGroupFields: [],
-        dataFields: [
-          { field: "loginCount", width: 120, title: "登录次数" },
-          {
-            field: "onlineHour",
-            width: 120,
-            title: "在线小时",
-            formatter: function(rowData, index) {
-              const val = rowData.value;
-              if (!rowData.type) {
-                if (val <= 2) {
-                  return (
-                    '<span style="color:red;font-weight: bold;">' +
-                    val +
-                    "</span>"
-                  );
-                } else if (val >= 4) {
-                  return (
-                    '<span style="color:blue;font-weight: bold;">' +
-                    val +
-                    "</span>"
-                  );
-                }
-              }
-              return val;
-            }
-          }
-        ]
+        dataFields: [{ field: "succ", width: 120, title: "调用次数" }]
       },
       rowNo: { isShow: true, width: 40 },
       datas: []
@@ -223,11 +155,10 @@ export default {
   },
   mounted() {
     const me = this;
-    logLogin({}).then(response => {
+    logRequest({}).then(response => {
       const { data } = response;
       me.datas = data.rows;
-      me.$refs.gppie.loadData(me.datas);
-      me.$refs.gpline.loadData(me.datas);
+
       //gptable
     });
   },
