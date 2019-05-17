@@ -13,3 +13,12 @@ v-html="colField(col.field).formatter(item,rowIndex,pagingIndex,col)"
 getGroupJsonTree: function (recdsJa, retuJa, groupFields, groupFields2, dependFields, dataFields, isFirstLevel)
 ==》
 getGroupJsonTree: function (recdsJa, retuJa, groupFields, groupFields2, dataFields, dependDatas, dependFields, isFirstLevel)
+
+2019-05-17
+axis^=axis  改为 axis^=axis+"_" 匹配冲突
+ // var $trs = this.$bodyTable.find("tr[axis^='" + axis + "']")   
+
+var $trs = this.$bodyTable.find("tr[axis]").filter((i,tr) => {        
+        let trAxis = $(tr).attr("axis");
+        return (trAxis === axis) || (trAxis.indexOf(axis + "_") != -1)
+      })

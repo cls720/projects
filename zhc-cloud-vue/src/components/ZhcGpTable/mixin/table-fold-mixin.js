@@ -121,24 +121,28 @@ export default {
          * 行分组字段折叠
          * @param {* 折叠图标按钮} $icon
          */
-    bodyRowClose($icon) {      
+    bodyRowClose($icon) {
       var axis = $icon.attr('axis')
-      var $td = $icon.parents('td').first()
-      var $trs = this.$bodyTable.find("tr[axis^='" + axis + "']")
+      var $td = $icon.parents('td').first()      
+      // var $trs = this.$bodyTable.find("tr[axis^='" + axis + "_']")      
+      var $trs = this.$bodyTable.find("tr[axis]").filter((i,tr) => {        
+        let trAxis = $(tr).attr("axis");
+        return (trAxis === axis) || (trAxis.indexOf(axis + "_") != -1)
+      })
 
-      var hasSubTotalTr = this.hasSubTotalTr($trs) // $trs.length > 2 && $trs.last().attr("axis") == axis;
-
+      var hasSubTotalTr = this.hasSubTotalTr($trs) // $trs.length > 2 && $trs.last().attr("axis") == axis;      
       if (hasSubTotalTr) {
         const curtTrAxis = $td.parent().attr('axis')
         // 第一条是数据区分组一行，用小计数据行代替其位置
         this.$dataTable.find("tr[axis ='" + curtTrAxis + "']").first().hide()
         // 隐藏小计，暂时写
-        $($trs.get($trs.length / 2 - 1)).hide()
+        // $($trs.get($trs.length / 2 - 1)).hide()
+        this.$frozenTable.find("tr[axis ='" + curtTrAxis + "']").last().hide()
       }
       $trs.filter(function (i) {
         return axis != $(this).attr('axis')
       }).hide()
-      this.getTopLevelSubTotalTr(this.$dataTable.find("tr[axis^='" + axis + "']")).show()
+      this.getTopLevelSubTotalTr(this.$dataTable.find("tr[axis^='" + axis + "_']")).show()
 
       var $nextLockTds = $td.nextAll('td')
       $nextLockTds.hide()
@@ -316,7 +320,7 @@ export default {
      * 获取行分组最顶层小计，多分组,子分组为1时折叠使用
      * @param {*} $trs 
      */
-    getTopLevelSubTotalTr($trs) {      
+    getTopLevelSubTotalTr($trs) {
       let $tds = $trs.find("td").filter("." + this.subTotalClass);
       if ($tds.length === 1) {
         return $tds.parent()

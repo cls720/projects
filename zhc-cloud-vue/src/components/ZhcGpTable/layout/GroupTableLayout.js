@@ -599,7 +599,7 @@ jQuery.GroupTableLayout = jQuery.gtl = {
    *            closeIcon 折叠按钮样式
    */
   getRowExpendTrs: function ($tb, axis, closeIcon) {
-    var $trs = $tb.find("tbody").find("tr[axis^='" + axis + "']");
+    var $trs = $tb.find("tbody").find("tr[axis^='" + axis + "_']");
     var subCloseA = $(closeIcon, $tb).filter("i[axis^='" + axis + "_']");
 
     if (subCloseA.length > 0) {
@@ -607,7 +607,7 @@ jQuery.GroupTableLayout = jQuery.gtl = {
         var $domA = $(subCloseA[i]);
         var subAxis = $domA.attr("axis");
         // 删除子节点折叠行
-        $trs = $trs.not("tr[axis^='" + subAxis + "']");
+        $trs = $trs.not("tr[axis^='" + subAxis + "_']");
 
         var parentAxis = $.gtl.getParentAxis(subAxis);
         // 判断是否存在父折叠，不存在添加該折叠行
