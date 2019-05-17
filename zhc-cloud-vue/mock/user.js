@@ -26,13 +26,13 @@ const users = {
 export default [
   // user login
   {
-    url: '/user/login',
+    url: '/login/login-check',
     type: 'post',
     response: config => {
-      const { username } = config.body
+      const { __userName } = config.body
       console.log(config.body)
 
-      const token = tokens[username]
+      const token = tokens[__userName]
       // mock error
       if (!token) {
         return {

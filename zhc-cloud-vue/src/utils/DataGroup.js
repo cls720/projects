@@ -3,13 +3,16 @@
  * @author cls
  * @date 2019-04-26
  */
+import {
+  numberPlus
+} from '@/utils/MathUtil.js'
 
 /**
  * showdoc
  * @catalog JS工具类/DataGroup
  * @title 获取分组记录集
  * @description 根据传入对象数组，group配置进行数据分组
- * @method jsfunc
+ * @method static
  * @url import { dataGroupBy } from '@/utils/DataGroup.js'
  * @param datas 必选 [{},{}] 记录集对象
  * @param group 必选 {groupBy:[],calcFields:[]} 分组配置
@@ -23,7 +26,7 @@
  * @remark 测试用例
  *  dataGroupBy(
  *    [{'userCity':'福州','userName':'张三'},{'userCity':'福州','userName':'李四'},{'userCity':'北京','userName':'王四'}],
- *    {groupBy:["userCity"], calcFields:[{name:'value',summaryType:'count'}]}
+ *    {groupBy:["userCity"], calcFields:[{name:'value',title:'中文名称',summaryType:'count'}]}
  *  )
  *  返回==>
  *  [{"userCity":"福州","value":2},{"userCity":"北京","value":1}]
@@ -35,7 +38,7 @@ export function dataGroupBy(datas, group) {
     if (!groupJson[groupKey]) {
       groupJson[groupKey] = {}
     }
-    dataCalcRecd(groupJson[groupKey], group.calcFields,data)
+    dataCalcRecd(groupJson[groupKey], group.calcFields, data)
   })
 
   var groupRecds = []
@@ -88,7 +91,7 @@ export function dataGroupRecd(groupKey, groupBy, splitChar) {
  * @param {*} data {f1:'v1',f2:'v2'} 记录对象 字段名：值
  * @param {*} calcFields [{name:'value',summaryType:'count'}] 计算字段数组
  */
-export function dataCalcRecd(data, calcFields,row) {
+export function dataCalcRecd(data, calcFields, row) {
   calcFields.forEach(calcField => {
     const fn = calcField.name
     if (calcField.summaryType === 'count') {
@@ -96,8 +99,10 @@ export function dataCalcRecd(data, calcFields,row) {
     }
     if (calcField.summaryType === 'sum') {
       data[fn] = (data[fn] || 0)
-      if( typeof data[fn] == "number"){
-        data[fn] = row[fn] + data[fn];
+      if (typeof data[fn] == "number") {
+        // data[fn] = row[fn] + data[fn];
+        // debugger
+        data[fn] = numberPlus(row[fn], data[fn])
       }
     }
   })

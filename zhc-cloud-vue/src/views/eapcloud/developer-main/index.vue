@@ -3,13 +3,13 @@
     <el-container>
       <el-header style="padding-top:30px;">
         <el-col :xs="24" :sm="24" :lg="9">
-          <image-title :image-url="borderTitleLeft" width="100%" height="30px" />
+          <image-title :image-url="borderTitleLeft" width="100%" height="30px"/>
         </el-col>
         <el-col :xs="24" :sm="24" :lg="6">
           <text-label width="100%" color="#fff" font-size="24">EAP开发者平台驾驶舱</text-label>
         </el-col>
         <el-col :xs="24" :sm="24" :lg="9">
-          <image-title :image-url="borderTitleRight" width="100%" height="30px" />
+          <image-title :image-url="borderTitleRight" width="100%" height="30px"/>
         </el-col>
       </el-header>
       <el-main ref="elMain">
@@ -22,7 +22,7 @@
               style="margin:5px 0px;"
             >平台创作统计</image-title>
             <div :style="backgroundDiv">
-              <bar-chart-ptcz :height="barChartPtczHeight" />
+              <bar-chart-ptcz :height="barChartPtczHeight"/>
             </div>
             <image-title
               :image-url="imageTitle01"
@@ -31,7 +31,7 @@
               style="margin:5px 0px;"
             >行业销售统计</image-title>
             <div :style="backgroundDiv">
-              <pie-chart-hyxs :height="barChartPtczHeight" />
+              <pie-chart-hyxs :height="barChartPtczHeight"/>
             </div>
             <image-title
               :image-url="imageTitle01"
@@ -40,7 +40,7 @@
               style="margin:5px 0px;"
             >热门产品</image-title>
             <div :style="backgroundDiv">
-              <bar-chart-rmcp :height="barChartPtczHeight" />
+              <bar-chart-rmcp :height="barChartPtczHeight"/>
             </div>
           </el-col>
           <el-col :xs="24" :sm="24" :lg="12">
@@ -53,7 +53,9 @@
                 <span class="china-map-online-count">({{ zxyhChinaCount }})</span>
                 <span v-if="isDeepProvince">
                   / {{ curtProvinceText }}
-                  <span class="china-map-online-count">({{ zxyhProvinceCount }})</span>
+                  <span
+                    class="china-map-online-count"
+                  >({{ zxyhProvinceCount }})</span>
                 </span>
               </div>
               <china-map-zxyh
@@ -61,6 +63,7 @@
                 :height="chinaMapServerHeight"
                 :store-zxyh="storeZxyh"
                 :in-line-users="inLineUsers"
+                :out-line-users="outLineUsers"
                 width="100%"
                 @deepProvince="onDeepProvince"
               />
@@ -72,9 +75,11 @@
               width="150px"
               height="40px"
               style="margin:5px 0px;"
-            >微服务统计</image-title>
+            >
+              <a href="#/boot-service/service-stat" style="color:#fff">微服务统计</a>
+            </image-title>
             <div :style="backgroundDiv">
-              <composite-chart-wfw :height="barChartPtczHeight" />
+              <composite-chart-wfw :height="barChartPtczHeight"/>
             </div>
             <image-title
               :image-url="imageTitle01"
@@ -83,7 +88,7 @@
               style="margin:5px 0px;"
             >用户类型</image-title>
             <div :style="backgroundDiv">
-              <funnel-chart-yhlx :height="barChartPtczHeight" />
+              <funnel-chart-yhlx :height="barChartPtczHeight"/>
             </div>
             <image-title
               :image-url="imageTitle01"
@@ -94,7 +99,7 @@
               <a href="#/user/user-online-stat" style="color:#fff">在线用户</a>
             </image-title>
             <div :style="backgroundDiv">
-              <on-line-user :height="onLineUserHeight" :store-zxyh="storeZxyh" />
+              <on-line-user :height="onLineUserHeight" :store-zxyh="storeZxyh"/>
             </div>
           </el-col>
         </el-row>
@@ -104,19 +109,22 @@
 </template>
 
 <script>
-import ImageTitle from '@/components/ImageTitle'
-import TextLabel from '@/components/TextLabel'
-import BarChartPtcz from './components/BarChartPtcz'
-import PieChartHyxs from './components/PieChartHyxs'
-import BarChartRmcp from './components/BarChartRmcp'
-import ChinaMapZxyh from './components/ChinaMapZxyh'
-import CompositeChartWfw from './components/CompositeChartWfw'
-import FunnelChartYhlx from './components/FunnelChartYhlx'
-import OnLineUser from './components/OnLineUser'
-import { randomCity } from '@/utils/MockUtil.js'
+import ImageTitle from "@/components/ImageTitle";
+import TextLabel from "@/components/TextLabel";
+import BarChartPtcz from "./components/BarChartPtcz";
+import PieChartHyxs from "./components/PieChartHyxs";
+import BarChartRmcp from "./components/BarChartRmcp";
+import ChinaMapZxyh from "./components/ChinaMapZxyh";
+import CompositeChartWfw from "./components/CompositeChartWfw";
+import FunnelChartYhlx from "./components/FunnelChartYhlx";
+import OnLineUser from "./components/OnLineUser";
+import { randomCity } from "@/utils/MockUtil.js";
+import { inLine, outLine } from "@/api/log-login";
+import { debuglog } from "util";
+import { clearInterval } from "timers";
 
 export default {
-  name: 'DeveloperMain',
+  name: "DeveloperMain",
   components: {
     ImageTitle,
     TextLabel,
@@ -134,148 +142,151 @@ export default {
   data() {
     return {
       screenHeight: window.innerHeight,
-      borderTitleLeft: 'url(' + require('@/images/border-title-left.png') + ')',
+      borderTitleLeft: "url(" + require("@/images/border-title-left.png") + ")",
       borderTitleRight:
-        'url(' + require('@/images/border-title-right.png') + ')',
-      imageTitle01: 'url(' + require('@/images/title-01.png') + ')',
+        "url(" + require("@/images/border-title-right.png") + ")",
+      imageTitle01: "url(" + require("@/images/title-01.png") + ")",
       backgroundDiv: {
-        backgroundImage: 'url(' + require('@/images/border-02.png') + ')',
-        'background-repeat': 'no-repeat',
-        'background-size': '100% 100%'
+        backgroundImage: "url(" + require("@/images/border-02.png") + ")",
+        "background-repeat": "no-repeat",
+        "background-size": "100% 100%"
       },
       isDeepProvince: false,
-      curtProvinceText: '',
-      storeZxyh: [
-        {
-          userCity: '福州',
-          userName: '1001',
-          userXm: '张三',
-          loginTime: '08:32',
-          onLineHour: (Math.random() * 10).toFixed(2)
-        },
-        {
-          userCity: '福州',
-          userName: '1005',
-          userXm: '李四',
-          loginTime: '08:32',
-          onLineHour: (Math.random() * 10).toFixed(2)
-        },
-        {
-          userCity: '北京',
-          userName: '1008',
-          userXm: '王五',
-          loginTime: '08:32',
-          onLineHour: (Math.random() * 10).toFixed(2)
-        },
-        {
-          userCity: '福州',
-          userName: '1010',
-          userXm: '赵六',
-          loginTime: '08:32',
-          onLineHour: (Math.random() * 10).toFixed(2)
-        },
-        {
-          userCity: '福州',
-          userName: '1011',
-          userXm: '张省心',
-          loginTime: '08:32',
-          onLineHour: (Math.random() * 10).toFixed(2)
-        },
-        {
-          userCity: '北京',
-          userName: '1012',
-          userXm: '王小号',
-          loginTime: '08:32',
-          onLineHour: (Math.random() * 10).toFixed(2)
-        }
-      ],
-      inLineUsers: []
-    }
+      curtProvinceText: "",
+      storeZxyh: [],
+      inLineUsers: [],
+      outLineUsers: []
+    };
   },
   computed: {
     mainHeight() {
-      let height = this.screenHeight - 100 - 150
+      let height = this.screenHeight - 100 - 150;
       if (!this.$store.state.tagsView.isTagFullscreen) {
-        height -= 84
+        height -= 84;
       }
-      return height
+      return height;
     },
     barChartPtczHeight() {
-      return Math.floor(this.mainHeight / 3) + 'px'
+      return Math.floor(this.mainHeight / 3) + "px";
     },
     onLineUserHeight() {
-      return Math.floor(this.mainHeight / 3)
+      return Math.floor(this.mainHeight / 3);
     },
     chinaMapServerHeight() {
-      let height = this.screenHeight - 100 - 94
+      let height = this.screenHeight - 100 - 94;
       if (!this.$store.state.tagsView.isTagFullscreen) {
-        height -= 84
+        height -= 84;
       }
-      return height + 'px'
+      return height + "px";
     },
     // 中国在线用户数
     zxyhChinaCount() {
-      return this.storeZxyh.length
+      return this.storeZxyh.length;
     },
     // 当前深度省份在线用户数
     zxyhProvinceCount() {
       return this.storeZxyh.filter(
         x => x.userProvince === this.curtProvinceText
-      ).length
+      ).length;
     }
   },
   watch: {
     screenHeight(val) {
       if (!this.timer) {
-        this.screenHeight = val
-        this.timer = true
-        const that = this
+        this.screenHeight = val;
+        this.timer = true;
+        const me = this;
         setTimeout(function() {
-          that.timer = false
-        }, 400)
+          me.timer = false;
+        }, 400);
       }
     }
   },
   mounted() {
-    const that = this
+    const me = this;
     window.onresize = () => {
       return (() => {
-        that.screenHeight = window.innerHeight
-      })()
-    }
+        me.screenHeight = window.innerHeight;
+      })();
+    };
 
+    // 获取在线用户数据
+    this.queryInLineUser();
     setInterval(() => {
-      that.inLineUsers = [
-        {
-          userProvince: '福建',
-          userCity: randomCity(),
-          userName: '1001',
-          userXm: '张三' + Math.floor(Math.random() * 100 + 1),
-          loginTime: '08:32',
-          onLineHour: (Math.random() * 10).toFixed(2)
-        },
-        {
-          userProvince: '福建',
-          userCity: randomCity(),
-          userName: '1005',
-          userXm: '李四' + Math.floor(Math.random() * 100 + 1),
-          loginTime: '08:32',
-          onLineHour: (Math.random() * 10).toFixed(2)
-        }
-      ]
-      that.storeZxyh = [...this.storeZxyh, ...this.inLineUsers]
-    }, 4000)
+      this.queryInLineUser(4);      
+    }, 4000);
+    setInterval(() => {      
+      this.queryOutLineUser(6);
+    }, 6000);
   },
   methods: {
     backToChina() {
-      this.$refs.chinaMapZxyh1.doChartDblckick()
+      this.$refs.chinaMapZxyh1.doChartDblckick();
     },
     onDeepProvince(pNameText) {
-      this.isDeepProvince = pNameText !== '中国'
-      this.curtProvinceText = pNameText
+      this.isDeepProvince = pNameText !== "中国";
+      this.curtProvinceText = pNameText;
+    },
+    /**
+     * lastSeconds 查询近几秒登录数据，不传查所有在线数据
+     */
+    queryInLineUser(lastSeconds) {
+      const me = this;
+      inLine(lastSeconds).then(response => {
+        const { data } = response;
+        if (lastSeconds) {
+          me.storeZxyh = [...this.storeZxyh, ...data.rows];
+          me.showUserInterval(data.rows, true);        
+        } else {
+          me.storeZxyh = data.rows;
+        }
+      });
+    },
+    queryOutLineUser(lastSeconds) {
+      const me = this;
+      outLine(lastSeconds).then(response => {
+        const { data } = response;
+        if (data.rows && data.rows.length > 0) {
+          data.rows.forEach(item => {
+            for (var i = this.storeZxyh.length - 1; i >= 0; i--) {
+              if (item.userName === this.storeZxyh[i].userName) {
+                this.storeZxyh.splice(i, 1);
+                break;
+              }
+            }
+          });
+          me.showUserInterval(data.rows, false, 1);
+        }
+      });
+    },
+    showUserInterval(showUsers, isInLine, showCount) {
+      showCount = showCount || 2;
+      let i = 0;
+      let l = showUsers.length;
+      let showInterval = setInterval(() => {
+        let step = Math.floor(Math.random() * showCount + 1);
+        if (i < showUsers.length) {
+          if (isInLine) {
+            this.inLineUsers = showUsers.slice(i, i + step);
+          } else {
+            this.outLineUsers = showUsers.slice(i, i + step);
+          }
+        } else if (i === showUsers.length) {
+          setTimeout(() => {
+            if (isInLine) {
+              this.inLineUsers = [];
+            } else {
+              this.outLineUsers = [];
+            }
+          }, 3000);
+        } else {
+          clearInterval(showInterval);
+        }
+        i += step;
+      }, 2000);
     }
   }
-}
+};
 // "min-height": "calc(10vh)"
 </script>
 

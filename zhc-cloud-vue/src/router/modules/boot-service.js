@@ -8,7 +8,7 @@ const bootServiceRouter = {
   redirect: '/boot-service/service-stat',
   name: 'BootService',
   meta: {
-    title: 'BootService',
+    title: 'bootService',
     icon: 'cloud'
   },
   children: [

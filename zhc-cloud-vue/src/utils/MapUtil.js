@@ -72,6 +72,11 @@ export const geoCoordMap = {
   '曲靖': [103.79, 25.51],
   '烟台': [121.39, 37.52],
   '福州': [119.3, 26.08],
+  '龙岩': [116.4, 25.1],
+  '三明': [117.6, 26.3],
+  '莆田': [119.0, 25.5],
+  '南平': [116.2, 29.3],
+  '宁德': [119.5, 26.7],
   '瓦房店': [121.979603, 39.627114],
   '即墨': [120.45, 36.38],
   '抚顺': [123.97, 41.97],
@@ -228,6 +233,83 @@ export const geoCoordMap = {
   '武汉': [114.31, 30.52],
   '大庆': [125.03, 46.58]
 }
+/**
+ * 中国省份ID
+ */
+export const provincesId = [
+  'shanghai',
+  'hebei',
+  'shanxi',
+  'neimenggu',
+  'liaoning',
+  'jilin',
+  'heilongjiang',
+  'jiangsu',
+  'zhejiang',
+  'anhui',
+  'fujian',
+  'jiangxi',
+  'shandong',
+  'henan',
+  'hubei',
+  'hunan',
+  'guangdong',
+  'guangxi',
+  'hainan',
+  'sichuan',
+  'guizhou',
+  'yunnan',
+  'xizang',
+  'shanxi1',
+  'gansu',
+  'qinghai',
+  'ningxia',
+  'xinjiang',
+  'beijing',
+  'tianjin',
+  'chongqing',
+  'xianggang',
+  'aomen'
+]
+
+/**
+ * 中国省分名称
+ */
+export const provincesName = [
+  '上海',
+  '河北',
+  '山西',
+  '内蒙古',
+  '辽宁',
+  '吉林',
+  '黑龙江',
+  '江苏',
+  '浙江',
+  '安徽',
+  '福建',
+  '江西',
+  '山东',
+  '河南',
+  '湖北',
+  '湖南',
+  '广东',
+  '广西',
+  '海南',
+  '四川',
+  '贵州',
+  '云南',
+  '西藏',
+  '陕西',
+  '甘肃',
+  '青海',
+  '宁夏',
+  '新疆',
+  '北京',
+  '天津',
+  '重庆',
+  '香港',
+  '澳门'
+]
 
 /**
  * 转换成地图坐标格式数据
@@ -235,7 +317,7 @@ export const geoCoordMap = {
  * @param {*} geoFieldName data{}中存储坐标key值字段名
  * @param {*} valFieldName data{}中存储显示值字段名
  */
-export function convertMapData(datas, geoFieldName, valFieldName) {  
+export function convertMapData(datas, geoFieldName, valFieldName) {
   const mapDatas = []
   datas.forEach(data => {
     const geoKey = data[geoFieldName]

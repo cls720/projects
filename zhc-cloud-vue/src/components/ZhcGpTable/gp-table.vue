@@ -205,7 +205,7 @@
                         </span>
                         <span
                           v-else-if="typeof colField(col.field).formatter==='function'"
-                          v-html="colField(col.field).formatter(col,rowIndex,pagingIndex,col.field)"
+                          v-html="colField(col.field).formatter(item,rowIndex,pagingIndex,col)"
                         />
                         <span v-else-if="colField(col.field).type === 'selection'">
                           <v-checkbox
@@ -439,7 +439,7 @@
                     </span>
                     <span
                       v-else-if="typeof colField(col.field).formatter==='function'"
-                      v-html="colField(col.field).formatter(col,rowIndex,pagingIndex,col.field)"
+                      v-html="colField(col.field).formatter(item,rowIndex,pagingIndex,col)"
                     />
                     <span v-else-if="colField(col.field).type === 'selection'">
                       <v-checkbox

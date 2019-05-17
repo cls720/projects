@@ -5,14 +5,11 @@ this.getTopLevelSubTotalTr(this.$dataTable.find("tr[axis^='" + axis + "']")).sho
 const totalIndex = $.gtl.isAllTotal(rowsJaItem.type) ? i : i - 1
 总计行另取编码，原先和最后一行一样，小计与当前分组行一样
 
+2019-05-13
+个性字段formatter字段值格式化回调，col->item(行数据对象)，col.field -> col(列配置)
+v-html="colField(col.field).formatter(item,rowIndex,pagingIndex,col)"
 
-2019-05-17
-https://www.cnblogs.com/lhm166/articles/8670024.html
-https://github.com/MikeMcl/bignumber.js
-npm install bignumber.js 
-GroupTableLayout.js
-
-import BigNumber from "bignumber.js"
-let v1 = new BigNumber(val);
-let v2 = new BigNumber($.gtl.getJsonDoubleValue(itemJo, "value"));
-val = v1.plus(v2);
+修改参数顺序，添加dependDatas参数
+getGroupJsonTree: function (recdsJa, retuJa, groupFields, groupFields2, dependFields, dataFields, isFirstLevel)
+==》
+getGroupJsonTree: function (recdsJa, retuJa, groupFields, groupFields2, dataFields, dependDatas, dependFields, isFirstLevel)

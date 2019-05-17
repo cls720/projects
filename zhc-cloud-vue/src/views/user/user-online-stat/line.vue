@@ -1,16 +1,17 @@
 <template>
-  <div
-    :id="id"
-    :style="{height:height,width:width}"
-  />
+  <div :id="id" :style="{height:height+'px',width:width}"/>
 </template>
 
 
 <script>
 import echarts from "echarts";
+import resize from "@/components/Charts/mixins/resize";
 import { dataGroupBy } from "@/utils/DataGroup.js";
+require("echarts/theme/macarons");
+
 export default {
   name: "GpLine",
+  mixins: [resize],
   components: {},
   data() {
     return {
@@ -28,8 +29,8 @@ export default {
       default: "100%"
     },
     height: {
-      type: String,
-      default: "300px"
+      type: Number,
+      default: 300
     },
     datas: {
       type: Array,
@@ -56,7 +57,7 @@ export default {
       let field = "";
       switch (type) {
         case "week":
-        case "mouth":
+        case "month":
           field = "loginDate";
           break;
         case "day":
@@ -68,7 +69,7 @@ export default {
         groupBy: [field],
         calcFields: [
           { name: "onLineHour", summaryType: "sum" },
-          { name: "loginWeek", summaryType: "sum" }
+          { name: "loginCount", summaryType: "sum" }
         ]
       });
       rows.sort(function(a, b) {
@@ -77,7 +78,6 @@ export default {
       let legendData = [];
       let series = [],
         series1 = [];
-
       rows.forEach(element => {
         legendData.push(element[field]);
         series.push({
@@ -85,7 +85,7 @@ export default {
           name: element[field]
         });
         series1.push({
-          value: element["loginWeek"],
+          value: element["loginCount"],
           name: element[field]
         });
       });

@@ -112,4 +112,8 @@ export default {
   .mobile .fixed-header {
     width: 100%;
   }
+  /deep/.sidebar-logo-container{    
+    background: linear-gradient(to bottom,#208ED3,#0272BD);
+    border-bottom: 1px solid #5DACED;
+  }
 </style>

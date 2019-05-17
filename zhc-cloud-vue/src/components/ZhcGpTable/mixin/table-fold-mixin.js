@@ -121,8 +121,7 @@ export default {
          * 行分组字段折叠
          * @param {* 折叠图标按钮} $icon
          */
-    bodyRowClose($icon) {
-      debugger
+    bodyRowClose($icon) {      
       var axis = $icon.attr('axis')
       var $td = $icon.parents('td').first()
       var $trs = this.$bodyTable.find("tr[axis^='" + axis + "']")
@@ -317,8 +316,7 @@ export default {
      * 获取行分组最顶层小计，多分组,子分组为1时折叠使用
      * @param {*} $trs 
      */
-    getTopLevelSubTotalTr($trs) {
-      debugger;
+    getTopLevelSubTotalTr($trs) {      
       let $tds = $trs.find("td").filter("." + this.subTotalClass);
       if ($tds.length === 1) {
         return $tds.parent()

@@ -10,56 +10,68 @@
         <el-col :span="2" offset="18"><lang-select class="set-language" /></el-col>
       </el-row>
     </el-header>
-    <el-main>
-      <div class="eap-desc">
-        <p>海创云</p>
-        <p>简介字段</p>
-        <p>简介字段简介字段</p>
-        <p>简介字段简介字段简介字段</p>
-      </div>
-      <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
-        <div class="title-container">
-          <h3 class="title">
-            {{ $t('login.title') }}
-          </h3>
+    <el-main :style="{'background-image':loginBgImg}">
+      <div class="login-main">
+        <div class="eap-desc">
+          <div class="eap-main-image">
+            <image-title :image-url="loginMainImg" width="446px" height="404px"/>
+            <div class="eap-main-imageDesc">
+              <h2>{{mainImageDesc1}}</h2>
+              <p>{{mainImageDesc2}}</p>
+            </div>
+          </div>          
+          <div class="eap-login-info">
+            <ul>
+              <li v-for="infoImg in loginInfoImgGroup" :key="infoImg" :style="{'background-image':infoImg.ico}">{{infoImg.desc}}</li>
+            </ul>
+            <h2>{{loginInfoTitle}}</h2>
+            <p>{{loginInfoText}}</p>
+          </div>
         </div>
+        <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
+          <div class="title-container">
+            <h3 class="title">
+              {{ $t('login.title') }}
+            </h3>
+          </div>
 
-        <el-form-item prop="username">
-          <span class="svg-container">
-            <svg-icon icon-class="user" />
-          </span>
-          <el-input
-            v-model="loginForm.username"
-            :placeholder="$t('login.username')"
-            name="username"
-            type="text"
-            auto-complete="on"
-            size="large"
-          />
-        </el-form-item>
+          <el-form-item prop="username">
+            <span class="svg-container">
+              <svg-icon icon-class="user" />
+            </span>
+            <el-input
+              v-model="loginForm.username"
+              :placeholder="$t('login.username')"
+              name="username"
+              type="text"
+              auto-complete="on"
+              size="large"
+            />
+          </el-form-item>
 
-        <el-form-item prop="password">
-          <span class="svg-container">
-            <svg-icon icon-class="password" />
-          </span>
-          <el-input
-            v-model="loginForm.password"
-            :type="passwordType"
-            :placeholder="$t('login.password')"
-            name="password"
-            auto-complete="on"
-            size="large"
-            @keyup.enter.native="handleLogin"
-          />
-          <span class="show-pwd" @click="showPwd">
-            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
-          </span>
-        </el-form-item>
+          <el-form-item prop="password">
+            <span class="svg-container">
+              <svg-icon icon-class="password" />
+            </span>
+            <el-input
+              v-model="loginForm.password"
+              :type="passwordType"
+              :placeholder="$t('login.password')"
+              name="password"
+              auto-complete="on"
+              size="large"
+              @keyup.enter.native="handleLogin"
+            />
+            <span class="show-pwd" @click="showPwd">
+              <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+            </span>
+          </el-form-item>
 
-        <el-button :loading="loading" size="large" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">
-          {{ $t('login.logIn') }}
-        </el-button>
-      </el-form>
+          <el-button :loading="loading" size="large" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">
+            {{ $t('login.logIn') }}
+          </el-button>
+        </el-form>
+      </div>      
     </el-main>
     <el-footer>
       版权所有 © 2018-2025 中海创集团
@@ -106,7 +118,25 @@ export default {
       capsTooltip: false,
       loading: false,
       showDialog: false,
-      redirect: undefined
+      redirect: undefined,
+      loginBgImg: 'url(' + require('@/images/login/loginBg.jpg') + ')',
+      loginMainImg:'url(' + require('@/images/login/loginMain.png') + ')',
+      mainImageDesc1:"开源、免费",
+      mainImageDesc2:"开发平台",
+      loginInfoImgGroup:[
+        {
+          ico:'url(' + require('@/images/login/loginIco1.png') + ')',
+          desc:"快速"
+        },{
+          ico:'url(' + require('@/images/login/loginIco2.png') + ')',
+          desc:"易用"
+        },{
+          ico:'url(' + require('@/images/login/loginIco3.png') + ')',
+          desc:"灵活"
+        }
+      ],
+      loginInfoTitle:"全栈解决方案",
+      loginInfoText:"可视化开发工具、前端框架、开箱即用组件、规范化项目管理方案、在线领域建设"
     }
   },
   watch: {
@@ -231,102 +261,172 @@ $cursor: #333;
     }
   }
   .el-main{
-    width:80%;
-    min-width:900px;
-    position:relative;
-    margin: 0 auto;
-    $formWidth:380px;
-    .eap-desc{
-      position: absolute;
-      height:320px;
-      top:0;
-      bottom:0;
-      left:0;
-      width: calc(100% - #{$formWidth} - 20px);
-      margin: auto;
-      padding:20px;
-    }
-    .login-form {
-      position: absolute;
-      top:0;
-      bottom:0;
-      right:0;
-      width: $formWidth;
-      height:320px;
-      padding: 25px;
-      margin: auto;
-      overflow: hidden;
-      background-color:#fff;
-      /* reset element-ui css */
-      .el-input {
-        display: inline-block;
-        height: 47px;
-        width: 100%;
-        /deep/input {
-          background: #fff;
-          border: 1px solid #d7d8d9;
-          -webkit-appearance: none;
-          border-radius: 5px;
-          padding: 12px 30px;
-          color: #333;
+    display:flex;
+    .login-main{
+      width:80%;
+      min-width:1200px;
+      position:relative;
+      margin: 0 auto;
+      $formWidth:380px;
+      .eap-desc{
+        position: absolute;
+        height:450px;
+        top:0;
+        bottom:0;
+        left:0;
+        width: calc(100% - #{$formWidth} - 20px);
+        margin: auto;
+        padding:20px;
+        display:flex;
+        align-items:center;
+        .eap-main-image{
+          position: relative;
+          float:left;
+          .eap-main-imageDesc{
+            position:absolute;
+            width:200px;
+            height:122px;
+            top:0;
+            left:0;
+            right:0;
+            bottom:0;
+            margin:auto;
+            text-align:center;
+            transform:translateY(25px);
+            h2{
+              color:#ffcc00;
+              font-size:38px;
+              line-height:70px;
+              margin:0;
+            }
+            p{
+              color:#fff;
+              font-size:30px;
+              line-height:52px;
+              margin:0;
+            }
+          }
+        }
+        .eap-login-info{
+          float:left;
+          width:314px;
+          color:#fff;
+          padding:{
+            left:30px;
+            top:70px;
+          }
+          ul{
+            list-style: none;
+            overflow:hidden;
+            margin:0;
+            padding:0;
+            li{
+              float: left;
+              height:128px;
+              width:68px;
+              background-repeat: no-repeat;
+              line-height: 215px;
+              font-size:16px;
+              text-align: center;
+              margin-right:10px;
+            }
+          }
+          h2{
+            line-height:64px;
+            font-size:38px;
+            margin:0;
+            font-weight: normal;
+          }
+          p{
+            line-height:26px;
+            font-size:14px;
+            margin:0;
+          }
+        }
+      }
+      .login-form {
+        position: absolute;
+        top:0;
+        bottom:0;
+        right:0;
+        width: $formWidth;
+        height:320px;
+        padding: 25px;
+        margin: auto;
+        overflow: hidden;
+        background-color:#fff;
+        /* reset element-ui css */
+        .el-input {
+          display: inline-block;
           height: 47px;
-          caret-color: $cursor;
-          &:-webkit-autofill {
-            -webkit-box-shadow: 0 0 0px 1000px $bg inset !important;
-            -webkit-text-fill-color: $cursor !important;
+          width: 100%;
+          /deep/input {
+            background: #fff;
+            border: 1px solid #d7d8d9;
+            -webkit-appearance: none;
+            border-radius: 5px;
+            padding: 12px 30px;
+            color: #333;
+            height: 47px;
+            caret-color: $cursor;
+            &:-webkit-autofill {
+              -webkit-box-shadow: 0 0 0px 1000px $bg inset !important;
+              -webkit-text-fill-color: $cursor !important;
+            }
+            &:hover,&:focus{
+              border-color:#409EFF;
+            }
           }
-          &:hover,&:focus{
-            border-color:#409EFF;
+        }
+        .el-form-item {
+          color: #454545;
+        }
+      }
+      .el-form-item.is-success input{
+        border-color:#409EFF;
+      }
+      .tips {
+        font-size: 14px;
+        margin-bottom: 10px;
+        span {
+          &:first-of-type {
+            margin-right: 16px;
           }
         }
       }
-      .el-form-item {
-        color: #454545;
-      }
-    }
-    .el-form-item.is-success input{
-      border-color:#409EFF;
-    }
-    .tips {
-      font-size: 14px;
-      margin-bottom: 10px;
-      span {
-        &:first-of-type {
-          margin-right: 16px;
-        }
-      }
-    }
-    .svg-container,.show-pwd{
-      color: $dark_gray;
-      vertical-align: middle;
-      width: 30px;
-      height: 30px;
-      line-height: 30px;
-      text-align:center;
-      display:inline-block;
-      position:absolute;
-      top:0;
-      bottom:0;
-      left:0;
-      z-index:9;
-      margin:auto;
-    }
-    .title-container {
-      position: relative;
-      .title {
-        font-size: 18px;
-        line-height:40px;
+      .svg-container,.show-pwd{
         color: $dark_gray;
-        margin:0 0 20px 0;
+        vertical-align: middle;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        text-align:center;
+        display:inline-block;
+        position:absolute;
+        top:0;
+        bottom:0;
+        left:0;
+        z-index:9;
+        margin:auto;
       }
-    }
-    .show-pwd {
-      right: 0;
-      left:unset;
-      cursor: pointer;
-      user-select: none;
+      .title-container {
+        position: relative;
+        .title {
+          font-size: 18px;
+          line-height:40px;
+          color: $dark_gray;
+          margin:0 0 20px 0;
+        }
+      }
+      .show-pwd {
+        right: 0;
+        left:unset;
+        cursor: pointer;
+        user-select: none;
+      }
     }
   }
+  
   //footer
   .el-footer{
     background-color:#4f5e71;

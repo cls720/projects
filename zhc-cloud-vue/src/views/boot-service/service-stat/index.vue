@@ -3,7 +3,7 @@
     <el-row>
       <el-col :span="12">
         <el-form :inline="true" :model="userLogin" label-width="80px">
-          <el-form-item label="登录时间">
+          <el-form-item label="调用时间">
             <div class="block">
               <el-date-picker
                 ref="loginTime"
@@ -23,9 +23,9 @@
       </el-col>
       <el-col :span="12">
         <el-radio-group v-model="onlineScheme" style="float:right;">
-          <el-radio-button label="today">今日在线</el-radio-button>
-          <el-radio-button label="week">本周在线</el-radio-button>
-          <el-radio-button label="month">本月在线</el-radio-button>
+          <el-radio-button label="today">今日调用</el-radio-button>
+          <el-radio-button label="week">本周调用</el-radio-button>
+          <el-radio-button label="month">本月调用</el-radio-button>
         </el-radio-group>
       </el-col>
     </el-row>
@@ -117,21 +117,36 @@ export default {
             field: "serviceName",
             width: 200,
             isFrozen: true,
-            isFold: true,
+            // isFold: true,
             title: "服务名称",
             col: 0,
+            dependDatas: [{ field: "serviceGroupId" },{ field: "serviceId" }],
             isFilter: true,
-            filterMultiple: true
-          },
-          {
-            field: "appId",
-            width: 200,
-            isFrozen: true,            
-            title: "调用ID"            
+            filterMultiple: true,
+            formatter: function(rowData, rowIndex, pagingIndex, col) {            
+              if (col.dependDatas) {
+                return (
+                  '<a href="' +
+                  +col.dependDatas.serviceGroupId + '/' + col.dependDatas.serviceId +
+                  '">' +
+                  col.value +
+                  "</a>"
+                );
+              } else {
+                return col.value;
+              }
+            }
           }
+          // ,
+          // {
+          //   field: "appId",
+          //   width: 200,
+          //   isFrozen: true,
+          //   title: "调用ID"
+          // }
         ],
         colGroupFields: [],
-        dataFields: [{ field: "succ", width: 120, title: "调用次数" }]
+        dataFields: [{ field: "requestCount", width: 120, title: "调用次数" }]
       },
       rowNo: { isShow: true, width: 40 },
       datas: []

@@ -113,7 +113,7 @@ export default {
         var retuJa = []
         if (this.colGroupFields.length > 0) {
           var g1Ary = $.ju.getJaFieldValues(this.colGroupFields, 'field')
-          $.gtl.getGroupJsonTree(this.datas, retuJa, g1Ary, [], this.dependFields, [], true)
+          $.gtl.getGroupJsonTree(this.datas, retuJa, g1Ary, [], [], this.dependDatas, this.dependFields, true)
           $.gtl.calcColSpan(retuJa, this.dataFields.length)
           // 是否显示总计
           if (this.isShowAllTotal) {
@@ -139,6 +139,26 @@ export default {
       set: function (dFields) {
         this.policy.dataFields = dFields
       }
+    },
+    // 依赖数据列表
+    dependDatas() {
+      let dependDatas = {}
+      this.policy.rowGroupFields.forEach(f => {
+        if (f.dependDatas) {
+          dependDatas[f.field] = f.dependDatas
+        }
+      })
+      this.policy.colGroupFields.forEach(f => {
+        if (f.dependDatas) {
+          dependDatas[f.field] = f.dependDatas
+        }
+      })
+      this.policy.dataFields.forEach(f => {
+        if (f.dependDatas) {
+          dependDatas[f.field] = f.dependDatas
+        }
+      })
+      return dependDatas
     },
     // 依赖字段列表
     dependFields: {
@@ -321,7 +341,7 @@ export default {
     },
     tbodyTrs: function () {
       var trs = []
-      var bodyDatas = this.getTBodyJa()
+      var bodyDatas = this.getTBodyJa()      
       var rgLen = this.rowGroupFields.length
       var hlExprs = []
 
@@ -433,6 +453,7 @@ export default {
             td.valign = 'top'
           }
           td.value = rdaItem.value
+          td.dependDatas = rdaItem.dependDatas
           if (td.isFrozen) {
             tr.frozenTds.push(td)
           } else {
@@ -454,8 +475,8 @@ export default {
       var g1Ary = $.ju.getJaFieldValues(this.rowGroupFields, 'field')
       var g2Ary = $.ju.getJaFieldValues(this.colGroupFields, 'field')
       var dAry = $.ju.getJaFieldValues(this.dataFields, 'field')
-      $.gtl.getGroupJsonTree(this.internalTableData, retuJa, g1Ary, g2Ary,
-        this.dependFields, dAry, true)
+      $.gtl.getGroupJsonTree(this.internalTableData, retuJa, g1Ary, g2Ary, dAry,
+        this.dependDatas, this.dependFields, true)            
       if (this.dataFields.length > 0) {
         // $.gtl.calcGroupSubAndAllTotal(retuJa);
         if (this.isShowSubTotal) {
@@ -724,7 +745,9 @@ export default {
      */
     getFieldColspanWidth(field, colspan) {
       colspan = colspan || 1
-      let endPosX; let startPosX; let totalWidth = 0
+      let endPosX;
+      let startPosX;
+      let totalWidth = 0
       const columnsFields = this.getColumnsFields
 
       startPosX = columnsFields.indexOf(field)
