@@ -6,6 +6,7 @@
  * @author cls
  * @modify 2018/11/27
  */
+import BigNumber from "bignumber.js"
 
 jQuery.GroupTableLayout = jQuery.gtl = {
 	/**
@@ -207,13 +208,13 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 			return this.getRecordNameValueFormat(recdsJa, dataFields);
 		}
 	},
-	getJsonDoubleValue: function (jo, valKey) {
+	getJsonDoubleValue: function (jo, valKey) {		
 		var val = jo[valKey];
 		if (val == null || "NULL" == val) {
 			return 0;
 		} else {
 			return parseFloat(val);
-		}
+		}		
 	},
 	/**
 	 * 项累计值求和
@@ -348,7 +349,7 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 	 * @param {*} itemJo 累加项
 	 * @param {*} totalJa 已累计值
 	 */
-	sumTotalItem: function (itemJo, totalJa) {
+	sumTotalItem: function (itemJo, totalJa) {		
 		var key = itemJo.field;
 		var dataFieldJo = $.ju.findByKeyValue(totalJa, "field", key);
 		if (dataFieldJo == null) {
@@ -357,7 +358,10 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 			var val = $.gtl.getJsonDoubleValue(dataFieldJo, "value");
 			if (val != null) {
 				// ArithUtil.add 大数据精度待解决
-				val += $.gtl.getJsonDoubleValue(itemJo, "value");
+				// val += $.gtl.getJsonDoubleValue(itemJo, "value");
+				let v1 = new BigNumber(val);
+				let v2 = new BigNumber($.gtl.getJsonDoubleValue(itemJo, "value"));
+				val = v1.plus(v2);
 				var count = 2;
 				if (dataFieldJo.count != undefined) {
 					count += parseInt(dataFieldJo.count);
@@ -375,7 +379,7 @@ jQuery.GroupTableLayout = jQuery.gtl = {
 	 * @param totalJo
 	 *            JSONObject 已累计小计对象
 	 */
-	sumSubTotal: function (newRcedsJa, totalJo) {
+	sumSubTotal: function (newRcedsJa, totalJo) {		
 		if (totalJo != null) {
 			for (var i = 0, l = newRcedsJa.length; i < l; i++) {
 				var item = newRcedsJa[i];
