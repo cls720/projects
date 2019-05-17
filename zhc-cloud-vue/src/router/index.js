@@ -12,6 +12,7 @@ import chartsRouter from './modules/charts'
 import tableRouter from './modules/table'
 import nestedRouter from './modules/nested'
 import eapcloudRouter from './modules/eapcloud'
+import bootServiceRouter from './modules/boot-service'
 import userRouter from './modules/user'
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -54,7 +55,8 @@ export const constantRoutes = [
   {
     path: '/login',
     component: () => import('@/views/login/index'),
-    hidden: true
+    hidden: true,
+    meta: { title: 'login'}
   },
   {
     path: '/auth-redirect',
@@ -97,6 +99,7 @@ export const constantRoutes = [
     ]
   },
   eapcloudRouter,
+  bootServiceRouter,
   userRouter,
   {
     path: '/guide',

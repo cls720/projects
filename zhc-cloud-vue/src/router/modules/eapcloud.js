@@ -22,13 +22,13 @@ const eapcloudRouter = {
       path: 'developer-main',
       component: () => import('@/views/eapcloud/developer-main/index'),
       name: 'DeveloperMain',
-      meta: { title: 'developerMain' }
+      meta: { title: 'developerMain' , noCache: true}
     },
     {
       path: 'server-monitor',
       component: () => import('@/views/eapcloud/server-monitor/index'),
       name: 'ServerMonitor',
-      meta: { title: 'serverMonitor' }
+      meta: { title: 'serverMonitor' , noCache: true}
     }
   ]
 }

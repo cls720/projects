@@ -3,9 +3,9 @@
     <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
     <sidebar v-show="show" class="sidebar-container" />
     <div :class="{hasTagsView:show}" class="main-container" :style="tagFullscreenStyle">
-      <div :class="{'fixed-header':fixedHeader}">
-        <navbar v-show="show" />
-        <tags-view v-if="needTagsView" v-show="show" @tagFullscreenChange="onTagFullscreenChange" />
+      <div :class="{'fixed-header':fixedHeader}" v-show="show">
+        <navbar />
+        <tags-view v-if="needTagsView" @tagFullscreenChange="onTagFullscreenChange" />
       </div>
       <app-main :style="appMainFullscreenStyle" />
       <right-panel v-if="showSettings" v-show="show">
@@ -64,7 +64,7 @@ export default {
       console.log('$emit->tagfc change:' + isTagFullscreen)
       this.show = !isTagFullscreen
       this.tagFullscreenStyle = this.show ? '' : 'margin-left: 0px;'
-      this.appMainFullscreenStyle = this.show ? '' : 'min-height: calc(100vh);'
+      this.appMainFullscreenStyle = this.show ? '' : 'min-height: calc(100vh);padding-top:0px;'
     }
   }
 }

@@ -13,9 +13,6 @@ import '@/components/ZhcGpTable/css/index.css'
 import '@/components/ZhcGpTable/css/custom.css'
 
 import '@/components/ZhcGpTable/css/themes-base/index.css'
-
-// import dcimData from "/mock/dcimData.js";
-// import GpTable from "zhc-gp-table";
 import GpTable from '@/components/ZhcGpTable/gp-table.vue'
 
 export default {

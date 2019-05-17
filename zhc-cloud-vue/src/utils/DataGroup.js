@@ -35,7 +35,7 @@ export function dataGroupBy(datas, group) {
     if (!groupJson[groupKey]) {
       groupJson[groupKey] = {}
     }
-    dataCalcRecd(groupJson[groupKey], group.calcFields)
+    dataCalcRecd(groupJson[groupKey], group.calcFields,data)
   })
 
   var groupRecds = []
@@ -88,11 +88,17 @@ export function dataGroupRecd(groupKey, groupBy, splitChar) {
  * @param {*} data {f1:'v1',f2:'v2'} 记录对象 字段名：值
  * @param {*} calcFields [{name:'value',summaryType:'count'}] 计算字段数组
  */
-export function dataCalcRecd(data, calcFields) {
+export function dataCalcRecd(data, calcFields,row) {
   calcFields.forEach(calcField => {
     const fn = calcField.name
     if (calcField.summaryType === 'count') {
       data[fn] = (data[fn] || 0) + 1
+    }
+    if (calcField.summaryType === 'sum') {
+      data[fn] = (data[fn] || 0)
+      if( typeof data[fn] == "number"){
+        data[fn] = row[fn] + data[fn];
+      }
     }
   })
 }
