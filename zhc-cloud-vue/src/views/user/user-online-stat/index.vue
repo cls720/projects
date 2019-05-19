@@ -106,7 +106,11 @@ import PieChart from "@/components/Charts/PieChart.vue";
 import LineChart from "@/components/Charts/LineChart.vue";
 import GpLine from "./line.vue";
 import { logLogin } from "@/api/log-login";
-import { elDateShortCurts } from "@/utils/DateUtil";
+import {
+  elDateShortCurts,
+  getCurrentWeek,
+  getCurentMonth
+} from "@/utils/DateUtil";
 import { visualMap } from "@/utils/PieUtil";
 
 export default {
@@ -148,11 +152,11 @@ export default {
         }
       ],
       lineChartOption: {
-         grid: {
-          left: '0px',
-          right: '100px',
-          bottom: '0px',
-          top: '5px',
+        grid: {
+          left: "0px",
+          right: "100px",
+          bottom: "0px",
+          top: "5px",
           containLabel: true
         },
         legend: {
@@ -256,17 +260,21 @@ export default {
       let start = new Date();
       if (this.onlineScheme === "today") {
       } else if (this.onlineScheme === "week") {
-        let week = this.getCurrentWeek();
+        let week = getCurrentWeek();
         start = week.start;
         end = week.end;
       } else if (this.onlineScheme === "month") {
-        let month = this.getCurentMonth();
+        let month = getCurentMonth();
         start = month.start;
         end = month.end;
       }
       this.userLogin.loginTime.push(start);
       this.userLogin.loginTime.push(end);
       this.onLoginTimeChange();
+    },
+    // 监控查询面板查询条件，分组依据，排序规范等变化
+    userLogin(){
+
     }
   },
   computed: {
@@ -301,55 +309,16 @@ export default {
           return "loginDate";
       }
     },
-    //本周
-    getCurrentWeek() {
-      var now = new Date();
-      var weekStartDate = new Date(
-        now.getFullYear(),
-        now.getMonth(),
-        now.getDate() - now.getDay()
-      );
-      var weekEndDate = new Date(
-        now.getFullYear(),
-        now.getMonth(),
-        now.getDate() + (6 - now.getDay())
-      );
-      weekEndDate.setHours(23);
-      weekEndDate.setMinutes(59);
-      weekEndDate.setSeconds(59);
-      return {
-        start: weekStartDate,
-        end: weekEndDate
-      };
-    },
-    getCurentMonth() {
-      var now = new Date();
-      var monthStartDate = new Date(now.getFullYear(), now.getMonth(), 1);
-
-      let year = now.getFullYear();
-      let month = now.getMonth();
-      var monthEndDate = new Date(
-        new Date(year, month + 1, 1).getTime() - 1000 * 60 * 60 * 24
-      );
-      monthEndDate.setHours(23);
-      monthEndDate.setMinutes(59);
-      monthEndDate.setSeconds(59);
-      return {
-        start: monthStartDate,
-        end: monthEndDate
-      };
-    },
     onLoginTimeChange() {
       // alert("根据时间条件过滤数据 ==> " + this.userLogin.loginTime);
       this.searchData(this.userLogin.loginTime[0], this.userLogin.loginTime[1]);
     },
     searchData(start, end) {
       const me = this;
+      // 传参数未按标准格式，提炼后台 query api
       logLogin({ start, end }).then(response => {
         const { data } = response;
-        me.datas = data.rows;
-        // me.$refs.gpline.loadData(me.datas, this.onlineScheme);
-        //gptable
+        me.datas = data.rows;        
       });
     }
   },
