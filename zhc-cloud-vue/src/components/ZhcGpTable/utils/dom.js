@@ -1,8 +1,8 @@
 
-exports.hasClass = hasClass;
-exports.addClass = addClass;
-exports.removeClass = removeClass;
-function hasClass(el, cls) {
+// exports.hasClass = hasClass;
+// exports.addClass = addClass;
+// exports.removeClass = removeClass;
+export function hasClass(el, cls) {
     if (!el || !cls) return false;
     if (cls.indexOf(' ') !== -1) throw new Error('className should not contain space.');
     if (el.classList) {
@@ -12,7 +12,7 @@ function hasClass(el, cls) {
     }
 };
 
-function addClass(el, cls) {
+export function addClass(el, cls) {
     if (!el || !cls) return;
 
     if (el.classList) {
@@ -27,7 +27,7 @@ function addClass(el, cls) {
     }
 };
 
-function removeClass(el, cls) {
+export function removeClass(el, cls) {
     if (!el || !cls) return;
 
     if (el.classList) {

@@ -1,3 +1,4 @@
+import SYSCONST from "../src/utils/sysconst"
 
 const tokens = {
   admin: {
@@ -26,23 +27,24 @@ const users = {
 export default [
   // user login
   {
-    url: '/login/login-check',
+    url: '/auth/'+SYSCONST.PROJECT_NAME+'/login/login-check',
     type: 'post',
     response: config => {
       const { __userName } = config.body
+      console.log("ddddd")
       console.log(config.body)
 
       const token = tokens[__userName]
       // mock error
       if (!token) {
         return {
-          code: 60204,
+          [SYSCONST.STATUS_KEY]: 60204,
           message: 'Account and password are incorrect.'
         }
       }
 
       return {
-        code: 20000,
+        [SYSCONST.STATUS_KEY]: SYSCONST.STATUS_SUCCESS,
         data: token
       }
     }
@@ -59,13 +61,13 @@ export default [
       // mock error
       if (!info) {
         return {
-          code: 50008,
+          [SYSCONST.STATUS_KEY]: 50008,
           message: 'Login failed, unable to get user details.'
         }
       }
 
       return {
-        code: 20000,
+        [SYSCONST.STATUS_KEY]: SYSCONST.STATUS_SUCCESS,
         data: info
       }
     }
@@ -73,11 +75,11 @@ export default [
 
   // user logout
   {
-    url: '/user/logout',
-    type: 'post',
+    url: '/auth/'+SYSCONST.PROJECT_NAME+'/logout',
+    type: 'get',
     response: _ => {
       return {
-        code: 20000,
+        [SYSCONST.STATUS_KEY]: SYSCONST.STATUS_SUCCESS,
         data: 'success'
       }
     }

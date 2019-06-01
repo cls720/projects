@@ -31,9 +31,9 @@ import {
  *  返回==>
  *  [{"userCity":"福州","value":2},{"userCity":"北京","value":1}]
  */
-export function dataGroupBy(datas, group) {
+export function dataGroupBy(datas, group) {  
   var groupJson = {}
-  datas.forEach(data => {
+  datas.forEach(data => {    
     const groupKey = dataGroupKey(data, group.groupBy)
     if (!groupJson[groupKey]) {
       groupJson[groupKey] = {}
@@ -101,7 +101,6 @@ export function dataCalcRecd(data, calcFields, row) {
       data[fn] = (data[fn] || 0)
       if (typeof data[fn] == "number") {
         // data[fn] = row[fn] + data[fn];
-        // debugger
         data[fn] = numberPlus(row[fn], data[fn])
       }
     }

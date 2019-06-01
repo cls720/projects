@@ -30,6 +30,21 @@ module.exports = {
       errors: true
     },
     proxy: {
+      [process.env.VUE_APP_BASE_API+"/auth/eaptpl"]:{
+        target: `http://eap.histron.cn:91/`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_BASE_API]: ''
+        }
+      },
+      [process.env.VUE_APP_BASE_API+"/web/data/query/"]:{
+        target: `http://eap.histron.cn:91/`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_BASE_API]: ''
+        }
+      },
+      
       // change xxx-api/login => mock/login
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       [process.env.VUE_APP_BASE_API]: {

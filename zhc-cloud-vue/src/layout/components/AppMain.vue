@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import { debuglog } from 'util';
 export default {
   name: 'AppMain',
   computed: {

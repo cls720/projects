@@ -6,7 +6,7 @@
 import echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
 import resize from '@/components/Charts/mixins/resize'
-
+import { queryMarketSellStat } from "@/api/market";
 export default {
   mixins: [resize],
   props: {
@@ -25,11 +25,25 @@ export default {
   },
   data() {
     return {
-      chart: null
+      chart: null,
+      chartData:[],
+      chartTitle:''
     }
   },
   mounted() {
-    this.initChart()
+    queryMarketSellStat().then(response => {
+      let me = this;
+      const data = response.dataPack;
+      me.chartData = [];
+      let total=0
+      data.rows.forEach(element => {
+        me.chartData.push({value:element.saleMoney,name:element.industryName});
+        total = total + element.saleMoney;
+      });
+      
+      this.chartTitle = `2019年销售总额：${total}元`
+      this.initChart();
+    });
   },
   beforeDestroy() {
     if (!this.chart) {
@@ -44,12 +58,12 @@ export default {
 
       const option = {
         title: {
-          text: '2019年销售总额：1562万元',
+          text: this.chartTitle,
           x: 'center'
         },
         tooltip: {
           trigger: 'item',
-          formatter: '{b}: {c}万元 ({d}%)'
+          formatter: '{b}: {c}元 ({d}%)'
         },
         series: [
           {
@@ -57,13 +71,7 @@ export default {
             type: 'pie',
             radius: '55%',
             center: ['50%', '60%'],
-            data: [
-              { value: 335, name: '矿业' },
-              { value: 310, name: '制造' },
-              { value: 234, name: '教育' },
-              { value: 135, name: '纺织' },
-              { value: 548, name: '企业ERP' }
-            ],
+            data: this.chartData,
             itemStyle: {
               emphasis: {
                 shadowBlur: 10,

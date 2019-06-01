@@ -3,6 +3,7 @@
  * userCity 用户城市 ==> 福建城市，沿海一线城城市
  * deviceType 设备类型 ==> PC pc电脑, MB 移动手机, PAD 平板
  */
+import SYSCONST from "../src/utils/sysconst"
 const logLogins = [{
     'userName': 'user015',
     'userXm': '陈育福',
@@ -8512,7 +8513,7 @@ export default [
     type: 'post',
     response: config => {
       return {
-        code: 20000,
+        [SYSCONST.STATUS_KEY]: SYSCONST.STATUS_SUCCESS,
         data: {
           rows: logLogins
         }
@@ -8539,7 +8540,7 @@ export default [
         })
       }
       return {
-        code: 20000,
+        [SYSCONST.STATUS_KEY]: SYSCONST.STATUS_SUCCESS,
         data: {
           rows: retuRows
         }
@@ -8550,8 +8551,7 @@ export default [
     type: 'get',
     response: config => {
       const lastSeconds = config.query.lastSeconds
-      let retuRows = []
-      console.log(lastSeconds)
+      let retuRows = []      
       if (lastSeconds) {
         const start = new Date()
         const nowTime = start.toLocaleTimeString().replace(/^\D*/, '')
@@ -8560,12 +8560,11 @@ export default [
 
         retuRows = logLogins.filter(item => {
           return (item.logoutTime > lastQueryTime) && (item.logoutTime < nowTime)
-        })
-        console.log(JSON.stringify(retuRows))
+        })        
       }
 
       return {
-        code: 20000,
+        [SYSCONST.STATUS_KEY]: SYSCONST.STATUS_SUCCESS,
         data: {
           rows: retuRows
         }

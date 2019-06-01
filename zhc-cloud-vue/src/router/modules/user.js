@@ -16,13 +16,19 @@ const userRouter = {
       path: 'user-query',
       component: () => import('@/views/user/user-query/index'),
       name: 'UserQuery',
-      meta: { title: 'userQuery' }
+      meta: { title: 'userQuery'}
     },
     {
       path: 'user-add',
       component: () => import('@/views/user/user-add/index'),
       name: 'UserAdd',
       meta: { title: 'userAdd' }
+    },
+    {
+      path: 'user-type-stat',
+      component: () => import('@/views/user/user-type-stat/index'),
+      name: 'UserTypeStat',
+      meta: { title: 'userTypeStat' }
     },
     {
       path: 'user-online-stat',

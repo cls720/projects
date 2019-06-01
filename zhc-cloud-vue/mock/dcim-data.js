@@ -1,4 +1,4 @@
-module.exports = [{
+export default  [{
   'year': 2018,
   'fjd': 1,
   'month': 1,

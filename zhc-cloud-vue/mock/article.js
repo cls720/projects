@@ -1,4 +1,5 @@
 import Mock from 'mockjs'
+import SYSCONST from "../src/utils/sysconst"
 
 const List = []
 const count = 100
@@ -48,7 +49,7 @@ export default [
       const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
 
       return {
-        code: 20000,
+        [SYSCONST.STATUS_KEY]: SYSCONST.STATUS_SUCCESS,
         data: {
           total: mockList.length,
           items: pageList
@@ -65,7 +66,7 @@ export default [
       for (const article of List) {
         if (article.id === +id) {
           return {
-            code: 20000,
+            code: SYSCONST.STATUS_SUCCESS,
             data: article
           }
         }
@@ -78,7 +79,7 @@ export default [
     type: 'get',
     response: _ => {
       return {
-        code: 20000,
+        [SYSCONST.STATUS_KEY]: SYSCONST.STATUS_SUCCESS,
         data: {
           pvData: [
             { key: 'PC', pv: 1024 },
@@ -96,7 +97,7 @@ export default [
     type: 'post',
     response: _ => {
       return {
-        code: 20000,
+        [SYSCONST.STATUS_KEY]: SYSCONST.STATUS_SUCCESS,
         data: 'success'
       }
     }
@@ -107,7 +108,7 @@ export default [
     type: 'post',
     response: _ => {
       return {
-        code: 20000,
+        [SYSCONST.STATUS_KEY]: SYSCONST.STATUS_SUCCESS,
         data: 'success'
       }
     }

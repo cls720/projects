@@ -74,8 +74,7 @@ export default {
     storeZxyh(oldVal, newVal) {
       var option = this.chart.getOption();
       option.series[0].data = this.zxyhMapData;
-      option.visualMap.max = this.cityMaxUserCount;
-      console.log(option.visualMap.max);
+      // option.visualMap.max = this.cityMaxUserCount;      
       this.chart.setOption(option);
     },
     inLineUsers(oldVal, newVal) {
@@ -218,7 +217,7 @@ export default {
                   "\n\n" +
                   params.data.userXm +
                   "  " +
-                  params.data.loginTime +
+                  params.data.logoutTime +
                   "  下线"
                 );
               }

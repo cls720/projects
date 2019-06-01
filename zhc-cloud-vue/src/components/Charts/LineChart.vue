@@ -8,6 +8,7 @@ import echarts from "echarts";
 import merge from "lodash/fp/merge";
 import resize from "@/components/Charts/mixins/resize";
 import { dataGroupBy } from "@/utils/DataGroup.js";
+import { jsonArrayMultiSort } from "@/utils/DataSort.js";
 import { convertLineData, yAxis } from "@/utils/LineUtil.js";
 import { debuglog } from "util";
 require("echarts/theme/macarons");
@@ -56,11 +57,13 @@ export default {
       default: function() {
         return [];
       }
+    },
+    orderBy: {
+      type: Array,
+      default: function() {
+        return [];
+      }
     }
-    // dataSort: {
-    //   type: String,
-    //   default: ""
-    // }
   },
   computed: {
     chartHeight() {
@@ -80,7 +83,6 @@ export default {
     // 图表缩略项
     legendData() {
       let retu = [];
-      debugger;
       this.calcFields.forEach(field => {
         retu.push(field.title);
       });
@@ -88,7 +90,6 @@ export default {
     },
     // 根据配置，计算分组数据
     groupDatas() {
-      debugger;
       const me = this;
       if (this.isGroupData) {
         return convertLineData(this.datas, this.groupBy, this.calcFields);
@@ -97,17 +98,14 @@ export default {
           groupBy: [this.groupBy],
           calcFields: this.calcFields
         });
-        //sss
-        // if (this.dataSort === "ASC") {
-        //   gDatas.sort(function(a, b) {
-        //     return parseInt(a[me.groupBy]) > parseInt(b[me.groupBy]);
-        //   });
-        // }
+
+        if (this.orderBy && this.orderBy.length > 0) {
+          gDatas = jsonArrayMultiSort(gDatas, this.orderBy);
+        }
         return convertLineData(gDatas, this.groupBy, this.calcFields);
       }
     },
     xAxisDatas() {
-      debugger;
       let xAxisDatas = [];
       if (this.groupDatas.length > 0) {
         this.groupDatas[0].forEach(recd => {
@@ -142,13 +140,14 @@ export default {
   },
   watch: {
     // 监听更改datas,groupBy,calcField属性，更新饼图系列数据
-    groupDatas() {
-      debugger;
+    groupDatas() {      
       var option = this.chart.getOption();
       option.legend.data = this.legendData;
       option.xAxis[0].data = this.xAxisDatas;
-      option.series[0].data = this.groupDatas[0];
-      option.series[1].data = this.groupDatas[1];
+      option.series.forEach((gDatas, i) => {
+        option.series[i].data = this.groupDatas[i];
+      });
+      debugger
       this.chart.setOption(option);
     }
   },
@@ -178,7 +177,7 @@ export default {
         yAxis: yAxis(this.calcFields),
         series: this.series
       };
-
+      
       this.chart = echarts.init(document.getElementById(this.id));
       let chartOption = merge(lineOption, this.option);
       this.chart.setOption(chartOption);

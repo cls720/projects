@@ -14,6 +14,7 @@ import store from './store'
 import router from './router'
 
 import $ from 'jquery'
+import _ from 'lodash'
 import i18n from './lang' // internationalization
 import './icons' // icon
 import './permission' // permission control

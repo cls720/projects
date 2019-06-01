@@ -1,18 +1,31 @@
 import request from '@/utils/request'
-
+import SYSCONST from "@/utils/sysconst"
 export function login(data) {
-  let reqData ={
-    __userName:data.username,
-    __password:data.password
+  let reqData = {
+    __userName: data.username,
+    __password: data.password
   }
   return request({
-    url: '/login/login-check',
+    url: '/auth/'+SYSCONST.PROJECT_NAME+'/login/login-check',
     method: 'post',
-    data:reqData
+    data: reqData
   })
 }
 
 export function getInfo(token) {
+  return new Promise((resolve, reject) => {
+    let result = {
+      data: {
+        roles: ['admin'],
+        introduction: 'I am a super administrator',
+        avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+        name: 'Super Admin'
+      }
+    }
+    resolve(result)
+  })
+
+
   return request({
     url: '/user/info',
     method: 'get',
@@ -20,9 +33,12 @@ export function getInfo(token) {
   })
 }
 
-export function logout() {
+export function logout(token) {
   return request({
-    url: '/user/logout',
-    method: 'post'
+    url: '/auth/'+SYSCONST.PROJECT_NAME+'/logout',
+    method: 'get',
+    params:{
+      __token:token
+    }
   })
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="user-online-stat">
     <el-row>
-      <el-col :span="12">
+      <el-col :span="16">
         <el-form :inline="true" :model="userLogin" label-width="80px">
           <el-form-item label="登录时间">
             <div class="block">
@@ -11,17 +11,50 @@
                 type="daterange"
                 align="right"
                 unlink-panels
-                range-separator="至"
+                range-separator="~"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
                 :picker-options="pickerOptions"
-                @change="onLoginTimeChange"
+                style="width:260px;"
               />
             </div>
           </el-form-item>
+          <el-form-item label="登录次数" label-width="70px">
+            <el-input-number
+              v-model="userLogin.loginCount"
+              controls-position="right"
+              :min="0"
+              style="width:85px;"
+            ></el-input-number>
+          </el-form-item>
+          <el-form-item label="在线小时" label-width="70px">
+            <el-input-number
+              v-model="userLogin.onLineHour"
+              controls-position="right"
+              :min="0"
+              style="width:85px;"
+            ></el-input-number>
+          </el-form-item>
+          <el-form-item>
+            <el-dropdown split-button type="primary" @click="onSubmit">
+              查询
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item
+                  v-for="(item,index) in userLogin.groupBy.schemes"
+                  :key="item.field"
+                >
+                  <el-radio
+                    @change="onSubmit"
+                    v-model="userLogin.groupBy.index"
+                    :label="index"
+                  >{{item.groupByDesc}}</el-radio>
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </el-form-item>
         </el-form>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="8">
         <el-radio-group v-model="onlineScheme" style="float:right;">
           <el-radio-button label="today">今日在线</el-radio-button>
           <el-radio-button label="week">本周在线</el-radio-button>
@@ -84,8 +117,8 @@
         <line-chart
           :id="'lineLoginCountHour'"
           :height="lineChartHeight"
-          :datas="datas"
-          :is-group-data="false"
+          :datas="lineDatas"
+          :is-group-data="true"
           :group-by="lineChartGroupBy()"
           :calcFields="lineChartCalcFields"
           :option="lineChartOption"
@@ -104,22 +137,23 @@ import "@/components/ZhcGpTable/css/themes-base/index.css";
 import GpTable from "@/components/ZhcGpTable/gp-table.vue";
 import PieChart from "@/components/Charts/PieChart.vue";
 import LineChart from "@/components/Charts/LineChart.vue";
-import GpLine from "./line.vue";
-import { logLogin } from "@/api/log-login";
+import { getCurrentDay, date } from "@/utils/DateUtil";
+import queryParam from "@/utils/query";
+import { queryLogLogin } from "@/api/log-login";
 import {
   elDateShortCurts,
   getCurrentWeek,
   getCurentMonth
 } from "@/utils/DateUtil";
 import { visualMap } from "@/utils/PieUtil";
+import { getPolicies, getPolicyByIndex } from "./userOnline.js";
 
 export default {
   name: "FrozenTitleColumns",
   components: {
     GpTable,
     PieChart,
-    LineChart,
-    GpLine
+    LineChart
   },
   props: {
     isTagFullscreen: false
@@ -175,72 +209,22 @@ export default {
         ]
       },
       onlineScheme: "today",
-      userLogin: { loginTime: "" },
+      userLogin: {
+        loginTime: getCurrentDay(),
+        loginCount: 0,
+        onLineHour: 0,
+        groupBy: {
+          index: 0,
+          schemes: getPolicies()
+        }
+      },
       pickerOptions: {
         shortcuts: elDateShortCurts
       },
-      policy: {
-        rowGroupFields: [
-          {
-            field: "userProvince",
-            width: 200,
-            isFrozen: true,
-            isFold: true,
-            title: "省份",
-            col: 0,
-            isFilter: true,
-            filterMultiple: true
-          },
-          {
-            field: "userCity",
-            width: 200,
-            isFrozen: true,
-            isFold: true,
-            title: "城市",
-            col: 0,
-            isFilter: true,
-            filterMultiple: true
-          },
-          {
-            field: "userXm",
-            width: 200,
-            isFrozen: true,
-            title: "姓名",
-            col: 1,
-            filterMultiple: true
-          }
-        ],
-        colGroupFields: [],
-        dataFields: [
-          { field: "loginCount", width: 120, title: "登录次数" },
-          {
-            field: "onLineHour",
-            width: 120,
-            title: "在线小时",
-            formatter: function(rowData, rowIndex, pagingIndex, col) {
-              const val = col.value;
-              if (!col.type) {
-                if (val <= 2) {
-                  return (
-                    '<span style="color:red;font-weight: bold;">' +
-                    val +
-                    "</span>"
-                  );
-                } else if (val >= 4) {
-                  return (
-                    '<span style="color:blue;font-weight: bold;">' +
-                    val +
-                    "</span>"
-                  );
-                }
-              }
-              return val;
-            }
-          }
-        ]
-      },
-      rowNo: { isShow: true, width: 40 },
-      datas: []
+      policy: getPolicyByIndex(0),
+      rowNo: { isShow: true, width: 60 },
+      datas: [],
+      lineDatas: []
     };
   },
   watch: {
@@ -270,12 +254,9 @@ export default {
       }
       this.userLogin.loginTime.push(start);
       this.userLogin.loginTime.push(end);
-      this.onLoginTimeChange();
     },
     // 监控查询面板查询条件，分组依据，排序规范等变化
-    userLogin(){
-
-    }
+    userLogin() {}
   },
   computed: {
     mainHeight() {
@@ -302,24 +283,41 @@ export default {
         case "today":
           return "loginHour";
         case "week":
-          return "loginWeek";
+          return "loginDate";
         case "month":
           return "loginDay";
         default:
           return "loginDate";
       }
     },
-    onLoginTimeChange() {
+    onSubmit() {
       // alert("根据时间条件过滤数据 ==> " + this.userLogin.loginTime);
       this.searchData(this.userLogin.loginTime[0], this.userLogin.loginTime[1]);
     },
     searchData(start, end) {
       const me = this;
+      let param = new queryParam.Param();
+      let where = new queryParam.Where();      
+
+      if (this.userLogin.loginTime && this.userLogin.loginTime.length > 1) {
+        let startDate = date.format(this.userLogin.loginTime[0], "yyyy-MM-dd");
+        let endDate = date.format(this.userLogin.loginTime[1], "yyyy-MM-dd");
+        where.gteq("loginTime", startDate);
+        where.lteq("loginTime", endDate);
+      }
+      
       // 传参数未按标准格式，提炼后台 query api
-      logLogin({ start, end }).then(response => {
-        const { data } = response;
-        me.datas = data.rows;        
+      queryLogLogin({ where: where }).then(response => {
+        const data = response.dataPack;
+        me.datas = data.rows;
       });
+
+      queryLogLogin({ where: where, groupBy: this.lineChartGroupBy() }).then(
+        response => {
+          const data = response.dataPack;
+          me.lineDatas = data.rows;
+        }
+      );
     }
   },
   mounted() {
@@ -331,7 +329,7 @@ export default {
     };
   },
   created() {
-    this.onLoginTimeChange();
+    this.onSubmit();
   }
 };
 </script>

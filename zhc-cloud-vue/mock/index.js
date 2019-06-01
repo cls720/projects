@@ -2,19 +2,23 @@ import Mock from 'mockjs'
 import { param2Obj } from '../src/utils'
 
 import user from './user'
+import userInfo from './user-info'
 import role from './role'
 import article from './article'
 import search from './remote-search'
 import logLogin from './log-login'
 import logRequest from './log-request'
+import marketRequest from './market'
 
 const mocks = [
   ...user,
+  ...userInfo,
   ...role,
   ...article,
   ...search,
   ...logLogin,
-  ...logRequest
+  ...logRequest,
+  ...marketRequest
 ]
 
 // for front mock
@@ -59,9 +63,9 @@ export function mockXHR() {
 }
 
 // for mock server
-const responseFake = (url, type, respond) => {
+const responseFake = (url, type, respond) => {  
   return {
-    url: new RegExp(`/mock${url}`),
+    url: new RegExp(`/mock${url}/?$`),
     type: type || 'get',
     response(req, res) {
       res.json(Mock.mock(respond instanceof Function ? respond(req, res) : respond))

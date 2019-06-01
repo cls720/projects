@@ -8,6 +8,13 @@ export default {
     serverMonitor: 'Server Monitor',
     bootService: 'Boot Service',
     serviceStat: 'Service Stat',
+    monitor:"monitor",
+    creation:"Creation Manager",
+    creationQuery:"Creation Query",
+    market:"Market Manager",
+    marketQuery:"Market Query",
+    marketStat: 'Market Stat',
+    MarketDetail: 'Market Detail',
     user: 'User Manager',
     userQuery: 'Query User',
     userAdd: 'Add User',
@@ -81,7 +88,8 @@ export default {
     profile: 'Profile',
     theme: 'Theme',
     size: 'Global Size',
-    searchPlaceholder: 'Search'
+    searchPlaceholder: 'Search',
+    debug: 'Debug'
   },
   login: {
     title: 'Login Form',

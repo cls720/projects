@@ -9,6 +9,7 @@ for (let i = 0; i < count; i++) {
   }))
 }
 NameList.push({ name: 'mock-Pan' })
+import SYSCONST from "../src/utils/sysconst"
 
 export default [
   // username search
@@ -22,7 +23,7 @@ export default [
         return !(name && lowerCaseName.indexOf(name.toLowerCase()) < 0)
       })
       return {
-        code: 20000,
+        [SYSCONST.STATUS_KEY]: SYSCONST.STATUS_SUCCESS,
         data: { items: mockNameList }
       }
     }
@@ -34,7 +35,7 @@ export default [
     type: 'get',
     response: _ => {
       return {
-        code: 20000,
+        [SYSCONST.STATUS_KEY]: SYSCONST.STATUS_SUCCESS,
         data: {
           total: 20,
           'items|20': [{

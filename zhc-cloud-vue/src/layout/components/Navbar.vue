@@ -6,6 +6,9 @@
 
     <div class="right-menu">
       <template v-if="device!=='mobile'">
+
+       
+
         <search id="header-search" class="right-menu-item" />
 
         <error-log class="errLog-container right-menu-item hover-effect" />
@@ -18,6 +21,10 @@
 
         <lang-select class="right-menu-item hover-effect" style="font-size:20px;"/>
 
+ <el-tooltip :content="$t('navbar.debug')" effect="dark" placement="bottom">
+          <el-link :underline="false" class="right-menu-item hover-effect" href="/#/log/monitor" target="_blank"><svg-icon icon-class="bug" /></el-link>
+        </el-tooltip>
+        
       </template>
 
       <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">

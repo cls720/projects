@@ -3,8 +3,7 @@
  * @author cls
  * @date 2019-05-16
  */
-import minBy from "lodash/fp/minBy";
-import maxBy from "lodash/fp/maxBy";
+
 /**
  * 转换成线图数据
  * @param {*} datas 预转换数据包[{},{}]

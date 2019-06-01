@@ -20,7 +20,9 @@
               width="150px"
               height="40px"
               style="margin:5px 0px;"
-            >平台创作统计</image-title>
+            >
+              <a href="#/market/market-stat" style="color:#fff">平台市场统计</a>
+            </image-title>
             <div :style="backgroundDiv">
               <bar-chart-ptcz :height="barChartPtczHeight"/>
             </div>
@@ -86,7 +88,9 @@
               width="150px"
               height="40px"
               style="margin:5px 0px;"
-            >用户类型</image-title>
+            >
+              <a href="#/user/user-type-stat" style="color:#fff">用户类型</a>
+            </image-title>
             <div :style="backgroundDiv">
               <funnel-chart-yhlx :height="barChartPtczHeight"/>
             </div>
@@ -118,10 +122,10 @@ import ChinaMapZxyh from "./components/ChinaMapZxyh";
 import CompositeChartWfw from "./components/CompositeChartWfw";
 import FunnelChartYhlx from "./components/FunnelChartYhlx";
 import OnLineUser from "./components/OnLineUser";
+import queryParam from "@/utils/query";
 import { randomCity } from "@/utils/MockUtil.js";
-import { inLine, outLine } from "@/api/log-login";
+import { onLine, inLine, outLine } from "@/api/log-login";
 import { debuglog } from "util";
-import { clearInterval } from "timers";
 
 export default {
   name: "DeveloperMain",
@@ -137,7 +141,7 @@ export default {
     OnLineUser
   },
   props: {
-    isTagFullscreen: false
+    isTagFullscreen: false,   
   },
   data() {
     return {
@@ -212,12 +216,12 @@ export default {
 
     // 获取在线用户数据
     this.queryInLineUser();
-    setInterval(() => {
-      this.queryInLineUser(4);      
+    this.inLineInterval = setInterval(() => {
+      this.queryInLineUser(4);
     }, 4000);
-    setInterval(() => {      
+    this.outLineInterval = setInterval(() => {
       this.queryOutLineUser(6);
-    }, 6000);
+    }, 6000);    
   },
   methods: {
     backToChina() {
@@ -232,20 +236,29 @@ export default {
      */
     queryInLineUser(lastSeconds) {
       const me = this;
-      inLine(lastSeconds).then(response => {
-        const { data } = response;
-        if (lastSeconds) {
+      // inLine(lastSeconds).then(response => {
+      let param = new queryParam.Param();
+      let where = new queryParam.Where();
+      if (lastSeconds) {
+        inLine(where).then(response => {
+          const data = response.dataPack;
           me.storeZxyh = [...this.storeZxyh, ...data.rows];
-          me.showUserInterval(data.rows, true);        
-        } else {
+          me.showUserInterval(data.rows, true);
+        });
+      } else {
+        onLine(where).then(response => {
+          const data = response.dataPack;
           me.storeZxyh = data.rows;
-        }
-      });
+        });
+      }
     },
     queryOutLineUser(lastSeconds) {
       const me = this;
-      outLine(lastSeconds).then(response => {
-        const { data } = response;
+      let param = new queryParam.Param();
+      let where = new queryParam.Where();
+
+      outLine(where).then(response => {
+        const data = response.dataPack;
         if (data.rows && data.rows.length > 0) {
           data.rows.forEach(item => {
             for (var i = this.storeZxyh.length - 1; i >= 0; i--) {
@@ -285,6 +298,10 @@ export default {
         i += step;
       }, 2000);
     }
+  },
+  beforeDestroy() {    
+    clearInterval(this.inLineInterval);
+    clearInterval(this.outLineInterval);
   }
 };
 // "min-height": "calc(10vh)"
