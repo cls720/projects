@@ -22,7 +22,7 @@
         <lang-select class="right-menu-item hover-effect" style="font-size:20px;"/>
 
  <el-tooltip :content="$t('navbar.debug')" effect="dark" placement="bottom">
-          <el-link :underline="false" class="right-menu-item hover-effect" href="/#/log/monitor" target="_blank"><svg-icon icon-class="bug" /></el-link>
+          <el-link :underline="false" class="right-menu-item hover-effect" href="#/log/monitor" target="_blank"><svg-icon icon-class="bug" /></el-link>
         </el-tooltip>
         
       </template>

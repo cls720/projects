@@ -10,7 +10,7 @@ const marketRouter = {
   name: 'market',
   meta: {
     title: 'market',
-    icon: 'cloud'
+    icon: 'pie'
   },
   children: [
     {

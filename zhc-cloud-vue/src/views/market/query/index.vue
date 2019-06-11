@@ -3,12 +3,7 @@
     <el-row>
       <el-form :inline="true" :model="paramForm">
         <el-form-item label="类型">
-          <el-select
-            v-model="paramForm.FTYPE"
-            multiple
-            collapse-tags
-            placeholder="请选择"
-          >
+          <el-select v-model="paramForm.FTYPE" multiple collapse-tags placeholder="请选择">
             <el-option
               v-for="item in kinds"
               :key="item.value"
@@ -18,12 +13,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="行业">
-          <el-select
-            v-model="paramForm.FSORT"
-            multiple
-            collapse-tags
-            placeholder="请选择"
-          >
+          <el-select v-model="paramForm.FSORT" multiple collapse-tags placeholder="请选择">
             <el-option
               v-for="item in hyTypes"
               :key="item.value"
@@ -59,7 +49,7 @@
         <el-table-column prop="FPRICE" label="售价" width="180"></el-table-column>
         <el-table-column prop="FTYPENAME" label="类型"></el-table-column>
         <el-table-column prop="FSORTNAME" label="行业"></el-table-column>
-        <el-table-column prop="FSTATE" label="状态" ></el-table-column>
+        <el-table-column prop="FSTATE" label="状态"></el-table-column>
         <el-table-column prop="FVERSION" label="版本号"></el-table-column>
         <el-table-column prop="FOPERATOR" label="作者"></el-table-column>
         <el-table-column prop="FINTIME" label="上架时间"></el-table-column>
@@ -85,6 +75,7 @@ import queryParam from "@/utils/query";
 import { queryMarket } from "@/api/market";
 import { elDateShortCurts } from "@/utils/DateUtil";
 import { debuglog } from "util";
+import { marketModel } from "@/model";
 
 export default {
   name: "marketquery",
@@ -100,17 +91,13 @@ export default {
       creationDatas: [],
       loading: false,
       hyTypes: [
-        {
-          name: "ERP",
-          value: "ERP"
-        },
         { name: "能源能耗", value: "nynh" },
         { name: "农业", value: "ny" },
-        { name: "MES", value: "mes" },
+        { name: "制造", value: "zz" },
         { name: "矿业", value: "ky" },
-        { name: "ERP", value: "erp" },
         { name: "电商", value: "ds" },
         { name: "数据中心", value: "sjzx" },
+        { name: "纺织", value: "fz" },
         { name: "锂电", value: "ld" }
       ],
       kinds: [
@@ -156,18 +143,17 @@ export default {
       let param = new queryParam.Param();
       let where = new queryParam.Where();
       param.returnTotal = true;
-      where.setPage(pageIndex || 1, pageSize || this.$refs.pagination.pageSize);
-      if (this.paramForm.FNAME) where.addEqual("FNAME", this.paramForm.FNAME);
-      if (this.paramForm.FTYPE) where.in("FTYPE", this.paramForm.FTYPE);
-      if (this.paramForm.FSORT) where.in("FSORT", this.paramForm.FSORT);
-      
-      if (this.paramForm.FOPERATOR)
-        where.addEqual("FOPERATOR", this.paramForm.FOPERATOR);
 
-      param.where = where;
+      param.createWhereByModel(this.paramForm, marketModel);
+
+      param.where.setPage(
+        pageIndex || 1,
+        pageSize || this.$refs.pagination.pageSize
+      );
       let orders = new queryParam.Orders();
       orders.addDesc("FINTIME");
       param.setOrders(orders);
+
       queryMarket(param).then(response => {
         const data = response.dataPack;
         const outParameter = response.outParameter;

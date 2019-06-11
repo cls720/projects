@@ -1,5 +1,8 @@
 'use strict'
+
 const path = require('path')
+//const SYSCONST = require("./src/utils/sysconst")
+//import SYSCONST from "./src/utils/sysconst"
 const defaultSettings = require('./src/settings.js')
 const webpack = require('webpack')
 function resolve(dir) {
@@ -30,14 +33,14 @@ module.exports = {
       errors: true
     },
     proxy: {
-      [process.env.VUE_APP_BASE_API+"/auth/eaptpl"]:{
+      [process.env.VUE_APP_BASE_API+"/auth/"]:{
         target: `http://eap.histron.cn:91/`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''
         }
       },
-      [process.env.VUE_APP_BASE_API+"/web/data/query/"]:{
+      [process.env.VUE_APP_BASE_API+"/web/"]:{
         target: `http://eap.histron.cn:91/`,
         changeOrigin: true,
         pathRewrite: {

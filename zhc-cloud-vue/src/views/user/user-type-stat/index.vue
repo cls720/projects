@@ -19,7 +19,7 @@
         <el-form-item label="省份">
           <el-select
             v-model="userInfo.userProvinces"
-            multiple
+            multiple collapse-tags
             placeholder="请选择"
             style="width:180px;"
           >
@@ -27,7 +27,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="用户类型" label-width="70px">
-          <el-select v-model="userInfo.userType" multiple placeholder="请选择" style="width:160px;">
+          <el-select v-model="userInfo.userType" multiple collapse-tags placeholder="请选择" style="width:160px;">
             <el-option
               v-for="item in userTypes"
               :key="item.value"
@@ -138,9 +138,9 @@ export default {
       screenHeight: window.innerHeight,
       chinaProvinces: ["福建", "广东", "北京", "上海"],
       userTypes: [
-        { name: "平台研发", value: "PTYF" },
-        { name: "VIP", value: "VIP" },
-        { name: "合作伙伴", value: "HZHB" },
+        { name: "普通开发者", value: "PTYF" },
+        { name: "VIP开发者", value: "VIP" },
+        { name: "合作开发者", value: "HZHB" },
         { name: "体验", value: "TY" }
       ],
       userCountGroupBy: "userProvince",

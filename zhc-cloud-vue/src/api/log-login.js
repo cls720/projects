@@ -13,6 +13,11 @@ export function logLogin(param, pageIndex, pageSize) {
   return request(param, modelFile, pageIndex, pageSize);
 }
 
+export function loginQuery(param, pageIndex, pageSize) {
+  let modelFile = "login-query"
+  return request(param, modelFile, pageIndex, pageSize)
+}
+
 // export function inLine(lastSeconds) {  
 //   return request({
 //     url: '/log-login/in-line',
@@ -55,7 +60,7 @@ export function outLine(param, pageIndex, pageSize) {
 //   return request(param, modelFile, pageIndex, pageSize);  
 // }
 
-export function queryLogLogin(param, pageIndex, pageSize) {  
+export function queryLogLogin(param, pageIndex, pageSize) {
   let path = "log-login"
   if (param.groupBy === "loginHour") {
     path = "log-login-hour"

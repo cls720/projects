@@ -9,7 +9,7 @@ const userRouter = {
   name: 'user',
   meta: {
     title: 'user',
-    icon: 'international'
+    icon: 'user-manage'
   },
   children: [
     {
@@ -22,6 +22,7 @@ const userRouter = {
       path: 'user-add',
       component: () => import('@/views/user/user-add/index'),
       name: 'UserAdd',
+      hidden:true,
       meta: { title: 'userAdd' }
     },
     {

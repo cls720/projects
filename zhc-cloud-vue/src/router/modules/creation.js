@@ -10,7 +10,7 @@ const creationRouter = {
   name: 'Creation',
   meta: {
     title: 'creation',
-    icon: 'cloud'
+    icon: 'dom-search'
   },
   children: [
     {

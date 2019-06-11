@@ -16,6 +16,8 @@ import bootServiceRouter from './modules/boot-service'
 import userRouter from './modules/user'
 import marketRouter from './modules/market'
 import creationRouter from './modules/creation'
+import logRouter from './modules/log'
+import funclibRouter from './modules/funclib'
 /**
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -97,11 +99,25 @@ export const constantRoutes = [
     component: Layout,
     redirect: 'eapcloud/architecture-diagram',
   },
-  eapcloudRouter,
-  bootServiceRouter,
-  userRouter,
+  // {
+  //   path: '/icon',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       component: () => import('@/views/icons/index'),
+  //       name: 'Icons',
+  //       meta: { title: 'icons', icon: 'icon', noCache: true }
+  //     }
+  //   ]
+  // },
+  eapcloudRouter,  
   marketRouter,
   creationRouter,
+  bootServiceRouter,  
+  userRouter,  
+  funclibRouter,
+  logRouter,
 //   {
 //     path: '/documentation',
 //     component: Layout,

@@ -36,11 +36,12 @@ service.interceptors.request.use(
       //config.headers['X-Token'] = getToken()
       //console.log("bearer " + getToken())
       config.headers["Authorization"] = "bearer " + getToken();
-
-      if (config.url.indexOf("?")==-1)
-        config.url=config.url+"?access_token="+getToken();
-      else
-        config.url=config.url+"&access_token="+getToken();
+      //config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+      
+      // if (config.url.indexOf("?")==-1)
+      //   config.url=config.url+"?access_token="+getToken();
+      // else
+      //   config.url=config.url+"&access_token="+getToken();
     }
     return config
   },

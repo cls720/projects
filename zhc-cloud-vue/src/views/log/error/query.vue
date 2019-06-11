@@ -130,7 +130,7 @@ export default {
       userDatas: [],
       userTypes: [
         { name: "普通开发者", value: "PTYF" },
-        { name: "VIP", value: "VIP" },
+        { name: "VIP开发者", value: "VIP" },
         { name: "合作伙伴", value: "HZHB" },
         { name: "体验", value: "TY" }
       ],

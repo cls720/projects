@@ -5,8 +5,8 @@
       <el-menu
         :default-active="activeMenu"
         :collapse="isCollapse"
-        :background-color="variables.menuBg"
-        :text-color="variables.menuText"
+        :background-color="menuStyle.menuBgColor"
+        :text-color="menuStyle.menuText"
         :unique-opened="false"
         :active-text-color="variables.menuActiveText"
         :collapse-transition="false"
@@ -48,6 +48,12 @@ export default {
     },
     isCollapse() {
       return !this.sidebar.opened
+    },
+    menuStyle(){
+      return {
+        menuBgColor:"#3b3e40",
+        menuText:"#fff",
+      };
     }
   }
 }

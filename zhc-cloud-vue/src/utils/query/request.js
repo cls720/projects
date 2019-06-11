@@ -1,5 +1,6 @@
 import request from "../request";
 import queryParam from "./index"
+import SYSCONST from "@/utils/sysconst"
 export default (param, modelFile) => {
   let data = {
     "queryCdion": "{}"
@@ -15,9 +16,10 @@ export default (param, modelFile) => {
 
     data = paramInstance.toStringWithKey()
   }
+  let projectName = SYSCONST.PROJECT_NAME
   //data.modeFilePath = modelFile;
   return request({
-    url: `/web/data/query/${modelFile}`,//process.env.NODE_ENV === 'development' ? `/${modelFile}` : `web/data/query/${modelFile}`,
+    url: `/web/${projectName}/data/query/${modelFile}`,//process.env.NODE_ENV === 'development' ? `/${modelFile}` : `web/data/query/${modelFile}`,
     method: 'post',
     data: data
   })

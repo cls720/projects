@@ -96,3 +96,35 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+$menuBg: #3b3e40;
+$menuHoverBg: #676C71;
+#app .sidebar-container{
+  background-color: $menuBg!important;
+  .el-menu-item,.el-submenu__title{
+    border-top: 1px solid #46494B;
+    border-bottom: 1px solid #27292A;
+    i{
+      color:#fff;
+    }
+    svg{
+      font-size:18px;
+      vertical-align: middle;
+    }
+  }
+  .el-submenu.is-opened .el-submenu__title{
+    background: linear-gradient(to bottom,#1F8DD3,#066FB5);
+  }
+  .el-submenu,.submenu-title-noDropdown,.el-submenu__title{    
+    &:hover{
+      background-color: $menuHoverBg!important;
+    }
+    .el-menu-item{
+      background-color: $menuBg!important;
+      &:hover{
+        background-color: $menuHoverBg!important;
+      }
+    }
+  }
+}
+</style>

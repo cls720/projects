@@ -1,4 +1,5 @@
-export default {
+//module.exports =
+export  default {
     //请求状态码属性
     STATUS_KEY: "status",
     //请求成功状态码

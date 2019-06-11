@@ -37,11 +37,11 @@ export default {
       me.chartData = [];
       let total=0
       data.rows.forEach(element => {
-        me.chartData.push({value:element.saleMoney,name:element.industryName});
+        me.chartData.push({value:(element.saleMoney/10000).toFixed(2),name:element.industryName});
         total = total + element.saleMoney;
       });
       
-      this.chartTitle = `2019年销售总额：${total}元`
+      //this.chartTitle = `2019年销售总额：${total}元`
       this.initChart();
     });
   },
@@ -63,7 +63,7 @@ export default {
         },
         tooltip: {
           trigger: 'item',
-          formatter: '{b}: {c}元 ({d}%)'
+          formatter: '{b}: {c}万元 ({d}%)'
         },
         series: [
           {

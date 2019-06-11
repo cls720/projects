@@ -112,7 +112,18 @@ export default {
       let pieOption = {
         tooltip: {
           trigger: "item",
-          formatter: "{a} <br/>{b} : {c} ({d}%)"
+          formatter: "{a} <br/>{b} : {c} ({d}%)",
+          position:function(point, params, dom, rect, size){
+            let x = 0, //提示框位置: x坐标位置
+                y = 0, // y坐标位置
+                pointX = point[0],// 当前鼠标位置
+                pointY = point[1],
+                boxWidth = size.contentSize[0],// 提示框大小
+                boxHeight = size.contentSize[1];
+            x = (boxWidth > pointX) ? 5 : (pointX - boxWidth);     
+            y = (boxHeight > pointY) ? 5 : (pointY - boxHeight);     
+            return [x, y];
+          }
         },
         series: [
           {

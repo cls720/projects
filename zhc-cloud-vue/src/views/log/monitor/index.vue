@@ -62,7 +62,7 @@ export default {
       },
       monitor: {
         address:
-          "ws://192.168.1.183:5001/amrept-web/ptcsxm/websocket/8AONG71F7ABB7E3CE18F1575DC72IUXB.do?ptcsxm.pro/cs.dir/test23220.dir/test001.modeldir/jobdir.jobdir/skt001.skt",
+          "ws://192.168.4.194:5101/headerWebSocket",
         enable: false
       }
     };

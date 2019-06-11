@@ -9,7 +9,7 @@ const bootServiceRouter = {
   name: 'BootService',
   meta: {
     title: 'bootService',
-    icon: 'cloud'
+    icon: 'stat'
   },
   children: [
     {

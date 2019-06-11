@@ -9,7 +9,7 @@ const eapcloudRouter = {
   name: 'eapcloud',
   meta: {
     title: 'eapcloud',
-    icon: 'international'
+    icon: 'code-platform'
   },
   children: [
     {

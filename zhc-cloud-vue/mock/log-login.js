@@ -1,5 +1,5 @@
 /**
- * userType 用户类型 ==> TY 体验用户, HZHB 合作伙伴, VIP Vip用户, PTYF 平台研发
+ * userType 用户类型 ==> TY 体验用户, HZHB 合作伙伴, VIP Vip用户, PTYF 普通开发者
  * userCity 用户城市 ==> 福建城市，沿海一线城城市
  * deviceType 设备类型 ==> PC pc电脑, MB 移动手机, PAD 平板
  */

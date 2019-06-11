@@ -1,5 +1,7 @@
 import { Where } from "./where"
 import keys from "./keys"
+import _ from "lodash";
+
 export default class Params {
 
     constructor(config) {
@@ -19,6 +21,32 @@ export default class Params {
             this.setJsonWhereData(config.whereData);
         }
     }
+    createWhereByModel(values, model) {
+
+        model = model || {}
+        let where = new Where();
+
+        for (let field in values) {
+            let bizFiled = model.fields ? model.fields[field] : null;
+            let val = values[field]
+            if (val != null && val != "" && val != undefined) {
+                if (bizFiled) {
+                    where[bizFiled.operate](field,val)
+                } else {
+                    if (_.isArray(val))
+                        where.in(field,val)
+                    else
+                        where.def(field,val)
+                }
+
+            }
+
+        }
+        if (this.where)
+            this.where.addConditions(where)
+        else this.where = where;
+        return where;
+    }
     setJsonWhereData(whereData) {
         // 判断传入的值是否字符
         if (!whereData)
@@ -27,7 +55,7 @@ export default class Params {
             criterionData: whereData
         });
     }
-    
+
     setJsonParamsData(paramsData) {
         // 判断传入的值是否字符
         if (!paramsData)

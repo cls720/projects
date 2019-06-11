@@ -2,54 +2,46 @@
   <div class="tab-view-container">
     <el-row>
       <el-form :inline="true" :model="userInfo">
-        <el-form-item label="用户类型" label-width="70px">
+        <el-form-item label="用户名">
+          <el-input
+            v-model="userInfo.userName"
+            placeholder="用户名"
+            style="width:150px;"
+            label-width="40px"
+            @keyup.enter.native="onSubmit"
+          ></el-input>
+        </el-form-item>
+
+        <el-form-item label="姓名">
+          <el-input
+            v-model="userInfo.userXm"
+            placeholder="姓名"
+            style="width:150px;"
+            label-width="40px"
+            @keyup.enter.native="onSubmit"
+          ></el-input>
+        </el-form-item>
+
+        <el-form-item label="设备类型" label-width="70px">
           <el-select
-            v-model="userInfo.userType"
+            v-model="userInfo.deviceType"
             multiple
             collapse-tags
             placeholder="请选择"
             style="width:180px;"
           >
             <el-option
-              v-for="item in userTypes"
+              v-for="item in deviceType"
               :key="item.value"
               :label="item.name"
               :value="item.value"
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="用户名">
-          <el-input
-            v-model="userInfo.userName"
-            placeholder="用户名"
-            style="width:100px;"
-            label-width="60px"
-            @keyup.enter.native="onSubmit"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="姓名">
-          <el-input
-            v-model="userInfo.userXm"
-            placeholder="姓名"
-            style="width:100px;"
-            label-width="40px"
-            @keyup.enter.native="onSubmit"
-          ></el-input>
-        </el-form-item>
-
-        <el-form-item label="创作个数" label-width="70px">
-          <el-input-number
-            v-model="userInfo.czCount"
-            controls-position="right"
-            :min="0"
-            style="width:80px;"
-          ></el-input-number>
-        </el-form-item>
-
-        <el-form-item label="注册时间" label-width="70px">
+        <el-form-item label="登录时间" label-width="70px">
           <el-date-picker
-            ref="regTime"
-            v-model="userInfo.regTime"
+            ref="loginTime"
+            v-model="userInfo.loginTime"
             type="daterange"
             align="right"
             unlink-panels
@@ -74,21 +66,14 @@
         v-loading="loading"
       >
         <el-table-column type="index" width="50" label="序号"></el-table-column>
-        <el-table-column prop="userName" label="用户名" width="180"></el-table-column>
-        <el-table-column prop="userXm" label="姓名" width="180"></el-table-column>
-        <el-table-column prop="userTypeName" label="用户类型" width="180"></el-table-column>
-        <el-table-column prop="czCount" label="创作个数" width="180">
-          <template slot-scope="scope">
-            <el-link
-              type="primary"
-              :href="'#/creation/creation/query?operator='+scope.row.userName"
-              v-if="scope.row.czCount>0"
-            >{{scope.row.czCount}}</el-link>
-            <span v-else>0</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="mbPhone" label="手机" width="180"></el-table-column>
-        <el-table-column prop="regTime" label="注册时间"></el-table-column>
+        <el-table-column prop="userName" label="用户名" width="100"></el-table-column>
+        <el-table-column prop="userXm" label="姓名" width="100"></el-table-column>
+        <el-table-column prop="userProvince" label="所在省份" width="100"></el-table-column>
+        <el-table-column prop="userCity" label="所在城市" width="100"></el-table-column>
+        <el-table-column prop="pcIp" label="登录IP" width="200"></el-table-column>
+        <el-table-column prop="deviceType" label="设备类型" width="100"></el-table-column>
+        <el-table-column prop="loginTime" label="登录时间" width="180"></el-table-column>
+        <el-table-column prop="logoutTime" label="登出时间"></el-table-column>
       </el-table>
     </el-row>
     <div class="block">
@@ -107,32 +92,30 @@
 
 <script>
 import queryParam from "@/utils/query";
-import { queryUser } from "@/api/user-info";
+import { loginQuery } from "@/api/log-login";
 import { elDateShortCurts } from "@/utils/DateUtil";
 
 export default {
-  name: "UserQuery",
+  name: "loingLog",
   components: {},
   data() {
     return {
       loading: false,
       screenHeight: window.innerHeight,
       userInfo: {
-        userName: "",
         userXm: "",
-        userType: "",
-        czCount: 0,
-        regTime: ""
+        userName: "",
+        deviceType: "",
+        loginTime: "",
       },
       pageNum: 1,
       pageSize: 20,
       totalCount: 1231,
       userDatas: [],
-      userTypes: [
-        { name: "普通开发者", value: "PTYF" },
-        { name: "VIP", value: "VIP" },
-        { name: "合作伙伴", value: "HZHB" },
-        { name: "体验", value: "TY" }
+      deviceType: [
+        { name: "PC", value: "PC" },
+        { name: "MB", value: "MB" },
+        { name: "PAD", value: "PAD" }
       ],
       pickerOptions: {
         shortcuts: elDateShortCurts
@@ -166,6 +149,7 @@ export default {
   },
   methods: {
     onSubmit() {
+      debugger;
       this.loading = true;
       const me = this;
       let param = new queryParam.Param();
@@ -173,22 +157,20 @@ export default {
 
       param.returnTotal = true;
       where.setPage(this.pageNum, this.pageSize);
-
-      if (this.userInfo.regTime && this.userInfo.regTime.length > 1) {
-        let startDate = date.format(this.userInfo.regTime[0], "yyyy-MM-dd");
-        let endDate = date.format(this.userInfo.regTime[1], "yyyy-MM-dd");
-        where.gteq("regTime", startDate);
-        where.lteq("regTime", endDate);
-      }
+      if (this.userInfo.userXm) where.like("userXm", this.userInfo.userXm);
       if (this.userInfo.userName)
         where.like("userName", this.userInfo.userName);
-      if (this.userInfo.userXm) where.like("userXm", this.userInfo.userXm);
-      if (this.userInfo.czCount) where.gteq("czCount", this.userInfo.czCount);
-      if (this.userInfo.userType) where.in("userType", this.userInfo.userType);
-
+      if (this.userInfo.deviceType && this.userInfo.deviceType.length>0)
+        where.like("deviceType", this.userInfo.deviceType);
+      if (this.userInfo.loginTime && this.userInfo.loginTime.length > 1) {
+        let startDate = date.format(this.userInfo.loginTime[0], "yyyy-MM-dd");
+        let endDate = date.format(this.userInfo.loginTime[1], "yyyy-MM-dd");
+        where.gteq("loginTime", startDate);
+        where.lteq("loginTime", endDate);
+      }
       param.where = where;
 
-      queryUser(param).then(response => {
+      loginQuery(param).then(response => {
         const data = response.dataPack;
         const outParameter = response.outParameter;
 

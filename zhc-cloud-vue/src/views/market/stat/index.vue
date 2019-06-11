@@ -1,13 +1,11 @@
 <template>
   <div class="user-online-stat">
-    
     <el-row>
       <el-col :span="18">
-        
         <el-form :inline="true" :model="queryParams" label-width="80px">
           <el-form-item label="类型">
             <el-select
-              v-model="queryParams.kind"
+              v-model="queryParams.FTYPE"
               multiple
               collapse-tags
               placeholder="请选择"
@@ -23,7 +21,7 @@
           </el-form-item>
           <el-form-item label="行业">
             <el-select
-              v-model="queryParams.hyType"
+              v-model="queryParams.FSORT"
               multiple
               collapse-tags
               placeholder="请选择"
@@ -49,20 +47,20 @@
     <el-row :gutter="10">
       <el-col :span="18">
         <el-card>
-        <gp-table
-          is-horizontal-resize
-          is-vertical-resize
-          column-width-drag
-          style="width:100%"
-          :height="gpGridRowHeight"
-          ref="gptable"
-          :is-show-sub-total="true"
-          :row-no="rowNo"
-          :policy="policy"
-          :datas="datas"
-          even-bg-color="#f4f4f4"
-          row-click-color="#edf7ff"
-        />
+          <gp-table
+            is-horizontal-resize
+            is-vertical-resize
+            column-width-drag
+            style="width:100%"
+            :height="gpGridRowHeight"
+            ref="gptable"
+            :is-show-sub-total="true"
+            :row-no="rowNo"
+            :policy="policy"
+            :datas="datas"
+            even-bg-color="#f4f4f4"
+            row-click-color="#edf7ff"
+          />
         </el-card>
       </el-col>
       <el-col :span="6">
@@ -131,7 +129,7 @@ import { debuglog } from "util";
 import { visualMap } from "@/utils/PieUtil";
 
 import queryParam from "@/utils/query";
-
+import { marketModel } from "@/model";
 // let userlogLogins = []
 // new Promise((resolve, reject) => {
 //   logLogin({})
@@ -190,17 +188,13 @@ export default {
         //visualMap: visualMap(this.datas, "buyCount", "_yellow")
       },
       hyTypes: [
-        {
-          name: "ERP",
-          value: "ERP"
-        },
         { name: "能源能耗", value: "nynh" },
         { name: "农业", value: "ny" },
-        { name: "MES", value: "mes" },
+        { name: "制造", value: "zz" },
         { name: "矿业", value: "ky" },
-        { name: "ERP", value: "erp" },
         { name: "电商", value: "ds" },
         { name: "数据中心", value: "sjzx" },
+        { name: "纺织", value: "fz" },
         { name: "锂电", value: "ld" }
       ],
       kinds: [
@@ -276,7 +270,7 @@ export default {
     }
   },
   computed: {
-     mainHeight() {
+    mainHeight() {
       // 84固定头部高度
       let height = this.screenHeight - 60;
       if (!this.$store.state.tagsView.isTagFullscreen) {
@@ -285,10 +279,10 @@ export default {
       return height;
     },
     gpGridRowHeight() {
-      return Math.floor((this.mainHeight / 3) * 2)-40;//50
+      return Math.floor((this.mainHeight / 3) * 2) - 40; //50
     },
-    pieChartHeight() { 
-      return Math.floor(this.mainHeight / 3) -5;  // 10
+    pieChartHeight() {
+      return Math.floor(this.mainHeight / 3) - 5; // 10
     },
     lineChartHeight() {
       return Math.floor(this.mainHeight / 3) - 70;
@@ -346,11 +340,12 @@ export default {
     searchData() {
       const me = this;
       let param = new queryParam.Param();
-      let where = new queryParam.Where();
-      if (this.queryParams.kind) where.in("FTYPE", this.queryParams.kind);
-      if (this.queryParams.hyType) where.in("FSORT", this.queryParams.hyType);
-      param.where = where;
-      queryMarket(where).then(response => {
+      // let where = new queryParam.Where();
+      // if (this.queryParams.kind) where.in("FTYPE", this.queryParams.kind);
+      // if (this.queryParams.hyType) where.in("FSORT", this.queryParams.hyType);
+      // param.where = where;
+      param.createWhereByModel(this.queryParams, marketModel);
+      queryMarket(param).then(response => {
         const data = response.dataPack;
         me.datas = data.rows;
         //me.$refs.gppie.loadData(me.datas, this.groupScheme);
