@@ -1,7 +1,7 @@
 <template>
   <div class="tab-view-container">
     <el-row :gutter="10">
-      <el-col :span="8">
+      <el-col :xs="10" :sm="8" :md="7" :lg="6" :xl="6">
         <el-card>
           <el-row>
             <el-input placeholder="请输入关键字" v-model="searchKey" class="input-with-select">
@@ -13,11 +13,11 @@
               <el-button slot="append" icon="el-icon-search"></el-button>
             </el-input>
           </el-row>
-          <el-row>
-            <el-button icon="el-icon-folder-add">添加类</el-button>
-            <el-button icon="el-icon-plus">添加函数</el-button>
+          <el-row class="row-tool-bar row-align-right">
+            <el-button size="small" icon="el-icon-folder-add">添加类</el-button>
+            <el-button size="small" icon="el-icon-plus">添加函数</el-button>
           </el-row>
-          <el-row :style="{height:mainHeight+'px'}">
+          <el-row :style="{height:funcTreeHeight+'px'}">
             <el-tree :data="funcDatas" :props="treeDefaultProps" @node-click="handleNodeClick"></el-tree>
           </el-row>
           <div class="block">
@@ -33,13 +33,13 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :span="16">
+      <el-col :xs="14" :sm="16" :md="17" :lg="18" :xl="18">
         <el-card>
-          <el-row>
-            <el-button icon="el-icon-plus">保存</el-button>
+          <el-row class="row-align-right">
+            <el-button type="primary" icon="el-icon-plus">保存</el-button>
             <el-divider></el-divider>
           </el-row>
-          <el-row>
+          <el-row :style="{height:funcFormHeight+'px'}">
             <el-form ref="form" :model="form" label-width="80px">
               <el-form-item label="活动名称">
                 <el-input v-model="form.name"></el-input>
@@ -157,14 +157,17 @@ export default {
   computed: {
     mainHeight() {
       // 84固定头部高度
-      let height = this.screenHeight - 60 - 100;
+      let height = this.screenHeight - 60;
       if (!this.$store.state.tagsView.isTagFullscreen) {
         height -= 84;
       }
       return height;
     },
-    gridHeight() {
-      return this.mainHeight - 5;
+    funcTreeHeight() {
+      return this.mainHeight - 112;
+    },
+    funcFormHeight() {
+      return this.mainHeight - 88;
     }
   },
   methods: {
@@ -203,6 +206,14 @@ export default {
 .tab-view-container {
   padding: 10px;
   background-color: rgb(240, 242, 245);
+
+  .row-align-right{
+    text-align: right;
+  }
+
+  .row-tool-bar{        
+    margin: 6px 0px;    
+  }
 
   .row-margin-top {
     margin-top: 8px;
