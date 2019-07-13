@@ -15,6 +15,13 @@ export function queryLogService(param, pageIndex, pageSize) {
   }else if (param.groupBy === "resServiceCount") {
     path = "res-service-count"
   }
+  
 
   return request(param.where, path, pageIndex, pageSize);
+}
+
+
+export function queryErrorService(param) {
+  let modelFile="ycrz"
+  return request(param,modelFile)
 }

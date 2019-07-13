@@ -142,6 +142,7 @@ export default {
     },
     // 依赖数据列表
     dependDatas() {
+      debugger
       let dependDatas = {}
       this.policy.rowGroupFields.forEach(f => {
         if (f.dependDatas) {
@@ -342,6 +343,7 @@ export default {
     tbodyTrs: function () {
       var trs = []
       var bodyDatas = this.getTBodyJa()      
+      debugger
       var rgLen = this.rowGroupFields.length
       var hlExprs = []
 

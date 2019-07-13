@@ -7,6 +7,7 @@ const funclibRouter = {
   component: Layout,
   redirect: '/funclib/add',
   name: 'funclib',
+  // hidden: true,
   meta: {
     title: 'funclib',
     icon: 'user-manage'

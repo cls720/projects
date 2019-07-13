@@ -3,24 +3,10 @@
     <el-row>
       <el-form :inline="true" :model="paramForm">
         <el-form-item label="类型">
-          <el-select v-model="paramForm.FTYPE" multiple collapse-tags placeholder="请选择">
-            <el-option
-              v-for="item in kinds"
-              :key="item.value"
-              :label="item.name"
-              :value="item.value"
-            ></el-option>
-          </el-select>
+          <enumselector v-model="paramForm.FTYPE" multiple etype="applicationType"></enumselector>
         </el-form-item>
         <el-form-item label="行业">
-          <el-select v-model="paramForm.FSORT" multiple collapse-tags placeholder="请选择">
-            <el-option
-              v-for="item in hyTypes"
-              :key="item.value"
-              :label="item.name"
-              :value="item.value"
-            ></el-option>
-          </el-select>
+          <enumselector v-model="paramForm.FSORT" multiple etype="industryType"></enumselector>
         </el-form-item>
         <el-form-item label="名称">
           <el-input v-model="paramForm.FNAME" placeholder="名称"></el-input>
@@ -76,10 +62,11 @@ import { queryMarket } from "@/api/market";
 import { elDateShortCurts } from "@/utils/DateUtil";
 import { debuglog } from "util";
 import { marketModel } from "@/model";
-
+import database from "@/utils/database";
+import enumselector from "@/components/EnumSelector";
 export default {
   name: "marketquery",
-  components: {},
+  components: {enumselector},
   data() {
     return {
       total: 0,
@@ -90,25 +77,8 @@ export default {
       currentPage4: 1,
       creationDatas: [],
       loading: false,
-      hyTypes: [
-        { name: "能源能耗", value: "nynh" },
-        { name: "农业", value: "ny" },
-        { name: "制造", value: "zz" },
-        { name: "矿业", value: "ky" },
-        { name: "电商", value: "ds" },
-        { name: "数据中心", value: "sjzx" },
-        { name: "纺织", value: "fz" },
-        { name: "锂电", value: "ld" }
-      ],
-      kinds: [
-        { name: "模型算法", value: "zl" },
-        { name: "项目", value: "project" },
-        { name: "功能模块", value: "funcpack" },
-        { name: "工业APP", value: "gyapp" },
-        { name: "工业组件", value: "gyzj" },
-        { name: "标准组件", value: "co" },
-        { name: "组态仿真", value: "ztfz" }
-      ]
+      hyTypes: database.hyTypes,
+      kinds: database.softKinds
     };
   },
   watch: {
@@ -124,9 +94,10 @@ export default {
     }
   },
   computed: {
+
     mainHeight() {
       // 84固定头部高度
-      let height = this.screenHeight - 60 - 50;
+      let height = this.screenHeight - 60 - 51;
       if (!this.$store.state.tagsView.isTagFullscreen) {
         height -= 84;
       }

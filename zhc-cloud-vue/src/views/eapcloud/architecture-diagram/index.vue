@@ -16,15 +16,15 @@
           <el-col :xs="24" :sm="22" :lg="22">
             <el-row :style="backgroundDiv" class="saas-box">
               <el-col :lg="3" class="left-main-title">
-                EAP SaaS
-                <br>软件服务
+                HiCloud SaaS
+                <br />软件服务
               </el-col>
               <el-col :lg="24" class="saas-content">协同办公，安全生产，设备管理，移动巡检，DCIM云计算机房，M5，WMS仓储，项目管理</el-col>
             </el-row>
             <el-row :style="backgroundDiv" class="paas-box">
               <el-col :lg="3" class="left-main-title">
-                EAP PaaS
-                <br>平台服务
+                HiCloud PaaS
+                <br />平台服务
               </el-col>
               <el-col :lg="24" class="paas-content">
                 <el-row :gutter="10">
@@ -37,13 +37,9 @@
                         >{{paas.developTools.title}}</a>
                       </h4>
                       <ul>
-                        <li v-for="devItem in paas.developTools.children">
-                          <a
-                            :href="devItem.linkUrl"
-                            v-if="devItem.linkUrl"
-                            target="_blank"
-                          >{{devItem.title}}</a>
-                          <span v-else>{{devItem.title}}</span>
+                        <li v-for="item in paas.developTools.children">
+                          <a :href="item.linkUrl" v-if="item.linkUrl" target="_blank">{{item.title}}</a>
+                          <span v-else>{{item.title}}</span>
                         </li>
                       </ul>
                     </div>
@@ -54,101 +50,78 @@
                         <a :href="paas.mbPt.linkUrl" target="_blank">{{paas.mbPt.title}}</a>
                       </h4>
                       <ul>
-                        <li v-for="mbItem in paas.mbPt.children">
-                          <a
-                            :href="mbItem.linkUrl"
-                            v-if="mbItem.linkUrl"
-                            target="_blank"
-                          >{{mbItem.title}}</a>
-                          <span v-else>{{mbItem.title}}</span>
-                        </li>                        
-                      </ul>
-                    </div>
-                  </el-col>
-                  <el-col :lg="4">
-                    <div class="paas-list-box">
-                      <h4>模块化构件</h4>
-                      <ul>
-                        <li>
-                          <a href>函数库</a>
-                        </li>
-                        <li>
-                          <a href>组件库</a>
-                        </li>
-                        <li>
-                          <a href>模板库</a>
-                        </li>
-                        <li>
-                          <a href>功能库</a>
+                        <li v-for="item in paas.mbPt.children">
+                          <a :href="item.linkUrl" v-if="item.linkUrl" target="_blank">{{item.title}}</a>
+                          <span v-else>{{item.title}}</span>
                         </li>
                       </ul>
                     </div>
                   </el-col>
                   <el-col :lg="4">
                     <div class="paas-list-box">
-                      <h4>大数据应用</h4>
+                      <h4>
+                        <a :href="paas.blockGj.linkUrl" target="_blank">{{paas.blockGj.title}}</a>
+                      </h4>
                       <ul>
-                        <li>
-                          <a href>数据可视化</a>
-                        </li>
-                        <li>
-                          <a href>数据分析</a>
-                        </li>
-                        <li>
-                          <a href>ETL数据清洗</a>
-                        </li>
-                        <li>
-                          <a href>大数据接口调用</a>
+                        <li v-for="item in paas.blockGj.children">
+                          <a :href="item.linkUrl" v-if="item.linkUrl" target="_blank">{{item.title}}</a>
+                          <span v-else>{{item.title}}</span>
                         </li>
                       </ul>
                     </div>
                   </el-col>
                   <el-col :lg="4">
                     <div class="paas-list-box">
-                      <h4>微服务集成</h4>
+                      <h4>
+                        <a :href="paas.bigData.linkUrl" target="_blank">{{paas.bigData.title}}</a>
+                      </h4>
                       <ul>
-                        <li>
-                          <a href>通知体系</a>
+                        <li v-for="item in paas.bigData.children">
+                          <a :href="item.linkUrl" v-if="item.linkUrl" target="_blank">{{item.title}}</a>
+                          <span v-else>{{item.title}}</span>
                         </li>
-                        <li>
-                          <a href>文件服务</a>
-                        </li>
-                        <li>
-                          <a href>搜索服务</a>
-                        </li>
-                        <li>
-                          <a href>验证服务</a>
-                        </li>
-                        <li>
-                          <a href>数据服务</a>
-                        </li>
-                        <li>
-                          <a href>生活服务</a>
-                        </li>
-                        <li>
-                          <a href>企业管理</a>
+                      </ul>
+                    </div>
+                    <div class="paas-list-box" style="margin-top:10px;">
+                      <h4>
+                        <a :href="paas.ztFz.linkUrl" target="_blank">{{paas.ztFz.title}}</a>
+                      </h4>
+                      <ul>
+                        <li v-for="item in paas.ztFz.children">
+                          <a :href="item.linkUrl" v-if="item.linkUrl" target="_blank">{{item.title}}</a>
+                          <span v-else>{{item.title}}</span>
                         </li>
                       </ul>
                     </div>
                   </el-col>
                   <el-col :lg="4">
                     <div class="paas-list-box">
-                      <h4>运维监控</h4>
+                      <h4>
+                        <a
+                          :href="paas.bootService.linkUrl"
+                          target="_blank"
+                        >{{paas.bootService.title}}</a>
+                      </h4>
                       <ul>
-                        <li>
-                          <a href>容器管理</a>
+                        <li v-for="item in paas.bootService.children">
+                          <a :href="item.linkUrl" v-if="item.linkUrl" target="_blank">{{item.title}}</a>
+                          <span v-else>{{item.title}}</span>
                         </li>
-                        <li>
-                          <a href>集群管理</a>
-                        </li>
-                        <li>
-                          <a href>日志管理</a>
-                        </li>
-                        <li>
-                          <a href>异常报警</a>
-                        </li>
-                        <li>
-                          <a href>性能分析</a>
+                      </ul>
+                    </div>
+                  </el-col>
+                  <el-col :lg="4">
+                    <div class="paas-list-box">
+                      <h4>
+                        <a
+                          :href="paas.devopsMoniter.linkUrl"
+                          target="_blank"
+                        >{{paas.devopsMoniter.title}}</a>
+                      </h4>
+                      <ul>
+                        <li v-for="item in paas.devopsMoniter.children">
+                          <a :href="item.linkUrl" v-if="item.linkUrl" target="_blank">{{item.title}}</a>
+                          <span v-else>{{item.title}}</span>
                         </li>
                       </ul>
                     </div>
@@ -158,6 +131,7 @@
                   <div class="base-tc-list">
                     <h4>中间件</h4>
                     <ul>
+                      <li>Redis</li>
                       <li>RabbitMQ</li>
                       <li>ZooKeeper</li>
                     </ul>
@@ -191,37 +165,37 @@
             <el-row :style="backgroundDiv" class="iaas-box">
               <el-col :lg="3" class="left-main-title">
                 IaaS
-                <br>基础服务
+                <br />基础服务
               </el-col>
               <el-col :lg="24" class="iaas-content">
                 <el-col :lg="6">
                   <div class="iaas-list">
-                    <svg-icon class-name="cloud-icon" icon-class="cloud"/>
+                    <svg-icon class-name="cloud-icon" icon-class="cloud" />
                     <span class="iaas-list-desc">阿里云</span>
                   </div>
                 </el-col>
                 <el-col :lg="6">
                   <div class="iaas-list">
-                    <svg-icon class-name="cloud-icon" icon-class="cloud"/>
+                    <svg-icon class-name="cloud-icon" icon-class="cloud" />
                     <span class="iaas-list-desc">华为云</span>
                   </div>
                 </el-col>
                 <el-col :lg="6">
                   <div class="iaas-list">
-                    <svg-icon class-name="cloud-icon" icon-class="cloud"/>
+                    <svg-icon class-name="cloud-icon" icon-class="cloud" />
                     <span class="iaas-list-desc">浪潮云</span>
                   </div>
                 </el-col>
                 <el-col :lg="6">
                   <div class="iaas-list">
-                    <svg-icon class-name="cloud-icon" icon-class="cloud"/>
+                    <svg-icon class-name="cloud-icon" icon-class="cloud" />
                     <span class="iaas-list-desc">私有云</span>
                   </div>
                 </el-col>
               </el-col>
             </el-row>
           </el-col>
-          <el-col :xs="0" :sm="1" :lg="1"/>
+          <el-col :xs="0" :sm="1" :lg="1" />
         </el-row>
       </el-main>
     </el-container>

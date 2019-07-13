@@ -22,6 +22,7 @@ import './utils/error-log' // error log
 
 import * as filters from './filters' // global filters
 
+import dataset from './model/dataset' // global filters
 /**
  * If you don't want to use mock-server
  * you want to use mockjs for request interception
@@ -30,12 +31,13 @@ import * as filters from './filters' // global filters
  * import { mockXHR } from '../mock'
  * mockXHR()
  */
-
 Vue.use(Element, {
   size: Cookies.get('size') || 'medium', // set element-ui default size
   i18n: (key, value) => i18n.t(key, value)
 })
 
+Vue.use(dataset)
+let _dataset = new dataset.DataSet(Vue)
 // register global utility filters
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
@@ -47,6 +49,7 @@ new Vue({
   el: '#app',
   router,
   store,
+  dataset:_dataset,
   i18n,
   render: h => h(App)
 })

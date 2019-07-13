@@ -26,11 +26,44 @@ const marketRouter = {
       meta: { title: 'marketStat' }
     },
     {
+      path: 'market-customer',
+      component: () => import('@/views/market/customer/index'),
+      name: 'customerquery',
+      meta: { title: 'marketCustomer' }
+    },
+    {
+      path: 'customer/detail',
+      hidden: true,
+      component: () => import('@/views/market/customer/detail'),
+      name: 'customerdetail',
+      meta: { title: 'customerDetail' }
+    },
+    {
+      path: 'market-supplier',
+      component: () => import('@/views/market/supplier/index'),
+      name: 'supplierquery',
+      meta: { title: 'marketSupplier' }
+    },
+    {
+      path: 'supplier/detail',
+      hidden: true,
+      component: () => import('@/views/market/supplier/detail'),
+      name: 'supplierdetail',
+      meta: { title: 'supplierDetail' }
+    },
+    {
+      path: 'order',
+      component: () => import('@/views/market/order/index'),
+      name: 'marketorderquery',
+      meta: { title: 'marketOrder' }
+    },
+    
+    {
       path: 'detail',
       hidden: true,
       component: () => import('@/views/market/detail'),
       name: 'MarketDetail',
-      meta: { title: 'MarketDetail' }
+      meta: { title: 'marketDetail' }
     }
   ]
 }

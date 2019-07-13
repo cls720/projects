@@ -26,7 +26,7 @@ const eapcloudRouter = {
     },
     {
       path: 'server-monitor',
-      component: () => import('@/views/eapcloud/server-monitor/index'),
+      component: () => import('@/views/eapcloud/server-monitor/index'),      
       name: 'ServerMonitor',
       meta: { title: 'serverMonitor' , noCache: true}
     }

@@ -1,5 +1,7 @@
 import Mock from 'mockjs'
-import { param2Obj } from '../src/utils'
+import {
+  param2Obj
+} from '../src/utils'
 
 import user from './user'
 import userInfo from './user-info'
@@ -9,6 +11,7 @@ import search from './remote-search'
 import logLogin from './log-login'
 import logRequest from './log-request'
 import marketRequest from './market'
+import funclib from './funclib'
 
 const mocks = [
   ...user,
@@ -18,7 +21,8 @@ const mocks = [
   ...search,
   ...logLogin,
   ...logRequest,
-  ...marketRequest
+  ...marketRequest,
+  ...funclib
 ]
 
 // for front mock
@@ -28,7 +32,7 @@ export function mockXHR() {
   // mock patch
   // https://github.com/nuysoft/Mock/issues/300
   Mock.XHR.prototype.proxy_send = Mock.XHR.prototype.send
-  Mock.XHR.prototype.send = function() {
+  Mock.XHR.prototype.send = function () {
     if (this.custom.xhr) {
       this.custom.xhr.withCredentials = this.withCredentials || false
 
@@ -40,10 +44,14 @@ export function mockXHR() {
   }
 
   function XHR2ExpressReqWrap(respond) {
-    return function(options) {
+    return function (options) {
       let result = null
       if (respond instanceof Function) {
-        const { body, type, url } = options
+        const {
+          body,
+          type,
+          url
+        } = options
         // https://expressjs.com/en/4x/api.html#req
         result = respond({
           method: type,
@@ -63,7 +71,7 @@ export function mockXHR() {
 }
 
 // for mock server
-const responseFake = (url, type, respond) => {  
+const responseFake = (url, type, respond) => {
   return {
     url: new RegExp(`/mock${url}/?$`),
     type: type || 'get',

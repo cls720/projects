@@ -13,7 +13,7 @@ import {
   provincesName,
   convertMapData
 } from "@/utils/MapUtil.js";
-import { dataGroupBy } from "@/utils/DataGroup.js";
+import { dataGroupBy } from "@/funclib/DataGroup.js";
 import { debug, debuglog } from "util";
 require("echarts/theme/macarons");
 

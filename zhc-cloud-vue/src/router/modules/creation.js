@@ -5,8 +5,8 @@ import Layout from '@/layout'
 const creationRouter = {
   path: '/creation',
   component: Layout,
-  //hidden: true,
-  redirect: '/creation/query',
+  hidden: true,
+  redirect: '/creation/query',  
   name: 'Creation',
   meta: {
     title: 'creation',
@@ -16,7 +16,7 @@ const creationRouter = {
     {
       path: 'creation/query',
       component: () => import('@/views/creation/query/index'),
-      name: 'Creation',
+      name: 'Creation',      
       meta: { title: 'creationQuery' ,noCache:false }
     }
   ]

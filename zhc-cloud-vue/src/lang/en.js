@@ -7,7 +7,12 @@ export default {
     developerMain: 'Developer Platform Main',
     serverMonitor: 'Server Monitor',
     bootService: 'Boot Service',
+    myService:"My Service",
+    serviceRegister:"Service Register",
+    serviceQuery:"Service Query",
     serviceStat: 'Service Stat',
+    serviceEureka: 'Service Eureka',
+    serviceDetail:"服务详情",
     monitor:"monitor",
     log: 'Log Manager',
     logLoginQuery: 'Login Log Query',
@@ -15,9 +20,13 @@ export default {
     creation:"Creation Manager",
     creationQuery:"Creation Query",
     market:"Market Manager",
+    marketCustomer:"Customer Manager",
     marketQuery:"Market Query",
     marketStat: 'Market Stat',
-    MarketDetail: 'Market Detail',
+    marketDetail: 'Market Detail',
+    customerDetail:"Customer Detail",
+    marketOrder:"Order Manager",
+    marketSupplier:"Supplier Manager",
     user: 'User Manager',
     userQuery: 'Query User',
     userAdd: 'Add User',
@@ -193,9 +202,7 @@ export default {
     closeAll: 'Close All'
   },
   eapcloud: {
-    architectureDiagram: 'Histron Architecture Diagram',
-    developerMain: 'Histron Developer Main',
-    serverMonitor: 'Histron Server Monitor'
+    architectureDiagram: 'HiCloud Architecture Diagram'    
   },
   settings: {
     title: 'Page style setting',

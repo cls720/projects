@@ -1,105 +1,92 @@
 <template>
   <div class="tab-view-container">
+    <el-dialog title="详情" :visible.sync="isShowDetail">
+      <detailForm :form="currentData"></detailForm>
+    </el-dialog>
     <el-row>
-      <el-form :inline="true" :model="userInfo">
-        <el-form-item label="用户类型" label-width="70px">
-          <el-select
-            v-model="userInfo.userType"
-            multiple
-            collapse-tags
-            placeholder="请选择"
-            style="width:180px;"
-          >
-            <el-option
-              v-for="item in userTypes"
-              :key="item.value"
-              :label="item.name"
-              :value="item.value"
-            ></el-option>
-          </el-select>
+      <el-form :inline="true" :model="paramForm">
+        <el-form-item label="请求地址">
+          <el-input
+            v-model="paramForm.FURI"
+            placeholder="请求地址"
+            @keyup.enter.native="onSubmit(null,null)"
+          ></el-input>
+        </el-form-item>
+        
+        <el-form-item label="异常标题">
+          <el-input
+            v-model="paramForm.FERRORTITLE"
+            placeholder="异常标题"
+            @keyup.enter.native="onSubmit(null,null)"
+          ></el-input>
+        </el-form-item>
+
+        <el-form-item label="执行方法名">
+          <el-input
+           style="width:110px"
+            v-model="paramForm.FACTION"
+            placeholder="执行方法名"
+            @keyup.enter.native="onSubmit(null,null)"
+          ></el-input>
+        </el-form-item>
+
+        <el-form-item label="异常编码">
+          <el-input
+           style="width:100px"
+            v-model="paramForm.FERRORID"
+            placeholder="异常编码"
+            @keyup.enter.native="onSubmit(null,null)"
+          ></el-input>
         </el-form-item>
         <el-form-item label="用户名">
           <el-input
-            v-model="userInfo.userName"
+            v-model="paramForm.FUSERNAME"
             placeholder="用户名"
-            style="width:100px;"
-            label-width="60px"
-            @keyup.enter.native="onSubmit"
+            style="width:100px"
+            @keyup.enter.native="onSubmit(null,null)"
           ></el-input>
-        </el-form-item>
-        <el-form-item label="姓名">
-          <el-input
-            v-model="userInfo.userXm"
-            placeholder="姓名"
-            style="width:100px;"
-            label-width="40px"
-            @keyup.enter.native="onSubmit"
-          ></el-input>
-        </el-form-item>
-
-        <el-form-item label="创作个数" label-width="70px">
-          <el-input-number
-            v-model="userInfo.czCount"
-            controls-position="right"
-            :min="0"
-            style="width:80px;"
-          ></el-input-number>
-        </el-form-item>
-
-        <el-form-item label="注册时间" label-width="70px">
-          <el-date-picker
-            ref="regTime"
-            v-model="userInfo.regTime"
-            type="daterange"
-            align="right"
-            unlink-panels
-            range-separator="~"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            :picker-options="pickerOptions"
-            style="width:260px;"
-          />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSubmit">查询</el-button>
+          <el-button type="primary" @click="onSubmit(null,null)">查询</el-button>
         </el-form-item>
       </el-form>
     </el-row>
     <el-row :style="{height:mainHeight+'px'}">
       <el-table
-        :data="userDatas"
+        :data="creationDatas"
         :height="gridHeight"
         border
         style="width: 100%"
         v-loading="loading"
       >
         <el-table-column type="index" width="50" label="序号"></el-table-column>
-        <el-table-column prop="userName" label="用户名" width="180"></el-table-column>
-        <el-table-column prop="userXm" label="姓名" width="180"></el-table-column>
-        <el-table-column prop="userTypeName" label="用户类型" width="180"></el-table-column>
-        <el-table-column prop="czCount" label="创作个数" width="180">
+        <el-table-column label="异常标题">
           <template slot-scope="scope">
-            <el-link
-              type="primary"
-              :href="'#/creation/creation/query?operator='+scope.row.userName"
-              v-if="scope.row.czCount>0"
-            >{{scope.row.czCount}}</el-link>
-            <span v-else>0</span>
+            <a style="color:rgb(64, 120, 192);" @click="showDetail(scope.row)">{{scope.row.FERRORTITLE}}</a>
           </template>
         </el-table-column>
-        <el-table-column prop="mbPhone" label="手机" width="180"></el-table-column>
-        <el-table-column prop="regTime" label="注册时间"></el-table-column>
+        <el-table-column prop="FURI" label="请求地址"></el-table-column>
+        <el-table-column prop="FACTIONPARAMS" label="输入参数"></el-table-column>
+        <el-table-column prop="FKIND" label="请求后缀"></el-table-column>
+        <el-table-column prop="FCLASSNAME" label="执行类名"></el-table-column>
+        <el-table-column prop="FACTION" label="执行方法名"></el-table-column>
+        <el-table-column prop="FERRORID" label="异常编码"></el-table-column>
+        <el-table-column prop="FHOST" label="服务器地址"></el-table-column>
+        <el-table-column prop="FUSERNAME" label="用户名"></el-table-column>
+        <el-table-column prop="FTOMCATID" label="tomcatID"></el-table-column>
+        <el-table-column prop="FWRITETIME" label="时间"></el-table-column>
       </el-table>
     </el-row>
     <div class="block">
       <el-pagination
+        ref="pagination"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="pageNum"
         :page-sizes="[10, 20, 50, 200, 1000]"
         :page-size="pageSize"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="totalCount"
+        :total="total"
       ></el-pagination>
     </div>
   </div>
@@ -107,36 +94,25 @@
 
 <script>
 import queryParam from "@/utils/query";
-import { queryUser } from "@/api/user-info";
+import detailForm from "./detail";
+import { queryErrorService } from "@/api/log-service";
 import { elDateShortCurts } from "@/utils/DateUtil";
+import { debuglog } from 'util';
 
 export default {
   name: "UserQuery",
-  components: {},
+  components: { detailForm },
   data() {
     return {
+      currentData: {},
+      isShowDetail: false,
       loading: false,
       screenHeight: window.innerHeight,
-      userInfo: {
-        userName: "",
-        userXm: "",
-        userType: "",
-        czCount: 0,
-        regTime: ""
-      },
+      paramForm: {},
       pageNum: 1,
       pageSize: 20,
-      totalCount: 1231,
-      userDatas: [],
-      userTypes: [
-        { name: "普通开发者", value: "PTYF" },
-        { name: "VIP开发者", value: "VIP" },
-        { name: "合作伙伴", value: "HZHB" },
-        { name: "体验", value: "TY" }
-      ],
-      pickerOptions: {
-        shortcuts: elDateShortCurts
-      }
+      total: 0,
+      creationDatas: []
     };
   },
   watch: {
@@ -154,7 +130,7 @@ export default {
   computed: {
     mainHeight() {
       // 84固定头部高度
-      let height = this.screenHeight - 60 - 50;
+      let height = this.screenHeight - 60 - 51;
       if (!this.$store.state.tagsView.isTagFullscreen) {
         height -= 84;
       }
@@ -165,35 +141,32 @@ export default {
     }
   },
   methods: {
-    onSubmit() {
+    showDetail(data) {
+      this.currentData = data;
+      this.isShowDetail=true;
+    },
+    onSubmit(pageIndex, pageSize) {
       this.loading = true;
       const me = this;
       let param = new queryParam.Param();
       let where = new queryParam.Where();
-
       param.returnTotal = true;
-      where.setPage(this.pageNum, this.pageSize);
 
-      if (this.userInfo.regTime && this.userInfo.regTime.length > 1) {
-        let startDate = date.format(this.userInfo.regTime[0], "yyyy-MM-dd");
-        let endDate = date.format(this.userInfo.regTime[1], "yyyy-MM-dd");
-        where.gteq("regTime", startDate);
-        where.lteq("regTime", endDate);
-      }
-      if (this.userInfo.userName)
-        where.like("userName", this.userInfo.userName);
-      if (this.userInfo.userXm) where.like("userXm", this.userInfo.userXm);
-      if (this.userInfo.czCount) where.gteq("czCount", this.userInfo.czCount);
-      if (this.userInfo.userType) where.in("userType", this.userInfo.userType);
+      param.createWhereByModel(this.paramForm); // marketModel
 
-      param.where = where;
+      param.where.setPage(
+        pageIndex || 1,
+        pageSize || this.$refs.pagination.pageSize
+      );
+      let orders = new queryParam.Orders();
+      orders.addDesc("FWRITETIME");
+      param.setOrders(orders);
 
-      queryUser(param).then(response => {
+      queryErrorService(param).then(response => {
         const data = response.dataPack;
         const outParameter = response.outParameter;
-
-        me.userDatas = data.rows;
-        me.totalCount =
+        me.creationDatas = data.rows;
+        me.total =
           outParameter.factRecordSize == -1 ? 0 : outParameter.factRecordSize;
         me.loading = false;
       });
@@ -213,15 +186,14 @@ export default {
   },
   mounted() {
     const me = this;
+    this.onSubmit();
     window.onresize = () => {
       return (() => {
         me.screenHeight = window.innerHeight;
       })();
     };
   },
-  created() {
-    this.onSubmit();
-  }
+  created() {}
 };
 </script>
 

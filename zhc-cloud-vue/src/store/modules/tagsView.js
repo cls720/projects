@@ -1,3 +1,4 @@
+
 const state = {
   isTagFullscreen: false,
   visitedViews: [],
@@ -5,7 +6,7 @@ const state = {
 }
 
 const mutations = {
-  CHANGE_TAG_FULLSCREEN:(state,val) =>{
+  CHANGE_TAG_FULLSCREEN: (state, val) => {
     state.isTagFullscreen = val;
   },
   ADD_VISITED_VIEW: (state, view) => {
@@ -76,7 +77,7 @@ const mutations = {
 }
 
 const actions = {
-  changeTagFullscreen({commit},val){
+  changeTagFullscreen({ commit }, val) {
     commit('CHANGE_TAG_FULLSCREEN', val)
   },
   addView({ dispatch }, view) {
@@ -92,12 +93,16 @@ const actions = {
 
   delView({ dispatch, state }, view) {
     return new Promise(resolve => {
+
+
       dispatch('delVisitedView', view)
       dispatch('delCachedView', view)
       resolve({
         visitedViews: [...state.visitedViews],
         cachedViews: [...state.cachedViews]
       })
+
+
     })
   },
   delVisitedView({ commit, state }, view) {

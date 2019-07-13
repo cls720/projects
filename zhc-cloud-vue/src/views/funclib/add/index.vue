@@ -5,11 +5,6 @@
         <el-card>
           <el-row>
             <el-input placeholder="请输入关键字" v-model="searchKey" class="input-with-select">
-              <el-select v-model="searchField" slot="prepend" placeholder="请选择">
-                <el-option label="所有" value="''"></el-option>
-                <el-option label="函数类名" value="className"></el-option>
-                <el-option label="索引" value="searchKeyWorld"></el-option>
-              </el-select>
               <el-button slot="append" icon="el-icon-search"></el-button>
             </el-input>
           </el-row>
@@ -18,7 +13,7 @@
             <el-button size="small" icon="el-icon-plus">添加函数</el-button>
           </el-row>
           <el-row :style="{height:funcTreeHeight+'px'}">
-            <el-tree :data="funcDatas" :props="treeDefaultProps" @node-click="handleNodeClick"></el-tree>
+            <el-tree :data="funcTreeDatas" :props="treeDefaultProps" @node-click="handleNodeClick"></el-tree>
           </el-row>
           <div class="block">
             <el-pagination
@@ -37,58 +32,32 @@
         <el-card>
           <el-row class="row-align-right">
             <el-button type="primary" icon="el-icon-plus">保存</el-button>
-            <el-divider></el-divider>
           </el-row>
-          <el-row :style="{height:funcFormHeight+'px'}">
-            <el-form ref="form" :model="form" label-width="80px">
-              <el-form-item label="活动名称">
-                <el-input v-model="form.name"></el-input>
-              </el-form-item>
-              <el-form-item label="活动区域">
-                <el-select v-model="form.region" placeholder="请选择活动区域">
-                  <el-option label="区域一" value="shanghai"></el-option>
-                  <el-option label="区域二" value="beijing"></el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="活动时间">
-                <el-col :span="11">
-                  <el-date-picker
-                    type="date"
-                    placeholder="选择日期"
-                    v-model="form.date1"
-                    style="width: 100%;"
-                  ></el-date-picker>
-                </el-col>
-                <el-col class="line" :span="2">-</el-col>
-                <el-col :span="11">
-                  <el-time-picker placeholder="选择时间" v-model="form.date2" style="width: 100%;"></el-time-picker>
-                </el-col>
-              </el-form-item>
-              <el-form-item label="即时配送">
-                <el-switch v-model="form.delivery"></el-switch>
-              </el-form-item>
-              <el-form-item label="活动性质">
-                <el-checkbox-group v-model="form.type">
-                  <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
-                  <el-checkbox label="地推活动" name="type"></el-checkbox>
-                  <el-checkbox label="线下主题活动" name="type"></el-checkbox>
-                  <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
-                </el-checkbox-group>
-              </el-form-item>
-              <el-form-item label="特殊资源">
-                <el-radio-group v-model="form.resource">
-                  <el-radio label="线上品牌商赞助"></el-radio>
-                  <el-radio label="线下场地免费"></el-radio>
-                </el-radio-group>
-              </el-form-item>
-              <el-form-item label="活动形式">
-                <el-input type="textarea" v-model="form.desc"></el-input>
-              </el-form-item>
-              <el-form-item>
-                <el-button type="primary" @click="onSubmit">立即创建</el-button>
-                <el-button>取消</el-button>
-              </el-form-item>
-            </el-form>
+          <el-row>
+            <el-tabs v-model="activeTab">
+              <el-tab-pane
+                label="groovy | java"
+                name="groovyjava"
+                class="form-scroll-panel"
+                :style="{height:funcFormHeight+'px'}"
+              >
+                <add-class-form
+                  v-show="isClassForm"
+                  :form-state="classFormState"
+                  :class-model="curtClassModel"
+                ></add-class-form>
+                <add-method-form v-show="!isClassForm"></add-method-form>
+              </el-tab-pane>
+              <el-tab-pane
+                label="js"
+                name="js"
+                class="form-scroll-panel"
+                :style="{height:funcFormHeight+'px'}"
+              >
+                <add-method-form></add-method-form>
+              </el-tab-pane>
+              <el-tab-pane label="rn" name="fourth">rn</el-tab-pane>
+            </el-tabs>
           </el-row>
         </el-card>
       </el-col>
@@ -97,49 +66,34 @@
 </template>
 
 <script>
-import queryParam from "@/utils/query";
-import { queryUser } from "@/api/user-info";
-import { elDateShortCurts } from "@/utils/DateUtil";
+import AddClassForm from "./AddClassForm.vue";
+import AddMethodForm from "./AddMethodForm.vue";
+import { queryFunclib, queryFunclibClass } from "@/api/funclib";
+import { groupToTreeData } from "@/funclib/DataTree.js";
+import { debuglog } from "util";
 
 export default {
-  name: "UserQuery",
-  components: {},
+  name: "FunclibAdd",
+  components: { AddClassForm, AddMethodForm },
   data() {
     return {
       loading: false,
       screenHeight: window.innerHeight,
       searchKey: "",
-      searchField: "",
-      funcDatas: [
-        {
-          methodNameCn: "组织机构函数 | OrgFunc",
-          children: [
-            {
-              methodNameCn: "当前操作者 | curtOperator"
-            }
-          ]
-        }
-      ],
+      searchField: "all",
+      funcRecdDatas: [],
+      funcTreeDatas: [],
       treeDefaultProps: {
         children: "children",
-        label: "methodNameCn"
+        label: "label"
       },
+      activeTab: "groovyjava",
       pageNum: 1,
       pageSize: 200,
       totalCount: 1231,
-      form: {
-        name: "",
-        region: "",
-        date1: "",
-        date2: "",
-        delivery: false,
-        type: [],
-        resource: "",
-        desc: ""
-      },
-      pickerOptions: {
-        shortcuts: elDateShortCurts
-      }
+      isClassForm: true,
+      classFormState: "edit",
+      curtClassModel: []
     };
   },
   watch: {
@@ -164,19 +118,59 @@ export default {
       return height;
     },
     funcTreeHeight() {
-      return this.mainHeight - 112;
+      return this.mainHeight - 110;
     },
     funcFormHeight() {
-      return this.mainHeight - 88;
+      return this.mainHeight - 95;
     }
   },
   methods: {
-    onSubmit() {},
-    handleNodeClick(data) {
-      console.log(data);
+    onSubmit() {
+      let me = this;
+      queryFunclib().then(response => {
+        debugger;
+        let recds = response.dataPack.rows;
+        recds.forEach(item => {
+          item.classNameLabel = item.classNameCn + " | " + item.className;
+          item.methodNameLabel = item.methodNameCn + " | " + item.methodName;
+        });
+        me.funcRecdDatas = recds;
+        let treeRecds = groupToTreeData(recds, {
+          groupBy: ["classImport", "className"],
+          parentLabelField: "classNameLabel",
+          childLabelField: "methodNameLabel"
+        });
+        me.funcTreeDatas.splice(0, me.funcTreeDatas.length, ...treeRecds);
+      });
     },
-    czHandleClick(row) {
-      alert(JSON.stringify(row));
+    getCurtClassModel(classImport, className, methodType) {
+      let curtClass = [];
+      let me = this;
+      this.funcRecdDatas.forEach(recd => {
+        if (
+          recd.classImport === classImport &&
+          recd.className === className &&
+          methodType === me.activeTab
+        ) {
+          curtClass.push(recd);
+        }
+      });
+      return curtClass;
+    },
+    handleNodeClick(data) {
+      debugger;
+      if (data.children && data.children.length > 0) {
+        this.isClassForm = true;
+        let curtClass = this.getCurtClassModel(
+          data.classImport,
+          data.className,
+          data.methodType
+        );
+        this.curtClassModel.splice(0, this.curtClassModel.length, ...curtClass);
+      } else {
+        this.isClassForm = false;
+      }
+      console.log(data);
     },
     handleSizeChange(val) {
       this.pageNum = 1;
@@ -207,16 +201,21 @@ export default {
   padding: 10px;
   background-color: rgb(240, 242, 245);
 
-  .row-align-right{
+  .row-align-right {
     text-align: right;
   }
 
-  .row-tool-bar{        
-    margin: 6px 0px;    
+  .row-tool-bar {
+    margin: 6px 0px;
   }
 
   .row-margin-top {
     margin-top: 8px;
+  }
+
+  .form-scroll-panel {
+    overflow: auto;
+    padding: 0px 10px;
   }
 }
 </style>

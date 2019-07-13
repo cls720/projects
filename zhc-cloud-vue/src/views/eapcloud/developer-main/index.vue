@@ -78,7 +78,7 @@
               height="40px"
               style="margin:5px 0px;"
             >
-              <a href="#/boot-service/service-stat" style="color:#fff">微服务统计</a>
+              <a href="#/boot-service/stat" style="color:#fff">微服务统计</a>
             </image-title>
             <div :style="backgroundDiv">
               <composite-chart-wfw :height="barChartPtczHeight"/>

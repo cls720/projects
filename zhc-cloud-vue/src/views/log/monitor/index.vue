@@ -58,11 +58,10 @@ export default {
     return {
       editorOptions: {
         lineNumbers: "off",
-        minimap:{enabled:false}
+        minimap: { enabled: false }
       },
       monitor: {
-        address:
-          "ws://192.168.4.194:5101/headerWebSocket",
+        address: "ws://" + window.location.host + "/headerWebSocket",
         enable: false
       }
     };

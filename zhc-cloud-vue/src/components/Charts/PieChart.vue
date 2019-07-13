@@ -7,7 +7,7 @@
 import echarts from "echarts";
 import merge from "lodash/fp/merge";
 import resize from "@/components/Charts/mixins/resize";
-import { dataGroupBy } from "@/utils/DataGroup.js";
+import { dataGroupBy } from "@/funclib/DataGroup.js";
 import { convertPieData } from "@/utils/PieUtil.js";
 require("echarts/theme/macarons");
 

@@ -71,9 +71,9 @@
         <el-table-column prop="userProvince" label="所在省份" width="100"></el-table-column>
         <el-table-column prop="userCity" label="所在城市" width="100"></el-table-column>
         <el-table-column prop="pcIp" label="登录IP" width="200"></el-table-column>
-        <el-table-column prop="deviceType" label="设备类型" width="100"></el-table-column>
+        <!-- <el-table-column prop="deviceType" label="设备类型" width="100"></el-table-column> -->
         <el-table-column prop="loginTime" label="登录时间" width="180"></el-table-column>
-        <el-table-column prop="logoutTime" label="登出时间"></el-table-column>
+        <!-- <el-table-column prop="logoutTime" label="登出时间"></el-table-column> -->
       </el-table>
     </el-row>
     <div class="block">
@@ -93,7 +93,7 @@
 <script>
 import queryParam from "@/utils/query";
 import { loginQuery } from "@/api/log-login";
-import { elDateShortCurts } from "@/utils/DateUtil";
+import { elDateShortCurts, date } from "@/utils/DateUtil";
 
 export default {
   name: "loingLog",
@@ -103,10 +103,12 @@ export default {
       loading: false,
       screenHeight: window.innerHeight,
       userInfo: {
-        userXm: "",
+        userXm: this.$route.query.userXm,
         userName: "",
         deviceType: "",
-        loginTime: "",
+        loginTime: this.$route.query.loginTime0
+          ? [new Date(this.$route.query.loginTime0), new Date(this.$route.query.loginTime1)]
+          : ""
       },
       pageNum: 1,
       pageSize: 20,
@@ -149,7 +151,6 @@ export default {
   },
   methods: {
     onSubmit() {
-      debugger;
       this.loading = true;
       const me = this;
       let param = new queryParam.Param();
@@ -160,11 +161,13 @@ export default {
       if (this.userInfo.userXm) where.like("userXm", this.userInfo.userXm);
       if (this.userInfo.userName)
         where.like("userName", this.userInfo.userName);
-      if (this.userInfo.deviceType && this.userInfo.deviceType.length>0)
+      if (this.userInfo.deviceType && this.userInfo.deviceType.length > 0)
         where.like("deviceType", this.userInfo.deviceType);
       if (this.userInfo.loginTime && this.userInfo.loginTime.length > 1) {
-        let startDate = date.format(this.userInfo.loginTime[0], "yyyy-MM-dd");
-        let endDate = date.format(this.userInfo.loginTime[1], "yyyy-MM-dd");
+        let startDate =
+          date.format(this.userInfo.loginTime[0], "yyyy-MM-dd") + " 00:00:00";
+        let endDate =
+          date.format(this.userInfo.loginTime[1], "yyyy-MM-dd") + " 23:59:59";
         where.gteq("loginTime", startDate);
         where.lteq("loginTime", endDate);
       }

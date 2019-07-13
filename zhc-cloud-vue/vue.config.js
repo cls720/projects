@@ -20,7 +20,7 @@ module.exports = {
    * In most cases please use '/' !!!
    * Detail: https://cli.vuejs.org/config/#publicpath
    */
-  publicPath: process.env.NODE_ENV === 'development' ? '/':'/amrept-web/open/',
+  publicPath: process.env.NODE_ENV === 'development' ? '/' : '/amrept-web/open/',
   outputDir: 'dist',
   assetsDir: 'static',
   lintOnSave: false,//process.env.NODE_ENV === 'development',
@@ -33,21 +33,21 @@ module.exports = {
       errors: true
     },
     proxy: {
-      [process.env.VUE_APP_BASE_API+"/auth/"]:{
-        target: `http://eap.histron.cn:91/`,
+      [process.env.VUE_APP_BASE_API + "/auth/"]: {
+        target: `http://192.168.4.194:90/`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''
         }
       },
-      [process.env.VUE_APP_BASE_API+"/web/"]:{
-        target: `http://eap.histron.cn:91/`,
+      [process.env.VUE_APP_BASE_API + "/web/"]: {
+        target: `http://192.168.4.194:90/`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''
         }
       },
-      
+
       // change xxx-api/login => mock/login
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       [process.env.VUE_APP_BASE_API]: {
@@ -63,10 +63,10 @@ module.exports = {
   configureWebpack: {
     plugins: [
       new webpack.ProvidePlugin({
-          jQuery: 'jquery',
-          $: 'jquery'
+        jQuery: 'jquery',
+        $: 'jquery'
       })
-  ],
+    ],
 
     // provide the app's title in webpack's name field, so that
     // it can be accessed in index.html to inject the correct title.
@@ -93,8 +93,8 @@ module.exports = {
     config.plugins.delete('prefetch') // TODO: need test
 
 
-//    console.log(typeof config.plugins)
-  //console.log(config)
+    //    console.log(typeof config.plugins)
+    //console.log(config)
     // set svg-sprite-loader
     config.module
       .rule('svg')
@@ -124,7 +124,7 @@ module.exports = {
       .end()
 
     config
-    // https://webpack.js.org/configuration/devtool/#development
+      // https://webpack.js.org/configuration/devtool/#development
       .when(process.env.NODE_ENV === 'development',
         config => config.devtool('cheap-source-map')
       )
@@ -136,7 +136,7 @@ module.exports = {
             .plugin('ScriptExtHtmlWebpackPlugin')
             .after('html')
             .use('script-ext-html-webpack-plugin', [{
-            // `runtime` must same as runtimeChunk name. default is `runtime`
+              // `runtime` must same as runtimeChunk name. default is `runtime`
               inline: /runtime\..*\.js$/
             }])
             .end()

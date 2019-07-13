@@ -23,11 +23,27 @@ const fields = {
     field: "loginCount",
     title: "登录次数",
     width: 120,
+    dependDatas: [{
+      field: "userXm"
+    }],
   },
   onLineHour: {
     field: "onLineHour",
     title: "在线小时",
     width: 120
+  }
+}
+
+function loginCountFormatter(rowData, rowIndex, pagingIndex, col) {
+  if (!col.type && col.dependDatas && col.dependDatas.userXm) {
+    return (
+      '<a href="#/log/login?userXm=' + col.dependDatas.userXm +
+      '">' +
+      col.value +
+      "</a>"
+    );
+  } else {
+    return col.value;
   }
 }
 
@@ -62,67 +78,70 @@ const dataFields = [
 ]
 
 const policies = [{
-  groupBy: "userProvince,userCity",
-  groupByDesc: "省份,城市",
-  rowGroupFields: [
-    fields.userProvince,
-    fields.userCity
-  ],
-  colGroupFields: [],
-  dataFields: dataFields
-}, {
-  groupBy: "userProvince,userCity,userType",
-  groupByDesc: "省份,城市,用户类型",
-  rowGroupFields: [
-    fields.userProvince,
-    fields.userCity,
-    fields.userType
-  ],
-  colGroupFields: [],
-  dataFields: dataFields
-}, {
-  groupBy: "userProvince,userCity,userXm",
-  groupByDesc: "省份,城市,姓名",
-  rowGroupFields: [
-    fields.userProvince,
-    fields.userCity,
-    fields.userXm
-  ],
-  colGroupFields: [],
-  dataFields: dataFields
-}, {
-  groupBy: "userXm",
-  groupByDesc: "姓名",
-  rowGroupFields: [
-    fields.userXm
-  ],
-  colGroupFields: [],
-  dataFields: dataFields
-}, {
-  groupBy: "userType,userXm",
-  groupByDesc: "用户类型,姓名",
-  rowGroupFields: [
-    fields.userType,
-    fields.userXm
-  ],
-  colGroupFields: [],
-  dataFields: dataFields
-}]
+    groupBy: "userProvince,userCity,userXm",
+    groupByDesc: "省份,城市,姓名",
+    rowGroupFields: [
+      fields.userProvince,
+      fields.userCity,
+      fields.userXm
+    ],
+    colGroupFields: [],
+    dataFields: dataFields
+  }, {
+    groupBy: "userProvince,userCity",
+    groupByDesc: "省份,城市",
+    rowGroupFields: [
+      fields.userProvince,
+      fields.userCity
+    ],
+    colGroupFields: [],
+    dataFields: dataFields
+  }
+  // , {
+  //   groupBy: "userProvince,userCity,userType",
+  //   groupByDesc: "省份,城市,用户类型",
+  //   rowGroupFields: [
+  //     fields.userProvince,
+  //     fields.userCity,
+  //     fields.userType
+  //   ],
+  //   colGroupFields: [],
+  //   dataFields: dataFields
+  // }     
+  , {
+    groupBy: "userXm",
+    groupByDesc: "姓名",
+    rowGroupFields: [
+      fields.userXm
+    ],
+    colGroupFields: [],
+    dataFields: dataFields
+  }
+  // , {
+  //   groupBy: "userType,userXm",
+  //   groupByDesc: "用户类型,姓名",
+  //   rowGroupFields: [
+  //     fields.userType,
+  //     fields.userXm
+  //   ],
+  //   colGroupFields: [],
+  //   dataFields: dataFields
+  // }
+]
 
 export function getPolicies() {
   return policies
 }
 
 export function getPolicyByIndex(index) {
-  debugger
   let policyItem = policies[index];
   if (policyItem) {
     for (var i = 0, l = policyItem.rowGroupFields.length; i < l; i++) {
       let rgi = policyItem.rowGroupFields[i];
       rgi.isFrozen = true;
       rgi.isFold = true && (i < l - 1);
-      rgi.isFilter = true;
-      rgi.filterMultiple = true;
+      // rgi.isFilter = true;
+      // rgi.filterMultiple = true;
     }
   }
   return policyItem

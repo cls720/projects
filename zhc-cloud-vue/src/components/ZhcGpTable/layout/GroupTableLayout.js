@@ -80,13 +80,14 @@ jQuery.GroupTableLayout = jQuery.gtl = {
    * 
    * @param recdJa
    *            JSONArray待转换记录
+   * @param dependDatas 字段依赖数据
    * @param dataFields
    *            String[]字段名列表
    * @param groupFields2
    *            String[]次分组字段
    * @return
    */
-  getRecordNameValueFormat: function (recdsJa, dataFields, groupFields2) {
+  getRecordNameValueFormat: function (recdsJa, dependDatas, dataFields, groupFields2) {
     var alzChildren = [];
 
     if (dataFields && dataFields.length > 0) {
@@ -103,7 +104,12 @@ jQuery.GroupTableLayout = jQuery.gtl = {
         // 添加数据区字段
         for (var j = 0, l = dataFields.length; j < l; j++) {
           var afn = dataFields[j];
-          rowJa.push(this.getNameValueJo(afn, recd[afn]));
+          var dataItem = this.getNameValueJo(afn, recd[afn]);
+          // 计算依赖数据
+          if (dependDatas && dependDatas[afn]) {
+            dataItem.dependDatas = $.gtl.getDependDatas([recd], dependDatas[afn])
+          }
+          rowJa.push(dataItem);
         }
         alzChildren.push(rowJa);
       }
@@ -173,7 +179,7 @@ jQuery.GroupTableLayout = jQuery.gtl = {
       })
       return subGroupChildren;
     } else {
-      return this.getRecordNameValueFormat(recdsJa, dataFields, groupFields2);
+      return this.getRecordNameValueFormat(recdsJa, dependDatas, dataFields, groupFields2);
     }
   },
   /**
@@ -227,7 +233,7 @@ jQuery.GroupTableLayout = jQuery.gtl = {
       })
       return subGroupChildren;
     } else {
-      return this.getRecordNameValueFormat(recdsJa, dataFields);
+      return this.getRecordNameValueFormat(recdsJa, dependDatas, dataFields);
     }
   },
   getJsonDoubleValue: function (jo, valKey) {

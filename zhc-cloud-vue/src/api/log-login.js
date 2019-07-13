@@ -61,7 +61,7 @@ export function outLine(param, pageIndex, pageSize) {
 // }
 
 export function queryLogLogin(param, pageIndex, pageSize) {
-  let path = "log-login"
+  let path = "log-login1"
   if (param.groupBy === "loginHour") {
     path = "log-login-hour"
   } else if (param.groupBy === "loginDay") {

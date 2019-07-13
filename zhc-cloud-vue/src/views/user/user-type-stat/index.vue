@@ -54,6 +54,7 @@
           :row-no="rowNo"
           :policy="policy"
           :datas="datas"
+          :is-loading="isLoading"
           even-bg-color="#f4f4f4"
           row-click-color="#edf7ff"
         />
@@ -135,13 +136,14 @@ export default {
   },
   data() {
     return {
+      isLoading: false, 
       screenHeight: window.innerHeight,
       chinaProvinces: ["福建", "广东", "北京", "上海"],
       userTypes: [
         { name: "普通开发者", value: "PTYF" },
         { name: "VIP开发者", value: "VIP" },
         { name: "合作开发者", value: "HZHB" },
-        { name: "体验", value: "TY" }
+        { name: "注册用户", value: "TY" }
       ],
       userCountGroupBy: "userProvince",
       userCountOption: {
@@ -247,6 +249,7 @@ export default {
   },
   methods: {
     onSubmit() {
+      this.isLoading = true;
       const me = this;
       let param = new queryParam.Param();
       let where = new queryParam.Where();
@@ -264,6 +267,7 @@ export default {
       userInfo(param).then(response => {
         const data = response.dataPack;
         me.datas = data.rows;
+        this.isLoading = false;
       });
       newUser(where).then(response => {
         const data = response.dataPack;

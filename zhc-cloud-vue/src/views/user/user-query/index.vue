@@ -37,7 +37,7 @@
           ></el-input>
         </el-form-item>
 
-        <el-form-item label="创作个数" label-width="70px">
+        <el-form-item label="发布个数" label-width="70px">
           <el-input-number
             v-model="userInfo.czCount"
             controls-position="right"
@@ -77,11 +77,11 @@
         <el-table-column prop="userName" label="用户名" width="180"></el-table-column>
         <el-table-column prop="userXm" label="姓名" width="180"></el-table-column>
         <el-table-column prop="userTypeName" label="用户类型" width="180"></el-table-column>
-        <el-table-column prop="czCount" label="创作个数" width="180">
+        <el-table-column prop="czCount" label="发布个数" width="180">
           <template slot-scope="scope">
             <el-link
               type="primary"
-              :href="'#/creation/creation/query?operator='+scope.row.userName"
+              :href="'#/market/market/query?operator='+scope.row.userName"
               v-if="scope.row.czCount>0"
             >{{scope.row.czCount}}</el-link>
             <span v-else>0</span>
@@ -132,7 +132,7 @@ export default {
         { name: "普通开发者", value: "PTYF" },
         { name: "VIP", value: "VIP" },
         { name: "合作伙伴", value: "HZHB" },
-        { name: "体验", value: "TY" }
+        { name: "注册用户", value: "TY" }
       ],
       pickerOptions: {
         shortcuts: elDateShortCurts

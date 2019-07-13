@@ -7,8 +7,8 @@
 import echarts from "echarts";
 import merge from "lodash/fp/merge";
 import resize from "@/components/Charts/mixins/resize";
-import { dataGroupBy } from "@/utils/DataGroup.js";
-import { jsonArrayMultiSort } from "@/utils/DataSort.js";
+import { dataGroupBy } from "@/funclib/DataGroup.js";
+import { jsonArrayMultiSort } from "@/funclib/DataSort.js";
 import { convertLineData, yAxis } from "@/utils/LineUtil.js";
 import { debuglog } from "util";
 require("echarts/theme/macarons");
@@ -140,14 +140,13 @@ export default {
   },
   watch: {
     // 监听更改datas,groupBy,calcField属性，更新饼图系列数据
-    groupDatas() {      
+    datas() {      
       var option = this.chart.getOption();
       option.legend.data = this.legendData;
       option.xAxis[0].data = this.xAxisDatas;
       option.series.forEach((gDatas, i) => {
         option.series[i].data = this.groupDatas[i];
-      });
-      debugger
+      });      
       this.chart.setOption(option);
     }
   },

@@ -23,6 +23,12 @@ const logRouter = {
       component: () => import('@/views/log/error/query.vue'),
       name: 'LogErrorQuery',
       meta: { title: 'logErrorQuery'}
+    },
+    {
+      path: 'gitcommit',
+      component: () => import('@/views/log/gitcommit/query.vue'),
+      name: 'LogGitCommitQuery',
+      meta: { title: 'logGitCommitQuery'}
     }
   ]
 }

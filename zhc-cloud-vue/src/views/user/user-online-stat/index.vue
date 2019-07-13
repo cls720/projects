@@ -1,7 +1,7 @@
 <template>
   <div class="user-online-stat">
     <el-row>
-      <el-col :span="16">
+      <el-col :span="17">
         <el-form :inline="true" :model="userLogin" label-width="80px">
           <el-form-item label="登录时间">
             <div class="block">
@@ -15,7 +15,7 @@
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
                 :picker-options="pickerOptions"
-                style="width:260px;"
+                style="width:240px;"
               />
             </div>
           </el-form-item>
@@ -44,7 +44,7 @@
                   :key="item.field"
                 >
                   <el-radio
-                    @change="onSubmit"
+                    @change="onPolicyChange"
                     v-model="userLogin.groupBy.index"
                     :label="index"
                   >{{item.groupByDesc}}</el-radio>
@@ -54,7 +54,7 @@
           </el-form-item>
         </el-form>
       </el-col>
-      <el-col :span="8">
+      <el-col :span="7">
         <el-radio-group v-model="onlineScheme" style="float:right;">
           <el-radio-button label="today">今日在线</el-radio-button>
           <el-radio-button label="week">本周在线</el-radio-button>
@@ -75,9 +75,21 @@
           :row-no="rowNo"
           :policy="policy"
           :datas="datas"
+          :is-loading="isLoading"
           even-bg-color="#f4f4f4"
           row-click-color="#edf7ff"
         />
+        <div class="block">
+          <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="pageNum"
+            :page-sizes="[10, 20, 50, 100, 1000]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="totalShowCount"
+          ></el-pagination>
+        </div>
       </el-col>
       <el-col :span="6">
         <el-card class="pie-card">
@@ -160,6 +172,7 @@ export default {
   },
   data() {
     return {
+      isLoading: false,
       screenHeight: window.innerHeight,
       loginCountGroupBy: "userProvince",
       loginCountOption: {
@@ -224,7 +237,11 @@ export default {
       policy: getPolicyByIndex(0),
       rowNo: { isShow: true, width: 60 },
       datas: [],
-      lineDatas: []
+      lineDatas: [],
+      pageNum: 1,
+      pageSize: 100,
+      totalCount: 0,
+      totalShowCount: 0
     };
   },
   watch: {
@@ -243,6 +260,9 @@ export default {
       let end = new Date();
       let start = new Date();
       if (this.onlineScheme === "today") {
+        let day = getCurrentDay();
+        start = day[0];
+        end = day[1];
       } else if (this.onlineScheme === "week") {
         let week = getCurrentWeek();
         start = week.start;
@@ -254,6 +274,7 @@ export default {
       }
       this.userLogin.loginTime.push(start);
       this.userLogin.loginTime.push(end);
+      this.onSubmit();
     },
     // 监控查询面板查询条件，分组依据，排序规范等变化
     userLogin() {}
@@ -268,7 +289,7 @@ export default {
       return height;
     },
     gpGridRowHeight() {
-      return Math.floor((this.mainHeight / 3) * 2);
+      return Math.floor((this.mainHeight / 3) * 2) - 30;
     },
     pieChartHeight() {
       return Math.floor(this.mainHeight / 3) - 46;
@@ -290,26 +311,68 @@ export default {
           return "loginDate";
       }
     },
-    onSubmit() {
-      // alert("根据时间条件过滤数据 ==> " + this.userLogin.loginTime);
-      this.searchData(this.userLogin.loginTime[0], this.userLogin.loginTime[1]);
+    onPolicyChange() {
+      this.policy = getPolicyByIndex(this.userLogin.groupBy.index);
+      this.onSubmit();
     },
-    searchData(start, end) {
+    onSubmit() {
+      this.isLoading = true;
       const me = this;
       let param = new queryParam.Param();
-      let where = new queryParam.Where();      
+      let where = new queryParam.Where();
+      let having = new queryParam.Where();
+      let orders = new queryParam.Orders();
 
       if (this.userLogin.loginTime && this.userLogin.loginTime.length > 1) {
-        let startDate = date.format(this.userLogin.loginTime[0], "yyyy-MM-dd");
-        let endDate = date.format(this.userLogin.loginTime[1], "yyyy-MM-dd");
+        let startDate = date.format(
+          this.userLogin.loginTime[0],
+          "yyyy-MM-dd hh:mm:ss"
+        );
+        let endDate = date.format(
+          this.userLogin.loginTime[1],
+          "yyyy-MM-dd hh:mm:ss"
+        );
         where.gteq("loginTime", startDate);
         where.lteq("loginTime", endDate);
+      }      
+      if (this.userLogin.loginCount > 0) {
+        having.gteq("loginCount", this.userLogin.loginCount);
       }
-      
+
+      if (this.userLogin.onLineHour > 0) {
+        having.gteq("onLineHour", this.userLogin.onLineHour);
+      }
+
+      param.where = where;
+      param.setGroup(this.policy.groupBy);
+      param.setHaving(having);
+      let pageNum =
+        (this.pageNum % Math.floor(this.totalCount / this.pageSize)) + 1;
+      where.setPage(pageNum, this.pageSize);
+      // param.returnTotal = true;
+
+      orders.addDesc("loginCount");
+      param.setOrders(orders);
       // 传参数未按标准格式，提炼后台 query api
-      queryLogLogin({ where: where }).then(response => {
+      queryLogLogin({ where: param }).then(response => {
         const data = response.dataPack;
+        const outParameter = response.outParameter;
+
         me.datas = data.rows;
+        me.totalCount =
+          outParameter.factRecordSize == -1 ? 0 : outParameter.factRecordSize;
+
+        let d1 = this.userLogin.loginTime[0];
+        let d2 = this.userLogin.loginTime[1];
+        if (d2.getTime() > new Date().getTime()) {
+          d2 = new Date();
+        }
+        me.totalShowCount =
+          me.totalCount +
+          Math.floor(
+            ((d2.getTime() - d1.getTime()) / (3600 * 1000 * 24)) * 3600
+          );
+        this.isLoading = false;
       });
 
       queryLogLogin({ where: where, groupBy: this.lineChartGroupBy() }).then(
@@ -318,6 +381,35 @@ export default {
           me.lineDatas = data.rows;
         }
       );
+    },
+    handleSizeChange(val) {
+      this.pageNum = 1;
+      this.pageSize = val;
+      this.onSubmit();
+    },
+    handleCurrentChange(val) {
+      this.pageNum = val;
+      this.onSubmit(val, this.pageSize);
+    },
+    loginCountFormatter(rowData, rowIndex, pagingIndex, col) {
+      if (!col.type && col.dependDatas && col.dependDatas.userXm) {
+        let startDate = date.format(this.userLogin.loginTime[0], "yyyy-MM-dd");
+        let endDate = date.format(this.userLogin.loginTime[1], "yyyy-MM-dd");
+
+        return (
+          '<a href="#/log/login?userXm=' +
+          col.dependDatas.userXm +
+          "&loginTime0=" +
+          startDate +
+          "&loginTime1=" +
+          endDate +
+          '">' +
+          col.value +
+          "</a>"
+        );
+      } else {
+        return col.value;
+      }
     }
   },
   mounted() {
@@ -329,6 +421,7 @@ export default {
     };
   },
   created() {
+    this.policy.dataFields[0].formatter = this.loginCountFormatter;
     this.onSubmit();
   }
 };

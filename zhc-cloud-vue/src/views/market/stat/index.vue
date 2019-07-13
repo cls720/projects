@@ -4,36 +4,10 @@
       <el-col :span="18">
         <el-form :inline="true" :model="queryParams" label-width="80px">
           <el-form-item label="类型">
-            <el-select
-              v-model="queryParams.FTYPE"
-              multiple
-              collapse-tags
-              placeholder="请选择"
-              @change="kindChange"
-            >
-              <el-option
-                v-for="item in kinds"
-                :key="item.value"
-                :label="item.name"
-                :value="item.value"
-              ></el-option>
-            </el-select>
+            <enumselector v-model="queryParams.FTYPE" multiple etype="applicationType" @change="kindChange"></enumselector>
           </el-form-item>
           <el-form-item label="行业">
-            <el-select
-              v-model="queryParams.FSORT"
-              multiple
-              collapse-tags
-              placeholder="请选择"
-              @change="kindHyType"
-            >
-              <el-option
-                v-for="item in hyTypes"
-                :key="item.value"
-                :label="item.name"
-                :value="item.value"
-              ></el-option>
-            </el-select>
+            <enumselector v-model="queryParams.FSORT" multiple etype="industryType"  @change="kindHyType"></enumselector>
           </el-form-item>
         </el-form>
       </el-col>
@@ -48,6 +22,7 @@
       <el-col :span="18">
         <el-card>
           <gp-table
+            :is-loading="isLoading"
             is-horizontal-resize
             is-vertical-resize
             column-width-drag
@@ -110,6 +85,7 @@
 </template>
 
 <script>
+import enumselector from "@/components/EnumSelector";
 import NProgress from "nprogress"; // Progress 进度条
 // Progress 进度条 样式
 import "nprogress/nprogress.css";
@@ -127,7 +103,7 @@ import LineChart from "@/components/Charts/LineChart.vue";
 import { queryMarket } from "@/api/market";
 import { debuglog } from "util";
 import { visualMap } from "@/utils/PieUtil";
-
+import database from "@/utils/database";
 import queryParam from "@/utils/query";
 import { marketModel } from "@/model";
 // let userlogLogins = []
@@ -144,17 +120,19 @@ import { marketModel } from "@/model";
 // })
 
 export default {
-  name: "FrozenTitleColumns",
+  name: "marketStat1",
   props: {
     isTagFullscreen: false
   },
   components: {
     GpTable,
     PieChart,
+    enumselector,
     LineChart
   },
   data() {
     return {
+      isLoading:false,
       screenHeight: window.innerHeight,
       lineChartOption: {
         grid: {
@@ -187,29 +165,12 @@ export default {
         title: { text: "购买次数" }
         //visualMap: visualMap(this.datas, "buyCount", "_yellow")
       },
-      hyTypes: [
-        { name: "能源能耗", value: "nynh" },
-        { name: "农业", value: "ny" },
-        { name: "制造", value: "zz" },
-        { name: "矿业", value: "ky" },
-        { name: "电商", value: "ds" },
-        { name: "数据中心", value: "sjzx" },
-        { name: "纺织", value: "fz" },
-        { name: "锂电", value: "ld" }
-      ],
-      kinds: [
-        { name: "模型算法", value: "zl" },
-        { name: "项目", value: "project" },
-        { name: "功能模块", value: "funcpack" },
-        { name: "工业APP", value: "gyapp" },
-        { name: "工业组件", value: "gyzj" },
-        { name: "标准组件", value: "co" },
-        { name: "组态仿真", value: "ztfz" }
-      ],
+      hyTypes: database.hyTypes,
+      kinds: database.softKinds,
       //gridHeight: 0,
       //pieHeight: 100,
       //lineHeigth: 100,
-      groupScheme: "FTYPE",
+      groupScheme: "FTYPENAME",
       queryParams: {},
       policy: {
         rowGroupFields: [
@@ -344,10 +305,13 @@ export default {
       // if (this.queryParams.kind) where.in("FTYPE", this.queryParams.kind);
       // if (this.queryParams.hyType) where.in("FSORT", this.queryParams.hyType);
       // param.where = where;
+      this.isLoading=true;
       param.createWhereByModel(this.queryParams, marketModel);
+      param.where.setPage(-1,-1)
       queryMarket(param).then(response => {
         const data = response.dataPack;
         me.datas = data.rows;
+        this.isLoading=false
         //me.$refs.gppie.loadData(me.datas, this.groupScheme);
         //me.$refs.gppie2.loadData(me.datas, this.groupScheme);
         //me.$refs.gpline.loadData(me.datas, this.groupScheme);

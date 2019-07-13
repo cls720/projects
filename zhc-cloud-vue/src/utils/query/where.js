@@ -1,7 +1,7 @@
 import types from "./types"
 import keys from "./keys"
 
-const defOperate = "="
+const defOperate = "like"
 export class WhereCondition {
     constructor(config) {
         config = config || {};
@@ -276,7 +276,7 @@ export class Where {
         this.addCondition(property, value, dataType, "isnotnull", "", isCover,
             tablefilter, desc);
     }
-    inRange(property, value, dataType, vtype, isCover, tablefilter,
+    inRange(property, value, dataType, isCover, tablefilter,
         desc) {
         this.addCondition(property, value, dataType, "inRange", "", isCover,
             tablefilter, desc);

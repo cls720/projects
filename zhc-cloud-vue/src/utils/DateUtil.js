@@ -55,7 +55,7 @@ export function getCurrentDay() {
   var dayEndDateTime = new Date(
     now.getFullYear(),
     now.getMonth(),
-    now.getDate() + 1
+    now.getDate(), 23, 59, 59
   );
 
   return [
