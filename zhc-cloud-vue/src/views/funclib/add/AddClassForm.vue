@@ -169,6 +169,11 @@ export default {
     };
   },
   watch: {
+    classModel() {      
+      debugger
+      this.dataset.clear();
+      this.dataset.add(this.classModel);
+    },
     addMethodFormDialogVisible() {
       if (
         this.addMethodFormDialogVisible &&

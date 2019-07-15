@@ -13,7 +13,12 @@
             <el-button size="small" icon="el-icon-plus">添加函数</el-button>
           </el-row>
           <el-row :style="{height:funcTreeHeight+'px'}">
-            <el-tree :data="funcTreeDatas" :props="treeDefaultProps" @node-click="handleNodeClick"></el-tree>
+            <el-tree
+              ref="funcTree"
+              :data="funcTreeDatas"
+              :props="treeDefaultProps"
+              @node-click="handleNodeClick"
+            ></el-tree>
           </el-row>
           <div class="block">
             <el-pagination
@@ -37,7 +42,7 @@
             <el-tabs v-model="activeTab">
               <el-tab-pane
                 label="groovy | java"
-                name="groovyjava"
+                name="javagroovy"
                 class="form-scroll-panel"
                 :style="{height:funcFormHeight+'px'}"
               >
@@ -54,9 +59,26 @@
                 class="form-scroll-panel"
                 :style="{height:funcFormHeight+'px'}"
               >
-                <add-method-form></add-method-form>
+                <add-class-form
+                  v-show="isClassForm"
+                  :form-state="classFormState"
+                  :class-model="curtClassModel"
+                ></add-class-form>
+                <add-method-form v-show="!isClassForm"></add-method-form>
               </el-tab-pane>
-              <el-tab-pane label="rn" name="fourth">rn</el-tab-pane>
+              <el-tab-pane
+                label="rn"
+                name="rn"
+                class="form-scroll-panel"
+                :style="{height:funcFormHeight+'px'}"
+              >
+                <add-class-form
+                  v-show="isClassForm"
+                  :form-state="classFormState"
+                  :class-model="curtClassModel"
+                ></add-class-form>
+                <add-method-form v-show="!isClassForm"></add-method-form>
+              </el-tab-pane>
             </el-tabs>
           </el-row>
         </el-card>
@@ -87,7 +109,7 @@ export default {
         children: "children",
         label: "label"
       },
-      activeTab: "groovyjava",
+      activeTab: "javagroovy",
       pageNum: 1,
       pageSize: 200,
       totalCount: 1231,
@@ -105,6 +127,18 @@ export default {
         setTimeout(function() {
           me.timer = false;
         }, 400);
+      }
+    },
+    activeTab() {
+      debugger;
+      let curtNode = this.$refs.funcTree.getCurrentNode();
+      if (curtNode) {
+        let curtClass = this.getCurtClassModel(
+          curtNode.classImport,
+          curtNode.className,
+          curtNode.methodType
+        );        
+        this.curtClassModel.splice(0, this.curtClassModel.length, ...curtClass);
       }
     }
   },
@@ -150,7 +184,7 @@ export default {
         if (
           recd.classImport === classImport &&
           recd.className === className &&
-          methodType === me.activeTab
+          me.activeTab === methodType
         ) {
           curtClass.push(recd);
         }
