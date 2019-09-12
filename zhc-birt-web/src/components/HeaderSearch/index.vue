@@ -30,6 +30,7 @@ import Fuse from 'fuse.js'
 import path from 'path'
 import i18n from '@/lang'
 import { getZhFirstChars } from '@/utils/PinYin'
+//  import _ from "zhc-utils"
 
 export default {
   name: 'HeaderSearch',
@@ -145,7 +146,7 @@ export default {
         }
 
         // 加入中文拼音
-        data.pytitle = getZhFirstChars(data.title)
+        data.pytitle = getZhFirstChars(data.title); //_.string.getFirstPY(data.title)
 
         // recursive child routes
         if (router.children) {

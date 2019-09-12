@@ -5,10 +5,19 @@ const state = {
 
 const mutations = {
   ADD_VISITED_VIEW: (state, view) => {
-    if (state.visitedViews.some(v => v.path === view.path)) return
+    //同个路由要多开标签，加target判断
+    // debugger;
+    let addTarget = view.query ? (view.query.__target||"") : "";
+    if (state.visitedViews.some(v => {
+      let visitedTarget = v.query ? v.target : "";
+      return v.path === view.path && addTarget === visitedTarget
+    })) return
+
+    //if (state.visitedViews.some(v => v.path === view.path)) return
     state.visitedViews.push(
       Object.assign({}, view, {
-        title: view.meta.title || 'no-name'
+        title: (view.query ? view.query.__title : "") || view.meta.title || 'no-name',
+        target: addTarget
       })
     )
   },

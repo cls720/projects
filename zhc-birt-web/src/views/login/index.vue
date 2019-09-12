@@ -14,26 +14,7 @@
     </el-header>
     <el-main :style="{'background-image':loginBgImg}">
       <div class="login-main">
-        <div class="eap-desc">
-          <div class="eap-main-image">
-            <image-title :image-url="loginMainImg" width="446px" height="404px"/>
-            <div class="eap-main-imageDesc">
-              <h2>{{mainImageDesc1}}</h2>
-              <p>{{mainImageDesc2}}</p>
-            </div>
-          </div>
-          <div class="eap-login-info">
-            <ul>
-              <li
-                v-for="infoImg in loginInfoImgGroup"
-                :key="infoImg.desc"
-                :style="{'background-image':infoImg.ico}"
-              >{{infoImg.desc}}</li>
-            </ul>
-            <h2>{{loginInfoTitle}}</h2>
-            <p>{{loginInfoText}}</p>
-          </div>
-        </div>
+
         <el-form
           ref="loginForm"
           :model="loginForm"
@@ -467,6 +448,8 @@ $cursor: #333;
   }
   .el-main {
     display: flex;
+    background-size: 100% auto; 
+    background-repeat: no-repeat; 
     .login-main {
       width: 80%;
       min-width: 1200px;

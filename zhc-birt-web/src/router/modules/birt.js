@@ -47,6 +47,12 @@ const birtRouter = {
           component: () => import('@/views/birt/basic/grid-lock/index'),
           name: 'GridLockBirt',
           meta: { title: 'gridLockBirt' }
+        },
+        {
+          path: 'column-split',
+          component: () => import('@/views/birt/basic/column-split/index'),
+          name: 'ColumnSplitBirt',
+          meta: { title: 'columnSplitBirt' }
         }
       ]
     },

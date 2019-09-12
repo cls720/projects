@@ -6,16 +6,15 @@
 
 <script>
 import BirtPage from "@/components/BirtPage";
-import SlashHeader from "@/components/ViewStyle/SlashHeader";
-import { gridLockModel } from "./gridLock.js";
+import { columnSplitModel } from "./columnSplit.js";
 
 export default {
   name: "gridLockBirt",
-  components: { BirtPage, SlashHeader },
+  components: { BirtPage },
   data() {
     return {
-      pageStyle: gridLockModel.style,
-      layout: gridLockModel.layout
+      pageStyle: columnSplitModel.style,
+      layout: columnSplitModel.layout
     };
   },
   methods: {}

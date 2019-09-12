@@ -50,7 +50,7 @@ export const gridListModel = {
             style: "border-bottom: 3px solid rgb(108,202,205)"
           }
         }
-      },      
+      },
       r3: {
         rowHeight: 20,
         tds: {
@@ -208,7 +208,7 @@ export const gridListModel = {
             colspan: 1
           }
         }
-      },   
+      },
       r7: {
         rowHeight: 30,
         tds: {
@@ -250,7 +250,7 @@ export const gridListModel = {
             colspan: 1
           }
         }
-      }, 
+      },
       r8: {
         rowHeight: 30,
         tds: {
@@ -371,7 +371,7 @@ export const gridListModel = {
             style: "border-bottom: 1px solid rgb(108,202,205)"
           }
         }
-      }, 
+      },
       r11: {
         rowHeight: 28,
         tds: {
