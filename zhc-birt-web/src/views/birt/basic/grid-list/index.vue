@@ -1,29 +1,28 @@
 <template>
   <div>
-    <table-birt-page :tables="tables" :style="pageStyle" />
+    <birt-page :layout="layout" :style="pageStyle" />
     <el-button @click="showInfo2()">通用对象保存测试</el-button>
     <span>{{out}}</span>
   </div>
 </template>
 
 <script>
-import TableBirtPage from "@/components/BirtPage/TableBirtPage";
+import BirtPage from "@/components/BirtPage";
 import { gridListModel } from "./gridList.js";
 import ConfigObject from "@/utils/ConfigObject";
 
 export default {
   name: "GridListBirt",
-  components: { TableBirtPage },
+  components: { BirtPage },
   data() {
     return {
       pageStyle: gridListModel.style,
-      tables: gridListModel.tables,
+      layout: gridListModel.layout,
       out: "out value"
     };
   },
   methods: {
-    showInfo2() {
-      debugger;
+    showInfo2() {      
       let me = this;
       $.co.getConfigObjXml({
           controlName: "BizKindConf",

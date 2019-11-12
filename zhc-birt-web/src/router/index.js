@@ -8,6 +8,7 @@ import Layout from '@/layout'
 
 /* Router Modules */
 import birtRouter from './modules/birt'
+import chartRouter from './modules/chart'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -59,7 +60,7 @@ export const constantRoutes = [{
     meta: {
       title: 'login'
     }
-  }, 
+  },
   {
     path: '/auth-redirect',
     component: () => import('@/views/login/auth-redirect'),
@@ -74,7 +75,7 @@ export const constantRoutes = [{
     path: '/401',
     component: () => import('@/views/error-page/401'),
     hidden: true
-  }, 
+  },
   {
     path: '',
     component: Layout,
@@ -91,6 +92,7 @@ export const constantRoutes = [{
     }]
   },
   birtRouter,
+  chartRouter,
   {
     path: '*',
     redirect: '/404',

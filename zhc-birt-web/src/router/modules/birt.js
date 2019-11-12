@@ -10,56 +10,137 @@ const birtRouter = {
   meta: {
     title: 'birt',
     icon: 'table'
-  },  
-  children: [   
-    {
+  },
+  children: [{
       path: 'basic',
       name: 'BasicBirt',
       component: () => import('@/views/birt/basic/index'),
-      meta: { title: 'basicBirt' },
-      children: [
-        {
+      meta: {
+        title: 'basicBirt'
+      },
+      children: [{
           path: 'form',
-          component: () => import('@/views/birt/basic/form/index'),
+          component: () => import('@/components/BirtBook/index'),
           name: 'FormBirt',
-          meta: { title: 'formBirt' }
+          meta: {
+            title: 'formBirt'
+          }
         },
         {
           path: 'form-list',
-          component: () => import('@/views/birt/basic/form-list/index'),
+          component: () => import('@/components/BirtBook/index'),
           name: 'FormListBirt',
-          meta: { title: 'formListBirt' }
+          meta: {
+            title: 'formListBirt'
+          }
         },
         {
           path: 'grid-list',
-          component: () => import('@/views/birt/basic/grid-list/index'),
+          component: () => import('@/components/BirtBook/index'),
           name: 'GridListBirt',
-          meta: { title: 'gridListBirt' }
+          meta: {
+            title: 'gridListBirt'
+          }
         },
         {
           path: 'grid-group-stat',
-          component: () => import('@/views/birt/basic/grid-group-stat/index'),
+          component: () => import('@/components/BirtBook/index'),
           name: 'GridGroupStatBirt',
-          meta: { title: 'gridGroupStatBirt' }
+          meta: {
+            title: 'gridGroupStatBirt'
+          }
         },
         {
           path: 'grid-lock',
-          component: () => import('@/views/birt/basic/grid-lock/index'),
+          component: () => import('@/components/BirtBook/index'),
           name: 'GridLockBirt',
-          meta: { title: 'gridLockBirt' }
+          meta: {
+            title: 'gridLockBirt'
+          }
         },
         {
           path: 'column-split',
-          component: () => import('@/views/birt/basic/column-split/index'),
+          component: () => import('@/components/BirtBook/index'),
           name: 'ColumnSplitBirt',
-          meta: { title: 'columnSplitBirt' }
+          meta: {
+            title: 'columnSplitBirt'
+          }
+        },
+        {
+          path: 'card-split',
+          component: () => import('@/components/BirtBook/index'),
+          name: 'CardSplitBirt',
+          meta: {
+            title: 'cardSplitBirt'
+          }
+        },
+        {
+          path: 'invoice-print',
+          component: () => import('@/components/BirtBook/index'),
+          name: 'invoicePrintBirt',
+          meta: {
+            title: 'invoicePrintBirt'
+          }
         }
       ]
     },
     {
       path: 'advince',
       name: 'AdvinceBirt',
-      meta: { title: 'advinceBirt'}
+      component: () => import('@/views/birt/advance/index'),
+      meta: {
+        title: 'advinceBirt'
+      },
+      children: [{
+          path: 'archives',
+          component: () => import('@/components/BirtBook/index'),
+          name: 'ArchivesBirt',
+          meta: {
+            title: 'archivesBirt'
+          }
+        },
+        {
+          path: 'electronic-signature',
+          component: () => import('@/components/BirtBook/index'),
+          name: 'ElectronicSignatureBirt',
+          meta: {
+            title: 'electronicSignatureBirt'
+          }
+        },
+        {
+          path: 'documents',
+          component: () => import('@/components/BirtBook/index'),
+          name: 'DocumentsBirt',
+          meta: {
+            title: 'documentsBirt'
+          }
+        },
+        {
+          path: 'data-deep',
+          component: () => import('@/components/BirtBook/index'),
+          name: 'DataDeepBirt',
+          meta: {
+            title: 'dataDeepBirt'
+          },
+          children: [{
+            hidden: true,
+            path: 'order-detail',
+            component: () => import('@/components/BirtBook/index'),
+            name: 'OrderDetailBirt',
+            meta: {
+              title: 'orderDetailBirt'
+            }
+          }, {
+            hidden: true,
+            path: 'bom-detail',
+            component: () => import('@/components/BirtBook/index'),
+            name: 'BomDetailBirt',
+            meta: {
+              title: 'bomDetailBirt'
+            }
+          }]
+        },
+      ]
     }
   ]
 }

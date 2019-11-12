@@ -60,7 +60,7 @@ export default {
     handleClickOutside() {
       this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
     },
-    onTagFullscreenChange(isTagFullscreen) {
+    onTagFullscreenChange(isTagFullscreen) {      
       console.log('$emit->tagfc change:' + isTagFullscreen)
       this.show = !isTagFullscreen
       this.tagFullscreenStyle = this.show ? '' : 'margin-left: 0px;'

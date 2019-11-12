@@ -4,6 +4,7 @@ export const gridLockModel = {
     rows: [{
       cols: [{
         span: 5,
+        style:"float:left",
         tables: [{
           width: 240,
           style: "border-spacing:0px;border-collapse: collapse;",

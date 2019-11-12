@@ -91,8 +91,7 @@ jQuery.ConfigObject = jQuery.co = {
       } else {
         param.push(`class="${propInfo.propObject || ''}"`);
         // param.push($.format('class="{0}"', propInfo.propObject ||""));
-        if (propInfo.propType.toLowerCase() == "configobject") {
-            debugger
+        if (propInfo.propType.toLowerCase() == "configobject") {            
         //   let val = "";
         //   me.getConfigObjXml(co[key]).then(value => {
         //     val = value
@@ -110,8 +109,7 @@ jQuery.ConfigObject = jQuery.co = {
     });
     return ctXml;
   },
-  async getConfigObjXml(co) {
-    debugger
+  async getConfigObjXml(co) {    
     if (!co) {
       return "";
     }
@@ -133,8 +131,7 @@ jQuery.ConfigObject = jQuery.co = {
     return `<${ctName}>${ctXml}</${ctName}>`;
     //$.format("<{0}>{1}</{0}>", ctName, ctXml);
   },
-  getConfigObjListXml(propInfo, liCo) {
-      debugger
+  getConfigObjListXml(propInfo, liCo) {      
     var coXml = `<list type="${propInfo.propObject || ''}">`
     var me = this
     $.each(liCo || [], function () {

@@ -24,7 +24,7 @@ export default {
   },
   data() {
     return {
-      title: '报表决策系统',
+      title: '海创云',
       home:"/amrept-web/eaptpl/paaskfpt/grzy/funcdir/grzy.func",
       logo: require('@/images/hcCloudLogo.png')
     }

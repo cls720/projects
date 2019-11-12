@@ -1,7 +1,7 @@
 export const columnSplitModel = {
   style: "padding:10px;",
   layout: {
-    tables: [{      
+    tables: [{
       style: "border-spacing:0px;border-collapse: collapse;",
       rows: {
         r1: {
@@ -72,7 +72,7 @@ export const columnSplitModel = {
             I4: {
               value: "8",
               style: "text-align:center;background-color:rgb(84,166,180);color:rgb(255,255,255);border:1px solid rgb(255,255,255);font-family:Microsoft YaHei UI;"
-            }         
+            }
 
           }
         },
@@ -259,7 +259,10 @@ export const columnSplitModel = {
             },
             I5: {
               value: "2",
-              style: "text-align:center;background-color:rgb(243,243,243);color:red;border:1px solid rgb(204,204,204);font-family:Microsoft YaHei UI;",
+              style: "text-align:center;background-color:rgb(243,243,243);color:rgb(68,68,68);border:1px solid rgb(204,204,204);font-family:Microsoft YaHei UI;",
+              styleExpr: function () {
+                return 2 > 0 ? "color:red" : "color:rgb(68,68,68)";
+              },
               colspan: 1
             },
           }
@@ -306,7 +309,10 @@ export const columnSplitModel = {
             },
             I5: {
               value: "3",
-              style: "text-align:center;color:rgb(68,68,68);border:1px solid rgb(204,204,204);font-family:Microsoft YaHei UI",
+              style: "text-align:center;color:rgb(68,68,68);border:1px solid rgb(204,204,204);font-family:Microsoft YaHei UI;",
+              styleExpr: function () {
+                return 3 > 0 ? "color:blue;" : "";
+              },
               colspan: 1
             },
 
@@ -398,7 +404,7 @@ export const columnSplitModel = {
             I4: {
               value: "16",
               style: "text-align:center;background-color:rgb(84,166,180);color:rgb(255,255,255);border:1px solid rgb(255,255,255);font-family:Microsoft YaHei UI;"
-            },           
+            },
           }
         },
         r12: {
@@ -1043,7 +1049,8 @@ export const columnSplitModel = {
               style: "text-align:center;background-color:rgb(84,166,180);color:rgb(255,255,255);border:1px solid rgb(255,255,255);font-family:Microsoft YaHei UI;"
             },
             I4: {
-              value: ""            
+              value: "1-31",
+              style: "font-weight:bold;text-align:center;background-color:#155864;color:rgb(255,255,255);border:1px solid rgb(255,255,255);font-family:Microsoft YaHei UI;"
             }
           }
         },
@@ -1088,7 +1095,8 @@ export const columnSplitModel = {
               colspan: 1
             },
             I5: {
-              value: "",              
+              value: "汇总",
+              style: "font-weight:bold;text-align:center;color:rgb(68,68,68);border:1px solid rgb(204,204,204);font-family:Microsoft YaHei UI",
             }
           }
         },
@@ -1133,7 +1141,8 @@ export const columnSplitModel = {
               colspan: 1
             },
             I5: {
-              value: ""
+              value: "176",
+              style: "font-weight:bold;text-align:center;background-color:rgb(243,243,243);color:rgb(68,68,68);border:1px solid rgb(204,204,204);font-family:Microsoft YaHei UI;",
             }
           }
         },
@@ -1178,7 +1187,8 @@ export const columnSplitModel = {
               colspan: 1
             },
             I5: {
-              value: ""
+              value: "170",
+              style: "font-weight:bold;text-align:center;color:rgb(68,68,68);border:1px solid rgb(204,204,204);font-family:Microsoft YaHei UI",
             }
           }
         },
@@ -1223,7 +1233,8 @@ export const columnSplitModel = {
               colspan: 1
             },
             I5: {
-              value: ""              
+              value: "6",
+              style: "font-weight:bold;text-align:center;background-color:rgb(243,243,243);color:rgb(68,68,68);border:1px solid rgb(204,204,204);font-family:Microsoft YaHei UI;",
             }
           }
         },
@@ -1268,7 +1279,8 @@ export const columnSplitModel = {
               colspan: 1
             },
             I5: {
-              value: ""              
+              value: "25",
+              style: "font-weight:bold;text-align:center;color:rgb(68,68,68);border:1px solid rgb(204,204,204);font-family:Microsoft YaHei UI",
             }
           }
         },
@@ -1313,44 +1325,8 @@ export const columnSplitModel = {
               colspan: 1
             },
             I5: {
-              value: ""
-            }
-          }
-        },
-        r32: {
-          rowHeight: 28,
-          tds: {
-            A11: {
-              value: "",
-              style: ""
-            },
-            B11: {
-              value: "",
-              style: ""
-            },
-            C11: {
-              value: "",
-              style: ""
-            },
-            D11: {
-              value: "汇总: ",
-              style: "text-align:center;font-weight:bold",
-            },
-            E11: {
-              value: "26.36",
-              style: "text-align:center;font-weight:bold",
-            },
-            F11: {
-              value: "3000",
-              style: "text-align:center;font-weight:bold",
-            },
-            G11: {
-              value: "666",
-              style: "text-align:center;font-weight:bold",
-            },
-            H11: {
-              value: "9011.6",
-              style: "text-align:center;font-weight:bold",
+              value: "6",
+              style: "font-weight:bold;text-align:center;background-color:rgb(243,243,243);color:rgb(68,68,68);border:1px solid rgb(204,204,204);font-family:Microsoft YaHei UI;",
             }
           }
         }

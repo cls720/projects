@@ -58,7 +58,6 @@ export default {
   },
   computed: {
     visitedViews() {
-      debugger;
       return this.$store.state.tagsView.visitedViews;
     },
     routes() {
@@ -86,10 +85,13 @@ export default {
   },
   methods: {
     generateTitle, // generateTitle by vue-i18n
-   
+
     isActive(route) {
       //因为同个路由有多开标签，所以加个target判断
-      return route.path === this.$route.path && route.target == this.$route.query.__target;
+      return (
+        route.path === this.$route.path &&
+        route.target == (this.$route.query.__target || "")
+      );
     },
     fullScreenTag() {
       if (!screenfull.enabled) {
@@ -104,7 +106,7 @@ export default {
     initFullscreen() {
       if (screenfull.enabled) {
         let me = this;
-        screenfull.on("change", () => {
+        screenfull.on("change", () => {          
           me.isTagFullscreen = screenfull.isFullscreen;
           me.$store.dispatch(
             "tagsView/changeTagFullscreen",
@@ -152,12 +154,16 @@ export default {
       return false;
     },
     moveToCurrentTag() {
-
       const tags = this.$refs.tag;
       this.$nextTick(() => {
         for (const tag of tags) {
-           //因为同个路由有多开标签，所以加个target判断
-          if (tag.to.path === this.$route.path &&  tag.to.query.__target == this.$route.query.__target) {
+          //因为同个路由有多开标签，所以加个target判断
+          let tagTarget ;
+          if (tag.to.query) tagTarget = tag.to.query.__target;
+          if (
+            tag.to.path === this.$route.path &&
+            tagTarget == this.$route.query.__target
+          ) {
             this.$refs.scrollPane.moveToTarget(tag);
             // when query is different then update
             if (tag.to.fullPath !== this.$route.fullPath) {

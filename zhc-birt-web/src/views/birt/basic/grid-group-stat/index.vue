@@ -1,20 +1,20 @@
 <template>
   <div>
-    <table-birt-page :tables="tables" :style="pageStyle" />
+    <birt-page :layout="layout" :style="pageStyle" />
   </div>
 </template>
 
 <script>
-import TableBirtPage from "@/components/BirtPage/TableBirtPage";
+import BirtPage from "@/components/BirtPage";
 import { gridGroupStatModel } from "./gridGroupStat.js";
 
 export default {
   name: "GridGroupStatBirt",
-  components: { TableBirtPage },
+  components: { BirtPage },
   data() {
     return {
       pageStyle: gridGroupStatModel.style,
-      tables: gridGroupStatModel.tables
+      layout: gridGroupStatModel.layout
     };
   },
   methods: {}

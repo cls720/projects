@@ -7,6 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= webpackConfig.name %></title>
+    <style>
+      @media print {
+        body {-webkit-print-color-adjust: exact;}
+      }
+    </style>
   </head>
   <body>
     <!-- import cdn js -->

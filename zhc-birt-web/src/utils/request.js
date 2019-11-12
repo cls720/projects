@@ -8,7 +8,7 @@ import SYSCONST from '@/utils/sysconst'
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
   withCredentials: true, // send cookies when cross-domain requests
-  timeout: 30000 // request timeout
+  timeout: 60000 // request timeout
 })
 function checkTimeout(res) {
   if (res[SYSCONST.STATUS_KEY] == SYSCONST.STATUS_TIMEOUT) {  //|| res[SYSCONST.STATUS_KEY] === 50012 || res[SYSCONST.STATUS_KEY] === 50014
@@ -36,7 +36,7 @@ service.interceptors.request.use(
       //config.headers['X-Token'] = getToken()
       //console.log("bearer " + getToken())
       config.headers["Authorization"] = "bearer " + getToken();
-      //config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+      // config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
       
       // if (config.url.indexOf("?")==-1)
       //   config.url=config.url+"?access_token="+getToken();
@@ -45,7 +45,7 @@ service.interceptors.request.use(
     }
     return config
   },
-  error => {
+  error => {    
     // do something with request error
     console.log(error) // for debug
     return Promise.reject(error)

@@ -1,17 +1,18 @@
 <template>
-  <table-birt-page :tables="tables" />
+  <birt-page :layout="layout" :style="pageStyle" />
 </template>
 
 <script>
-import TableBirtPage from "@/components/BirtPage/TableBirtPage";
+import BirtPage from "@/components/BirtPage";
 import { formBirtModel } from "./formList.js";
 
 export default {
   name: "FormListBirt",
-  components: { TableBirtPage },
+  components: { BirtPage },
   data() {
     return {
-      tables: formBirtModel.tables
+      pageStyle: formBirtModel.style,
+      layout: formBirtModel.layout
     };
   },
   methods: {}

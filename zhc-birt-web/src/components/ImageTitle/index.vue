@@ -1,48 +1,49 @@
 <template>
   <div :class="className" :style="imageStyle">
+    <template v-if="conf.children" v-for="child in conf.children">
+      <text-label v-if="child.controlName=='TextLabel'" :conf="child" />
+    </template>
+    {{title}}
     <slot></slot>
   </div>
 </template>
 
 <script>
+import TextLabel from "@/components/TextLabel";
+
 export default {
+  name: "ImageTitle",
+  components: { TextLabel },
   props: {
-    className: {
-      type: String,
-      default: "image-title"
+    conf: {
+      type: Object,
+      default: function() {
+        return {};
+      }
+    }
+  },
+  computed: {
+    className() {
+      return this.conf.className || "image-title";
     },
-    width: {
-      type: String,
-      default: "200px"
+    width() {
+      return this.conf.width || "100%";
     },
-    height: {
-      type: String,
-      default: "60px"
+    height() {
+      return this.conf.height || "60px";
     },
-    imageUrl: {
-      type: String,
-      default: ""
+    imageUrl() {
+      return this.conf.imageUrl || "";
     },
-    textIndent: {
-      type: [String, Number],
-      default: 10
+    title() {
+      return this.conf.title || "";
+    },
+    imageStyle() {
+      return `width:${this.width};height:${this.height};backgroundImage:${this.imageUrl};line-height:${this.height};${this.conf.style}`;
     }
   },
   data() {
-    return {
-
-    };
-  },
-  computed: {
-    imageStyle() {
-      return {
-        width: this.width,
-        height: this.height,
-        backgroundImage: this.imageUrl,
-        "line-height": this.height,
-        "text-indent": this.textIndent + "px"
-      };
-    }
+    return {};
   },
   methods: {}
 };
@@ -54,6 +55,5 @@ export default {
   color: #ffffff;
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  // border: 1px solid red;
 }
 </style>

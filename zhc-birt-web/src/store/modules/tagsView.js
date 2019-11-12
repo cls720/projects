@@ -1,19 +1,21 @@
+
 const state = {
+  isTagFullscreen: false,
   visitedViews: [],
   cachedViews: []
 }
 
 const mutations = {
+  CHANGE_TAG_FULLSCREEN: (state, val) => {
+    state.isTagFullscreen = val;
+  },
   ADD_VISITED_VIEW: (state, view) => {
     //同个路由要多开标签，加target判断
-    // debugger;
-    let addTarget = view.query ? (view.query.__target||"") : "";
+    let addTarget = view.query ?  (view.query.__target||"") : "";
     if (state.visitedViews.some(v => {
       let visitedTarget = v.query ? v.target : "";
       return v.path === view.path && addTarget === visitedTarget
     })) return
-
-    //if (state.visitedViews.some(v => v.path === view.path)) return
     state.visitedViews.push(
       Object.assign({}, view, {
         title: (view.query ? view.query.__title : "") || view.meta.title || 'no-name',
@@ -74,6 +76,10 @@ const mutations = {
     for (let v of state.visitedViews) {
       if (v.path === view.path) {
         v = Object.assign(v, view)
+        //更新标题
+        if (view.query && view.query.__title){
+          v.title = view.query.__title;
+        }
         break
       }
     }
@@ -81,6 +87,9 @@ const mutations = {
 }
 
 const actions = {
+  changeTagFullscreen({ commit }, val) {
+    commit('CHANGE_TAG_FULLSCREEN', val)
+  },
   addView({ dispatch }, view) {
     dispatch('addVisitedView', view)
     dispatch('addCachedView', view)
@@ -94,12 +103,16 @@ const actions = {
 
   delView({ dispatch, state }, view) {
     return new Promise(resolve => {
+
+
       dispatch('delVisitedView', view)
       dispatch('delCachedView', view)
       resolve({
         visitedViews: [...state.visitedViews],
         cachedViews: [...state.cachedViews]
       })
+
+
     })
   },
   delVisitedView({ commit, state }, view) {

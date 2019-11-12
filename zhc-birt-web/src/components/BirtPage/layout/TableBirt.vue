@@ -9,10 +9,10 @@
       </thead>
       <tbody>
         <tr v-for="tr in tb.rows" :style="{height:tr.rowHeight+'px'}">
-          <td v-for="td in tr.tds" :style="td.style" :rowspan="td.rowspan" :colspan="td.colspan">
+          <td v-for="td in tr.tds" :style="getTdStyle(td)" :rowspan="td.rowspan" :colspan="td.colspan">
             <span v-if="!td.viewStyle">{{td.value}}</span>
             <div v-else>
-              <view-style :params="td.viewStyle" />
+              <view-style :td-obj="td" />
             </div>
           </td>
         </tr>
@@ -38,7 +38,15 @@ export default {
   data() {
     return {};
   },
-  methods: {}
+  methods: {
+    getTdStyle(td){
+      let tdStyle = td.style || "";
+      if (td.styleExpr){        
+        tdStyle += (td.styleExpr() || "")
+      }
+      return tdStyle;
+    }
+  }
 };
 </script>
 

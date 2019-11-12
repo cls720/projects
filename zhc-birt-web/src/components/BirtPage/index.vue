@@ -1,7 +1,7 @@
 <template>
   <div class="zhc-birt-page">
     <birt-tool-bar />
-    <div id="print_div">
+    <div id="print_div" :style="layout.style">
       <template v-for="(val,key) in layout">
         <row-birt v-if="key === 'rows'" v-for="(row,i) in val" v-bind:key="'r'+i" :row="row" />
         <col-birt v-if="key === 'cols'" v-for="(col,j) in val" v-bind:key="'c'+j" :col="col" />

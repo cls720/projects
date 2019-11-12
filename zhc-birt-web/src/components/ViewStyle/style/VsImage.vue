@@ -1,8 +1,5 @@
 <template>
-  <img
-    :src="params.imageUrl"
-    :style="{'max-width':params.maxWidth+'px','max-height':params.maxHeight+'px'}"
-  />
+  <img :src="params.imageUrl" :style="getStyle()" />
 </template>
 
 <script>
@@ -15,6 +12,11 @@ export default {
       default: function() {
         return {};
       }
+    }
+  },
+  methods: {
+    getStyle() {
+      return `max-width:${this.params.maxWidth}px;max-height:${this.params.maxHeight}px};${this.params.style}`;
     }
   }
 };

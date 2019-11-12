@@ -27,8 +27,7 @@ jQuery.SlashHeader = {
       strokeWidth: 1,
       textIndent: "5px",
       fontClass: ''
-    };
-    debugger
+    };    
     var options = $.extend({}, def, setting);
     //计算坐标
     var pointArr = [],
