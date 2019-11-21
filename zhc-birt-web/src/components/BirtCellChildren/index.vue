@@ -12,7 +12,7 @@
       </el-card>
 
       <image-title v-if="child.controlName=='ImageTitle'" :conf="child" />
-      <text-label v-if="child.controlName=='TextLabel'" :conf="child" />
+      <text-label :ref="child.controlId" v-if="child.controlName=='TextLabel'" :conf="child" />
       <hc-timeline
         v-if="child.controlName=='HcTimeline'"
         :conf="child"
@@ -24,8 +24,16 @@
         :content="child.content"
         :key="child.controlId"
       />
-      <pie-chart v-if="child.controlName=='PieChart'" :conf="child" />
-      <line-chart v-if="child.controlName=='LineChart'" :conf="child" />
+      <pie-chart
+        v-if="child.controlName=='PieChart'"
+        :conf="child"
+        :dataset-datas="getParentDataSet(child.dataset).datas"
+      />
+      <line-chart
+        v-if="child.controlName=='LineChart'"
+        :conf="child"
+        :dataset-datas="getParentDataSet(child.dataset).datas"
+      />
       <realtime-chart
         v-if="child.controlName=='RealtimeChart'"
         :conf="child"
@@ -36,7 +44,11 @@
         :conf="child"
         :dataset-datas="getParentDataSet(child.dataset).datas"
       />
-      <china-map-chart v-if="child.controlName=='ChinaMapChart'" :conf="child" />
+      <china-map-chart
+        v-if="child.controlName=='ChinaMapChart'"
+        :conf="child"
+        :dataset-datas="getParentDataSet(child.dataset).datas"
+      />
     </template>
   </div>
 </template>
@@ -81,7 +93,6 @@ export default {
   computed: {},
   methods: {
     getParentDataSet(datasetId) {
-      
       if (!datasetId) console.error("未绑定数据集Id");
       let parent = this.$parent;
       while (parent) {

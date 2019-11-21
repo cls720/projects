@@ -70,6 +70,9 @@ export default {
       dataset: {}
     };
   },
+  provide() {
+    return { datasource: this.datasource, dataset: this.dataset };
+  },
   computed: {
     mainHeight() {
       let height = this.screenHeight;
@@ -163,11 +166,11 @@ export default {
     },
     // 实例化工作薄数据源对象
     initDataSources(dataSources) {
-      if (dataSources) {
+      if (dataSources) {        
         let me = this;
         dataSources.forEach(ds => {
           if (!me.datasource[ds.controlId]) {
-            ds.dataset = me.dataset;
+            ds.dataset = me.dataset;            
             me.datasource[ds.controlId] = DataSourceFactory.newInstance(ds);
           }
         });
@@ -184,16 +187,13 @@ export default {
         });
       }
     },
-    // 获取数据集对象实例
+    // 根据数据集Id获取数据集对象实例
     getDataSetInstance(datasetId) {
       return this.dataset[datasetId];
     },
     // 获取报表总页数,可按layout维度或sheet维度计算分页
     getTotalPage() {
       return this.birtModel.totalPage;
-      // return this.renderType === "pages"
-      //   ? this.birtModel.totalPage
-      //   : this.birtModel.sheets && this.birtModel.sheets.length;
     },
     isRenderTabs() {
       return this.renderType === "tabs";
@@ -242,7 +242,7 @@ export default {
   },
   mounted() {
     this.registerResize();
-    this.loadBirtModel(this.$route.path, this.$route.query);
+    this.loadBirtModel(this.$route.path, this.$route.query);   
   },
   beforeDestroy() {
     for (var key in this.datasource) {

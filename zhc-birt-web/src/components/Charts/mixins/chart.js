@@ -49,7 +49,11 @@ export default {
       return this.conf.option || {};
     },
     datas() {
-      return this.conf.datas || [];
+      if (this.datasetDatas.length > 0) {
+        return this.datasetDatas;
+      } else {
+        return this.conf.datas || [];
+      }
     },
     isGroupData() {
       if (this.conf.isGroupData === undefined) {
@@ -90,11 +94,12 @@ export default {
       return `height:${this.chartHeight};width:${this.chartWidth};${this.conf.style || ""};`
     },
     // 根据配置，计算分组数据
-    groupDatas() {
+    groupDatas() {            
       let me = this;
       let retuGroupDatas = [];
       if (this.isGroupData) {
         this.calcFields.forEach(calcField => {
+          // if (me.chartType == "china") debugger;
           retuGroupDatas.push(
             convertSeriesData(
               dataFilterByExpr(me.datas, calcField.filterExpr),
@@ -137,11 +142,12 @@ export default {
   watch: {
     // 监听更改datas,groupBy,calcField属性，更新饼图系列数据
     groupDatas() {
-      var option = this.chart.getOption();
-      this.groupDatas.forEach((gd, i) => {
-        option.series[i].data = gd;
-      });
-      this.chart.setOption(option);
+      // var option = this.chart.getOption();
+      // this.groupDatas.forEach((gd, i) => {
+      //   option.series[i].data = gd;
+      // });
+      // this.chart.setOption(option);     
+      this.refreshChart();
     }
   },
   beforeDestroy() {
@@ -153,7 +159,7 @@ export default {
   },
   methods: {
     // 初始化图表对象
-    initChart() {      
+    initChart() {
       let defaultOption = this.getDefaultOption();
       this.chart = echarts.init(document.getElementById(this.controlId));
       let chartOption = merge(defaultOption, this.option);
@@ -172,6 +178,21 @@ export default {
           this.chart.on(eventName, this.chartEvents[eventName], this);
         }
       }
+    },
+    // 刷新图表最新状态
+    refreshChart() {
+      this.chart.setOption(this.getChartOption());
+    },
+    // 获取图表配置
+    getChartOption() {
+      let defaultOption = this.getDefaultOption();
+      let chartOption = merge(defaultOption, this.option);
+      if (this.visualMap) {
+        chartOption = merge(chartOption, {
+          visualMap: this.visualMap
+        });
+      }
+      return chartOption;
     },
     // 调用图表渲染完函数配置
     callChartMounted() {

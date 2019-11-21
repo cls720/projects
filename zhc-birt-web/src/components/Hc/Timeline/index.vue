@@ -73,8 +73,7 @@ export default {
     height() {
       return this.conf.height || "100px";
     },
-    confStyle() {
-      debugger;
+    confStyle() {      
       return `overflow:hidden;${this.autoSizeStyle()};${this.conf.style};`;
     }
   },

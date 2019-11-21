@@ -27,10 +27,12 @@ const users = {
 export default [
   // user login
   {
-    url: '/auth/'+SYSCONST.PROJECT_NAME+'/login/login-check',
+    url: '/auth/' + SYSCONST.PROJECT_NAME + '/login/login-check',
     type: 'post',
     response: config => {
-      const { __userName } = config.body
+      const {
+        __userName
+      } = config.body
 
       const token = tokens[__userName]
       // mock error
@@ -47,13 +49,38 @@ export default [
       }
     }
   },
+  // 本地登录
+  {
+    url: '/user/login1',
+    type: 'post',
+    response: config => {
+      const {
+        username
+      } = config.body
+      const token = tokens[username]
 
+      // mock error
+      if (!token) {
+        return {
+          [SYSCONST.STATUS_KEY]: 60204,
+          message: 'Account and password are incorrect.'
+        }
+      }
+
+      return {
+        [SYSCONST.STATUS_KEY]: SYSCONST.STATUS_SUCCESS,
+        data: token
+      }
+    }
+  },
   // get user info
   {
     url: '/user/info\.*',
     type: 'get',
     response: config => {
-      const { token } = config.query
+      const {
+        token
+      } = config.query
       const info = users[token]
 
       // mock error
@@ -73,7 +100,7 @@ export default [
 
   // user logout
   {
-    url: '/auth/'+SYSCONST.PROJECT_NAME+'/logout',
+    url: '/auth/' + SYSCONST.PROJECT_NAME + '/logout',
     type: 'get',
     response: _ => {
       return {

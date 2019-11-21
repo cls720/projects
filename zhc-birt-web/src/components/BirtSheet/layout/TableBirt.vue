@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="zhc-birt-sheet-table">
     <div v-if="tb.rowSplit==='pageSplit'" style="page-break-after:always;" />
     <table :style="tb.style">
       <thead>

@@ -10,14 +10,30 @@ export default class WebSocketConection {
     this.webSocket = new WebSocket(url);
     this.webSocket.onerror = this.onerror;
     this.webSocket.onopen = this.onopen;
-    this.webSocket.onmessage = function (event) {      
+    this.webSocket.onmessage = function (event) {
       if (event.data) {
         let data = JSON.parse(event.data);
-        let msgid = data.msgid;
-        let target = me.target[msgid];
-        let datasetId = target.datasetId;
-        if (target && me.dataset[datasetId]) {
-          me.dataset[datasetId].setData(data.datas);
+        let dataId = data.dataId;
+        if (dataId) {
+          // if (dataId == "dyj_WcuFn0RQ")debugger;
+          let target = me.target[dataId];
+          if (!target) return;
+          let datasetId = target.datasetId;
+          if (target && me.dataset[datasetId]) {
+            me.dataset[datasetId].setData(data.datas);
+          }
+        } else {
+          for (var mid in data) {
+            dataId = mid;
+            let target = me.target[mid];
+            if (!target) {
+              return;
+            }
+            let datasetId = target.datasetId;
+            if (target && me.dataset[datasetId]) {
+              me.dataset[datasetId].setData(data[mid].data);
+            }
+          }
         }
       }
     };

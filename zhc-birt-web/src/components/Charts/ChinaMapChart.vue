@@ -1,5 +1,7 @@
 <template>
-  <div :id="controlId" :style="chartStyle" />
+  <div>
+    <div :id="controlId" :style="chartStyle" />
+  </div>
 </template>
 
 
@@ -16,12 +18,9 @@ import {
   convertMapDataByGps
 } from "@/funclib/MapUtil.js";
 import merge from "lodash/fp/merge";
-// import BaseEChart from "./BaseEChart";
 
 export default {
   name: "ChinaMapChart",
-  // extends: "BaseEChart",
-  // components: { BaseEChart },
   mixins: [chart, resize, autosize],
   data() {
     return {
@@ -67,6 +66,7 @@ export default {
       return `${this.autoSizeStyle()};${this.conf.style || ""};`;
     }
   },
+  watch: {},
   methods: {
     getDefaultOption() {
       return {
@@ -98,7 +98,7 @@ export default {
     initChinaChart() {
       this.initChart("china", "中国");
       this.initEvents();
-      this.$emit("deepProvince", "中国");
+      this.$emit("deep-province", "中国");
     },
     /**
      * 绘制省份图表
@@ -109,7 +109,7 @@ export default {
     initProvinceChart(param, deepDataFilterFunc) {
       let provinceId = provincesMap[param.name];
       if (!provinceId) return;
-      require("echarts/map/js/province/" + provinceId + ".js");
+      //require("echarts/map/js/province/" + provinceId + ".js");
       let defaultOption = this.getDefaultOption();
       let geo = { geo: { map: param.name } };
       let chartOption = merge(defaultOption, this.option);
@@ -125,7 +125,7 @@ export default {
       this.chart.off("dblclick");
       this.chart.on("dblclick", this.initChinaChart);
 
-      this.$emit("deepProvince", param.name);
+      this.$emit("deep-province", param.name);
     },
     /**
      * 过滤图表系列数据项

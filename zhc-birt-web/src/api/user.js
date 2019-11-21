@@ -1,5 +1,6 @@
 import request from '@/utils/request'
 import SYSCONST from "@/utils/sysconst"
+
 export function login(data) {
   let reqData = {
     __userName: data.username,
@@ -9,6 +10,14 @@ export function login(data) {
     url: '/auth/'+SYSCONST.PROJECT_NAME+'/login/login-check',
     method: 'post',
     data: reqData
+  })
+}
+
+export function login1(data) {
+  return request({
+    url: '/user/login1',
+    method: 'post',
+    data
   })
 }
 

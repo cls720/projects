@@ -19,13 +19,13 @@ export default {
     };
   },
   computed: {
-    barVal() {
+    barVal() {      
       if (this.datasetDatas && this.datasetDatas.length > 0) {
         let fieldName = this.calcFields[0].name;
         let lastIndex = this.datasetDatas.length - 1;
         return this.datasetDatas[lastIndex][fieldName];
       }
-      return this.conf.barVal || 30;
+      return this.conf.barVal || 0;
     },
     minBarVal() {
       return this.conf.minBarVal || 0;
@@ -57,7 +57,7 @@ export default {
     barData: function() {
       return [this.barVal];
     },
-    barOption: function() {
+    barOption: function() {            
       return {
         grid: {
           left: "0%",
@@ -134,7 +134,7 @@ export default {
     }
   },
   watch: {
-    barVal(val, newVal) {      
+    barVal(val, newVal) {         
       var option = this.chart.getOption();
       option.series[1].data = this.barData;
       option.series[1].itemStyle = this.getBarItemStyle();

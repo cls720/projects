@@ -1,7 +1,14 @@
 <template>
   <div :class="className" :style="imageStyle">
     <template v-if="conf.children" v-for="child in conf.children">
-      <text-label v-if="child.controlName=='TextLabel'" :conf="child" />
+      <text-label
+        :ref="child.controlId"
+        v-if="child.controlName=='TextLabel'"
+        :conf="child"
+        :dataset="getParentDataSet(child.dataset)"
+        :dataset-datas="getParentDataSet(child.dataset).datas"
+        :currecord="getParentDataSet(child.dataset).cruRecord"
+      />
     </template>
     {{title}}
     <slot></slot>
@@ -45,7 +52,23 @@ export default {
   data() {
     return {};
   },
-  methods: {}
+  methods: {
+    getParentDataSet(datasetId) {
+      if (!datasetId) return {};
+      let parent = this.$parent;
+      while (parent) {
+        if (parent.getDataSetInstance) {
+          return parent.getDataSetInstance(datasetId);
+        }
+        parent = parent.$parent;
+      }
+    },
+    aaa(child) {
+      if(child.controlId=="TextLable_rc41_1111")
+      debugger;
+      return this.getParentDataSet(child.dataset).curRecord;
+    }
+  }
 };
 </script>
 

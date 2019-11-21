@@ -41,10 +41,29 @@ export default {
     getNowTime() {
       return new Date().toLocaleTimeString().replace(/^\D*/, "");
     },
+    refreshChart() {},
     // 根据实时数据，drawPointInterval点数刷新频率绘制实时图
-    updateChart(recd) {
+    updateChart(recds) {
       if (!this.chart) return;
       let option = this.chart.getOption();
+
+      // 绘制图表新增节点
+      let me = this;
+      recds.forEach(r => {
+        option.xAxis.forEach(item => {
+          item.data.push(r[me.groupBy]);
+        });
+        option.series.forEach((item, i) => {
+          let fieldName = me.calcFields[i].name;
+          item.data.push(r[fieldName]);
+        });
+      });      
+      // 删除过期节点
+      this.removeOverdueData(option);
+      this.chart.setOption(option);
+    },
+    // 移除过期节点数据
+    removeOverdueData(option) {      
       let xAxisData = option.xAxis[0].data;
       // 移除图表坐标第1个节点
       if (xAxisData.length > this.pointCount && this.pointCount > 0) {
@@ -55,16 +74,7 @@ export default {
           item.data.shift();
         });
       }
-      // 绘制图表新增节点
-      let me = this;
-      option.xAxis.forEach(item => {
-        item.data.push(recd[me.groupBy]);
-      });
-      option.series.forEach((item, i) => {
-        let fieldName = me.calcFields[i].name;
-        item.data.push(recd[fieldName]);
-      });
-      this.chart.setOption(option);
+      return option;
     },
     // 定时绘制图表
     setDrawChartInterval() {
@@ -74,7 +84,7 @@ export default {
           this.drawPointInterval
         );
       } else {
-        this.drawRealtimeChart();
+        this.updateChart(this.realtimeDatas);
       }
     },
     // 多条数据可能掉点
@@ -82,14 +92,13 @@ export default {
       if (this.realtimeDatas.length > 0) {
         let recd = this.realtimeDatas.shift();
         if (recd) {
-          this.updateChart(recd);
+          this.updateChart([recd]);
         }
       }
     }
   },
   mounted() {},
   beforeDestroy() {
-    
     if (!this.drawInterval) {
       return;
     }

@@ -47,8 +47,7 @@ export default {
       }
     },
     // 获取自适应高度
-    autoHeight() {
-      debugger;
+    autoHeight() {      
       let retuH;
       if (typeof this.height === "function") {
         retuH = this.height.call(this, this.getParentHeight());
@@ -64,8 +63,7 @@ export default {
         return retuH;
       }
     },
-    autoSizeStyle() {
-      debugger
+    autoSizeStyle() {      
       let retuStyle = "";
       let autoWidth = this.autoWidth();
       let autoHeight = this.autoHeight();
