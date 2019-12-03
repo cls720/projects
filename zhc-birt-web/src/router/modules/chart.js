@@ -41,6 +41,14 @@ const chartRouter = {
           meta: {
             title: 'lineChart'
           }
+        },
+        {
+          path: 'radar',
+          component: () => import('@/components/BirtBook/index'),
+          name: 'RadarChart',
+          meta: {
+            title: 'radarChart'
+          }
         }
       ]
     },
@@ -58,24 +66,15 @@ const chartRouter = {
           name: 'ChartDeepBirt',
           meta: {
             title: 'chartDeepBirt'
-          },
-          children: [{
-            hidden: true,
-            path: 'order-detail',
-            component: () => import('@/components/BirtBook/index'),
-            name: 'OrderDetailBirt',
-            meta: {
-              title: 'orderDetailBirt'
-            }
-          }, {
-            hidden: true,
-            path: 'bom-detail',
-            component: () => import('@/components/BirtBook/index'),
-            name: 'BomDetailBirt',
-            meta: {
-              title: 'bomDetailBirt'
-            }
-          }]
+          }
+        },
+        {
+          path: 'bind-dataset',
+          component: () => import('@/components/BirtBook/index'),
+          name: 'BindDataset',
+          meta: {
+            title: 'bindDataset'
+          }
         },
       ]
     }

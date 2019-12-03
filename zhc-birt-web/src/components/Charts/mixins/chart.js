@@ -32,6 +32,7 @@ export default {
       }
     }
   },
+  inject: ["datasource", "dataset"],
   computed: {
     controlId() {
       return (
@@ -94,7 +95,7 @@ export default {
       return `height:${this.chartHeight};width:${this.chartWidth};${this.conf.style || ""};`
     },
     // 根据配置，计算分组数据
-    groupDatas() {            
+    groupDatas() {
       let me = this;
       let retuGroupDatas = [];
       if (this.isGroupData) {
@@ -137,7 +138,7 @@ export default {
   mounted() {
     this.initChart();
     this.initEvents();
-    this.callChartMounted()
+    this.callComptMounted()
   },
   watch: {
     // 监听更改datas,groupBy,calcField属性，更新饼图系列数据
@@ -156,6 +157,7 @@ export default {
     }
     this.chart.dispose();
     this.chart = null;
+    this.callComptBeforeDestroy();
   },
   methods: {
     // 初始化图表对象
@@ -167,7 +169,7 @@ export default {
         chartOption = merge(chartOption, {
           visualMap: this.visualMap
         });
-      }
+      }      
       this.chart.setOption(chartOption);
     },
     // 初始化图表事件
@@ -184,7 +186,7 @@ export default {
       this.chart.setOption(this.getChartOption());
     },
     // 获取图表配置
-    getChartOption() {
+    getChartOption() {      
       let defaultOption = this.getDefaultOption();
       let chartOption = merge(defaultOption, this.option);
       if (this.visualMap) {
@@ -195,9 +197,14 @@ export default {
       return chartOption;
     },
     // 调用图表渲染完函数配置
-    callChartMounted() {
+    callComptMounted() {
       if (this.conf.mounted) {
         this.conf.mounted.call(this);
+      }
+    },
+    callComptBeforeDestroy() {
+      if (this.conf.beforeDestroy) {
+        this.conf.beforeDestroy.call(this);
       }
     }
   }

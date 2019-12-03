@@ -1,17 +1,14 @@
 <template>
   <div>
-    <div :id="controlId" :style="chartStyle" />
+    <div :id="controlId" :style="chartStyle"/>
   </div>
 </template>
 
 
 <script>
-import echarts from "echarts";
 import chinaMap from "echarts/map/js/china.js";
+import BaseEChart from "@/components/Charts/BaseEChart.vue";
 
-import chart from "@/components/Charts/mixins/chart";
-import resize from "@/components/Charts/mixins/resize";
-import autosize from "@/components/mixins/autosize";
 import {
   provincesMap,
   convertMapData,
@@ -21,10 +18,11 @@ import merge from "lodash/fp/merge";
 
 export default {
   name: "ChinaMapChart",
-  mixins: [chart, resize, autosize],
+  extends: BaseEChart,
   data() {
     return {
       chartType: "china",
+      isDeepProvince: false,
       tooltip: function() {
         return {
           trigger: "item"
@@ -61,10 +59,7 @@ export default {
         seri.push(item);
       });
       return seri;
-    },
-    chartStyle() {
-      return `${this.autoSizeStyle()};${this.conf.style || ""};`;
-    }
+    }  
   },
   watch: {},
   methods: {
@@ -96,6 +91,8 @@ export default {
      * 深度分析返回绘制中国地图
      */
     initChinaChart() {
+      this.isDeepProvince = false;
+      this.chartType = "china";
       this.initChart("china", "中国");
       this.initEvents();
       this.$emit("deep-province", "中国");
@@ -107,23 +104,16 @@ export default {
      * deepDataFilterFunc 深度分析数据过滤回调函数
      */
     initProvinceChart(param, deepDataFilterFunc) {
+      this.isDeepProvince = true;
+      this.chartType = param.name;
       let provinceId = provincesMap[param.name];
       if (!provinceId) return;
       //require("echarts/map/js/province/" + provinceId + ".js");
-      let defaultOption = this.getDefaultOption();
-      let geo = { geo: { map: param.name } };
-      let chartOption = merge(defaultOption, this.option);
-      chartOption = merge(chartOption, geo);
-      if (this.visualMap) {
-        chartOption = merge(chartOption, {
-          visualMap: this.visualMap
-        });
-      }
+
       // 过滤深度分析数据
+      let chartOption = this.getChartOption();
       this.doOptionSeriesDataFilter(chartOption, deepDataFilterFunc);
       this.chart.setOption(chartOption);
-      this.chart.off("dblclick");
-      this.chart.on("dblclick", this.initChinaChart);
 
       this.$emit("deep-province", param.name);
     },

@@ -4,14 +4,11 @@
 
 
 <script>
-import echarts from "echarts";
-import chart from "@/components/Charts/mixins/chart";
-import chart2Axis from "@/components/Charts/mixins/chart2Axis";
-import resize from "@/components/Charts/mixins/resize";
+import BaseEChart from "@/components/Charts/BaseEChart.vue";
 
 export default {
   name: "BarPercentChart",
-  mixins: [chart, resize],
+  extends: BaseEChart,
   props: {},
   data() {
     return {

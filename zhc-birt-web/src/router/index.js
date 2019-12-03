@@ -9,6 +9,7 @@ import Layout from '@/layout'
 /* Router Modules */
 import birtRouter from './modules/birt'
 import chartRouter from './modules/chart'
+import mobileRouter from './modules/mobile'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -37,67 +38,68 @@ import chartRouter from './modules/chart'
  * all roles can be accessed
  */
 export const constantRoutes = [{
-    path: '/redirect',
-    component: Layout,
-    hidden: true,
-    children: [{
-      path: '/redirect/:path*',
-      component: () => import('@/views/redirect/index')
-    }]
-  },
-  {
-    path: '/login',
-    component: () => import('@/views/login/index'),
-    hidden: true,
+  path: '/redirect',
+  component: Layout,
+  hidden: true,
+  children: [{
+    path: '/redirect/:path*',
+    component: () => import('@/views/redirect/index')
+  }]
+},
+{
+  path: '/login',
+  component: () => import('@/views/login/index'),
+  hidden: true,
+  meta: {
+    title: 'login'
+  }
+},
+{
+  path: '/small-login',
+  component: () => import('@/views/login/small'),
+  hidden: true,
+  meta: {
+    title: 'login'
+  }
+},
+{
+  path: '/auth-redirect',
+  component: () => import('@/views/login/auth-redirect'),
+  hidden: true
+},
+{
+  path: '/404',
+  component: () => import('@/views/error-page/404'),
+  hidden: true
+},
+{
+  path: '/401',
+  component: () => import('@/views/error-page/401'),
+  hidden: true
+},
+{
+  path: '',
+  component: Layout,
+  redirect: '/homepage',
+  children: [{
+    path: 'homepage',
+    name: 'homepage',
+    component: () => import('@/views/homepage/index'),
     meta: {
-      title: 'login'
+      title: 'homepage',
+      icon: 'dashboard',
+      affix: true
     }
-  },
-  {
-    path: '/small-login',
-    component: () => import('@/views/login/small'),
-    hidden: true,
-    meta: {
-      title: 'login'
-    }
-  },
-  {
-    path: '/auth-redirect',
-    component: () => import('@/views/login/auth-redirect'),
-    hidden: true
-  },
-  {
-    path: '/404',
-    component: () => import('@/views/error-page/404'),
-    hidden: true
-  },
-  {
-    path: '/401',
-    component: () => import('@/views/error-page/401'),
-    hidden: true
-  },
-  {
-    path: '',
-    component: Layout,
-    redirect: '/homepage',
-    children: [{
-      path: 'homepage',
-      name: 'homepage',
-      component: () => import('@/views/homepage/index'),
-      meta: {
-        title: 'homepage',
-        icon: 'dashboard',
-        affix: true
-      }
-    }]
-  },
+  }]
+},
   birtRouter,
   chartRouter,
-  {
-    path: '*',
-    redirect: '/404',
-    hidden: true
-  }
+  mobileRouter,
+{
+  path: '*',
+  redirect: '/404',
+  hidden: true
+}
 ]
 
 const createRouter = () => new Router({

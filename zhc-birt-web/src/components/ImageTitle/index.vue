@@ -5,9 +5,7 @@
         :ref="child.controlId"
         v-if="child.controlName=='TextLabel'"
         :conf="child"
-        :dataset="getParentDataSet(child.dataset)"
-        :dataset-datas="getParentDataSet(child.dataset).datas"
-        :currecord="getParentDataSet(child.dataset).cruRecord"
+        :bind-dataset="getParentDataSet(child.dataset)"
       />
     </template>
     {{title}}
@@ -62,11 +60,6 @@ export default {
         }
         parent = parent.$parent;
       }
-    },
-    aaa(child) {
-      if(child.controlId=="TextLable_rc41_1111")
-      debugger;
-      return this.getParentDataSet(child.dataset).curRecord;
     }
   }
 };

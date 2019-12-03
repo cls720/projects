@@ -7,8 +7,12 @@
 
 <script>
 import Bus from "@/utils/bus";
+import events from "@/components/mixins/events";
 
 export default {
+  name: "TextLabel",
+  mixins: [events],
+  inject: ["dataset"],
   props: {
     conf: {
       type: Object,
@@ -16,22 +20,10 @@ export default {
         return {};
       }
     },
-    dataset: {
+    bindDataset: {
       type: Object,
       default() {
-        return {};
-      }
-    },
-    currecord: {
-      type: Object,
-      default() {
-        return {};
-      }
-    },
-    datasetDatas: {
-      type: Array,
-      default: function() {
-        return [];
+        return null;
       }
     }
   },
@@ -49,7 +41,9 @@ export default {
       return this.conf.height || "30px";
     },
     textStyle() {
-      return `width:${this.width};height:${this.height};line-height:${this.height};${this.conf.style}`;
+      return `width:${this.width};height:${this.height};line-height:${
+        this.height
+      };${this.conf.style}`;
     }
   },
   data() {
@@ -58,23 +52,38 @@ export default {
     };
   },
   mounted() {
-    this.initDataSetEvents();
+    if (this.bindDataset && this.bindDataset.controlId) {
+      this.initDataSetEvents();
+    } else {
+      this.title = this.getTitle();
+    }
   },
   methods: {
     initDataSetEvents() {
       let me = this;
-      Bus.$on("curRecordChange", recd => {
+      Bus.$on("curRecordChange" + this.bindDataset.controlId, recd => {
         me.title = this.getTitle(recd);
       });
     },
     // 获取标题值
     getTitle(recd) {
-      debugger;
       if (typeof this.conf.title === "function") {
-        return this.conf.title.call(this, recd);
-      } else {
+        return this.conf.title.call(this, recd); 
+      } else {        
         return this.conf.title;
       }
+    },
+    /**
+     * 注册控件事件
+     * eventName 事件名
+     * callBackFunc 回调函数
+     * params 附加参数
+     */
+    on(eventName, callBackFunc) {
+      let me = this;
+      this.$el.addEventListener(eventName, () => {
+        callBackFunc.call(me);
+      });
     }
   }
 };

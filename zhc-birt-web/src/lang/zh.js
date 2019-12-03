@@ -17,6 +17,7 @@ export default {
     documentsBirt: '合同文档式报表',
     dataDeepBirt: '数据钻取报表',
     chartDeepBirt: '图表钻取',
+    bindDataset: '绑定数据集',
     orderDetailBirt: '订单明细',
     bomDetailBirt: 'Bom清单',
     chart: "图表",
@@ -24,7 +25,13 @@ export default {
     pieChart: "饼图",
     barChart: "柱图",
     lineChart: "线图",
-    deepJoinStatChart: "钻取&联动分析"
+    radarChart: "雷达图",
+    deepJoinStatChart: "钻取&联动分析",
+    mobile: "移动",
+    mobileBasic: "移动基础",
+    seniorLeadership: "高层领导",
+    middleLevelLeadership: "中层领导",
+    frontLineStaff: "一线员工"
   },
   navbar: {
     homepage: '首页',

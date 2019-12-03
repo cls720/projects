@@ -89,8 +89,14 @@ import {
   lineModel
 } from "./birt/Charts/Line";
 import {
+  radarModel
+} from "./birt/Charts/Radar";
+import {
   chartDeepModel
 } from "./birt/Charts/ChartDeep";
+import {
+  bindDatasetModel
+} from "./birt/Charts/BindDataset";
 
 export function getBirtModel(birtUrl, params) {
   return new Promise((resolve, reject) => {
@@ -158,8 +164,12 @@ export function getBirtModel(birtUrl, params) {
       result.data = barModel;
     } else if (birtUrl === "/chart/basic/line") {
       result.data = lineModel;
+    } else if (birtUrl === "/chart/basic/radar") {
+      result.data = radarModel;
     } else if (birtUrl === "/chart/deep-join-stat/chart-deep") {
       result.data = chartDeepModel;
+    } else if (birtUrl === "/chart/deep-join-stat/bind-dataset") {
+      result.data = bindDatasetModel;
     }
     resolve(result)
   })

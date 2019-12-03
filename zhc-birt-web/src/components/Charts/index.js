@@ -8,13 +8,15 @@ import ChinaMapChart from './ChinaMapChart.vue'
 import LineChart from './LineChart.vue'
 import PieChart from './PieChart.vue'
 import RealtimeChart from './RealtimeChart.vue'
+import RadarChart from './RadarChart.vue'
 
 const cmps = {
   BarPercentChart,
   ChinaMapChart,
   LineChart,
   PieChart,
-  RealtimeChart
+  RealtimeChart,
+  RadarChart
 };
 const install = () => {
   for (var key in cmps) {

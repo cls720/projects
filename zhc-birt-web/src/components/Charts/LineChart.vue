@@ -1,17 +1,16 @@
 <template>
-  <div :id="controlId" :style="chartStyle" />
+  <div :id="controlId" :style="chartStyle"/>
 </template>
 
 
 <script>
-import echarts from "echarts";
-import chart from "@/components/Charts/mixins/chart";
+import BaseEChart from "@/components/Charts/BaseEChart.vue";
 import chart2Axis from "@/components/Charts/mixins/chart2Axis";
-import resize from "@/components/Charts/mixins/resize";
 
 export default {
   name: "LineChart",
-  mixins: [chart, chart2Axis, resize],
+  extends: BaseEChart,
+  mixins: [chart2Axis],
   data() {
     return {
       chartType: "line"

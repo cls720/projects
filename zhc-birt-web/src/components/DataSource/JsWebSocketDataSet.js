@@ -5,7 +5,8 @@ export default class JsWebSocketDataSet {
     if (!option.datas) {
       console.error("数据集datas属性未配置")
     }
-    this.datas = option.datas;    
+    // this.datas = option.datas;  
+    Object.assign(this, option);
     this.curRecord = {
       __empty: true
     };
@@ -23,9 +24,9 @@ export default class JsWebSocketDataSet {
   }
 
   setCurRecord(rec) {
-    if (rec == this.curRecord)
-      return;
+    // if (rec == this.curRecord)
+    //   return;    
     this.curRecord = rec
-    Bus.$emit("curRecordChange", rec);    
+    Bus.$emit("curRecordChange" + this.controlId, rec);
   }
 }

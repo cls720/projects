@@ -32,17 +32,21 @@ import {
  *  [{"userCity":"福州","value":2},{"userCity":"北京","value":1}]
  */
 export function dataGroupBy(datas, group) {
-  var groupJson = {}
+  debugger
+  var groupJson = {};
+  var groupKeys = [];
   datas.forEach(data => {
     const groupKey = dataGroupKey(data, group.groupBy)
     if (!groupJson[groupKey]) {
       groupJson[groupKey] = {}
+      groupKeys.push(groupKey);
     }
     dataCalcRecd(groupJson[groupKey], group.calcFields, data)
   })
 
   var groupRecds = []
-  for (var gKey in groupJson) {
+  for (var i = 0, l = groupKeys.length; i < l; i++) {
+    var gKey = groupKeys[i];
     var groupRecd = dataGroupRecd(gKey, group.groupBy)
     var recd = {
       ...groupRecd,

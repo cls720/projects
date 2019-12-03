@@ -1,17 +1,16 @@
 <template>
-  <div :id="controlId" :style="chartStyle" />
+  <div :id="controlId" :style="chartStyle"/>
 </template>
 
 
 <script>
-import echarts from "echarts";
-import chart from "@/components/Charts/mixins/chart";
 import chart2Axis from "@/components/Charts/mixins/chart2Axis";
-import resize from "@/components/Charts/mixins/resize";
+import BaseEChart from "@/components/Charts/BaseEChart.vue";
 
 export default {
   name: "RealTimeChart",
-  mixins: [chart, chart2Axis, resize],
+  extends: BaseEChart,
+  mixins: [chart2Axis],
   data() {
     return {
       chartType: "line",
@@ -21,7 +20,12 @@ export default {
   computed: {
     // 当前实时数据包
     realtimeDatas() {
-      return [].concat(this.datasetDatas);
+      if (this.datasetDatas.length > 0) {
+        return [].concat(this.datasetDatas);
+      } else {
+        return [].concat(this.conf.datas || []);
+      }
+      // return [].concat(this.datasetDatas);
     },
     // 图表显示实时点数,-1无限制
     pointCount() {
@@ -57,13 +61,13 @@ export default {
           let fieldName = me.calcFields[i].name;
           item.data.push(r[fieldName]);
         });
-      });      
+      });
       // 删除过期节点
       this.removeOverdueData(option);
       this.chart.setOption(option);
     },
     // 移除过期节点数据
-    removeOverdueData(option) {      
+    removeOverdueData(option) {
       let xAxisData = option.xAxis[0].data;
       // 移除图表坐标第1个节点
       if (xAxisData.length > this.pointCount && this.pointCount > 0) {

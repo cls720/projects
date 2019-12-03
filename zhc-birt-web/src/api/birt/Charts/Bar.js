@@ -42,33 +42,33 @@ export const barModel = {
                         controlId: "PieChart_p1",
                         height: 250,
                         datas: [{
-                            "sailArea": "华北",
-                            "sailValue": 20372,
-                          },
-                          {
-                            "sailArea": "华东",
-                            "sailValue": 10922,
-                          },
-                          {
-                            "sailArea": "华中",
-                            "sailValue": 10776,
-                          },
-                          {
-                            "sailArea": "华南",
-                            "sailValue": 30776,
-                          },
-                          {
-                            "sailArea": "酉北",
-                            "sailValue": 6800,
-                          },
-                          {
-                            "sailArea": "东北",
-                            "sailValue": 9000,
-                          },
-                          {
-                            "sailArea": "酉南",
-                            "sailValue": 8600,
-                          },
+                          "sailArea": "华北",
+                          "sailValue": 20372,
+                        },
+                        {
+                          "sailArea": "华东",
+                          "sailValue": 10922,
+                        },
+                        {
+                          "sailArea": "华中",
+                          "sailValue": 10776,
+                        },
+                        {
+                          "sailArea": "华南",
+                          "sailValue": 30776,
+                        },
+                        {
+                          "sailArea": "酉北",
+                          "sailValue": 6800,
+                        },
+                        {
+                          "sailArea": "东北",
+                          "sailValue": 9000,
+                        },
+                        {
+                          "sailArea": "酉南",
+                          "sailValue": 8600,
+                        },
                         ],
                         isGroupData: false,
                         groupBy: "sailArea",
@@ -103,33 +103,33 @@ export const barModel = {
                         controlId: "PieChart_p2",
                         height: 250,
                         datas: [{
-                            "userCity": "福州",
-                            "userCount": 20372,
-                          },
-                          {
-                            "userCity": "厦门",
-                            "userCount": 10922,
-                          },
-                          {
-                            "userCity": "泉州",
-                            "userCount": 10776,
-                          },
-                          {
-                            "userCity": "龙岩",
-                            "userCount": 8600,
-                          },
-                          {
-                            "userCity": "南平",
-                            "userCount": 7500,
-                          },
-                          {
-                            "userCity": "三明",
-                            "userCount": 6800,
-                          },
-                          {
-                            "userCity": "其它",
-                            "userCount": 5800,
-                          },
+                          "userCity": "福州",
+                          "userCount": 20372,
+                        },
+                        {
+                          "userCity": "厦门",
+                          "userCount": 10922,
+                        },
+                        {
+                          "userCity": "泉州",
+                          "userCount": 10776,
+                        },
+                        {
+                          "userCity": "龙岩",
+                          "userCount": 8600,
+                        },
+                        {
+                          "userCity": "南平",
+                          "userCount": 7500,
+                        },
+                        {
+                          "userCity": "三明",
+                          "userCount": 6800,
+                        },
+                        {
+                          "userCity": "其它",
+                          "userCount": 5800,
+                        },
                         ],
                         isGroupData: true,
                         groupBy: "userCity",
@@ -170,7 +170,7 @@ export const barModel = {
                       controlId: "ElCard_card1",
                       children: [{
                         controlName: "BarPercentChart",
-                        controlId: "BarPercentChart_13",                        
+                        controlId: "BarPercentChart_13",
                         height: 250,
                         datas: [],
                         isGroupData: true,
@@ -179,16 +179,26 @@ export const barModel = {
                           name: 'value',
                           title: '访问来源'
                         }],
-                        barVal:95,
+                        barVal: 95,
                         option: {
                           title: {
                             text: "柱形百分比实时图"
                           },
-                          grid:{   
-                            left:'30%',
-                            right:'30%',
-                            top:'20%'
+                          grid: {
+                            left: '30%',
+                            right: '30%',
+                            top: '20%'
                           }
+                        },
+                        mounted: function () {
+                          var me = this;
+                          this.mockInterval = setInterval(() => {
+                            me.conf.barVal = Math.floor(Math.random() * 100) + 1;
+                          }, 2000)
+                        },
+                        beforeDestroy: function () {
+                          clearInterval(this.mockInterval);
+                          this.mockInterval = null;
                         }
                       }]
                     }]
