@@ -1,0 +1,29 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
+<!--
+2013-9-30: Created.
+-->
+<svg>
+<metadata>
+Created by iconfont
+</metadata>
+<defs>
+
+<font id="iconfont" horiz-adv-x="1024" >
+  <font-face
+    font-family="iconfont"
+    font-weight="500"
+    font-stretch="normal"
+    units-per-em="1024"
+    ascent="896"
+    descent="-128"
+  />
+    <missing-glyph />
+    
+    <glyph glyph-name="mobile-phone" unicode="&#59225;" d="M777.12143803 884.78493895a88.37381268 88.37381268 0 0 0 88.37381267-88.37381268v-824.82225254a88.37381268 88.37381268 0 0 0-88.37381267-88.37381268H246.87856197a88.37381268 88.37381268 0 0 0-88.37381267 88.37381268V796.41112627a88.37381268 88.37381268 0 0 0 88.37381267 88.37381268h530.24287606z m0-88.37381268H246.87856197v-824.82225254h530.24287606V796.41112627z m-265.12143803-648.0746272a58.91587557 58.91587557 0 1 0 0-117.83174977 58.91587557 58.91587557 0 0 0 0 117.83174977z m117.83174977 603.88772088v-88.37381269h-235.66349954v88.37381269h235.66349954z"  horiz-adv-x="1024" />
+
+    
+
+
+  </font>
+</defs></svg>

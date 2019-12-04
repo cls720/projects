@@ -1,0 +1,16 @@
+{
+  "id": "1542679",
+  "name": "zhc-birt-web",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "11488074",
+      "name": "mobile-phone",
+      "font_class": "mobile-phone",
+      "unicode": "e759",
+      "unicode_decimal": 59225
+    }
+  ]
+}
