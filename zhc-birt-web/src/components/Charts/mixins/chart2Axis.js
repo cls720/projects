@@ -2,7 +2,7 @@ import {
   yAxis
 } from "@/funclib/LineUtil.js";
 
-export default {
+export default { 
   data() {
     return {
       tooltip: function () {
@@ -14,6 +14,9 @@ export default {
     };
   },
   computed: {
+    row2col() {
+      return this.conf.row2col;
+    },
     xAxisDatas() {
       let xAxisDatas = [];
       if (this.groupDatas.length > 0) {
@@ -41,16 +44,26 @@ export default {
   },
   methods: {
     getDefaultOption() {
-      return {
+      let retuOption = {
         tooltip: this.tooltip(),
         legend: {},
-        xAxis: [{
-          type: "category",
-          data: this.xAxisDatas
-        }],
-        yAxis: yAxis(this.calcFields),
         series: this.series
       };
+      if (!this.row2col) {
+        retuOption.xAxis = [{
+          type: "category",
+          data: this.xAxisDatas
+        }]
+        retuOption.yAxis = yAxis(this.calcFields);
+      } else {
+        debugger
+        retuOption.yAxis = [{
+          type: "category",
+          data: this.xAxisDatas
+        }];
+        retuOption.xAxis = yAxis(this.calcFields);
+      }
+      return retuOption;
     }
   }
 }

@@ -3,6 +3,7 @@
  * 放本目录打包的话 引用上级目录  es6不会转译 会有问题 
  * 同时要注意一下 webpack 输入输出的路径
  */
+import BarChart from './BarChart.vue'
 import BarPercentChart from './BarPercentChart.vue'
 import ChinaMapChart from './ChinaMapChart.vue'
 import LineChart from './LineChart.vue'
@@ -11,6 +12,7 @@ import RealtimeChart from './RealtimeChart.vue'
 import RadarChart from './RadarChart.vue'
 
 const cmps = {
+  BarChart,
   BarPercentChart,
   ChinaMapChart,
   LineChart,

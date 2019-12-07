@@ -50,10 +50,16 @@ export default {
       return this.conf.option || {};
     },
     datas() {
+      let retuDatas;
       if (this.datasetDatas.length > 0) {
-        return this.datasetDatas;
+        retuDatas = this.datasetDatas;
       } else {
-        return this.conf.datas || [];
+        retuDatas = this.conf.datas || [];
+      }
+      if (!this.row2col) {
+        return retuDatas;
+      } else {
+        return retuDatas.reverse();
       }
     },
     isGroupData() {
@@ -169,7 +175,7 @@ export default {
         chartOption = merge(chartOption, {
           visualMap: this.visualMap
         });
-      }      
+      }
       this.chart.setOption(chartOption);
     },
     // 初始化图表事件
@@ -186,7 +192,7 @@ export default {
       this.chart.setOption(this.getChartOption());
     },
     // 获取图表配置
-    getChartOption() {      
+    getChartOption() {
       let defaultOption = this.getDefaultOption();
       let chartOption = merge(defaultOption, this.option);
       if (this.visualMap) {

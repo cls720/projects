@@ -34,6 +34,16 @@
         :conf="child"
         :dataset-datas="getParentDataSet(child.dataset).datas"
       />
+      <bar-chart
+        v-if="child.controlName=='BarChart'"
+        :conf="child"
+        :dataset-datas="getParentDataSet(child.dataset).datas"
+      />
+      <bar-percent-chart
+        v-if="child.controlName=='BarPercentChart'"
+        :conf="child"
+        :dataset-datas="getParentDataSet(child.dataset).datas"
+      />
       <line-chart
         v-if="child.controlName=='LineChart'"
         :conf="child"
@@ -44,13 +54,8 @@
         :conf="child"
         :dataset-datas="getParentDataSet(child.dataset).datas"
       />
-       <radar-chart
+      <radar-chart
         v-if="child.controlName=='RadarChart'"
-        :conf="child"
-        :dataset-datas="getParentDataSet(child.dataset).datas"
-      />
-      <bar-percent-chart
-        v-if="child.controlName=='BarPercentChart'"
         :conf="child"
         :dataset-datas="getParentDataSet(child.dataset).datas"
       />
@@ -71,10 +76,11 @@ import HcTimeline from "@/components/Hc/Timeline";
 
 import MarkdownContent from "@/components/MarkdownContent";
 import PieChart from "@/components/Charts/PieChart.vue";
+import BarChart from "@/components/Charts/BarChart.vue";
+import BarPercentChart from "@/components/Charts/BarPercentChart.vue";
 import LineChart from "@/components/Charts/LineChart.vue";
 import RealtimeChart from "@/components/Charts/RealtimeChart.vue";
 import RadarChart from "@/components/Charts/RadarChart.vue";
-import BarPercentChart from "@/components/Charts/BarPercentChart.vue";
 import ChinaMapChart from "@/components/Charts/ChinaMapChart.vue";
 
 export default {
@@ -85,10 +91,11 @@ export default {
     HcTimeline,
     MarkdownContent,
     PieChart,
+    BarChart,
+    BarPercentChart,
     LineChart,
     RealtimeChart,
     RadarChart,
-    BarPercentChart,
     ChinaMapChart
   },
   props: {
