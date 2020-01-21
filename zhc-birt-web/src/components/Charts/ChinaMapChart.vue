@@ -1,7 +1,5 @@
-<template>
-  <div>
-    <div :id="controlId" :style="chartStyle"/>
-  </div>
+<template>  
+    <div :id="controlId" :style="chartStyle"/>  
 </template>
 
 
@@ -108,7 +106,7 @@ export default {
       this.chartType = param.name;
       let provinceId = provincesMap[param.name];
       if (!provinceId) return;
-      //require("echarts/map/js/province/" + provinceId + ".js");
+      // require("echarts/map/js/province/" + provinceId + ".js");
 
       // 过滤深度分析数据
       let chartOption = this.getChartOption();

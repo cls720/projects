@@ -18,7 +18,7 @@
 import autosize from "@/components/mixins/autosize";
 
 export default {
-  name: "HcTimeline",
+  name: "hc-timeline",
   mixins: [autosize],
   props: {
     datasetDatas: {

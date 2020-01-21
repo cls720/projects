@@ -39,15 +39,11 @@ export default {
         }
       } else {
         retuW = this.width;
-      }
-      if (typeof retuW === "number") {
-        return retuW + "px";
-      } else {
-        return retuW;
-      }
+      }     
+      return retuW;
     },
     // 获取自适应高度
-    autoHeight() {      
+    autoHeight() {
       let retuH;
       if (typeof this.height === "function") {
         retuH = this.height.call(this, this.getParentHeight());
@@ -57,21 +53,25 @@ export default {
       } else {
         retuH = this.height;
       }
-      if (typeof retuH === "number") {
-        return retuH + "px";
-      } else {
-        return retuH;
-      }
+      return retuH;
     },
-    autoSizeStyle() {      
+    autoSizeStyle() {
       let retuStyle = "";
       let autoWidth = this.autoWidth();
       let autoHeight = this.autoHeight();
       if (autoWidth) {
-        retuStyle += `width:${autoWidth};`
+        if (typeof retuW === "number") {
+          retuStyle += `width:${autoWidth}px;`
+        } else {
+          retuStyle += `width:${autoWidth};`
+        }
       }
       if (autoHeight) {
-        retuStyle += `height:${autoHeight};`
+        if (typeof autoHeight === "number") {
+          retuStyle += `height:${autoHeight}px;`
+        } else {
+          retuStyle += `height:${autoHeight};`
+        }
       }
       return retuStyle;
     }

@@ -84,11 +84,12 @@ export const constantRoutes = [{
   children: [{
     path: 'homepage',
     name: 'homepage',
-    component: () => import('@/views/homepage/index'),
+    component: () => import('@/views/birt/workbook/index'),
     meta: {
       title: 'homepage',
-      icon: 'dashboard',
-      affix: true
+      icon: 'shouye',
+      affix: true,
+      noCache: true
     }
   }]
 },

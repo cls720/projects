@@ -111,8 +111,15 @@ module.exports = {
     extensions: ['*', '.js', '.vue', '.json']
   },
   externals: {
+    vue:'vue',
+    vuex:'vuex',
+    'vue-router':'vue-router',
     echarts: 'echarts',
-    // 'tui-editor': 'tui-editor'
+    'js-md5':'js-md5',
+    'fuse.js':'fuse.js',
+    screenfull:'screenfull',
+    'tui-editor': 'tui-editor',
+    'element-ui': 'element-ui'
   },
   plugins: [
     new OptimizeCssAssetsPlugin(),
@@ -137,6 +144,24 @@ module.exports = {
     // 分割代码块
     splitChunks: {
       cacheGroups: {
+        // vue: {
+        //   test: /[\\/]node_modules[\\/]vue[\\/]/,
+        //   name: 'vue',
+        //   chunks: 'initial',
+        //   minSize: 0, // 大于0个字节
+        //   enforce: true, // 强制生成
+        //   priority: 10, // 权重
+        //   minChunks: 1 // 在分割之前，这个代码块最小应该被引用的次数
+        // },
+        // elementUI: {
+        //   test: /[\\/]node_modules[\\/]element-ui[\\/]/,
+        //   name: 'elementUI',
+        //   chunks: 'initial',
+        //   minSize: 0, // 大于0个字节
+        //   enforce: true, // 强制生成
+        //   priority: 10, // 权重
+        //   minChunks: 1 // 在分割之前，这个代码块最小应该被引用的次数
+        // },
         vendors: {
           name: 'vendors',
           test: /[\\/]node_modules[\\/]/,

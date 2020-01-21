@@ -3,22 +3,28 @@
  * 放本目录打包的话 引用上级目录  es6不会转译 会有问题 
  * 同时要注意一下 webpack 输入输出的路径
  */
+import BaseEChart from './BaseEChart'
 import BarChart from './BarChart.vue'
 import BarPercentChart from './BarPercentChart.vue'
 import ChinaMapChart from './ChinaMapChart.vue'
+import FunnelChart from './FunnelChart.vue'
+import GaugeChart from './GaugeChart.vue'
 import LineChart from './LineChart.vue'
 import PieChart from './PieChart.vue'
-import RealtimeChart from './RealtimeChart.vue'
 import RadarChart from './RadarChart.vue'
+import RealtimeChart from './RealtimeChart.vue'
 
 const cmps = {
+  BaseEChart,
   BarChart,
   BarPercentChart,
   ChinaMapChart,
+  FunnelChart,
+  GaugeChart,
   LineChart,
   PieChart,
+  RadarChart,
   RealtimeChart,
-  RadarChart
 };
 const install = () => {
   for (var key in cmps) {

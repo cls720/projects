@@ -2,7 +2,7 @@ import {
   yAxis
 } from "@/funclib/LineUtil.js";
 
-export default { 
+export default {
   data() {
     return {
       tooltip: function () {
@@ -19,11 +19,12 @@ export default {
     },
     xAxisDatas() {
       let xAxisDatas = [];
-      if (this.groupDatas.length > 0) {
-        this.groupDatas[0].forEach(recd => {
-          xAxisDatas.push(recd[this.groupBy]);
-        });
-      }
+      this.datas.forEach(recd => {
+        let xItem = recd[this.groupBy];
+        if (xAxisDatas.indexOf(xItem) == -1) {
+          xAxisDatas.push(xItem);
+        }
+      })
       return xAxisDatas;
     },
     series() {
@@ -37,31 +38,65 @@ export default {
         };
         if (yAxisIndex > 0) item.yAxisIndex = yAxisIndex;
         if (field.yAxis) yAxisIndex++;
+        if (this.stackBy) {
+          this.mergeStackBy(item);
+        }
         seri.push(item);
       });
       return seri;
     }
   },
   methods: {
+    // 合并xAxis轴默认配置
+    mergeXAxis(defaultOption) {
+      if (this.row2col) {
+        defaultOption.xAxis = yAxis(this.calcFields)
+      } else {
+        defaultOption.xAxis = [{
+          type: "category",
+          data: this.xAxisDatas
+        }]
+      }
+    },
+    // 合并yAxis轴默认配置
+    mergeYAxis(defaultOption) {
+      if (this.row2col) {
+        defaultOption.yAxis = [{
+          type: "category",
+          data: this.xAxisDatas
+        }];
+      } else {
+        defaultOption.yAxis = yAxis(this.calcFields);
+      }
+    },
+    // 合并angleAxis轴默认配置
+    mergeAngleAxis(defaultOption) {
+      defaultOption = Object.assign(defaultOption, {
+        angleAxis: {
+          type: "category",
+          data: this.xAxisDatas
+        },
+        radiusAxis: {
+        },
+        polar: {
+        },
+      })
+      defaultOption.series.forEach(item => {
+        item.coordinateSystem = 'polar';
+      })
+    },
+    // 获取默认配置项
     getDefaultOption() {
       let retuOption = {
         tooltip: this.tooltip(),
         legend: {},
         series: this.series
       };
-      if (!this.row2col) {
-        retuOption.xAxis = [{
-          type: "category",
-          data: this.xAxisDatas
-        }]
-        retuOption.yAxis = yAxis(this.calcFields);
+      if (this.isAngleAxis) {
+        this.mergeAngleAxis(retuOption);
       } else {
-        debugger
-        retuOption.yAxis = [{
-          type: "category",
-          data: this.xAxisDatas
-        }];
-        retuOption.xAxis = yAxis(this.calcFields);
+        this.mergeXAxis(retuOption);
+        this.mergeYAxis(retuOption);
       }
       return retuOption;
     }

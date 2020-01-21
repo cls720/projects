@@ -12,7 +12,7 @@ export default {
     chartStyle() {
       return `${this.autoSizeStyle()};${this.conf.style || ""};`;
     }
-  }
+  }  
 };
 </script>
 

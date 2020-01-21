@@ -9,6 +9,7 @@ export default {
   mounted() {
     this.__resizeHandler = debounce(() => {
       if (this.chart) {
+        this.checkDomWidth();
         this.chart.resize()
       }
     }, 100)

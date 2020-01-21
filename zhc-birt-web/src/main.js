@@ -44,6 +44,12 @@ Object.keys(filters).forEach(key => {
 
 Vue.config.productionTip = false
 
+//============08335===================
+Vue.prototype.$HCBIRT={
+  tabHeight:84
+}
+
+
 new Vue({
   el: '#app',
   router,

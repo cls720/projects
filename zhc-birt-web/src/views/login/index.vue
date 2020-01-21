@@ -4,7 +4,7 @@
       <el-row type="flex" align="middle" class="login-head">
         <el-col :span="4">
           <div class="login-logo">
-            <image-title :image-url="hcCloudLogo" width="46px" height="46px"/>报表决策系统
+            <hc-image-title :image-url="hcCloudLogo" width="46px" height="46px"/>报表决策系统
           </div>
         </el-col>
         <el-col :span="2" :offset="18">
@@ -119,7 +119,7 @@
 </template>
 
 <script>
-import ImageTitle from "@/components/ImageTitle";
+import HcImageTitle from "@/components/Hc/ImageTitle";
 import { validUsername } from "@/utils/validate";
 import axios from 'axios'
 import LangSelect from "@/components/LangSelect";
@@ -131,7 +131,7 @@ import { debuglog } from "util";
 axios.defaults.withCredentials = true
 export default {
   name: "Login",
-  components: { LangSelect, SocialSign, ImageTitle },
+  components: { LangSelect, SocialSign, HcImageTitle },
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
@@ -432,7 +432,7 @@ $cursor: #333;
       .login-logo {
         font-size: 28px;
         cursor: pointer;
-        .image-title {
+        .hc-image-title {
           vertical-align: middle;
           margin-right: 0.5em;
           display: inline-block;

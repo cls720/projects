@@ -1,43 +1,47 @@
 /**
  * 报表模型数据返回接口
  */
+// 首页
+import {
+  homepageModel
+} from "./birt/Homepage.js";
 // 基础报表
 import {
   formModel
-} from "./birt/Form.js";
+} from "./birt/basic/Form.js";
 import {
   formListModel
-} from "./birt/FormList";
+} from "./birt/basic/FormList";
 import {
   gridListModel
-} from "./birt/GridList";
+} from "./birt/basic/GridList";
 import {
   gridGroupStatModel
-} from "./birt/GridGroupStat";
+} from "./birt/basic/GridGroupStat";
 import {
   gridLockModel
-} from "./birt/GridLock";
+} from "./birt/basic/GridLock";
 import {
   columnSplitModel
-} from "./birt/ColumnSplit";
+} from "./birt/basic/ColumnSplit";
 import {
   cardSplitModel
-} from "./birt/CardSplit";
+} from "./birt/basic/CardSplit";
 import {
   invoicePrintModel
-} from "./birt/InvoicePrint";
+} from "./birt/basic/InvoicePrint";
 
 
 // 高级报表
 import {
   archivesModel
-} from "./birt/Archives.js";
+} from "./birt/advince/Archives.js";
 import {
   electronicSignatureModel
-} from "./birt/ElectronicSignature.js";
+} from "./birt/advince/ElectronicSignature.js";
 import {
   documentsModel
-} from "./birt/Documents";
+} from "./birt/advince/Documents";
 import {
   dataDeepModel
 } from "./birt/DataDeep/DataDeep";
@@ -77,6 +81,18 @@ import {
 import {
   bomDetailModel1006
 } from "./birt/DataDeep/BomDetail-1006";
+import {
+  tabsModel
+} from "./birt/advince/Tabs";
+import {
+  carouselModel
+} from "./birt/advince/Carousel";
+import {
+  loopScrollModel
+} from "./birt/advince/LoopScroll";
+import {
+  mediaModel
+} from "./birt/advince/Media";
 
 // 图表
 import {
@@ -92,6 +108,15 @@ import {
   radarModel
 } from "./birt/Charts/Radar";
 import {
+  funnelModel
+} from "./birt/Charts/Funnel";
+import {
+  gaugeModel
+} from "./birt/Charts/Gauge";
+import {
+  chinaMapModel
+} from "./birt/Charts/ChinaMap";
+import {
   chartDeepModel
 } from "./birt/Charts/ChartDeep";
 import {
@@ -104,7 +129,9 @@ export function getBirtModel(birtUrl, params) {
       data: {}
     }
 
-    if (birtUrl === "/birt/basic/form") {
+    if (birtUrl === "/homepage") {
+      result.data = homepageModel;
+    } else if (birtUrl === "/birt/basic/form") {
       result.data = formModel;
     } else if (birtUrl === "/birt/basic/form-list") {
       result.data = formListModel;
@@ -158,6 +185,14 @@ export function getBirtModel(birtUrl, params) {
         result.data = bomDetailModel1005;
       else if (params.orderId && params.orderId.endsWith("-1006"))
         result.data = bomDetailModel1006;
+    } else if (birtUrl === "/birt/advince/tab") {
+      result.data = tabsModel;
+    } else if (birtUrl === "/birt/advince/carousel") {
+      result.data = carouselModel;
+    } else if (birtUrl === "/birt/advince/loop-scroll") {
+      result.data = loopScrollModel;
+    }else if (birtUrl === "/birt/advince/media") {
+      result.data = mediaModel;
     } else if (birtUrl === "/chart/basic/pie") {
       result.data = pieModel;
     } else if (birtUrl === "/chart/basic/bar") {
@@ -166,6 +201,12 @@ export function getBirtModel(birtUrl, params) {
       result.data = lineModel;
     } else if (birtUrl === "/chart/basic/radar") {
       result.data = radarModel;
+    } else if (birtUrl === "/chart/basic/funnel") {
+      result.data = funnelModel;
+    } else if (birtUrl === "/chart/basic/gauge") {
+      result.data = gaugeModel;
+    } else if (birtUrl === "/chart/basic/china-map") {
+      result.data = chinaMapModel;
     } else if (birtUrl === "/chart/deep-join-stat/chart-deep") {
       result.data = chartDeepModel;
     } else if (birtUrl === "/chart/deep-join-stat/bind-dataset") {

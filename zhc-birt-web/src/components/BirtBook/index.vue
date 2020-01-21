@@ -74,7 +74,7 @@ export default {
     return { datasource: this.datasource, dataset: this.dataset };
   },
   computed: {
-    mainHeight() {
+    mainHeight() {            
       let height = this.screenHeight;
       if (this.isShowToolBar()) {
         height -= 60;
@@ -240,7 +240,7 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted() {    
     this.registerResize();
     this.loadBirtModel(this.$route.path, this.$route.query);   
   },

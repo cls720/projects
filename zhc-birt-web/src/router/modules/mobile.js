@@ -13,7 +13,7 @@ const mobileRouter = {
   },
   children: [{
     path: 'basic',
-    component: () => import('@/components/BirtBook/index'),
+    component: () => import('@/views/birt/mobile/basic/index'),
     name: 'basic',
     meta: {
       title: 'mobileBasic'

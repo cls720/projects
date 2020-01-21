@@ -14,13 +14,13 @@ const chartRouter = {
   children: [{
       path: 'basic',
       name: 'BasicChart',
-      component: () => import('@/components/BirtRouterView/index'),
+      component: () => import('@/views/birt/workbook/index'),
       meta: {
         title: 'basicChart'
       },
       children: [{
           path: 'pie',
-          component: () => import('@/components/BirtBook/index'),
+          component: () => import('@/views/birt/workbook/index'),
           name: 'PieChart',
           meta: {
             title: 'pieChart'
@@ -28,7 +28,7 @@ const chartRouter = {
         },
         {
           path: 'bar',
-          component: () => import('@/components/BirtBook/index'),
+          component: () => import('@/views/birt/workbook/index'),
           name: 'BarChart',
           meta: {
             title: 'barChart'
@@ -36,33 +36,57 @@ const chartRouter = {
         },
         {
           path: 'line',
-          component: () => import('@/components/BirtBook/index'),
+          component: () => import('@/views/birt/workbook/index'),
           name: 'LineChart',
           meta: {
             title: 'lineChart'
           }
-        },
+        },       
         {
           path: 'radar',
-          component: () => import('@/components/BirtBook/index'),
+          component: () => import('@/views/birt/workbook/index'),
           name: 'RadarChart',
           meta: {
             title: 'radarChart'
           }
-        }
+        },
+        {
+          path: 'funnel',
+          component: () => import('@/views/birt/workbook/index'),
+          name: 'FunnelChart',
+          meta: {
+            title: 'funnelChart'
+          }
+        },
+        {
+          path: 'gauge',
+          component: () => import('@/views/birt/workbook/index'),
+          name: 'GaugeChart',
+          meta: {
+            title: 'gaugeChart'
+          }
+        },
+        {
+          path: 'china-map',
+          component: () => import('@/views/birt/workbook/index'),
+          name: 'ChinaMapChart',
+          meta: {
+            title: 'chinaMapChart'
+          }
+        },
       ]
     },
     {
       path: 'deep-join-stat',
       name: 'DeepJoinStatChart',
-      component: () => import('@/components/BirtBook/index'),
+      component: () => import('@/views/birt/workbook/index'),
       meta: {
         title: 'deepJoinStatChart'
       },
       children: [
         {
           path: 'chart-deep',
-          component: () => import('@/components/BirtBook/index'),
+          component: () => import('@/views/birt/workbook/index'),
           name: 'ChartDeepBirt',
           meta: {
             title: 'chartDeepBirt'
@@ -70,7 +94,7 @@ const chartRouter = {
         },
         {
           path: 'bind-dataset',
-          component: () => import('@/components/BirtBook/index'),
+          component: () => import('@/views/birt/workbook/index'),
           name: 'BindDataset',
           meta: {
             title: 'bindDataset'

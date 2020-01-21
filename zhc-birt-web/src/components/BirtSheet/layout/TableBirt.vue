@@ -17,7 +17,7 @@
           >
             <birt-cell-children v-if="td.children" :children="td.children" />
             <view-style v-else-if="td.viewStyle" :td-obj="td" />
-            <link-hrefs v-else-if="td.hrefs && (td.hrefs.length > 0)" :td-obj="td" />
+            <hc-link-hrefs v-else-if="td.hrefs && (td.hrefs.length > 0)" :td-obj="td" />
             <span v-else>{{td.value}}</span>
           </td>
         </tr>
@@ -28,12 +28,12 @@
 
 <script>
 import BirtCellChildren from "@/components/BirtCellChildren";
-import LinkHrefs from "@/components/LinkHrefs";
+import HcLinkHrefs from "@/components/Hc/LinkHrefs";
 import ViewStyle from "@/components/ViewStyle";
 
 export default {
   name: "TableBirt",
-  components: { BirtCellChildren, LinkHrefs, ViewStyle },
+  components: { BirtCellChildren, HcLinkHrefs, ViewStyle },
   props: {
     tb: {
       type: Object,
