@@ -132,7 +132,6 @@ export default {
     }
   },
   created() {
-    debugger;
     if (!this.conf.hasInitConditionExpr) {
       this.initConditionExpr();
     }

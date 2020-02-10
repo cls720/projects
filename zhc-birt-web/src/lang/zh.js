@@ -29,6 +29,7 @@ export default {
     pieChart: "饼图",
     barChart: "柱图",
     lineChart: "线图",
+    areaChart: "区域图",
     radarChart: "雷达图",
     funnelChart: "漏斗图",
     gaugeChart: "仪表盘",
