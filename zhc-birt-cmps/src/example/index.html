@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/element-ui/index.css">
+</head>
+
+<body>
+    <div id="app">
+        <birt-work-book v-if="birtModel.controlName=='BirtWorkBook'" :ref="birtModel.controlId" :conf="birtModel" />
+    </div>
+</body>
+<script src="js/vue.js"></script>
+<!-- import plugins -->
+<script src="js/element-ui/index.js"></script>
+<script src="js/echarts.min.js"></script>
+<script src="js/map/china.js"></script>
+<script src="js/map/provinceall.js"></script>
+
+<script src="js/zhc-birt-cmps.js"></script>
+<script src="./index.js"></script>
+
+<script>
+    debugger;
+    Vue.prototype.$HCBIRT.tabHeight = 20;
+    new Vue({
+        el: '#app',
+        data: function () {
+            return {
+                birtModel: birtModel
+            }
+        }
+    })
+</script>
+
+</html>
