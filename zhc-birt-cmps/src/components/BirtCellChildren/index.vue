@@ -33,6 +33,12 @@
         <birt-cell-children v-if="child.children" :children="child.children" />
       </el-card>
 
+      <hc-button
+        v-if="child.controlName=='HcButton'"
+        :ref="child.controlId"
+        :key="child.controlId"
+        :conf="child"
+      />
       <hc-image-title
         v-if="child.controlName=='HcImageTitle'"
         :ref="child.controlId"
@@ -77,6 +83,12 @@
         :key="child.controlId"
         :conf="child"
       />
+      <hc-steps
+        v-if="child.controlName=='HcSteps'"
+        :ref="child.controlId"
+        :key="child.controlId"
+        :conf="child"
+      />
       <hc-video
         v-if="child.controlName=='HcVideo'"
         :ref="child.controlId"
@@ -89,6 +101,26 @@
         :key="child.controlId"
         :conf="child"
         :dataset-datas="getParentDataSet(child.dataset).datas"
+      />
+      <hc-table
+        v-if="child.controlName=='HcTable'"
+        :ref="child.controlId"
+        :key="child.controlId"
+        :conf="child"
+        :dataset-datas="getParentDataSet(child.dataset).datas"
+      />
+      <hc-tree
+        v-if="child.controlName=='HcTree'"
+        :ref="child.controlId"
+        :key="child.controlId"
+        :conf="child"
+        :dataset-datas="getParentDataSet(child.dataset).datas"
+      />
+      <hc-input-filter
+        v-if="child.controlName=='HcInputFilter'"
+        :ref="child.controlId"
+        :key="child.controlId"
+        :conf="child"
       />
 
       <pie-chart

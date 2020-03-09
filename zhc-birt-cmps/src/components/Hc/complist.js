@@ -7,6 +7,7 @@ import HcLinkHrefs from "./LinkHrefs"
 import HcInputFilter from "./InputFilter"
 import HcToolBar from "./ToolBar"
 import HcTabs from "./Tabs"
+import HcSteps from "./Steps"
 import HcCarousel from "./Carousel"
 import HcTable from "./Table"
 import HcDataList from "./DataList"
@@ -26,6 +27,7 @@ const cmps = {
     HcInputFilter,
     HcToolBar,
     HcTabs,
+    HcSteps,
     HcCarousel,
     HcTable,
     HcDataList,

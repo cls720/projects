@@ -1,6 +1,5 @@
 <template>
   <el-button
-    :style="confStyle"
     :size="size"
     :type="type"
     :plain="plain"
@@ -11,6 +10,7 @@
     :icon="icon"
     :autofocus="autofocus"
     :native-type="nativeType"
+    :style="confStyle"
   >{{title}}</el-button>
 </template>
 
@@ -31,9 +31,6 @@ export default {
   computed: {
     title() {
       return this.conf.title || "";
-    },
-    confStyle() {
-      return this.conf.style;
     },
     size() {
       return this.conf.size;
@@ -66,6 +63,7 @@ export default {
       return this.conf.nativeType;
     },
     confStyle() {
+      debugger;
       return this.conf.style;
     }
   },

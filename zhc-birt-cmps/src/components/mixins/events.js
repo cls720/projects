@@ -24,8 +24,8 @@ export default {
     * callBackFunc 回调函数
     * params 附加参数
     */
-    on(eventName, callBackFunc) {      
-      if (this.isPropEvent && this.isPropEvent(eventName)) {        
+    on(eventName, callBackFunc) {
+      if (this.isPropEvent && this.isPropEvent(eventName)) {
         return
       }
       let me = this;
@@ -35,7 +35,7 @@ export default {
           callBackFunc.call(me, p1, p2, p3, p4, p5);
         });
       } else {
-        this.$el.addEventListener(eventName, () => {
+        this.$el.addEventListener(eventName, (p1, p2, p3, p4, p5) => {
           callBackFunc.call(me, p1, p2, p3, p4, p5);
         });
       }

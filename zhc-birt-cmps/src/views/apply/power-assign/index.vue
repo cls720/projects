@@ -1,71 +1,300 @@
 <template>
-  <div class="power-design">
-    <el-row :gutter="'10'">
-      <el-col :span="20">
-        <el-steps :active="0" simple>
-          <el-step title="选择预分配功能" icon="el-icon-edit"></el-step>
-          <el-step title="选择分配对象" icon="el-icon-upload"></el-step>
-          <el-step title="分配数据权限、操作权限" icon="el-icon-picture"></el-step>
-        </el-steps>
-      </el-col>
-      <el-col :span="4" style="text-align:right">
-        <el-button
-          style="width:95%;font-size:16px;"
-          type="primary"
-          icon="el-icon-s-claim"
-          :disabled="isSaveDisabled"
-        >保存</el-button>
-      </el-col>
-    </el-row>
-    <el-row style="margin-top:10px;">
-      <el-col span="6">
-        <el-row>
-          <span style="line-height:25px;text-align:center">已选功能列表</span>
-        </el-row>
-        <el-row>
-          <el-input>
-            <el-button slot="append" icon="el-icon-search" @click="doResFilter()"></el-button>
-            <el-divider slot="append" direction="vertical"></el-divider>
-            <el-button slot="append" icon="el-icon-edit" @click="doResSelect()"></el-button>
-          </el-input>
-        </el-row>
-        <el-table :data="resData" :show-header="false" border style="width: 100%">
-          <el-table-column prop="resPath" label="功能路径"></el-table-column>
-        </el-table>
-      </el-col>
-      <el-col span="4"></el-col>
-      <el-col span="14"></el-col>
-    </el-row>
+  <div>
+    <birt-work-book :ref="birtModel.controlId" :conf="birtModel"></birt-work-book>
   </div>
 </template>
 
 <script>
+import { allData } from "./org.js";
+import { treeResources } from "./treeResources";
+import { convertToTreeData } from "@/funclib/DataTree.js";
+
 export default {
-  name: "power-assign",
-  computed: {},
   data() {
     return {
-      isSaveDisabled: true,
-      resKey: "",
-      resData: [
-        { resPath: "系统管理/用户管理" },
-        { resPath: "系统管理/菜单管理" }
-      ]
+      birtModel: {
+        controlName: "BirtWorkBook",
+        controlId: "BirtWorkBook_0",
+        showToolBar: false,
+        totalPage: 1,
+        renderType: "pages",
+        children: [
+          {
+            controlName: "BirtSheet",
+            controlId: "BirtSheet_0",
+            name: "sheet0", //配置页,children为其算法分页，如插入分页符或A4纸数据过长换页
+            pageIndex: 0,
+            dataSets: [
+              {
+                controlName: "JsWebSocketDataSet",
+                controlId: "dsOrg",
+                datas: allData
+              },
+              {
+                controlName: "JsWebSocketDataSet",
+                controlId: "dsRes",
+                datas: treeResources
+              }
+            ],
+            children: [
+              {
+                controlName: "BirtFormSheet",
+                controlId: "BirtFormSheet_02",
+                children: [
+                  {
+                    controlName: "ElRow",
+                    controlId: "ElRow_r1",
+                    gutter: 10,
+                    children: [
+                      {
+                        controlName: "ElCol",
+                        controlId: "ElCol_r1_c1",
+                        span: 20,
+                        children: [
+                          {
+                            controlName: "HcSteps",
+                            controlId: "HcSteps_1",
+                            simple: true,
+                            active: 0,
+                            children: [
+                              {
+                                controlName: "HcStep",
+                                controlId: "HcStep_1",
+                                title: "选择分配对象",
+                                icon: "el-icon-user"
+                              },
+                              {
+                                controlName: "HcStep",
+                                controlId: "HcStep_2",
+                                title: "选择预分配功能",
+                                icon: "el-icon-s-order"
+                              },
+                              {
+                                controlName: "HcStep",
+                                controlId: "HcStep_3",
+                                title: "分配数据权限、操作权限",
+                                icon: "el-icon-key"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        controlName: "ElCol",
+                        controlId: "ElCol_r1_c2",
+                        span: 4,
+                        children: [
+                          {
+                            controlName: "HcButton",
+                            controlId: "HcButton_save",
+                            title: "保存",
+                            type: "primary",
+                            icon: "el-icon-s-claim",
+                            disabled: true,
+                            style: "width:95%;font-size:16px;"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    controlName: "ElRow",
+                    controlId: "ElRow_r2",
+                    style: "margin-top:20px;",
+                    children: [
+                      {
+                        controlName: "ElCol",
+                        controlId: "ElCol_r2_c1",
+                        span: 6,
+                        children: [
+                          {
+                            controlName: "HcInputFilter",
+                            controlId: "HcInputFilter_org",
+                            size: "medium",
+                            events: {
+                              filterChange: function(filterKey, datas) {
+                                debugger;
+                                alert(filterKey);
+                                this.$refs.tree.filter(filterKey);
+                              }
+                            }
+                          },
+                          {
+                            controlName: "HcTree",
+                            controlId: "HcTree_org",
+                            dataset: "dsOrg",
+                            showCheckbox: true,
+                            defaultExpandAll: true,
+                            filterNodeMethod: function(value, data) {
+                              debugger;
+                              if (!value) return true;
+                              return data.label.indexOf(value) !== -1;
+                            },
+                            events: {}
+                          }
+                        ]
+                      },
+                      {
+                        controlName: "ElCol",
+                        controlId: "ElCol_r2_c2",
+                        span: 18,
+                        children: [
+                          {
+                            controlName: "HcTable",
+                            controlId: "HcTable_res",
+                            dataset: "dsRes",
+                            rowKey: "resId",
+                            children: [
+                              {
+                                controlName: "HcTableColumn",
+                                controlId: "HcTableColumn_0",
+                                prop: "name",
+                                label: "功能名称",
+                                width: 230
+                              },
+                              {
+                                controlName: "HcTableColumn",
+                                controlId: "HcTableColumn_1",
+                                prop: "type",
+                                label: "类型",
+                                width: 70
+                              },
+                              {
+                                controlName: "HcTableColumn",
+                                controlId: "HcTableColumn_2",
+                                label: "数据权限分配",
+                                children: [
+                                  {
+                                    controlName: "HcTableColumnRadio",
+                                    controlId: "HcTableColumn_2_1",
+                                    isShow: function(row) {
+                                      if (row.daPower) {
+                                        return true;
+                                      } else {
+                                        return false;
+                                      }
+                                    },
+                                    prop: "daValue",
+                                    radioValue: "daPower.personalScheme.value",
+                                    label: "个人"                                    
+                                  },
+                                  {
+                                    controlName: "HcTableColumnRadio",
+                                    controlId: "HcTableColumn_2_2",
+                                    isShow: function(row) {
+                                      if (row.daPower) {
+                                        return true;
+                                      } else {
+                                        return false;
+                                      }
+                                    },
+                                    prop: "daValue",
+                                    radioValue: "daPower.groupScheme.value",
+                                    label: "团队"
+                                  },
+                                  {
+                                    controlName: "HcTableColumnRadio",
+                                    controlId: "HcTableColumn_2_3",
+                                    isShow: function(row) {
+                                      if (row.daPower) {
+                                        return true;
+                                      } else {
+                                        return false;
+                                      }
+                                    },
+                                    prop: "daValue",
+                                    radioValue: "daPower.businessScheme.value",
+                                    label: "企业"
+                                  },
+                                  {
+                                    controlName: "HcTableColumnRadio",
+                                    controlId: "HcTableColumn_2_4",
+                                    isShow: function(row) {
+                                      if (row.daPower && row.daPower.others) {
+                                        return true;
+                                      } else {
+                                        return false;
+                                      }
+                                    },
+                                    showCheckAll: false,
+                                    prop: "daValue",
+                                    radioValue: "daPower.others",
+                                    label: "其它"
+                                  }
+                                ]
+                              },
+                              {
+                                controlName: "HcTableColumn",
+                                controlId: "HcTableColumn_3",
+                                label: "操作权限分配",
+                                width:200,
+                                children: [
+                                  {
+                                    controlName: "HcTableColumnCheckbox",
+                                    controlId: "HcTableColumn_3_1",
+                                    isShow: function(row) {
+                                      if (row.opPower) {
+                                        return true;
+                                      } else {
+                                        return false;
+                                      }
+                                    },
+                                    prop: "opAdd",
+                                    label: "添加"
+                                  },
+                                  {
+                                    controlName: "HcTableColumnCheckbox",
+                                    controlId: "HcTableColumn_3_2",
+                                    isShow: function(row) {
+                                      if (row.opPower) {
+                                        return true;
+                                      } else {
+                                        return false;
+                                      }
+                                    },
+                                    prop: "opEdit",
+                                    label: "修改"
+                                  },
+                                  {
+                                    controlName: "HcTableColumnCheckbox",
+                                    controlId: "HcTableColumn_3_3",
+                                    isShow: function(row) {
+                                      if (row.opPower) {
+                                        return true;
+                                      } else {
+                                        return false;
+                                      }
+                                    },
+                                    prop: "opDelete",
+                                    label: "删除"                                  },
+                                  {
+                                    controlName: "HcTableColumnCheckbox",
+                                    controlId: "HcTableColumn_3_4",
+                                    isShow: function(row) {
+                                      if (row.opPower) {
+                                        return true;
+                                      } else {
+                                        return false;
+                                      }
+                                    },
+                                    prop: "opExport",
+                                    label: "导出"                                    
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     };
-  },
-  methods: {
-    doResFilter() {
-      alert(3);
-    },
-    doResSelect() {
-      alert(4);
-    }
   }
 };
 </script>
-
-<style lang="scss" scoped>
-.power-design {
-  padding: 10px;
-}
-</style>

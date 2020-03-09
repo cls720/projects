@@ -33,6 +33,12 @@ const hcRouter = {
       name: 'hcInputFilter',
       meta: { title: 'HcInputFilter 关键字过滤' }
     },
+    {
+      path: '/steps',
+      component: () => import('@/views/hc/steps'),
+      name: 'hcSteps',
+      meta: { title: 'HcSteps 步骤条' }
+    },
     // {
     //   path: '/text-label',
     //   component: () => import('@/docs/md/hc/text-label/main.md'),
