@@ -72,7 +72,6 @@ export default {
          * 初始化过滤源数据
          */
         initFilterDatas() {
-            debugger
             if (this.bindDataset && this.bindDataset.controlId) {
                 let me = this;
                 Bus.on("loadData" + this.bindDataset.controlId, datas => {
@@ -95,11 +94,8 @@ export default {
         * 执行关键字过滤
         */
         doFilter() {
-            alert(this.filterKey);
             let recds = [];
-            let isClearFilter = true;
             if (this.filterKey && this.filterKey !== "") {
-                isClearFilter = false;
                 if (this.fuse) {
                     recds = this.fuse.search(this.filterKey);
                 }
@@ -108,7 +104,7 @@ export default {
             }
 
             let eventId = this.getEventId("filterChange");
-            Bus.emit(eventId, recds, isClearFilter);
+            Bus.emit(eventId, this.filterKey, recds);
         },
     }
 }

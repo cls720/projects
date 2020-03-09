@@ -55,7 +55,6 @@ export default {
   },
   methods: {
     doResFilter() {
-      debugger;
       alert(3);
     },
     doResSelect() {

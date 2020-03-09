@@ -30,7 +30,8 @@ export default {
     };
   },
   mounted(){
-    let treeData = convertToTreeData(allData, {
+    let cloneDatas = JSON.parse(JSON.stringify(allData));
+    let treeData = convertToTreeData(cloneDatas, {
       id: "id",
       parentId: "pid",
       rootValue: "-1"

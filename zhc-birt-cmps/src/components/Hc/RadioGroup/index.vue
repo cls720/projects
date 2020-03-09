@@ -9,7 +9,8 @@
     @change="onChange"
   >
     <template v-for="(child,i) in conf.children">
-      <el-radio        
+      <el-radio
+        v-if="child.controlName=='HcRadio'"
         :key="conf.controlId+i"
         :label="child.label"
         :disabled="child.disabled"
@@ -17,6 +18,13 @@
         :size="child.size"
         :name="child.name"
       >{{child.title}}</el-radio>
+      <el-radio-button
+        v-else-if="child.controlName=='HcRadioButton'"
+        :key="conf.controlId+i"
+        :label="child.label"
+        :disabled="child.disabled"
+        :name="child.name"
+      ></el-radio-button>
     </template>
   </el-radio-group>
 </template>

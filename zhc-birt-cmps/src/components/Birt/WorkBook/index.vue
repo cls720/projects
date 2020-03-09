@@ -94,7 +94,6 @@ export default {
       return sheets;
     },
     curtSheet() {
-      debugger;
       if (this.sheets.length > 0) {
         let pageCount = 0;
         for (var i = 0, l = this.sheets.length; i < l; i++) {

@@ -78,11 +78,9 @@ export default {
     },
     // 获取绑定数组变量
     getBindArray(row){
-      debugger
       return this.getBindVar(row, this.radioValue)
     },
     doCheckAllChange(val) {
-      debugger;    
       this.setRowCheckAll(this.tableRows, val)
     },
     /**

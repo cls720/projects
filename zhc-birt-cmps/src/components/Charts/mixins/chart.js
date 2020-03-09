@@ -112,7 +112,6 @@ export default {
       if (this.conf.controlId == "BarChart_gwlx") debugger;
       if (this.isGroupData) {
         this.calcFields.forEach(calcField => {
-          // if (me.chartType == "china") debugger;
           retuGroupDatas.push(
             convertSeriesData(
               dataFilterByExpr(me.datas, calcField.filterExpr),
@@ -196,7 +195,6 @@ export default {
     // 当容器隐藏clientWidth=0时需取父dom具体宽度,不然图表100%会变成100px;
     checkDomWidth() {
       if (this.$el && (this.$el.clientWidth === 0)) {
-        debugger;
         let parentEl = this.$el.parentNode;
         while (true) {
           if (parentEl.clientWidth > 0) {

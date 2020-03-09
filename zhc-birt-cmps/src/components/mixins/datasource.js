@@ -10,7 +10,6 @@ export default {
             }
         }
     },
-    inject: ["datasource", "dataset"],
     computed: {
         datas() {
             let retuDatas;

@@ -32,7 +32,6 @@ export default {
       let eventId = this.getEventId && this.getEventId(eventName);
       if (eventId) {
         Bus.on(eventId, (p1, p2, p3, p4, p5) => {
-          debugger
           callBackFunc.call(me, p1, p2, p3, p4, p5);
         });
       } else {

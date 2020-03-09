@@ -151,7 +151,6 @@ export default {
       document.getElementsByTagName("head")[0].appendChild(link);
     },
     getRoutes() {
-      debugger;
       return constantRoutes;
     }
   },

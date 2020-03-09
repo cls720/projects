@@ -32,6 +32,7 @@ export default {
   name: "hc-data-list",
   mixins: [autosize, datasource],
   components: { ViewStyle },
+  inject: ["datasource", "dataset"],
   props: {
     conf: {
       type: Object,
@@ -55,7 +56,6 @@ export default {
       let trRows = {};
       let i = 1;
       for (var trkey in this.conf.rows) {
-        debugger;
         let tr = this.conf.rows[trkey];
         let extendArrow = this.getTrExtendArrow(tr);
         if (extendArrow && this.datasetDatas) {
@@ -67,7 +67,6 @@ export default {
             });
           }
         } else {
-          debugger;
           let curtRecd = this.dataset[this.conf.dataset].curRecord;
           trRows["r" + i] = me.getTrExprInstance(tr, curtRecd);
           i++;

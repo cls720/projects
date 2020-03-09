@@ -2,11 +2,14 @@
   <el-tree
     :data="datas"
     :props="props"
+    :default-expand-all="defaultExpandAll"
+    :filter-node-method="filterNodeMethod"
     :show-checkbox="showCheckbox"
     :load="load"
     :lazy="lazy"
     @node-click="nodeClick"
     @check-change="checkChange"
+    ref="eltree"
   ></el-tree>
 </template>
 
@@ -29,8 +32,14 @@ export default {
     props() {
       return this.conf.props;
     },
+    defaultExpandAll() {
+      return this.conf.defaultExpandAll;
+    },
     showCheckbox() {
       return this.conf.showCheckbox;
+    },
+    filterNodeMethod() {
+      return this.conf.filterNodeMethod;
     },
     load() {
       return this.conf.load;
@@ -48,17 +57,18 @@ export default {
       return `${this.autoSizeStyle()};${this.conf.style};`;
     },
     nodeClick() {
-      return this.conf.events && this.conf.events.nodeClick;
+      return (this.conf.events && this.conf.events.nodeClick) || (() => {});
     },
     checkChange() {
-      return this.conf.events && this.conf.events.checkChange;
+      return (this.conf.events && this.conf.events.checkChange) || (() => {});
     }
   },
-  data() {
-    return {};
-  },
-  mounted() {},
-  methods: {}
+  methods: {
+    filter(filterKey) {
+      debugger
+      this.$refs.eltree.filter(filterKey);
+    }
+  }
 };
 </script>
 

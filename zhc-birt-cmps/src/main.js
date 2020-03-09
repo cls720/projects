@@ -11,7 +11,6 @@ import 'element-ui/lib/theme-chalk/index.css'
 
 import cmps from './components/complist'
 
-debugger
 for (var k in cmps) {
   console.log(k);  
   let cmpt = cmps[k];
@@ -19,7 +18,6 @@ for (var k in cmps) {
 }
 Vue.prototype.$HCBIRT = { tabHeight: 0 };
 
-debugger;
 Vue.use(ElementUI)
 new Vue({
   el: '#app',
