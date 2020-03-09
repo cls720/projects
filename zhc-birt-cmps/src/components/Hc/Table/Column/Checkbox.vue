@@ -1,14 +1,14 @@
 <template>
-  <el-table-column :label="label" :style="confStyle">
-    <el-checkbox slot="header" :checked="checkAll" @change="doCheckAllChange">{{label}}</el-checkbox>    
-    <template slot-scope="{row}">  
-        <div  v-if="isArray(row)" >
-          <el-checkbox                
-              v-for="(da,i) in getBindArray(row)"
-              :key="da.value + i"
-              v-model="row[prop]"             
-            >{{da.name}}</el-checkbox>
-        </div>
+  <el-table-column :label="label" :width="width" :min-width="minWidth" :style="confStyle">
+    <el-checkbox slot="header" :checked="checkAll" @change="doCheckAllChange">{{label}}</el-checkbox>
+    <template slot-scope="{row}">
+      <div v-if="isArray(row)">
+        <el-checkbox
+          v-for="(da,i) in getBindArray(row)"
+          :key="da.value + i"
+          v-model="row[prop]"
+        >{{da.name}}</el-checkbox>
+      </div>
       <el-checkbox v-else-if="isShow(row)" v-model="row[prop]">{{label}}</el-checkbox>
       <span v-else>—</span>
     </template>
@@ -30,7 +30,7 @@ export default {
   computed: {
     prop() {
       return this.conf.prop || "";
-    },   
+    },
     radioValue() {
       return this.conf.radioValue || "";
     },
@@ -39,6 +39,9 @@ export default {
     },
     width() {
       return this.conf.width;
+    },
+    minWidth() {
+      return this.conf.minWidth;
     },
     confStyle() {
       return this.conf.style;
@@ -60,8 +63,8 @@ export default {
       return this.conf.isShow;
     },
     // 判断同列是否数组选项
-    isArray(row) {      
-      return Array.isArray(this.getBindVar(row,this.radioValue));
+    isArray(row) {
+      return Array.isArray(this.getBindVar(row, this.radioValue));
     },
     // 根据表达式获取绑定变量, a.b.c
     getBindVar(row, key) {
@@ -77,20 +80,20 @@ export default {
       return retuModel;
     },
     // 获取绑定数组变量
-    getBindArray(row){
-      return this.getBindVar(row, this.radioValue)
+    getBindArray(row) {
+      return this.getBindVar(row, this.radioValue);
     },
     doCheckAllChange(val) {
-      this.setRowCheckAll(this.tableRows, val)
+      this.setRowCheckAll(this.tableRows, val);
     },
     /**
      * 设置所有行选中值
      */
-    setRowCheckAll(rows, checked){              
+    setRowCheckAll(rows, checked) {
       rows.forEach(row => {
         row[this.prop] = checked;
-        if (row.children){
-          this.setRowCheckAll(row.children,checked);
+        if (row.children) {
+          this.setRowCheckAll(row.children, checked);
         }
       });
     }

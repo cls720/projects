@@ -39,8 +39,7 @@ export default {
             controlName: "HcTableColumn",
             controlId: "HcTableColumn_0",
             prop: "date",
-            label: "日期",
-            width: 120
+            label: "日期",            
           },
           {
             controlName: "HcTableColumn",

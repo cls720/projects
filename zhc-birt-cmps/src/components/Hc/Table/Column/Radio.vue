@@ -1,16 +1,25 @@
 <template>
-  <el-table-column :label="label" :style="confStyle">
-    <el-checkbox v-if="showCheckAll"  slot="header" :checked="checkAll" @change="doCheckAllChange">{{label}}</el-checkbox>
-    <template slot-scope="{row}">  
-        <div  v-if="isArray(row)" >
-          <el-radio                
-              v-for="(da,i) in getBindArray(row)"
-              :key="da.value + i"
-              v-model="row[prop]"
-              :label="da.value"
-            >{{da.name}}</el-radio>
-        </div>
-      <el-radio v-else-if="isShow(row)" v-model="row[prop]" :label="getBindVar(row,radioValue)">{{label}}</el-radio>
+  <el-table-column :label="label" :width="width" :min-width="minWidth" :style="confStyle">
+    <el-checkbox
+      v-if="showCheckAll"
+      slot="header"
+      :checked="checkAll"
+      @change="doCheckAllChange"
+    >{{label}}</el-checkbox>
+    <template slot-scope="{row}">
+      <div v-if="isArray(row)">
+        <el-radio
+          v-for="(da,i) in getBindArray(row)"
+          :key="da.value + i"
+          v-model="row[prop]"
+          :label="da.value"
+        >{{da.name}}</el-radio>
+      </div>
+      <el-radio
+        v-else-if="isShow(row)"
+        v-model="row[prop]"
+        :label="getBindVar(row,radioValue)"
+      >{{label}}</el-radio>
       <span v-else>—</span>
     </template>
   </el-table-column>
@@ -31,22 +40,25 @@ export default {
   computed: {
     prop() {
       return this.conf.prop || "";
-    },         
+    },
     radioValue() {
       return this.conf.radioValue || "";
     },
     label() {
       return this.conf.label;
     },
-    showCheckAll(){
-      if (this.conf.showCheckAll == undefined){
-        return true
-      }else{
+    showCheckAll() {
+      if (this.conf.showCheckAll == undefined) {
+        return true;
+      } else {
         return this.conf.showCheckAll;
       }
     },
     width() {
       return this.conf.width;
+    },
+    minWidth() {
+      return this.conf.minWidth;
     },
     confStyle() {
       return this.conf.style;
@@ -68,8 +80,8 @@ export default {
       return this.conf.isShow;
     },
     // 判断同列是否数组选项
-    isArray(row) {      
-      return Array.isArray(this.getBindVar(row,this.radioValue));
+    isArray(row) {
+      return Array.isArray(this.getBindVar(row, this.radioValue));
     },
     // 根据表达式获取绑定变量, a.b.c
     getBindVar(row, key) {
@@ -85,8 +97,8 @@ export default {
       return retuModel;
     },
     // 获取绑定数组变量
-    getBindArray(row){
-      return this.getBindVar(row, this.radioValue)
+    getBindArray(row) {
+      return this.getBindVar(row, this.radioValue);
     },
     // 处理全选事件
     doCheckAllChange(val) {
@@ -95,11 +107,11 @@ export default {
     /**
      * 设置所有行选中值
      */
-    setRowCheckAll(rows, checked){              
+    setRowCheckAll(rows, checked) {
       rows.forEach(row => {
         row[this.prop] = checked ? this.getBindVar(row, this.radioValue) : "";
-        if (row.children){
-          this.setRowCheckAll(row.children,checked);
+        if (row.children) {
+          this.setRowCheckAll(row.children, checked);
         }
       });
     }

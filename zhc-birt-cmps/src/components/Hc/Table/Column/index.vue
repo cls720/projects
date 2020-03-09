@@ -1,13 +1,27 @@
 <template>
-  <el-table-column :prop="prop" :label="label" :width="width" :style="confStyle">
+  <el-table-column
+    :prop="prop"
+    :label="label"
+    :width="width"
+    :min-width="minWidth"
+    :style="confStyle"
+  >
     <template v-for="child in conf.children">
       <hc-table-column
         v-if="child.controlName=='HcTableColumn'"
         :key="child.controlId"
         :conf="child"
       ></hc-table-column>
-      <hc-table-column-radio v-else-if="child.controlName=='HcTableColumnRadio'" :key="child.controlId" :conf="child"></hc-table-column-radio>
-      <hc-table-column-checkbox v-else-if="child.controlName=='HcTableColumnCheckbox'" :key="child.controlId" :conf="child"></hc-table-column-checkbox>
+      <hc-table-column-radio
+        v-else-if="child.controlName=='HcTableColumnRadio'"
+        :key="child.controlId"
+        :conf="child"
+      ></hc-table-column-radio>
+      <hc-table-column-checkbox
+        v-else-if="child.controlName=='HcTableColumnCheckbox'"
+        :key="child.controlId"
+        :conf="child"
+      ></hc-table-column-checkbox>
     </template>
   </el-table-column>
 </template>
@@ -18,7 +32,7 @@ import HcTableColumnCheckbox from "./Checkbox.vue";
 
 export default {
   name: "hc-table-column",
-  components: { HcTableColumnRadio,HcTableColumnCheckbox },
+  components: { HcTableColumnRadio, HcTableColumnCheckbox },
   props: {
     conf: {
       type: Object,
@@ -36,6 +50,9 @@ export default {
     },
     width() {
       return this.conf.width;
+    },
+    minWidth() {
+      return this.conf.minWidth;
     },
     confStyle() {
       return this.conf.style;

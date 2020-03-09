@@ -1,6 +1,6 @@
 <template>
   <div>
-    <birt-work-book :ref="birtModel.controlId" :conf="birtModel"></birt-work-book>
+    <birt-work-book ref="workbook" :conf="birtModel"></birt-work-book>
   </div>
 </template>
 
@@ -100,6 +100,7 @@ export default {
                   {
                     controlName: "ElRow",
                     controlId: "ElRow_r2",
+                    gutter: 10,
                     style: "margin-top:20px;",
                     children: [
                       {
@@ -114,10 +115,50 @@ export default {
                             events: {
                               filterChange: function(filterKey, datas) {
                                 debugger;
-                                alert(filterKey);
-                                this.$refs.tree.filter(filterKey);
+                                this.getRefCompt("HcTree_org").filter(
+                                  filterKey
+                                );
                               }
                             }
+                          },
+                          {
+                            controlName: "ElRow",
+                            controlId: "ElRow_org_toolbar",
+                            style: "margin-top:10px;text-align:right;",
+                            children: [
+                              {
+                                controlName: "HcRadioGroup",
+                                controlId: "HcRadioGroup_1",
+                                value: "0",
+                                size: "small",
+                                children: [
+                                  {
+                                    controlName: "HcRadioButton",
+                                    controlId: "HcRadioButton_1",
+                                    label: "1",
+                                    title: "已选"
+                                  },
+                                  {
+                                    controlName: "HcRadioButton",
+                                    controlId: "HcRadioButton_2",
+                                    label: "2",
+                                    title: "未选"
+                                  },
+                                  {
+                                    controlName: "HcRadioButton",
+                                    controlId: "HcRadioButton_0",
+                                    label: "0",
+                                    title: "全部"
+                                  }
+                                ],
+                                events: {
+                                  change: function(val) {
+                                    debugger;
+                                    this.getRefCompt("HcTree_org").filter(val);
+                                  }
+                                }
+                              }
+                            ]
                           },
                           {
                             controlName: "HcTree",
@@ -125,9 +166,11 @@ export default {
                             dataset: "dsOrg",
                             showCheckbox: true,
                             defaultExpandAll: true,
-                            filterNodeMethod: function(value, data) {
+                            filterNodeMethod: function(value, data, node) {
                               debugger;
-                              if (!value) return true;
+                              if (!value || value === "0") return true;
+                              if (value === "1") return node.checked;
+                              if (value === "2") return !node.checked;
                               return data.label.indexOf(value) !== -1;
                             },
                             events: {}
@@ -150,7 +193,7 @@ export default {
                                 controlId: "HcTableColumn_0",
                                 prop: "name",
                                 label: "功能名称",
-                                width: 230
+                                minWidth: 230
                               },
                               {
                                 controlName: "HcTableColumn",
@@ -176,7 +219,8 @@ export default {
                                     },
                                     prop: "daValue",
                                     radioValue: "daPower.personalScheme.value",
-                                    label: "个人"                                    
+                                    label: "个人",
+                                    width: 75
                                   },
                                   {
                                     controlName: "HcTableColumnRadio",
@@ -190,7 +234,8 @@ export default {
                                     },
                                     prop: "daValue",
                                     radioValue: "daPower.groupScheme.value",
-                                    label: "团队"
+                                    label: "团队",
+                                    width: 75
                                   },
                                   {
                                     controlName: "HcTableColumnRadio",
@@ -204,7 +249,8 @@ export default {
                                     },
                                     prop: "daValue",
                                     radioValue: "daPower.businessScheme.value",
-                                    label: "企业"
+                                    label: "企业",
+                                    width: 75
                                   },
                                   {
                                     controlName: "HcTableColumnRadio",
@@ -219,7 +265,8 @@ export default {
                                     showCheckAll: false,
                                     prop: "daValue",
                                     radioValue: "daPower.others",
-                                    label: "其它"
+                                    label: "其它",
+                                    width: 75
                                   }
                                 ]
                               },
@@ -227,7 +274,7 @@ export default {
                                 controlName: "HcTableColumn",
                                 controlId: "HcTableColumn_3",
                                 label: "操作权限分配",
-                                width:200,
+                                width: 200,
                                 children: [
                                   {
                                     controlName: "HcTableColumnCheckbox",
@@ -240,7 +287,8 @@ export default {
                                       }
                                     },
                                     prop: "opAdd",
-                                    label: "添加"
+                                    label: "添加",
+                                    width: 75
                                   },
                                   {
                                     controlName: "HcTableColumnCheckbox",
@@ -253,7 +301,8 @@ export default {
                                       }
                                     },
                                     prop: "opEdit",
-                                    label: "修改"
+                                    label: "修改",
+                                    width: 75
                                   },
                                   {
                                     controlName: "HcTableColumnCheckbox",
@@ -266,7 +315,9 @@ export default {
                                       }
                                     },
                                     prop: "opDelete",
-                                    label: "删除"                                  },
+                                    label: "删除",
+                                    width: 75
+                                  },
                                   {
                                     controlName: "HcTableColumnCheckbox",
                                     controlId: "HcTableColumn_3_4",
@@ -278,7 +329,8 @@ export default {
                                       }
                                     },
                                     prop: "opExport",
-                                    label: "导出"                                    
+                                    label: "导出",
+                                    width: 75
                                   }
                                 ]
                               }
@@ -295,6 +347,16 @@ export default {
         ]
       }
     };
+  },
+  mounted() {
+    let cloneDatas = JSON.parse(JSON.stringify(allData));
+    let orgTreeData = convertToTreeData(cloneDatas, {
+      id: "id",
+      parentId: "pid",
+      rootValue: "-1"
+    });
+    debugger;
+    this.$refs.workbook.dataset.dsOrg.loadData(orgTreeData);
   }
 };
 </script>

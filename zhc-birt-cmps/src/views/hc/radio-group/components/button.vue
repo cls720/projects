@@ -19,14 +19,12 @@ export default {
             controlName: "HcRadioButton",
             controlId: "HcRadioButton_1",
             label: "3",
-            value: this.radio,
             title: "选项1"
           },
           {
             controlName: "HcRadioButton",
             controlId: "HcRadioButton_2",
             label: "4",
-            value: this.radio,
             title: "选项2"
           }
         ],

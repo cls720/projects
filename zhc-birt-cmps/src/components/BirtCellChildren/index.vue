@@ -39,6 +39,12 @@
         :key="child.controlId"
         :conf="child"
       />
+      <hc-radio-group
+        v-if="child.controlName=='HcRadioGroup'"
+        :ref="child.controlId"
+        :key="child.controlId"
+        :conf="child"
+      />
       <hc-image-title
         v-if="child.controlName=='HcImageTitle'"
         :ref="child.controlId"

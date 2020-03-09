@@ -24,14 +24,17 @@
         :label="child.label"
         :disabled="child.disabled"
         :name="child.name"
-      ></el-radio-button>
+      >{{child.title}}</el-radio-button>
     </template>
   </el-radio-group>
 </template>
 
 <script>
+import ref from "@/components/mixins/ref";
+
 export default {
   name: "hc-radio-group",
+  mixins: [ref],
   props: {
     conf: {
       type: Object,
