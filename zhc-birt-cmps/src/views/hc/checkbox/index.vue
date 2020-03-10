@@ -1,27 +1,12 @@
 <template>
   <div style="padding:20px;">
-    <h4>1. 基础应用</h4>
-    <hc-button :conf="hcButtonConf" style="width:200px;"></hc-button>
+    <checkbox-basic></checkbox-basic>
   </div>
 </template>
 
 <script>
+import CheckboxBasic from "./components/basic";
 export default {
-  data() {
-    return {
-      hcButtonConf: {
-        controlName: "HcButton",
-        controlId: "HcButton_1",
-        title: "",
-        icon: "el-icon-edit",
-        events: {
-          click: function(e) {
-            alert("click:" + e);
-          }
-        }
-      }
-    };
-  },
-  methods: {}
+  components: { CheckboxBasic }
 };
 </script>

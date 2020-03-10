@@ -1,6 +1,6 @@
 <template>
   <el-checkbox
-    v-model="checkValue"
+    v-model="value"
     :label="label"
     :true-label="trueLabel"
     :false-label="falseLabel"
@@ -10,15 +10,16 @@
     :name="name"
     :checked="checked"
     :style="confStyle"
+    @change="onChange"
   >{{title}}</el-checkbox>
 </template>
 
 <script>
-import events from "@/components/mixins/events";
+import ref from "@/components/mixins/ref";
 
 export default {
   name: "hc-checkbox",
-  mixins: [events],
+  mixins: [ref],
   props: {
     conf: {
       type: Object,
@@ -27,12 +28,15 @@ export default {
       }
     }
   },
-  data() {
-    return {
-      checkValue: ""
-    };
-  },
   computed: {
+    value: {
+      get() {
+        return this.conf.value;
+      },
+      set(val) {
+        this.conf.value = val;
+      }
+    },
     title() {
       return this.conf.title || "";
     },
@@ -62,11 +66,20 @@ export default {
     },
     confStyle() {
       return this.conf.style;
+    },
+    change() {
+      return this.conf.events && this.conf.events.change;
     }
   },
   data() {
     return {};
   },
-  methods: {}
+  methods: {
+    onChange(val) {
+      if (this.change) {
+        this.change.call(this, val);
+      }
+    }
+  }
 };
 </script>

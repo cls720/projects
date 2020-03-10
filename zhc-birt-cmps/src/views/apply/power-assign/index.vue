@@ -193,14 +193,45 @@ export default {
                                 controlId: "HcTableColumn_0",
                                 prop: "name",
                                 label: "功能名称",
-                                minWidth: 230
+                                minWidth: 230,
+                                children: [
+                                  {
+                                    controlName: "HcInputFilter",
+                                    controlId: "HcInputFilter_res",
+                                    slot: "header",
+                                    size: "small",
+                                    placeholder: "功能名称",
+                                    events: {
+                                      filterChange: function(filterKey, datas) {
+                                        debugger;
+                                        this.getRefCompt("HcTree_org").filter(
+                                          filterKey
+                                        );
+                                      }
+                                    },
+                                    children: [
+                                      {
+                                        controlName: "HcButton",
+                                        controlId: "HcButton_1",
+                                        title: "",
+                                        icon: "el-icon-edit",
+                                        events: {
+                                          click: function(e) {
+                                            alert("click:" + e);
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                ]
                               },
                               {
                                 controlName: "HcTableColumn",
                                 controlId: "HcTableColumn_1",
                                 prop: "type",
                                 label: "类型",
-                                width: 70
+                                width: 75,
+                                sortable: true
                               },
                               {
                                 controlName: "HcTableColumn",

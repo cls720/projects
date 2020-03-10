@@ -4,6 +4,7 @@
     :label="label"
     :width="width"
     :min-width="minWidth"
+    :sortable="sortable"
     :style="confStyle"
   >
     <template v-for="child in conf.children">
@@ -22,6 +23,12 @@
         :key="child.controlId"
         :conf="child"
       ></hc-table-column-checkbox>
+      <birt-cell-children
+        v-else-if="child.slot=='header'"
+        slot="header"
+        :key="child.controlId"
+        :children="[child]"
+      />
     </template>
   </el-table-column>
 </template>
@@ -29,9 +36,11 @@
 <script>
 import HcTableColumnRadio from "./Radio.vue";
 import HcTableColumnCheckbox from "./Checkbox.vue";
+import column from "../mixins/column";
 
 export default {
   name: "hc-table-column",
+  mixins: [column],
   components: { HcTableColumnRadio, HcTableColumnCheckbox },
   props: {
     conf: {
@@ -41,23 +50,7 @@ export default {
       }
     }
   },
-  computed: {
-    prop() {
-      return this.conf.prop || "";
-    },
-    label() {
-      return this.conf.label;
-    },
-    width() {
-      return this.conf.width;
-    },
-    minWidth() {
-      return this.conf.minWidth;
-    },
-    confStyle() {
-      return this.conf.style;
-    }
-  },
+  computed: {},
   data() {
     return {};
   },

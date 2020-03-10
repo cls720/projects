@@ -3,6 +3,7 @@ import HcTextLabel from "./TextLabel"
 import HcImageTitle from './ImageTitle'
 import HcRadioGroup from './RadioGroup'
 import HcCheckbox from "./Checkbox"
+import HcInput from "./Input"
 import HcLinkHrefs from "./LinkHrefs"
 import HcInputFilter from "./InputFilter"
 import HcToolBar from "./ToolBar"
@@ -23,6 +24,7 @@ const cmps = {
     HcImageTitle,
     HcRadioGroup,
     HcCheckbox,
+    HcInput,
     HcLinkHrefs,
     HcInputFilter,
     HcToolBar,

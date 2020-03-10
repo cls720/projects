@@ -1,18 +1,17 @@
 <template>
   <div style="padding:20px;">
     <h4>1. 基础应用</h4>
+    <hc-input-filter :conf="hcInputFilterConf" :filter-datas="datas" style="width:300px;"></hc-input-filter>
 
     <el-table
-      :data="treeData"
+      :data="dsResources2.data"
       style="width: 100%;margin-bottom: 20px;"
       row-key="resId"
       border
       default-expand-all
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
     >
-      <el-table-column prop="name" label="功能名称" sortable width="300">
-        <hc-input-filter slot="header" :conf="hcInputFilterConf" :filter-datas="datas" style="width:250px;"></hc-input-filter>
-      </el-table-column>
+      <el-table-column prop="name" label="功能名称" sortable width="220"></el-table-column>
       <el-table-column prop="type" label="类型" sortable width="90"></el-table-column>
       <el-table-column label="数据权限分配">
         <el-table-column label="个人">
@@ -94,7 +93,7 @@
 
 <script>
 import JsWebSocketDataSet from "@/components/DataSource/JsWebSocketDataSet";
-// import DsContainer from "zhc-dataset/src";
+import DsContainer from "zhc-dataset/src";
 import sysResources from "./sys_resources";
 import { convertToTreeData } from "@/funclib/DataTree.js";
 
@@ -428,9 +427,7 @@ export default {
       hcInputFilterConf: {
         controlName: "HcInputFilter",
         controlId: "HcInputFilter_01",
-        size: "small",
-        placeholder:"功能名称",
-        width:200,
+        size: "medium",
         keys: [
           {
             name: "name",
@@ -467,14 +464,15 @@ export default {
     });
     console.log(JSON.stringify(this.treeData));
     debugger;
-    // this.dsContainer = new DsContainer();
-    // this.dsResources2 = this.dsContainer.createDataSet(sysResources);
-    // this.dsResources2.setData(this.treeData);
+    this.dsContainer = new DsContainer();
+    this.dsResources2 = this.dsContainer.createDataSet(sysResources);
+    this.dsResources2.setData(this.treeData);
   },
   methods: {
-    onFilterChange(filterKey, datas) {
+    onFilterChange(datas, isClearFilter) {
+      debugger;
       this.dsResources.setData(datas);
-      alert("fiterChange" + filterKey);
+      alert("fiterChange" + isClearFilter);
     },
     getDaPowerOther(row) {
       let other = {};
@@ -489,6 +487,7 @@ export default {
       return other;
     },
     onCheckAllAddChange(val) {
+      debugger;
       alert(this.checkAllAdd);
     }
   }

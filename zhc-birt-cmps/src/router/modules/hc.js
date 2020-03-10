@@ -28,6 +28,12 @@ const hcRouter = {
       meta: { title: 'HcCheckbox 复选框' }
     },
     {
+      path: '/input',
+      component: () => import('@/views/hc/input'),
+      name: 'hcInput',
+      meta: { title: 'HcInput 输入框' }
+    },
+    {
       path: '/input-filter',
       component: () => import('@/views/hc/input-filter'),
       name: 'hcInputFilter',
@@ -38,6 +44,12 @@ const hcRouter = {
       component: () => import('@/views/hc/steps'),
       name: 'hcSteps',
       meta: { title: 'HcSteps 步骤条' }
+    },
+    {
+      path: '/dialog',
+      component: () => import('@/views/hc/dialog'),
+      name: 'hcDialog',
+      meta: { title: 'HcDialog 对话框' }
     },
     // {
     //   path: '/text-label',
