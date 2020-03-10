@@ -8,6 +8,7 @@ import HcLinkHrefs from "./LinkHrefs"
 import HcInputFilter from "./InputFilter"
 import HcToolBar from "./ToolBar"
 import HcTabs from "./Tabs"
+import HcDialog from "./Dialog"
 import HcSteps from "./Steps"
 import HcCarousel from "./Carousel"
 import HcTable from "./Table"
@@ -29,6 +30,7 @@ const cmps = {
     HcInputFilter,
     HcToolBar,
     HcTabs,
+    HcDialog,
     HcSteps,
     HcCarousel,
     HcTable,

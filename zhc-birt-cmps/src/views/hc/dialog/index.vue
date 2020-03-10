@@ -1,12 +1,12 @@
 <template>
   <div style="padding:20px;">
-    <steps-basic></steps-basic>
+    <dialog-basic></dialog-basic>
   </div>
 </template>
 
 <script>
-import StepsBasic from "./components/basic";
+import DialogBasic from "./components/basic";
 export default {
-  components: { StepsBasic }
+  components: { DialogBasic }
 };
 </script>
