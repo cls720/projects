@@ -8,14 +8,16 @@ import birtRouter from './modules/birt'
 import hcRouter from './modules/hc'
 import hcDataRouter from './modules/hc-data'
 import chartsRouter from './modules/charts'
+import hcComposeRouter from './modules/hc-compose'
 import applyRouter from './modules/apply'
 
-export const constantRoutes = [  
+export const constantRoutes = [
   datasourceRouter,
   birtRouter,
   hcRouter,
   hcDataRouter,
   chartsRouter,
+  hcComposeRouter,
   applyRouter
 ]
 

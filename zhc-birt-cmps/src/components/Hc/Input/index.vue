@@ -1,7 +1,7 @@
 <template>
   <el-input
     ref="input"
-    v-model="value"
+    v-model="inputValue"
     :type="conf.type"
     :maxlength="conf.maxlength"
     :minlength="conf.minlength"
@@ -33,15 +33,25 @@
     @input="onInput"
     @change="onChange"
     @clear="onClear"
-  ></el-input>
+  >
+    <template v-for="slotId in slots">
+      <birt-cell-children
+        :key="conf.controlId+slotId"
+        :slot="slotId"
+        v-if="slotChildren(slotId).length > 0"
+        :children="slotChildren(slotId)"
+      />
+    </template>
+  </el-input>
 </template>
 
 <script>
 import ref from "@/components/mixins/ref";
+import slot from "@/components/mixins/slot";
 
 export default {
   name: "hc-input",
-  mixins: [ref],
+  mixins: [ref, slot],
   props: {
     conf: {
       type: Object,
@@ -51,13 +61,8 @@ export default {
     }
   },
   computed: {
-    value: {
-      get() {
-        return this.conf.value;
-      },
-      set(val) {
-        this.conf.value = val;
-      }
+    value() {
+      return this.inputValue;
     },
     confStyle() {
       return this.conf.style;
@@ -89,7 +94,10 @@ export default {
     }
   },
   data() {
-    return {};
+    return {
+      inputValue: "",
+      slots: ["prefix", "suffix", "prepend", "append"]
+    };
   },
   methods: {
     focus() {

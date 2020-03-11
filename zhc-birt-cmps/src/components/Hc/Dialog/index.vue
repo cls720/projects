@@ -27,8 +27,8 @@
     <birt-cell-children v-if="children.length > 0" :children="children" />
     <birt-cell-children slot="footer" v-if="footerChildren.length > 0" :children="footerChildren" />
     <span slot="footer" v-if="footer && footer.length > 0" class="dialog-footer">
-      <el-button v-if="footer.indexOf('cancel')>=0" @click="visible = false">取 消</el-button>
       <el-button v-if="footer.indexOf('confirm')>=0" type="primary" @click="doConfirm">确 定</el-button>
+      <el-button v-if="footer.indexOf('cancel')>=0" @click="visible = false">取 消</el-button>
     </span>
   </el-dialog>
 </template>

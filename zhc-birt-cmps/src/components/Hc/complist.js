@@ -27,7 +27,7 @@ const cmps = {
     HcCheckbox,
     HcInput,
     HcLinkHrefs,
-    HcInputFilter,
+    // HcInputFilter,
     HcToolBar,
     HcTabs,
     HcDialog,
