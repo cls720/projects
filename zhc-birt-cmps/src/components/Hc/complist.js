@@ -17,6 +17,7 @@ import HcLoopScroll from "./LoopScroll"
 import HcProgress from "./Progress"
 import HcTree from "./Tree"
 import HcTimeline from "./Timeline"
+import HcDivider from "./Divider"
 import HcVideo from "./Video"
 
 const cmps = {
@@ -39,6 +40,7 @@ const cmps = {
     HcProgress,
     HcTree,
     HcTimeline,
+    HcDivider,
     HcVideo
 };
 export default cmps

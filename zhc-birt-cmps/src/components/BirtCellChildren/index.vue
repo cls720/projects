@@ -58,6 +58,12 @@
         :conf="child"
         :bind-dataset="getParentDataSet(child.dataset)"
       />
+      <hc-divider
+        v-if="child.controlName=='HcDivider'"
+        :ref="child.controlId"
+        :key="child.controlId"
+        :conf="child"
+      />
       <hc-carousel
         v-if="child.controlName=='HcCarousel'"
         :ref="child.controlId"

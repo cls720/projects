@@ -1,12 +1,12 @@
 <template>
   <div style="padding:20px;">
-    <checkbox-basic></checkbox-basic>
+    <tree-transfer-basic></tree-transfer-basic>
   </div>
 </template>
 
 <script>
-import CheckboxBasic from "./components/basic";
+import TreeTransferBasic from "./components/basic";
 export default {
-  components: { CheckboxBasic }
+  components: { TreeTransferBasic }
 };
 </script>

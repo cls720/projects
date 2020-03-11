@@ -1,5 +1,6 @@
 <template>
   <el-table-column
+    :type="conf.type"
     :prop="prop"
     :label="label"
     :width="width"

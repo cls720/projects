@@ -4,7 +4,7 @@
     <el-row>
       <el-col span="10">
         <hc-input-filter :conf="hcInputFilter1"></hc-input-filter>
-        <hc-tree ref="treeLeft" :conf="hcTreeConf1"></hc-tree>
+        <hc-table :conf="tableConf1"></hc-table>
       </el-col>
       <el-col span="4" style="text-align:center;line-height:50px;padding-top:50px;">
         <div>
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { resources } from "../resources";
+import { treeResources } from "../resources";
 
 export default {
   data() {
@@ -93,22 +93,33 @@ export default {
           }
         }
       },
-      hcTreeConf1: {
-        controlName: "HcTree",
-        controlId: "HcTree_left",
-        datas: resources,
-        isTreeData: false,
-        idField: "resId",
-        parentIdField: "parentId",
-        labelField: "name",
-        showCheckbox: true,
-        defaultExpandAll: true,
-        filterNodeMethod: function(value, data) {
-          debugger;
-          if (!value) return true;
-          return data.label.indexOf(value) !== -1;
-        },
-        events: {}
+      tableConf1: {
+        controlName: "HcTable",
+        controlId: "HcTable_l",
+        datas: treeResources,
+        rowKey: "resId",
+        children: [
+          {
+            controlName: "HcTableColumn",
+            controlId: "HcTableColumn_0",
+            type: "selection",
+            width: 50
+          },
+          {
+            controlName: "HcTableColumn",
+            controlId: "HcTableColumn_1",
+            prop: "name",
+            label: "功能名称",
+            minWidth: 250
+          },
+          {
+            controlName: "HcTableColumn",
+            controlId: "HcTableColumn_2",
+            prop: "type",
+            label: "类型",
+            width: 70
+          }
+        ]
       }
     };
   },

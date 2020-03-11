@@ -1,8 +1,7 @@
 <template>
   <div style="padding:20px;">
     <h4>1. 基础应用</h4>
-    <hc-input-filter :conf="hcInput"></hc-input-filter>
-    {{hcInput.value}}
+    <hc-input-filter :conf="hcInputFilter"></hc-input-filter>
   </div>
 </template>
 
@@ -10,9 +9,15 @@
 export default {
   data() {
     return {
-      hcInput: {
+      hcInputFilter: {
         controlName: "HcInputFilter",
         controlId: "HcInputFilter_1",
+        fireAction: "keyup",
+        events: {
+          filterChange: function(filterKey, datas) {
+            alert("fiterChange." + filterKey);
+          }
+        },
         children: [
           {
             controlName: "HcButton",
