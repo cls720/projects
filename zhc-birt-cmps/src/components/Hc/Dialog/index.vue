@@ -34,12 +34,13 @@
 </template>
 
 <script>
-import ref from "@/components/mixins/ref";
+import Bus from "@/utils/bus";
+import events from "@/components/mixins/events";
 import elDragDialog from "@/components/directive/el-drag-dialog";
 
 export default {
   name: "hc-dialog",
-  mixins: [ref],
+  mixins: [events],
   directives: { elDragDialog },
   props: {
     conf: {
@@ -100,7 +101,22 @@ export default {
     return {};
   },
   methods: {
+    isPropEvent(eventName) {
+      return ["open", "opened", "close", "closed"].indexOf(eventName) >= 0;
+    },
+    /**
+     * 获取注册事件ID
+     * @param {*} eventId
+     */
+    getEventId(eventId) {
+      if (eventId === "confirm") {
+        return "confirm" + this.conf.controlId;
+      }
+    },
     doConfirm() {
+      debugger
+      let eventId = this.getEventId("confirm");
+      Bus.emit(eventId);
       this.visible = false;
     },
     doOpen() {

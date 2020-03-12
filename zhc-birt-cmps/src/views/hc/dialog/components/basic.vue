@@ -7,7 +7,6 @@
 </template>
 
 <script>
-
 export default {
   data() {
     return {
@@ -16,7 +15,12 @@ export default {
         controlId: "HcDialog_1",
         visible: false,
         title: "测试对话框",
-        footer:["cancel","confirm"]
+        footer: ["cancel", "confirm"],
+        events: {
+          confirm: function() {
+            alert("ok");
+          }
+        }
       },
       hcButtonConf: {
         controlName: "HcButton",

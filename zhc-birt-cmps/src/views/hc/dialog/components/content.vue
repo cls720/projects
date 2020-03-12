@@ -1,8 +1,9 @@
 <template>
   <div style="padding:20px;">
     <h4>2. 传递children内容</h4>
-    <hc-dialog ref="dialog" :conf="hcDialog"></hc-dialog>
+    <hc-dialog ref="dialog2" :conf="hcDialog"></hc-dialog>
     <hc-button :conf="hcButtonConf"></hc-button>
+    <hc-table :conf="tableConf"></hc-table>
   </div>
 </template>
 
@@ -14,10 +15,16 @@ export default {
     return {
       hcDialog: {
         controlName: "HcDialog",
-        controlId: "HcDialog_1",
+        controlId: "HcDialog_2",
         visible: false,
-        title: "测试对话框",
+        title: "选择资源树",
         footer: ["cancel", "confirm"],
+        param: {},
+        option: {},
+        return: {},
+        events: {
+         
+        },
         children: [
           {
             controlName: "BirtWorkBook",
@@ -111,7 +118,13 @@ export default {
                           if (value === "2") return !node.checked;
                           return node.label.indexOf(value) !== -1;
                         },
-                        events: {}
+                        mounted: function() {
+                          debugger;
+                          this.getRefCompt("dialog2").on("opened",(a,b)=>{
+                            alert(1);
+                          });
+                          this.$refs.eltree.setCheckedKeys([]);
+                        }
                       }
                     ]
                   }
@@ -123,19 +136,50 @@ export default {
       },
       hcButtonConf: {
         controlName: "HcButton",
-        controlId: "HcButton_1",
-        title: "对话框",
+        controlId: "HcButton_2",
+        title: "添加数据",
         style: "margin-top:10px;",
         events: {
           click: this.openDialog
         }
+      },
+      tableConf: {
+        controlName: "HcTable",
+        controlId: "HcTable_02",
+        datas: [],
+        rowKey: "resId",
+        children: [
+          {
+            controlName: "HcTableColumn",
+            controlId: "HcTableColumn_0",
+            prop: "name",
+            label: "功能名称",
+            width: 250
+          },
+          {
+            controlName: "HcTableColumn",
+            controlId: "HcTableColumn_1",
+            prop: "type",
+            label: "类型",
+            width: 70
+          },
+          {
+            controlName: "HcTableColumn",
+            controlId: "HcTableColumn_2",
+            prop: "resUrl",
+            label: "功能路径"
+          }
+        ]
       }
     };
   },
   methods: {
     openDialog() {
       debugger;
-      this.$refs.dialog.doOpen();
+      this.$refs.dialog2.doOpen();
+    },
+    onTreeMounted(){
+      
     }
   }
 };

@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import events from "@/components/mixins/events";
 import autosize from "@/components/mixins/autosize";
 import datasource from "@/components/mixins/datasource";
 
@@ -35,7 +36,7 @@ import { convertToTreeData } from "@/funclib/DataTree.js";
 
 export default {
   name: "hc-tree",
-  mixins: [autosize, datasource],
+  mixins: [events, autosize, datasource],
   props: {
     conf: {
       type: Object,
@@ -101,6 +102,9 @@ export default {
     }
   },
   methods: {
+    isPropEvent(eventName) {
+      return ["nodeClick", "checkChange"].indexOf(eventName) >= 0;
+    },
     filter(filterKey) {
       debugger;
       this.$refs.eltree.filter(filterKey);

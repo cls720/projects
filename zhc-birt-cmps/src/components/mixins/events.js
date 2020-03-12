@@ -47,14 +47,25 @@ export default {
         for (var key in parent.$refs) {
           if (key === refId) {
             let refCompt = parent.$refs[key];
-            return (refCompt.length > 0) && refCompt[0];
+            if (refCompt.length > 0) {
+              return refCompt[0]
+            } else {
+              return refCompt
+            }
           }
         }
         parent = parent.$parent;
       }
-    }
+    },
+    // 调用图表渲染完函数配置
+    callComptMounted() {
+      if (this.conf.mounted) {
+        this.conf.mounted.call(this);
+      }
+    },
   },
   mounted() {
     this.initEvents();
+    this.callComptMounted();
   }
 }
