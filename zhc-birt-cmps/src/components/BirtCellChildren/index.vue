@@ -1,6 +1,12 @@
 <template>
   <div class="zhc-birt-cell-children">
-    <template v-for="child in children">
+    <template v-for="child in children">      
+       <birt-work-book
+        v-if="child.controlName=='BirtWorkBook'"
+        :ref="child.controlId"
+        :key="child.controlId"
+        :conf="child"
+      />
       <birt-grid-sheet
         v-if="child.controlName=='BirtGridSheet'"
         :ref="child.controlId"

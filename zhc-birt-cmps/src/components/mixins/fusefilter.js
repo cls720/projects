@@ -46,14 +46,12 @@ export default {
     watch: {
         // 监听更改过滤源数据
         datas() {
-            this.initFuse(this.datas);
+            //this.initFuse(this.datas);
         }
     },
     data() {
         return {
-            fuse: function () {
-                return {};
-            }
+            fuse: null
         }
     },
     mounted() {
@@ -86,7 +84,7 @@ export default {
          */
         getEventId(eventId) {
             if (eventId === "filterChange") {
-                return "filterChange" + (this.bindDataset.controlId || this.controlId)
+                return "filterChange" + (this.bindDataset.controlId || this.conf.controlId)
             }
         },
         /**

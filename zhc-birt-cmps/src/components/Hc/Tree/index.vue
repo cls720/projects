@@ -3,15 +3,28 @@
     :data="treeData"
     :node-key="idField"
     :props="props"
+    :default-expanded-keys="conf.defaultExpandedKeys"
     :default-expand-all="conf.defaultExpandAll"
     :filter-node-method="conf.filterNodeMethod"
     :show-checkbox="conf.showCheckbox"
+    :default-checked-keys="conf.defaultCheckedKeys"
     :load="conf.load"
     :lazy="conf.lazy"
     @node-click="nodeClick"
     @check-change="checkChange"
     ref="eltree"
-  ></el-tree>
+  >
+    <template v-if="conf.children && conf.children.length > 0">
+      <span class="custom-tree-node" slot-scope="{ node, data }">
+        <span>{{ node.label }}</span>
+        <span>
+          <template v-for="(child,i) in conf.children">
+            <span :key="node.nodeKey+i" :style="child.style">{{data[child.labelField]}}</span>
+          </template>
+        </span>
+      </span>
+    </template>
+  </el-tree>
 </template>
 
 <script>
@@ -107,4 +120,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.custom-tree-node {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  padding-right: 8px;
+}
 </style>

@@ -16,10 +16,10 @@ const hcComposeRouter = {
       meta: { title: 'HcInputFilter 关键字过滤' }
     },
     {
-      path: '/tree-transfer',
-      component: () => import('@/views/hc-compose/tree-transfer'),
-      name: 'hcTreeTransfer',
-      meta: { title: 'HcTreeTransfer 树形穿梭框' }
+      path: '/tree-lookup',
+      component: () => import('@/views/hc-compose/tree-lookup'),
+      name: 'hcTreeLookup',
+      meta: { title: 'HcTreeLookup 树形查找定义' }
     },
   ]
 }

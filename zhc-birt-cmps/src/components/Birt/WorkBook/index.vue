@@ -61,6 +61,12 @@ export default {
     return { datasource: this.datasource, dataset: this.dataset };
   },
   computed: {
+    width() {
+      return this.conf.width;
+    },
+    height() {
+      return this.conf.height;
+    },
     mainHeight() {
       let height = this.screenHeight - this.$HCBIRT.tabHeight;
       if (this.isShowToolBar()) {
@@ -140,7 +146,15 @@ export default {
       return "100%";
     },
     autoHeight() {
-      return this.mainHeight;
+      if (this.height) {
+        if (typeof this.height == "function") {
+          return this.height.call(this, this.mainHeight);
+        } else {
+          return this.height;
+        }
+      } else {
+        return this.mainHeight;
+      }
     },
     registerResize() {
       const me = this;
@@ -200,7 +214,7 @@ export default {
     getCurtSheetStyle() {
       return (
         (this.curtSheet.style || "") +
-        `height:${this.mainHeight}px;overflow:auto;`
+        `height:${this.autoHeight()}px;overflow:auto;`
       );
     },
     // 根据下标获取当前sheet对象
