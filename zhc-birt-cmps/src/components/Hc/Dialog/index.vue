@@ -125,6 +125,18 @@ export default {
         return "confirm" + this.conf.controlId;
       }
     },
+    getContent() {
+      if (this.$refs.content) {
+        let children = this.$refs.content.$children;
+        let childWorkBook;
+        if (children && children.length > 0) {
+          childWorkBook = children[0];
+        } else {
+          childWorkBook = children;
+        }
+        return childWorkBook;
+      }
+    },
     doConfirm() {
       debugger;
       let eventId = this.getEventId("confirm");
@@ -140,24 +152,16 @@ export default {
       if (openFunc) {
         openFunc.call(this);
       }
+      debugger;
+      let childContent = this.getContent();
+      if (childContent && childContent.reload) {
+        childContent.reload.call(childContent, this.param);
+      }
     },
     onOpened() {
       let openedFunc = this.conf.events && this.conf.events.opened;
       if (openedFunc) {
         openedFunc.call(this);
-      }
-      debugger;
-      if (this.$refs.content) {
-        let children = this.$refs.content.$children;
-        let childWorkBook;
-        if (children && children.length > 0) {
-          childWorkBook = children[0];
-        } else {
-          childWorkBook = children;
-        }
-        if (childWorkBook && childWorkBook.reload) {
-          childWorkBook.reload.call(childWorkBook, this.param);
-        }
       }
     },
     onClose() {

@@ -11,7 +11,8 @@
     :load="conf.load"
     :lazy="conf.lazy"
     @node-click="nodeClick"
-    @check-change="checkChange"
+    @check-change="onCheckChange"
+    @check="onCheck"
     ref="eltree"
   >
     <template v-if="conf.children && conf.children.length > 0">
@@ -68,6 +69,9 @@ export default {
     labelField() {
       return this.conf.labelField;
     },
+    checkField() {
+      return this.conf.checkField || "_checked";
+    },
     // 绑定判断是否叶节点字段
     leafField() {
       return this.conf.leafField;
@@ -118,6 +122,26 @@ export default {
         rootValue: this.rootValue
       });
       return treeData;
+    },
+    onCheckChange(data, checked, childHasChecked) {
+      let checkChangeFunc = this.conf.events && this.conf.events.checkChange;
+      if (checkChangeFunc) {
+        checkChangeFunc.call(this, data, checked, childHasChecked);
+      }
+    },
+    onCheck(data, joinNodes) {
+      let checkFunc = this.conf.events && this.conf.events.check;
+      if (checkFunc) {
+        checkFunc.call(this, data, joinNodes);
+      }
+    },
+    setDatasChecked(nodeKeys) {
+      let me = this;
+      this.datas.forEach(recd => {
+        // 待改进 idField为函数组合时不适用
+        let idValue = recd[me.idField];
+        recd[me.checkField] = nodeKeys.indexOf(idValue) >= 0;
+      });
     }
   }
 };

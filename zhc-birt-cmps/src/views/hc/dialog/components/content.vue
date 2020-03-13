@@ -9,6 +9,7 @@
 
 <script>
 import { resources } from "../resources";
+import { convertToTreeData } from "@/funclib/DataTree.js";
 
 export default {
   data() {
@@ -23,9 +24,7 @@ export default {
         option: {},
         return: {},
         events: {
-          opened: function() {
-            debugger;
-          }
+          confirm: this.doConfirm
         },
         children: [
           {
@@ -35,11 +34,6 @@ export default {
             totalPage: 1,
             renderType: "pages",
             height: 300,
-            events: {
-              afterLoad: function(p) {
-                alert("p:" + JSON.stringify(p));
-              }
-            },
             children: [
               {
                 controlName: "BirtSheet",
@@ -101,7 +95,6 @@ export default {
                             ],
                             events: {
                               change: function(val) {
-                                debugger;
                                 this.getRefCompt("HcTree_res").filter(val);
                               }
                             }
@@ -119,20 +112,34 @@ export default {
                         showCheckbox: true,
                         // defaultExpandAll: true,
                         filterNodeMethod: function(value, data, node) {
-                          debugger;
                           if (!value || value === "0") return true;
                           if (value === "1") return node.checked;
                           if (value === "2") return !node.checked;
                           return node.label.indexOf(value) !== -1;
                         },
-                        mounted: function() {
-                          debugger;
-                          // this.getRefCompt("BirtWorkBook_0");
-                          this.on("afterLoad", param => {
+                        events: {
+                          checkChange: function(data, checked, node) {
                             debugger;
-                            alert(1);
-                          });
-                          this.$refs.eltree.setCheckedKeys([]);
+                            this.setDatasChecked(
+                              this.$refs.eltree.getCheckedKeys()
+                            );
+                          }
+                        },
+                        mounted: function() {
+                          this.getRefCompt("BirtWorkBook_0").on(
+                            "afterLoad",
+                            doPageAfterLoad
+                          );
+                          // this.getRefCompt("dialog2").on("confirm", doConfirm);
+                          let me = this;
+                          function doPageAfterLoad(param) {
+                            debugger;
+                            me.$refs.eltree.setCheckedKeys(param.resIds);
+                          }
+                          // function doConfirm() {
+                          //   debugger;
+                          //   me.$refs;
+                          // }
                         }
                       }
                     ]
@@ -184,10 +191,23 @@ export default {
   },
   methods: {
     openDialog() {
-      debugger;
       this.$refs.dialog2.doOpen({ resIds: [] });
     },
-    onTreeMounted() {}
+    doConfirm() {
+      let retuData = this.$refs.dialog2
+        .getContent()
+        .dataset.dsRes.datas.filter(function(recd) {
+          return recd._checked;
+        });
+
+      let treeData = convertToTreeData(retuData, {
+        id: "resId",
+        parentId: "parentId",
+        rootValue: "-1"
+      });
+      this.tableConf.datas = treeData;
+      debugger;
+    }
   }
 };
 </script>

@@ -22,8 +22,7 @@
     "jsbarcode": "^3.11.0",
     "lodash": "^4.17.15",
     "node-sass": "^4.13.1",
-    "raphael": "^2.3.0",
-    "zhc-dataset": "^1.0.26"
+    "raphael": "^2.3.0"
   },
   "browserslist": [
     "> 1%",
