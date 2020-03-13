@@ -1,4 +1,4 @@
-import Bus from "@/utils/bus";
+import emitter from "@/utils/emitter";
 import cloneDeep from "lodash/fp/cloneDeep";
 
 export default class JsWebSocketDataSet {
@@ -27,7 +27,7 @@ export default class JsWebSocketDataSet {
    */
   loadData(datas, option) {
     this.sourcedata = cloneDeep(datas);
-    Bus.emit("loadData" + this.controlId, datas);
+    emitter.emit("loadData" + this.controlId, datas);
     this.setData(datas, option);
   }
 
@@ -46,6 +46,6 @@ export default class JsWebSocketDataSet {
     // if (rec == this.curRecord)
     //   return;    
     this.curRecord = rec
-    Bus.emit("curRecordChange" + this.controlId, rec);
+    emitter.emit("curRecordChange" + this.controlId, rec);
   }
 }

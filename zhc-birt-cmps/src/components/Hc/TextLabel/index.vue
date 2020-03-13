@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import Bus from "@/utils/bus";
+import emitter from "@/utils/emitter";
 import events from "@/components/mixins/events";
 
 export default {
@@ -41,9 +41,7 @@ export default {
       return this.conf.height || "30px";
     },
     textStyle() {
-      return `width:${this.width};height:${this.height};line-height:${
-        this.height
-      };${this.conf.style}`;
+      return `width:${this.width};height:${this.height};line-height:${this.height};${this.conf.style}`;
     }
   },
   data() {
@@ -61,7 +59,7 @@ export default {
   methods: {
     initDataSetEvents() {
       let me = this;
-      Bus.on("curRecordChange" + this.bindDataset.controlId, recd => {
+      emitter.on("curRecordChange" + this.bindDataset.controlId, recd => {
         me.title = this.getTitle(recd);
       });
     },

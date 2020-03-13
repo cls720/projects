@@ -23,9 +23,19 @@
     @close="onClose"
     @closed="onClosed"
   >
-    <birt-cell-children slot="title" v-if="titleChildren.length > 0" :children="titleChildren" />
-    <birt-cell-children v-if="children.length > 0" :children="children" />
-    <birt-cell-children slot="footer" v-if="footerChildren.length > 0" :children="footerChildren" />
+    <birt-cell-children
+      ref="title"
+      slot="title"
+      v-if="titleChildren.length > 0"
+      :children="titleChildren"
+    />
+    <birt-cell-children ref="content" v-if="children.length > 0" :children="children" />
+    <birt-cell-children
+      ref="footer"
+      slot="footer"
+      v-if="footerChildren.length > 0"
+      :children="footerChildren"
+    />
     <span slot="footer" v-if="footer && footer.length > 0" class="dialog-footer">
       <el-button v-if="footer.indexOf('confirm')>=0" type="primary" @click="doConfirm">确 定</el-button>
       <el-button v-if="footer.indexOf('cancel')>=0" @click="visible = false">取 消</el-button>
@@ -34,7 +44,7 @@
 </template>
 
 <script>
-import Bus from "@/utils/bus";
+import emitter from "@/utils/emitter";
 import events from "@/components/mixins/events";
 import elDragDialog from "@/components/directive/el-drag-dialog";
 
@@ -98,7 +108,9 @@ export default {
     }
   },
   data() {
-    return {};
+    return {
+      param: {}
+    };
   },
   methods: {
     isPropEvent(eventName) {
@@ -114,12 +126,13 @@ export default {
       }
     },
     doConfirm() {
-      debugger
+      debugger;
       let eventId = this.getEventId("confirm");
-      Bus.emit(eventId);
+      emitter.emit(eventId);
       this.visible = false;
     },
-    doOpen() {
+    doOpen(param) {
+      this.param = param;
       this.visible = true;
     },
     onOpen() {
@@ -132,6 +145,19 @@ export default {
       let openedFunc = this.conf.events && this.conf.events.opened;
       if (openedFunc) {
         openedFunc.call(this);
+      }
+      debugger;
+      if (this.$refs.content) {
+        let children = this.$refs.content.$children;
+        let childWorkBook;
+        if (children && children.length > 0) {
+          childWorkBook = children[0];
+        } else {
+          childWorkBook = children;
+        }
+        if (childWorkBook && childWorkBook.reload) {
+          childWorkBook.reload.call(childWorkBook, this.param);
+        }
       }
     },
     onClose() {

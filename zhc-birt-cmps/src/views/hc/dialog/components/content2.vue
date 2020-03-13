@@ -1,9 +1,8 @@
 <template>
   <div style="padding:20px;">
-    <h4>2. 传递children内容</h4>
-    <hc-dialog ref="dialog2" :conf="hcDialog"></hc-dialog>
+    <h4>3. 传递children内容2</h4>
+    <hc-dialog ref="dialog3" :conf="hcDialog"></hc-dialog>
     <hc-button :conf="hcButtonConf"></hc-button>
-    <hc-table :conf="tableConf"></hc-table>
   </div>
 </template>
 
@@ -15,31 +14,21 @@ export default {
     return {
       hcDialog: {
         controlName: "HcDialog",
-        controlId: "HcDialog_2",
+        controlId: "HcDialog_3",
         visible: false,
         title: "选择资源树",
         footer: ["cancel", "confirm"],
         param: {},
         option: {},
-        return: {},
-        events: {
-          opened: function() {
-            debugger;
-          }
-        },
+        return: {},      
         children: [
           {
             controlName: "BirtWorkBook",
-            controlId: "BirtWorkBook_0",
+            controlId: "BirtWorkBook_1",
             showToolBar: false,
             totalPage: 1,
             renderType: "pages",
-            height: 300,
-            events: {
-              afterLoad: function(p) {
-                alert("p:" + JSON.stringify(p));
-              }
-            },
+            height: 300,           
             children: [
               {
                 controlName: "BirtSheet",
@@ -84,13 +73,13 @@ export default {
                                 controlName: "HcRadioButton",
                                 controlId: "HcRadioButton_1",
                                 label: "1",
-                                title: "已选"
+                                title: "已选2"
                               },
                               {
                                 controlName: "HcRadioButton",
                                 controlId: "HcRadioButton_2",
                                 label: "2",
-                                title: "未选"
+                                title: "未选2"
                               },
                               {
                                 controlName: "HcRadioButton",
@@ -126,12 +115,7 @@ export default {
                           return node.label.indexOf(value) !== -1;
                         },
                         mounted: function() {
-                          debugger;
-                          // this.getRefCompt("BirtWorkBook_0");
-                          this.on("afterLoad", param => {
-                            debugger;
-                            alert(1);
-                          });
+                          debugger;                          
                           this.$refs.eltree.setCheckedKeys([]);
                         }
                       }
@@ -151,41 +135,13 @@ export default {
         events: {
           click: this.openDialog
         }
-      },
-      tableConf: {
-        controlName: "HcTable",
-        controlId: "HcTable_02",
-        datas: [],
-        rowKey: "resId",
-        children: [
-          {
-            controlName: "HcTableColumn",
-            controlId: "HcTableColumn_0",
-            prop: "name",
-            label: "功能名称",
-            width: 250
-          },
-          {
-            controlName: "HcTableColumn",
-            controlId: "HcTableColumn_1",
-            prop: "type",
-            label: "类型",
-            width: 70
-          },
-          {
-            controlName: "HcTableColumn",
-            controlId: "HcTableColumn_2",
-            prop: "resUrl",
-            label: "功能路径"
-          }
-        ]
-      }
+      } 
     };
   },
   methods: {
     openDialog() {
       debugger;
-      this.$refs.dialog2.doOpen({ resIds: [] });
+      this.$refs.dialog3.doOpen({ resIds: [] });
     },
     onTreeMounted() {}
   }

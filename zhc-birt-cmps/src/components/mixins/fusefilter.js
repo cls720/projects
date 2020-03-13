@@ -1,7 +1,7 @@
 /**
  * Fuse本地过滤混入
  */
-import Bus from "@/utils/bus";
+import emitter from "@/utils/emitter";
 import Fuse from 'fuse.js'
 
 export default {
@@ -71,7 +71,7 @@ export default {
         initFilterDatas() {
             if (this.bindDataset && this.bindDataset.controlId) {
                 let me = this;
-                Bus.on("loadData" + this.bindDataset.controlId, datas => {
+                emitter.on("loadData" + this.bindDataset.controlId, datas => {
                     me.initFuse(datas)
                 });
             } else if (this.filterDatas) {
@@ -102,7 +102,7 @@ export default {
             }
 
             let eventId = this.getEventId("filterChange");
-            Bus.emit(eventId, this.filterKey, recds);
+            emitter.emit(eventId, this.filterKey, recds);
         },
     }
 }

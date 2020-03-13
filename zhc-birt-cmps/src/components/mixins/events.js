@@ -1,22 +1,16 @@
 /**
  * 初始化事件混入
  */
-import Bus from "@/utils/bus";
+import emitter from "@/utils/emitter";
 
 export default {
-  computed: {
-    comptEvents() {
-      return this.conf.events;
-    }
-  },
   methods: {
-    // 初始化事件events
-    initEvents() {
-      if (this.comptEvents) {
-        for (var eventName in this.comptEvents) {
-          this.on(eventName, this.comptEvents[eventName]);
-        }
-      }
+    // 触发事件
+    emit(eventName) {
+      debugger
+      let args = [...arguments]
+      args.shift();
+      emitter.emit(eventName, ...args)
     },
     /**
     * 注册控件事件
@@ -28,16 +22,26 @@ export default {
       if (this.isPropEvent && this.isPropEvent(eventName)) {
         return
       }
+      let args = [...arguments]
+      args.shift();
       let me = this;
       let eventId = this.getEventId && this.getEventId(eventName);
       if (eventId) {
-        Bus.on(eventId, (p1, p2, p3, p4, p5) => {
-          callBackFunc.call(me, p1, p2, p3, p4, p5);
+        emitter.on(eventId, (...args) => {
+          callBackFunc.call(me, ...args);
         });
       } else {
-        this.$el.addEventListener(eventName, (p1, p2, p3, p4, p5) => {
-          callBackFunc.call(me, p1, p2, p3, p4, p5);
+        this.$el.addEventListener(eventName, (...args) => {
+          callBackFunc.call(me, ...args);
         });
+      }
+    },
+    // 初始化事件events
+    initEvents() {
+      if (this.conf.events) {
+        for (var eventName in this.conf.events) {
+          this.on(eventName, this.conf.events[eventName]);
+        }
       }
     },
     // 获取引用组件对象，从当前及父对象爬

@@ -36,11 +36,13 @@
 </template>
 
 <script>
+import events from "@/components/mixins/events";
 import DataSourceFactory from "@/components/DataSource/DataSourceFactory";
 import WebSocketConection from "@/components/DataSource/WebSocketConection";
 
 export default {
   name: "birt-work-book",
+  mixins: [events],
   props: {
     conf: {
       type: Object,
@@ -90,7 +92,6 @@ export default {
       return (this.conf && this.conf.tabPosition) || "right";
     },
     sheets() {
-      debugger;
       let sheets = [];
       this.conf.children.forEach(child => {
         if (child.controlName == "BirtSheet") {
@@ -196,12 +197,10 @@ export default {
       return this.conf.totalPage;
     },
     isRenderTabs() {
-      debugger;
       return this.renderType === "tabs";
     },
     // 根据当前页，获取当前sheet所对应layout页
     getCurtSheetConf() {
-      debugger;
       if (this.curtSheet.children) {
         if (this.curtSheet.pageIndex === undefined) {
           console.error("报表模型数据格式错误,sheet.pageIndex起始页未定义");
@@ -232,6 +231,15 @@ export default {
         this.$refs.pageBar.setCurrentPage(sht.pageIndex + 1);
         this.curtPageIndex = sht.pageIndex;
       }
+    },
+    getEventId(eventId) {
+      if (eventId === "afterLoad") {
+        return "afterLoad";
+      }
+    },
+    // 重新加载页面
+    reload(param) {
+      this.emit(this.getEventId("afterLoad"), param);
     }
   },
   mounted() {

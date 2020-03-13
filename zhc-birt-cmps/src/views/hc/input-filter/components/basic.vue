@@ -464,9 +464,9 @@ export default {
     });
     console.log(JSON.stringify(this.treeData));
     debugger;
-    this.dsContainer = new DsContainer();
-    this.dsResources2 = this.dsContainer.createDataSet(sysResources);
-    this.dsResources2.setData(this.treeData);
+    // this.dsContainer = new DsContainer(null,{request:request,queryUrl,saveUrl});
+    // this.dsResources2 = this.dsContainer.createDataSet(sysResources);
+    // this.dsResources2.setData(this.treeData);
   },
   methods: {
     onFilterChange(datas, isClearFilter) {
