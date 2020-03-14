@@ -120,9 +120,15 @@ export default {
                         events: {
                           checkChange: function(data, checked, node) {
                             debugger;
-                            this.setDatasChecked(
-                              this.$refs.eltree.getCheckedKeys()
+                            let checkNodes = this.$refs.eltree.getCheckedNodes(
+                              false,
+                              true
                             );
+                            let keys = [];
+                            checkNodes.forEach(recd => {
+                              keys.push(recd.resId);
+                            });
+                            this.setDatasChecked(keys);
                           }
                         },
                         mounted: function() {
@@ -164,6 +170,8 @@ export default {
         controlId: "HcTable_02",
         datas: [],
         rowKey: "resId",
+        idField: "resId",
+        parentIdField: "parentId",
         children: [
           {
             controlName: "HcTableColumn",
@@ -191,6 +199,7 @@ export default {
   },
   methods: {
     openDialog() {
+      debugger;
       this.$refs.dialog2.doOpen({ resIds: [] });
     },
     doConfirm() {
@@ -200,12 +209,12 @@ export default {
           return recd._checked;
         });
 
-      let treeData = convertToTreeData(retuData, {
-        id: "resId",
-        parentId: "parentId",
-        rootValue: "-1"
-      });
-      this.tableConf.datas = treeData;
+      // let treeData = convertToTreeData(retuData, {
+      //   id: "resId",
+      //   parentId: "parentId",
+      //   rootValue: "-1"
+      // });
+      this.tableConf.datas = retuData;
       debugger;
     }
   }
