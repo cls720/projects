@@ -2,13 +2,17 @@
   <el-table-column
     :label="label"
     :width="width"
-    :min-width="minWidth"
-    :sortable="sortable"
+    :min-width="conf.minWidth"
+    :sortable="conf.sortable"
     :style="confStyle"
   >
     <el-checkbox slot="header" :checked="checkAll" @change="doCheckAllChange">{{label}}</el-checkbox>
-    <template slot-scope="{row}">
-      <el-checkbox v-if="isShow(row)" v-model="row[prop]">{{label}}</el-checkbox>
+    <template slot-scope="scope">
+      <el-checkbox
+        v-if="isShow(scope.row)"
+        v-model="scope.row[prop]"
+        @change="setRowChange(scope)"
+      >{{label}}</el-checkbox>
       <span v-else>—</span>
     </template>
   </el-table-column>
@@ -28,7 +32,6 @@ export default {
         return {};
       }
     }
-  },
- 
+  }
 };
 </script>

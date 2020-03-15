@@ -19,18 +19,24 @@ export default {
             return this.conf.isShow;
         },
         doCheckAllChange(val) {
-            this.setRowCheckAll(this.tableRows, val);
+            debugger;
+            this.setRowCheckAll(this.tableRows(), val);
         },
         /**
          * 设置所有行选中值
          */
         setRowCheckAll(rows, checked) {
+            let me = this;
             rows.forEach(row => {
-                row[this.prop] = checked;
+                row[me.prop] = checked;
                 if (row.children) {
-                    this.setRowCheckAll(row.children, checked);
+                    me.setRowCheckAll(row.children, checked);
                 }
             });
+        },
+        setRowChange(scope) {
+            debugger;
+            scope._self.datas[scope.$index][this.prop] = scope.row[this.prop];
         }
     }
 }

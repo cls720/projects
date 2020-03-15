@@ -8,6 +8,8 @@
 </template>
 
 <script>
+import pinyin from "js-pinyin";
+
 import { resources } from "../resources";
 import { convertToTreeData } from "@/funclib/DataTree.js";
 
@@ -112,10 +114,13 @@ export default {
                         showCheckbox: true,
                         // defaultExpandAll: true,
                         filterNodeMethod: function(value, data, node) {
+                          debugger;
                           if (!value || value === "0") return true;
                           if (value === "1") return node.checked;
                           if (value === "2") return !node.checked;
-                          return node.label.indexOf(value) !== -1;
+                          let key =
+                            node.label + "_" + pinyin.getCamelChars(node.label);
+                          return key.indexOf(value.toUpperCase()) !== -1;
                         },
                         events: {
                           checkChange: function(data, checked, node) {
@@ -136,16 +141,11 @@ export default {
                             "afterLoad",
                             doPageAfterLoad
                           );
-                          // this.getRefCompt("dialog2").on("confirm", doConfirm);
                           let me = this;
                           function doPageAfterLoad(param) {
                             debugger;
                             me.$refs.eltree.setCheckedKeys(param.resIds);
                           }
-                          // function doConfirm() {
-                          //   debugger;
-                          //   me.$refs;
-                          // }
                         }
                       }
                     ]
@@ -200,7 +200,11 @@ export default {
   methods: {
     openDialog() {
       debugger;
-      this.$refs.dialog2.doOpen({ resIds: [] });
+      let resKeys = [];
+      this.tableConf.datas.forEach(recd => {
+        if (recd.type != "dir") resKeys.push(recd.resId);
+      });
+      this.$refs.dialog2.doOpen({ resIds: resKeys });
     },
     doConfirm() {
       let retuData = this.$refs.dialog2
@@ -208,12 +212,6 @@ export default {
         .dataset.dsRes.datas.filter(function(recd) {
           return recd._checked;
         });
-
-      // let treeData = convertToTreeData(retuData, {
-      //   id: "resId",
-      //   parentId: "parentId",
-      //   rootValue: "-1"
-      // });
       this.tableConf.datas = retuData;
       debugger;
     }

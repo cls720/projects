@@ -2,8 +2,8 @@
   <el-table-column
     :label="label"
     :width="width"
-    :min-width="minWidth"
-    :sortable="sortable"
+    :min-width="conf.minWidth"
+    :sortable="conf.sortable"
     :style="confStyle"
   >
     <el-checkbox
@@ -12,19 +12,21 @@
       :checked="checkAll"
       @change="doCheckAllChange"
     >{{label}}</el-checkbox>
-    <template slot-scope="{row}">
-      <div v-if="isArray(row)">
+    <template slot-scope="scope">
+      <div v-if="isArray(scope.row)">
         <el-radio
-          v-for="(da,i) in getBindArray(row)"
+          v-for="(da,i) in getBindArray(scope.row)"
           :key="da.value + i"
-          v-model="row[prop]"
+          v-model="scope.row[prop]"
           :label="da.value"
+          @change="setRowChange(scope)"
         >{{da.name}}</el-radio>
       </div>
       <el-radio
-        v-else-if="isShow(row)"
-        v-model="row[prop]"
-        :label="getBindVar(row,radioValue)"
+        v-else-if="isShow(scope.row)"
+        v-model="scope.row[prop]"
+        :label="getBindVar(scope.row,radioValue)"
+        @change="setRowChange(scope)"
       >{{label}}</el-radio>
       <span v-else>—</span>
     </template>

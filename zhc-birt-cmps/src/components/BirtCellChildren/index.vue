@@ -51,6 +51,12 @@
         :key="child.controlId"
         :conf="child"
       />
+      <hc-checkbox
+        v-if="child.controlName=='HcCheckbox'"
+        :ref="child.controlId"
+        :key="child.controlId"
+        :conf="child"
+      />
       <hc-image-title
         v-if="child.controlName=='HcImageTitle'"
         :ref="child.controlId"

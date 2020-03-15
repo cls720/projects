@@ -1,11 +1,14 @@
 <template>
   <el-table-column
-    :type="conf.type"
     :prop="prop"
     :label="label"
     :width="width"
-    :min-width="minWidth"
-    :sortable="sortable"
+    :type="conf.type"
+    :min-width="conf.minWidth"
+    :sortable="conf.sortable"
+    :filters="conf.filters"
+    :filter-multiple="conf.filterMultiple"
+    :filter-method="conf.filterMethod"    
     :style="confStyle"
   >
     <template v-for="child in conf.children">

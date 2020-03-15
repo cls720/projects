@@ -1,11 +1,15 @@
 <template>
   <div>
     <birt-work-book ref="workbook" :conf="birtModel"></birt-work-book>
+    <hc-dialog ref="dialogRes" :conf="hcDialog"></hc-dialog>
   </div>
 </template>
 
 <script>
+import pinyin from "js-pinyin";
+
 import { allData } from "./org.js";
+import { resources } from "./resources";
 import { treeResources } from "./treeResources";
 import { convertToTreeData } from "@/funclib/DataTree.js";
 
@@ -14,7 +18,7 @@ export default {
     return {
       birtModel: {
         controlName: "BirtWorkBook",
-        controlId: "BirtWorkBook_0",
+        controlId: "BirtWorkBook_power",
         showToolBar: false,
         totalPage: 1,
         renderType: "pages",
@@ -33,7 +37,7 @@ export default {
               {
                 controlName: "JsWebSocketDataSet",
                 controlId: "dsRes",
-                datas: treeResources
+                datas: []
               }
             ],
             children: [
@@ -124,39 +128,66 @@ export default {
                           {
                             controlName: "ElRow",
                             controlId: "ElRow_org_toolbar",
-                            style: "margin-top:10px;text-align:right;",
+                            style: "margin-top:10px",
                             children: [
                               {
-                                controlName: "HcRadioGroup",
-                                controlId: "HcRadioGroup_1",
-                                value: "0",
-                                size: "small",
+                                controlName: "ElCol",
+                                controlId: "ElCol_ct_1",
+                                span: 8,
+                                style: "line-height:30px",
                                 children: [
                                   {
-                                    controlName: "HcRadioButton",
-                                    controlId: "HcRadioButton_1",
-                                    label: "1",
-                                    title: "已选"
-                                  },
-                                  {
-                                    controlName: "HcRadioButton",
-                                    controlId: "HcRadioButton_2",
-                                    label: "2",
-                                    title: "未选"
-                                  },
-                                  {
-                                    controlName: "HcRadioButton",
-                                    controlId: "HcRadioButton_0",
-                                    label: "0",
-                                    title: "全部"
+                                    controlName: "HcCheckbox",
+                                    controlId: "HcCheckbox_clearorg",
+                                    border: true,
+                                    size: "small",
+                                    style:
+                                      "width:90px;color:red;background-color: #DCDFE6;",
+                                    title: "清空添加"
                                   }
-                                ],
-                                events: {
-                                  change: function(val) {
-                                    debugger;
-                                    this.getRefCompt("HcTree_org").filter(val);
+                                ]
+                              },
+                              {
+                                controlName: "ElCol",
+                                controlId: "ElCol_ct_2",
+                                span: 16,
+                                style: "text-align:right;",
+                                children: [
+                                  {
+                                    controlName: "HcRadioGroup",
+                                    controlId: "HcRadioGroup_1",
+                                    value: "0",
+                                    size: "small",
+                                    children: [
+                                      {
+                                        controlName: "HcRadioButton",
+                                        controlId: "HcRadioButton_1",
+                                        label: "1",
+                                        title: "已选"
+                                      },
+                                      {
+                                        controlName: "HcRadioButton",
+                                        controlId: "HcRadioButton_2",
+                                        label: "2",
+                                        title: "未选"
+                                      },
+                                      {
+                                        controlName: "HcRadioButton",
+                                        controlId: "HcRadioButton_0",
+                                        label: "0",
+                                        title: "全部"
+                                      }
+                                    ],
+                                    events: {
+                                      change: function(val) {
+                                        debugger;
+                                        this.getRefCompt("HcTree_org").filter(
+                                          val
+                                        );
+                                      }
+                                    }
                                   }
-                                }
+                                ]
                               }
                             ]
                           },
@@ -165,13 +196,17 @@ export default {
                             controlId: "HcTree_org",
                             dataset: "dsOrg",
                             showCheckbox: true,
-                            defaultExpandAll: true,
+                            idField: "id",
                             filterNodeMethod: function(value, data, node) {
                               debugger;
                               if (!value || value === "0") return true;
                               if (value === "1") return node.checked;
                               if (value === "2") return !node.checked;
-                              return data.label.indexOf(value) !== -1;
+                              let key =
+                                node.label +
+                                "_" +
+                                pinyin.getCamelChars(node.label);
+                              return key.indexOf(value.toUpperCase()) !== -1;
                             },
                             events: {}
                           }
@@ -187,6 +222,9 @@ export default {
                             controlId: "HcTable_res",
                             dataset: "dsRes",
                             rowKey: "resId",
+                            idField: "resId",
+                            parentIdField: "parentId",
+                            defaultExpandAll: true,
                             children: [
                               {
                                 controlName: "HcTableColumn",
@@ -212,16 +250,40 @@ export default {
                                     children: [
                                       {
                                         controlName: "HcButton",
-                                        controlId: "HcButton_1",
+                                        controlId: "HcButton_opendialog",
                                         title: "",
                                         icon: "el-icon-edit",
                                         events: {
-                                          click: function(e) {
-                                            alert("click:" + e);
+                                          click: function() {
+                                            debugger;
+                                            let resKeys = [];
+                                            this.getRefCompt(
+                                              "workbook"
+                                            ).dataset.dsRes.datas.forEach(
+                                              recd => {
+                                                if (recd.type != "dir")
+                                                  resKeys.push(recd.resId);
+                                              }
+                                            );
+                                            this.getRefCompt(
+                                              "dialogRes"
+                                            ).doOpen({
+                                              resIds: resKeys
+                                            });
                                           }
                                         }
                                       }
                                     ]
+                                  },
+                                  {
+                                    controlName: "HcCheckbox",
+                                    controlId: "HcCheckbox_clearres",
+                                    slot: "header",
+                                    // border: true,
+                                    size: "small",
+                                    style:
+                                      "width:90px;margin-top:5px;color:red;",
+                                    title: "清空添加"
                                   }
                                 ]
                               },
@@ -231,7 +293,16 @@ export default {
                                 prop: "type",
                                 label: "类型",
                                 width: 75,
-                                sortable: true
+                                // filters: [
+                                //   { text: "目录", value: "dir" },
+                                //   { text: "功能", value: "func" },
+                                //   { text: "流程", value: "flow" },
+                                //   { text: "其它", value: "other" }
+                                // ],
+                                // filterMethod: function(value, row) {
+                                //   debugger;
+                                //   return row.type === value;
+                                // }
                               },
                               {
                                 controlName: "HcTableColumn",
@@ -368,6 +439,153 @@ export default {
                             ]
                           }
                         ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      hcDialog: {
+        controlName: "HcDialog",
+        controlId: "HcDialog_res",
+        visible: false,
+        title: "选择资源树",
+        footer: ["cancel", "confirm"],
+        events: {
+          confirm: function() {
+            {
+              let retuData = this.getContent().dataset.dsRes.datas.filter(
+                function(recd) {
+                  return recd._checked;
+                }
+              );
+              debugger;
+              this.getRefCompt("workbook").dataset.dsRes.setData(retuData);
+            }
+          }
+        },
+        children: [
+          {
+            controlName: "BirtWorkBook",
+            controlId: "BirtWorkBook_0",
+            showToolBar: false,
+            totalPage: 1,
+            renderType: "pages",
+            height: 300,
+            children: [
+              {
+                controlName: "BirtSheet",
+                controlId: "BirtSheet_0",
+                name: "sheet0", //配置页,children为其算法分页，如插入分页符或A4纸数据过长换页
+                pageIndex: 0,
+                dataSets: [
+                  {
+                    controlName: "JsWebSocketDataSet",
+                    controlId: "dsRes",
+                    datas: resources
+                  }
+                ],
+                children: [
+                  {
+                    controlName: "BirtFormSheet",
+                    controlId: "BirtFormSheet_02",
+                    children: [
+                      {
+                        controlName: "HcInputFilter",
+                        controlId: "HcInputFilter_org",
+                        size: "medium",
+                        events: {
+                          filterChange: function(filterKey, datas) {
+                            debugger;
+                            this.getRefCompt("HcTree_res").filter(filterKey);
+                          }
+                        }
+                      },
+                      {
+                        controlName: "ElRow",
+                        controlId: "ElRow_org_toolbar",
+                        style: "margin-top:10px;text-align:right;",
+                        children: [
+                          {
+                            controlName: "HcRadioGroup",
+                            controlId: "HcRadioGroup_1",
+                            value: "0",
+                            size: "small",
+                            children: [
+                              {
+                                controlName: "HcRadioButton",
+                                controlId: "HcRadioButton_1",
+                                label: "1",
+                                title: "已选"
+                              },
+                              {
+                                controlName: "HcRadioButton",
+                                controlId: "HcRadioButton_2",
+                                label: "2",
+                                title: "未选"
+                              },
+                              {
+                                controlName: "HcRadioButton",
+                                controlId: "HcRadioButton_0",
+                                label: "0",
+                                title: "全部"
+                              }
+                            ],
+                            events: {
+                              change: function(val) {
+                                this.getRefCompt("HcTree_res").filter(val);
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        controlName: "HcTree",
+                        controlId: "HcTree_res",
+                        dataset: "dsRes",
+                        isTreeData: false,
+                        idField: "resId",
+                        parentIdField: "parentId",
+                        labelField: "name",
+                        showCheckbox: true,
+                        defaultExpandAll: true,
+                        filterNodeMethod: function(value, data, node) {
+                          debugger;
+                          if (!value || value === "0") return true;
+                          if (value === "1") return node.checked;
+                          if (value === "2") return !node.checked;
+                          let key =
+                            node.label + "_" + pinyin.getCamelChars(node.label);
+                          return key.indexOf(value.toUpperCase()) !== -1;
+                        },
+                        events: {
+                          checkChange: function(data, checked, node) {
+                            debugger;
+                            let checkNodes = this.$refs.eltree.getCheckedNodes(
+                              false,
+                              true
+                            );
+                            let keys = [];
+                            checkNodes.forEach(recd => {
+                              keys.push(recd.resId);
+                            });
+                            this.setDatasChecked(keys);
+                          }
+                        },
+                        mounted: function() {
+                          this.getRefCompt("BirtWorkBook_0").on(
+                            "afterLoad",
+                            doPageAfterLoad
+                          );
+                          let me = this;
+                          function doPageAfterLoad(param) {
+                            debugger;
+                            me.$refs.eltree.setCheckedKeys(param.resIds);
+                          }
+                        }
                       }
                     ]
                   }

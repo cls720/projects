@@ -1,5 +1,10 @@
 <template>
-  <el-table :data="treeData" :row-key="rowKey" :style="confStyle">
+  <el-table
+    :data="treeData"
+    :row-key="rowKey"
+    :default-expand-all="conf.defaultExpandAll"
+    :style="confStyle"
+  >
     <hc-table-column v-for="child in conf.children" :key="child.controlId" :conf="child"></hc-table-column>
   </el-table>
 </template>
@@ -60,8 +65,8 @@ export default {
   data() {
     return {};
   },
-  provide() {
-    return { tableRows: this.datas };
+  provide: function() {
+    return { tableRows: () => this.datas };
   },
   mounted() {},
   methods: {

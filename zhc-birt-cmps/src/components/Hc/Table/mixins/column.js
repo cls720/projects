@@ -13,13 +13,7 @@ export default {
         },
         width() {
             return this.conf.width;
-        },
-        minWidth() {
-            return this.conf.minWidth;
-        },
-        sortable() {
-            return this.conf.sortable;
-        },
+        },       
         confStyle() {
             return this.conf.style;
         }
