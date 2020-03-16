@@ -8,7 +8,7 @@
     :sortable="conf.sortable"
     :filters="conf.filters"
     :filter-multiple="conf.filterMultiple"
-    :filter-method="conf.filterMethod"    
+    :filter-method="conf.filterMethod && filterMethod"
     :style="confStyle"
   >
     <template v-for="child in conf.children">
@@ -56,8 +56,17 @@ export default {
   },
   computed: {},
   data() {
-    return {};
+    return {
+      filterKeyWord: ""
+    };
   },
-  methods: {}
+  methods: {
+    filterMethod(keyword, recd) {
+      debugger;
+      if (this.conf.filterMethod) {
+        this.conf.filterMethod.call(this, keyword, recd);
+      }
+    }
+  }
 };
 </script>

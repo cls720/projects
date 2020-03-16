@@ -5,11 +5,6 @@ export const resources = [
         "parentId": "-1",
         "type": "dir",
         "resUrl": "",
-        "daValue": "",
-        "opAdd": false,
-        "opEdit": false,
-        "opDelete": false,
-        "opExport": false,
     },
     {
         "resId": "31418B1A-5253-31A2-77F6-B5F18198ABE2",
@@ -62,11 +57,6 @@ export const resources = [
         "parentId": "19B9866D-B3CF-A37A-2345-A97BB34A7169",
         "type": "flow",
         "resUrl": "/systemplate/csgn/csgn/flowdir/cslc.flow",
-        "daValue": "",
-        "opAdd": false,
-        "opEdit": false,
-        "opDelete": false,
-        "opExport": false
     },
     {
         "resId": "64E78B09-52F1-0A98-E729-E24BEA9CBE13",
@@ -74,11 +64,6 @@ export const resources = [
         "parentId": "-1",
         "type": "dir",
         "resUrl": "",
-        "daValue": "",
-        "opAdd": false,
-        "opEdit": false,
-        "opDelete": false,
-        "opExport": false,
     },
     {
         "resId": "9964B5C9-E606-2F7C-CF87-53E8F69096EC",
@@ -178,11 +163,7 @@ export const resources = [
         "parentId": "64E78B09-52F1-0A98-E729-E24BEA9CBE13",
         "type": "flow",
         "resUrl": "/systemplate/dgcs/dhwh2/flowdir/cs.flow",
-        "daValue": "",
-        "opAdd": false,
-        "opEdit": false,
-        "opDelete": false,
-        "opExport": false
+        
     },
     {
         "resId": "D4A11656-0318-B283-4F9C-17D0974D67C0",
@@ -280,11 +261,7 @@ export const resources = [
         "parentId": "64E78B09-52F1-0A98-E729-E24BEA9CBE13",
         "type": "flow",
         "resUrl": "/systemplate/ptpz/xtgn/dhwh/flowdir/lc.flow",
-        "daValue": "",
-        "opAdd": false,
-        "opEdit": false,
-        "opDelete": false,
-        "opExport": false
+        
     },
     {
         "resId": "8B60A86E-7DB6-C2AC-19BA-0E2A7775C06E",
@@ -463,11 +440,7 @@ export const resources = [
         "parentId": "64E78B09-52F1-0A98-E729-E24BEA9CBE13",
         "type": "link",
         "resUrl": "/bg/taskCenter/main.do",
-        "daValue": "",
-        "opAdd": false,
-        "opEdit": false,
-        "opDelete": false,
-        "opExport": false
+       
     },
     {
         "resId": "7B87C0D2-0237-C601-1240-AC3769828CC4",

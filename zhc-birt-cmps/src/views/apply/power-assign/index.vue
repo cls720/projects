@@ -242,8 +242,13 @@ export default {
                                     events: {
                                       filterChange: function(filterKey, datas) {
                                         debugger;
-                                        this.getRefCompt("HcTree_org").filter(
-                                          filterKey
+                                        this.getRefCompt("HcTable_res").filter(
+                                          function filterRecd(recd) {
+                                            debugger;
+                                            return (
+                                              recd.name.indexOf(filterKey) >= 0
+                                            );
+                                          }
                                         );
                                       }
                                     },
@@ -293,16 +298,16 @@ export default {
                                 prop: "type",
                                 label: "类型",
                                 width: 75,
-                                // filters: [
-                                //   { text: "目录", value: "dir" },
-                                //   { text: "功能", value: "func" },
-                                //   { text: "流程", value: "flow" },
-                                //   { text: "其它", value: "other" }
-                                // ],
-                                // filterMethod: function(value, row) {
-                                //   debugger;
-                                //   return row.type === value;
-                                // }
+                                filters: [
+                                  { text: "目录", value: "dir" },
+                                  { text: "功能", value: "func" },
+                                  { text: "流程", value: "flow" },
+                                  { text: "其它", value: "other" }
+                                ],
+                                filterMethod: function(value, row) {
+                                  debugger;
+                                  return row.type === value;
+                                }
                               },
                               {
                                 controlName: "HcTableColumn",
@@ -495,7 +500,7 @@ export default {
                     children: [
                       {
                         controlName: "HcInputFilter",
-                        controlId: "HcInputFilter_org",
+                        controlId: "HcInputFilter_diaog_res",
                         size: "medium",
                         events: {
                           filterChange: function(filterKey, datas) {
