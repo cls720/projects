@@ -59,25 +59,30 @@ export default {
                             controlName: "HcSteps",
                             controlId: "HcSteps_1",
                             simple: true,
-                            active: 0,
+                            active: 3,
+                            style: "color:black;",
                             children: [
                               {
                                 controlName: "HcStep",
                                 controlId: "HcStep_1",
                                 title: "选择分配对象",
-                                icon: "el-icon-user"
+                                icon: "el-icon-user",
+                                status: "process"
                               },
                               {
                                 controlName: "HcStep",
                                 controlId: "HcStep_2",
                                 title: "选择预分配功能",
-                                icon: "el-icon-s-order"
+                                icon: "el-icon-s-order",
+                                status: "process"
                               },
                               {
                                 controlName: "HcStep",
                                 controlId: "HcStep_3",
                                 title: "分配数据权限、操作权限",
-                                icon: "el-icon-key"
+                                icon: "el-icon-key",
+                                status: "process",
+                                style: "color:red"
                               }
                             ]
                           }
@@ -94,7 +99,7 @@ export default {
                             title: "保存",
                             type: "primary",
                             icon: "el-icon-s-claim",
-                            disabled: true,
+                            disabled: false,
                             style: "width:95%;font-size:16px;"
                           }
                         ]
@@ -208,6 +213,12 @@ export default {
                                 pinyin.getCamelChars(node.label);
                               return key.indexOf(value.toUpperCase()) !== -1;
                             },
+                            height: function(parentHeight) {
+                              debugger;
+                              return parentHeight - 210;
+                            },
+                            style:
+                              "margin-top:10px;overflow: auto;border:1px solid rgb(235, 238, 245)",
                             events: {}
                           }
                         ]
@@ -225,13 +236,17 @@ export default {
                             idField: "resId",
                             parentIdField: "parentId",
                             defaultExpandAll: true,
+                            height: function(parentHeight) {
+                              debugger;
+                              return parentHeight - 120;
+                            },
                             children: [
                               {
                                 controlName: "HcTableColumn",
                                 controlId: "HcTableColumn_0",
                                 prop: "name",
                                 label: "功能名称",
-                                minWidth: 230,
+                                minWidth: 300,
                                 children: [
                                   {
                                     controlName: "HcInputFilter",
@@ -242,14 +257,27 @@ export default {
                                     events: {
                                       filterChange: function(filterKey, datas) {
                                         debugger;
-                                        this.getRefCompt("HcTable_res").filter(
-                                          function filterRecd(recd) {
-                                            debugger;
-                                            return (
-                                              recd.name.indexOf(filterKey) >= 0
-                                            );
-                                          }
+                                        let hcTable = this.getRefCompt(
+                                          "HcTable_res"
                                         );
+                                        if (filterKey) {
+                                          hcTable.$set(
+                                            hcTable.filterConf,
+                                            "name",
+                                            function filterRecd(recd) {
+                                              debugger;
+                                              return (
+                                                recd.name.indexOf(filterKey) >=
+                                                0
+                                              );
+                                            }
+                                          );
+                                        } else {
+                                          hcTable.$delete(
+                                            hcTable.filterConf,
+                                            "name"
+                                          );
+                                        }
                                       }
                                     },
                                     children: [
@@ -281,33 +309,87 @@ export default {
                                     ]
                                   },
                                   {
-                                    controlName: "HcCheckbox",
-                                    controlId: "HcCheckbox_clearres",
+                                    controlName: "ElRow",
+                                    controlId: "ElRow_ck_type",
                                     slot: "header",
-                                    // border: true,
-                                    size: "small",
-                                    style:
-                                      "width:90px;margin-top:5px;color:red;",
-                                    title: "清空添加"
+                                    style: "margin-top:10px;",
+                                    children: [
+                                      {
+                                        controlName: "ElCol",
+                                        controlId: "ElCol_ck",
+                                        span: 8,
+                                        children: [
+                                          {
+                                            controlName: "HcCheckbox",
+                                            controlId: "HcCheckbox_clearres",
+                                            size: "small",
+                                            style:
+                                              "width:90px;margin-top:5px;color:red;",
+                                            title: "清空添加"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        controlName: "ElCol",
+                                        controlId: "ElCol_type",
+                                        span: 16,
+                                        style: "text-align:right",
+                                        children: [
+                                          {
+                                            controlName: "HcRadioGroup",
+                                            controlId: "HcRadioGroup_1",
+                                            value: "all",
+                                            size: "small",
+                                            children: [
+                                              {
+                                                controlName: "HcRadioButton",
+                                                controlId: "HcRadioButton_func",
+                                                label: "func",
+                                                title: "功能"
+                                              },
+                                              {
+                                                controlName: "HcRadioButton",
+                                                controlId: "HcRadioButton_flow",
+                                                label: "flow",
+                                                title: "流程"
+                                              },
+                                              {
+                                                controlName: "HcRadioButton",
+                                                controlId: "HcRadioButton_all",
+                                                label: "all",
+                                                title: "全部"
+                                              }
+                                            ],
+                                            events: {
+                                              change: function(filterKey) {
+                                                let hcTable = this.getRefCompt(
+                                                  "HcTable_res"
+                                                );
+                                                if (filterKey != "all") {
+                                                  hcTable.$set(
+                                                    hcTable.filterConf,
+                                                    "type",
+                                                    function filterRecd(recd) {
+                                                      debugger;
+                                                      return (
+                                                        recd.type === filterKey
+                                                      );
+                                                    }
+                                                  );
+                                                } else {
+                                                  hcTable.$delete(
+                                                    hcTable.filterConf,
+                                                    "type"
+                                                  );
+                                                }
+                                              }
+                                            }
+                                          }
+                                        ]
+                                      }
+                                    ]
                                   }
                                 ]
-                              },
-                              {
-                                controlName: "HcTableColumn",
-                                controlId: "HcTableColumn_1",
-                                prop: "type",
-                                label: "类型",
-                                width: 75,
-                                filters: [
-                                  { text: "目录", value: "dir" },
-                                  { text: "功能", value: "func" },
-                                  { text: "流程", value: "flow" },
-                                  { text: "其它", value: "other" }
-                                ],
-                                filterMethod: function(value, row) {
-                                  debugger;
-                                  return row.type === value;
-                                }
                               },
                               {
                                 controlName: "HcTableColumn",
@@ -373,7 +455,7 @@ export default {
                                     prop: "daValue",
                                     radioValue: "daPower.others",
                                     label: "其它",
-                                    width: 75
+                                    width: 90
                                   }
                                 ]
                               },

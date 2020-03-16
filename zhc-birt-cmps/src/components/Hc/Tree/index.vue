@@ -10,6 +10,7 @@
     :default-checked-keys="conf.defaultCheckedKeys"
     :load="conf.load"
     :lazy="conf.lazy"
+    :style="confStyle"
     @node-click="nodeClick"
     @check-change="onCheckChange"
     @check="onCheck"
@@ -96,6 +97,7 @@ export default {
       return this.conf.height || "100%";
     },
     confStyle() {
+      debugger
       return `${this.autoSizeStyle()};${this.conf.style};`;
     },
     nodeClick() {

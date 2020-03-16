@@ -75,13 +75,6 @@ export function groupToTreeData(datas, tree) {
   return treeRecds
 }
 
-function getElGroupTreeNode(data, tree, node) {
-  tree.groupBy.forEach(f => {
-    node[f] = data[f]
-  })
-  return node;
-}
-
 /**
  * 该方法用于将有父子关系的数组转换成树形结构的数组
  * 接收一个具有父子关系的数组作为参数
@@ -127,4 +120,31 @@ export function convertToTreeData(data, tree) {
 
   //返回最终的结果
   return parents
+}
+
+/**
+ * 递归过滤节点，生成新的树结构
+ * @param {Node[]} datas 要过滤的节点
+ * @param {recd => boolean} filterFunc 过滤条件，符合条件的节点保留
+ * @return 过滤后的节点
+ */
+export function filterTreeData(datas, filterFunc) {
+  // 如果已经没有节点了，结束递归
+  if (!(datas && datas.length)) {
+    return [];
+  }
+
+  const newChildren = [];
+  for (const recd of datas) {
+    if (filterFunc(recd)) {
+      // 如果节点符合条件，直接加入新的节点集
+      newChildren.push(recd);
+      recd.children = filterTreeData(recd.children, filterFunc);
+    } else {
+      // 如果当前节点不符合条件，递归过滤子节点，
+      // 把符合条件的子节点提升上来，并入新节点集
+      newChildren.push(...filterTreeData(recd.children, filterFunc));
+    }
+  }
+  return newChildren;
 }

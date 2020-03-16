@@ -46,7 +46,7 @@ import autosize from "@/components/mixins/autosize";
 import datasource from "@/components/mixins/datasource";
 import HcTableColumn from "./Column";
 
-import { convertToTreeData } from "@/funclib/DataTree.js";
+import { convertToTreeData, filterTreeData } from "@/funclib/DataTree.js";
 
 export default {
   name: "hc-table",
@@ -63,11 +63,14 @@ export default {
   computed: {
     // 返回标准树型数据
     treeData() {
+      debugger;
+      let retuData;
       if (this.idField && this.parentIdField) {
-        return this.getConvertTreeData(this.datas);
+        retuData = this.getConvertTreeData(this.datas);
       } else {
-        return this.datas;
+        retuData = this.datas;
       }
+      return filterTreeData(retuData, this.doFilterConf);
     },
     idField() {
       return this.conf.idField;
@@ -92,7 +95,9 @@ export default {
     }
   },
   data() {
-    return {};
+    return {
+      filterConf: {}
+    };
   },
   provide: function() {
     return { tableRows: () => this.datas };
@@ -109,39 +114,15 @@ export default {
       });
       return treeData;
     },
-    /**
-     *  执行表格过滤
-     *  keyword 过滤关键字
-     *  column
-     */
-    filter(filterMehtod) {
-      debugger;
-      let filteredData = this.$refs.eltable.store._data.states.filteredData;
-      let cloneDatas = JSON.parse(JSON.stringify(filteredData));
-
-      treeDeepFilter(cloneDatas, filterMehtod);
-
-      function treeDeepFilter(recds, filterMehtod) {
-        debugger;
-        let childCount = 0;
-        for (var i = recds.length - 1; i >= 0; i--) {
-          let recd = recds[i];
-          let rest;
-          if (recd.children && recd.children.length > 0) {
-            rest = treeDeepFilter(recd.children, filterMehtod);
-          } else {
-            rest = filterMehtod.call(this, recd);
-          }
-          if (rest) {
-            childCount++;
-          } else {
-            recds.splice(i, 1);
-          }
-        }
-        return childCount > 0;
+    // 应用各列过滤配置
+    doFilterConf(data) {
+      let isOk = true;
+      for (var key in this.filterConf) {
+        let filterFunc = this.filterConf[key];
+        isOk = filterFunc.call(this, data);
+        if (!isOk) return false;
       }
-      debugger
-      // filteredData.splice(0, filteredData.length, cloneDatas);
+      return true;
     },
     onFilterChange(filterObj) {
       debugger;
