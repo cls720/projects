@@ -55,6 +55,7 @@ export default {
     return {
       curtPageIndex: 0,
       screenHeight: window.innerHeight,
+      cmps: {},
       datasource: {},
       dataset: {}
     };
@@ -155,6 +156,15 @@ export default {
         }
       } else {
         return this.mainHeight;
+      }
+    },
+    // 添加VUE组件实例引用
+    addRefCmpt(vueCmpt) {
+      if (vueCmpt) {
+        let controlId = vueCmpt.conf && vueCmpt.conf.controlId;
+        if (controlId) {
+          this.cmps[controlId] = vueCmpt;
+        }
       }
     },
     registerResize() {

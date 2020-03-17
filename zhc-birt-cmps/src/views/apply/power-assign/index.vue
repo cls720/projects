@@ -100,7 +100,48 @@ export default {
                             type: "primary",
                             icon: "el-icon-s-claim",
                             disabled: false,
-                            style: "width:95%;font-size:16px;"
+                            style: "width:95%;font-size:16px;",
+                            events: {
+                              click: function() {
+                                debugger;
+                                let orgData = this.getRefCompt(
+                                  "workbook"
+                                ).dataset.dsOrg.datas.filter(function(recd) {
+                                  return recd._checked;
+                                });
+
+                                const h = this.$createElement;
+                                this.$msgbox({
+                                  title: "提交权限分配",
+                                  message: h("p", null, [
+                                    h("span", null, "内容可以是 "),
+                                    h("i", { style: "color: teal" }, "VNode")
+                                  ]),
+                                  showCancelButton: true,
+                                  confirmButtonText: "确定",
+                                  cancelButtonText: "取消",
+                                  beforeClose: (action, instance, done) => {
+                                    if (action === "confirm") {
+                                      instance.confirmButtonLoading = true;
+                                      instance.confirmButtonText = "执行中...";
+                                      setTimeout(() => {
+                                        done();
+                                        setTimeout(() => {
+                                          instance.confirmButtonLoading = false;
+                                        }, 300);
+                                      }, 3000);
+                                    } else {
+                                      done();
+                                    }
+                                  }
+                                }).then(action => {
+                                  this.$message({
+                                    type: "info",
+                                    message: "action: " + action
+                                  });
+                                });
+                              }
+                            }
                           }
                         ]
                       }
@@ -215,8 +256,11 @@ export default {
                             controlName: "HcTree",
                             controlId: "HcTree_org",
                             dataset: "dsOrg",
-                            showCheckbox: true,
+                            isTreeData: false,
                             idField: "id",
+                            parentIdField: "pid",
+                            labelField: "label",
+                            showCheckbox: true,                          
                             filterNodeMethod: function(value, data, node) {
                               debugger;
                               if (!value || value === "0") return true;
@@ -234,7 +278,20 @@ export default {
                             },
                             style:
                               "margin-top:10px;overflow: auto;border:1px solid rgb(235, 238, 245)",
-                            events: {}
+                            events: {
+                              checkChange: function(data, checked, node) {
+                                debugger;
+                                let checkNodes = this.$refs.eltree.getCheckedNodes(
+                                  false,
+                                  true
+                                );                                
+                                let keys = [];
+                                checkNodes.forEach(recd => {
+                                  keys.push(recd.id);
+                                });
+                                this.setDatasChecked(keys);
+                              }
+                            }
                           }
                         ]
                       },
@@ -715,14 +772,14 @@ export default {
     };
   },
   mounted() {
-    let cloneDatas = JSON.parse(JSON.stringify(allData));
-    let orgTreeData = convertToTreeData(cloneDatas, {
-      id: "id",
-      parentId: "pid",
-      rootValue: "-1"
-    });
-    debugger;
-    this.$refs.workbook.dataset.dsOrg.loadData(orgTreeData);
+    // let cloneDatas = JSON.parse(JSON.stringify(allData));
+    // let orgTreeData = convertToTreeData(cloneDatas, {
+    //   id: "id",
+    //   parentId: "pid",
+    //   rootValue: "-1"
+    // });
+    // debugger;
+    // this.$refs.workbook.dataset.dsOrg.loadData(orgTreeData);
   }
 };
 </script>
