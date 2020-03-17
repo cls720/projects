@@ -148,7 +148,22 @@ export default {
                                     size: "small",
                                     style:
                                       "width:90px;color:red;background-color: #DCDFE6;",
-                                    title: "清空添加"
+                                    title: "清空添加",
+                                    events: {
+                                      change: function(val) {
+                                        if (val) {
+                                          this.$message({
+                                            dangerouslyUseHTMLString: true,
+                                            message:
+                                              "<font color='red' size=4>您已选择“清空添加”，即将清空“已选分配对象”原有的所有权限，<br><br>重新分配当前权限，请<strong>慎用</strong></font>",
+                                            type: "warning",
+                                            showClose: true,
+                                            duration: 0,
+                                            offset: 200
+                                          });
+                                        }
+                                      }
+                                    }
                                   }
                                 ]
                               },
@@ -325,7 +340,22 @@ export default {
                                             size: "small",
                                             style:
                                               "width:90px;margin-top:5px;color:red;",
-                                            title: "清空添加"
+                                            title: "清空添加",
+                                            events: {
+                                              change: function(val) {
+                                                if (val) {
+                                                  this.$message({
+                                                    dangerouslyUseHTMLString: true,
+                                                    message:
+                                                      "<font color='red' size=4>您已选择“清空添加”，即将清空“已选功能菜单”原有的所有权限，<br><br>重新分配当前权限，请<strong>慎用</strong></font>",
+                                                    type: "warning",
+                                                    showClose: true,
+                                                    duration: 0,
+                                                    offset: 200
+                                                  });
+                                                }
+                                              }
+                                            }
                                           }
                                         ]
                                       },
