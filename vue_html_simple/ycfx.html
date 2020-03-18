@@ -1,0 +1,214 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <!-- import CSS -->
+  <link rel="stylesheet" href="css/element-ui/index.css">
+  <link href="js/dist/vendors.css" />
+  <style>
+    .developer-main-container {
+      position: absolute;
+      background-color: #020758;
+      min-height: inherit;
+      overflow: hidden;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+
+
+    .border-item {
+      background-color: rgba(1, 5, 61, 0.2);
+    }
+
+    .border-item-title {
+      text-indent: 10px;
+      color: #32d3eb;
+      font-size: 16px;
+      line-height: 30px;
+      background-color: rgba(1, 5, 61, 0.4);
+    }
+
+    .card-container {
+      padding: h bd10px;
+    }
+
+    .box-card {
+      padding: 5px 0px;
+      text-align: center;
+    }
+
+    .text-title {
+      line-height: 30px;
+      font-weight: bold;
+    }
+
+    .text-item {
+      line-height: 20px;
+    }
+
+    .time-line-box {
+      overflow: hidden;
+      height: 100%;
+      padding: 5px;
+    }
+
+
+    .text-title {
+      line-height: 30px;
+      font-weight: bold;
+    }
+
+    .text-item {
+      line-height: 20px;
+    }
+
+    .china-map-title {
+      font-size: 20px;
+      color: #fff;
+      padding: 20px;
+      position: absolute;
+    }
+
+    .china-map-online-count {
+      color: #e6a23c;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div id="app" class="developer-main-container" style="background-image: url('./images/background-03.png');background-repeat: no-repeat;background-size: 100% 100%;">
+    <div ref="mainDiv" style="display:none">
+      <el-container>
+        <el-header style="padding-top:20px;">
+          <el-col :xs="24" :sm="24" :lg="24">
+            <image-title :conf="imageTitleConf">
+              大圆机运行历史数据分析
+            </image-title>
+          </el-col>
+        </el-header>
+
+        <el-main ref="elMain">
+          <el-row :gutter="20">
+            <el-col :xs="24" :sm="24" :lg="12">
+              <div class="border-item">
+                <line-chart :conf="lineChartSpeed" :dataset-datas="dataset.dsSpeed.datas" :style="[{height:lineChartHeight}]">
+                </line-chart>
+              </div>
+            </el-col>
+            <el-col :xs="24" :sm="24" :lg="12">
+              <div class="border-item">
+                <line-chart :conf="lineChartTemperature" :dataset-datas="dataset.dsTemperature.datas" :style="[{height:lineChartHeight}]">
+                </line-chart>
+              </div>
+            </el-col>
+          </el-row>
+          <el-row :gutter="20" style="margin-top:20px;">
+            <el-col :xs="24" :sm="24" :lg="12">
+              <div class="border-item">
+                <line-chart :conf="lineChartTension" :dataset-datas="dataset.dsTension.datas" :style="[{height:lineChartHeight}]">
+                </line-chart>
+              </div>
+            </el-col>
+            <el-col :xs="24" :sm="24" :lg="12">
+              <div class="border-item">
+                <line-chart :conf="lineChartHumidity" :dataset-datas="dataset.dsHumidity.datas" :style="[{height:lineChartHeight}]">
+                </line-chart>
+              </div>
+            </el-col>
+          </el-row>
+        </el-main>
+      </el-container>
+    </div>
+  </div>
+</body>
+<!-- import Vue before Element -->
+
+<script src="js/vue.js"></script>
+<!-- import plugins -->
+<script src="js/element-ui/index.js"></script>
+<script src="js/echarts.min.js"></script>
+
+<script src="js/dist/zhcCmps-vendors.js"></script>
+<script src="js/dist/zhcCmps-main.js"></script>
+<script src="js/datasource/JsWebSocketDataSet.js"></script>
+<script src="./ycfx.js"></script>
+<script>
+  new Vue({
+    el: '#app',
+    data: function () {
+      return {
+        lineChartSpeed: lineChartSpeed,
+        lineChartTemperature: lineChartTemperature,
+        lineChartTension: lineChartTension,
+        lineChartHumidity: lineChartHumidity,
+        isTagFullscreen: false,
+        imageTitleConf: {
+          width: "100%",
+          height: "30px",
+          imageUrl: "url(./images/border-title-02.png)",
+          style: "text-align: center;font-size: 24px;font-weight: bold;color: #32d3eb;"
+        },
+        screenHeight: window.innerHeight,
+        dataset: {
+          dsSpeed:
+            { datas: [{ "exceptionType": 1, "exCount": 40, "speed": 34.2 }, { "exceptionType": 2, "exCount": 63, "speed": 34.2 }, { "exceptionType": 3, "exCount": 53, "speed": 34.2 }, { "exceptionType": 1, "exCount": 89, "speed": 34.4 }, { "exceptionType": 2, "exCount": 153, "speed": 34.4 }, { "exceptionType": 3, "exCount": 128, "speed": 34.4 }, { "exceptionType": 1, "exCount": 81, "speed": 34.6 }, { "exceptionType": 2, "exCount": 139, "speed": 34.6 }, { "exceptionType": 3, "exCount": 119, "speed": 34.6 }, { "exceptionType": 1, "exCount": 107, "speed": 34.8 }, { "exceptionType": 2, "exCount": 142, "speed": 34.8 }, { "exceptionType": 3, "exCount": 34, "speed": 34.8 }, { "exceptionType": 1, "exCount": 106, "speed": 35.0 }, { "exceptionType": 2, "exCount": 148, "speed": 35.0 }, { "exceptionType": 3, "exCount": 44, "speed": 35.0 }, { "exceptionType": 1, "exCount": 129, "speed": 35.2 }, { "exceptionType": 2, "exCount": 142, "speed": 35.2 }, { "exceptionType": 3, "exCount": 47, "speed": 35.2 }, { "exceptionType": 3, "exCount": 52, "speed": 35.4 }, { "exceptionType": 1, "exCount": 179, "speed": 35.4 }, { "exceptionType": 2, "exCount": 123, "speed": 35.4 }, { "exceptionType": 1, "exCount": 159, "speed": 35.6 }, { "exceptionType": 2, "exCount": 140, "speed": 35.6 }, { "exceptionType": 3, "exCount": 33, "speed": 35.6 }] },
+          dsTemperature: {
+            datas: [{ "exceptionType": 1, "exCount": 84, "temperature": 5 }, { "exceptionType": 2, "exCount": 110, "temperature": 5 }, { "exceptionType": 3, "exCount": 42, "temperature": 5 }, { "exceptionType": 1, "exCount": 167, "temperature": 10 }, { "exceptionType": 2, "exCount": 207, "temperature": 10 }, { "exceptionType": 3, "exCount": 54, "temperature": 10 }, { "exceptionType": 1, "exCount": 195, "temperature": 15 }, { "exceptionType": 2, "exCount": 228, "temperature": 15 }, { "exceptionType": 3, "exCount": 65, "temperature": 15 }, { "exceptionType": 1, "exCount": 56, "temperature": 20 }, { "exceptionType": 2, "exCount": 55, "temperature": 20 }, { "exceptionType": 3, "exCount": 15, "temperature": 20 }, { "exceptionType": 1, "exCount": 139, "temperature": 25 }, { "exceptionType": 2, "exCount": 127, "temperature": 25 }, { "exceptionType": 3, "exCount": 140, "temperature": 25 }, { "exceptionType": 1, "exCount": 168, "temperature": 30 }, { "exceptionType": 2, "exCount": 187, "temperature": 30 }, { "exceptionType": 3, "exCount": 135, "temperature": 30 }, { "exceptionType": 1, "exCount": 81, "temperature": 35 }, { "exceptionType": 2, "exCount": 136, "temperature": 35 }, { "exceptionType": 3, "exCount": 59, "temperature": 35 }]
+          },
+          dsHumidity: {
+            datas: [{ "exceptionType": 1, "exCount": 64, "humidity": 40 }, { "exceptionType": 2, "exCount": 80, "humidity": 40 }, { "exceptionType": 3, "exCount": 23, "humidity": 40 }, { "exceptionType": 1, "exCount": 161, "humidity": 45 }, { "exceptionType": 2, "exCount": 205, "humidity": 45 }, { "exceptionType": 3, "exCount": 61, "humidity": 45 }, { "exceptionType": 1, "exCount": 167, "humidity": 50 }, { "exceptionType": 2, "exCount": 218, "humidity": 50 }, { "exceptionType": 3, "exCount": 65, "humidity": 50 }, { "exceptionType": 1, "exCount": 58, "humidity": 55 }, { "exceptionType": 2, "exCount": 60, "humidity": 55 }, { "exceptionType": 3, "exCount": 16, "humidity": 55 }, { "exceptionType": 1, "exCount": 155, "humidity": 60 }, { "exceptionType": 2, "exCount": 207, "humidity": 60 }, { "exceptionType": 3, "exCount": 74, "humidity": 60 }, { "exceptionType": 1, "exCount": 166, "humidity": 65 }, { "exceptionType": 2, "exCount": 189, "humidity": 65 }, { "exceptionType": 3, "exCount": 136, "humidity": 65 }, { "exceptionType": 1, "exCount": 118, "humidity": 70 }, { "exceptionType": 2, "exCount": 90, "humidity": 70 }, { "exceptionType": 3, "exCount": 134, "humidity": 70 }, { "exceptionType": 1, "exCount": 1, "humidity": 75 }, { "exceptionType": 2, "exCount": 1, "humidity": 75 }, { "exceptionType": 3, "exCount": 1, "humidity": 75 }]
+          },
+          dsTension: {
+            datas: [{ "exceptionType": 1, "tension": 130, "exCount": 142 }, { "exceptionType": 2, "tension": 130, "exCount": 159 }, { "exceptionType": 3, "tension": 130, "exCount": 92 }, { "exceptionType": 1, "tension": 140, "exCount": 142 }, { "exceptionType": 2, "tension": 140, "exCount": 190 }, { "exceptionType": 3, "tension": 140, "exCount": 79 }, { "exceptionType": 1, "tension": 150, "exCount": 146 }, { "exceptionType": 2, "tension": 150, "exCount": 115 }, { "exceptionType": 3, "tension": 150, "exCount": 79 }, { "exceptionType": 1, "tension": 160, "exCount": 154 }, { "exceptionType": 2, "tension": 160, "exCount": 134 }, { "exceptionType": 3, "tension": 160, "exCount": 84 }, { "exceptionType": 1, "tension": 170, "exCount": 148 }, { "exceptionType": 2, "tension": 170, "exCount": 211 }, { "exceptionType": 3, "tension": 170, "exCount": 84 }, { "exceptionType": 1, "tension": 180, "exCount": 158 }, { "exceptionType": 2, "tension": 180, "exCount": 241 }, { "exceptionType": 3, "tension": 180, "exCount": 92 }]
+          }
+        },
+      }
+    },
+
+    components: {
+
+    },
+    props: {
+      value: {
+        type: Object
+      },
+    },
+
+    computed: {
+      mainHeight() {
+        let height = this.screenHeight - 100 - 20;
+        height -= 84;
+        return height;
+      },
+      lineChartHeight() {
+        let height = (this.screenHeight - 120) / 2;
+        return height + "px";
+      }
+    },
+    watch: {},
+    methods: {
+
+    },
+    mounted() {
+      let scope = this;
+      this.$refs["mainDiv"].style.display = "block";
+      if (document.createEvent) {
+        var event = document.createEvent("HTMLEvents");
+        event.initEvent("resize", true, true);
+        window.dispatchEvent(event);
+      } else if (document.createEventObject) {
+        window.fireEvent("onresize");
+      }
+      this.screenHeight = this.$el.clientHeight;
+      window.addEventListener('resize', function () {
+        scope.screenHeight = scope.$el.clientHeight;
+      })
+    }
+  })
+</script>
+
+</html>

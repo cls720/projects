@@ -1,0 +1,1017 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <!-- import CSS -->
+  <link rel="stylesheet" href="css/element-ui/index.css">
+  <link href="js/dist/vendors.css" />
+  <style>
+    .developer-main-container {
+      position: absolute;
+      background-color: #020758;
+      min-height: inherit;
+      overflow: hidden;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+
+
+    .border-item {
+      background-color: rgba(1, 5, 61, 0.2);
+    }
+
+    .border-item-title {
+      text-indent: 10px;
+      color: #32d3eb;
+      font-size: 16px;
+      line-height: 30px;
+      background-color: rgba(1, 5, 61, 0.4);
+    }
+
+    .card-container {
+      padding: h bd10px;
+    }
+
+    .box-card {
+      padding: 5px 0px;
+      text-align: center;
+    }
+
+    .text-title {
+      line-height: 30px;
+      font-weight: bold;
+    }
+
+    .text-item {
+      line-height: 20px;
+    }
+
+    .time-line-box {
+      overflow: hidden;
+      height: 100%;
+      padding: 5px;
+    }
+
+
+    .text-title {
+      line-height: 30px;
+      font-weight: bold;
+    }
+
+    .text-item {
+      line-height: 20px;
+    }
+
+    .china-map-title {
+      font-size: 20px;
+      color: #fff;
+      padding: 20px;
+      position: absolute;
+    }
+
+    .china-map-online-count {
+      color: #e6a23c;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div id="app" class="developer-main-container"
+    style="background-image: url('./images/background-01.png');background-repeat: no-repeat;background-size: 100% 100%;">
+    <div ref="mainDiv" style="display:none">
+      <el-container>
+        <el-header style="padding-top:20px;">
+          <el-col :xs="24" :sm="24" :lg="24">
+            <image-title :conf="imageTitleConf">
+              全国大圆机运行监控
+            </image-title>
+          </el-col>
+        </el-header>
+
+        <el-main ref="elMain">
+          <el-row :gutter="15">
+            <el-col :xs="24" :sm="24" :lg="12">
+              <div class="border-item">
+                <div class="china-map-title">
+                  <a href="https://www.baidu.com" style="color:#fff;text-decoration:none;">大圆机设备：</a>
+                  <a v-if="isDeepProvince" @click="backToChina()">中国</a>
+                  <span v-else>中国</span>
+
+                  <span class="china-map-online-count">({{ dyjChinaCount() }})</span>
+                  <span v-if="isDeepProvince">
+                    / {{ curtProvinceText }}
+                    <span class="china-map-online-count">({{ dyjProvinceCount() }})</span>
+                  </span>
+                </div>
+                <china-map-chart ref="chinaMapDyj" :conf="chinaMapChartConf" @deep-province="onDeepProvince"
+                  :dataset-datas="dataset.dsChina.datas" :style="[{height:chinaMapServerHeight}]">
+                </china-map-chart>
+              </div>
+            </el-col>
+            <el-col :xs="24" :sm="24" :lg="12">
+              <div class="border-item-title">{{curtSelectTitle}}</div>
+              <div class="border-item">
+                <el-row>
+                  <el-col :xs="6" :sm="6" :lg="4">
+                    <bar-percent-chart :conf="barPercentChartSpeed" :dataset-datas="dataset.ds1.datas">
+                    </bar-percent-chart>
+                  </el-col>
+                  <el-col :xs="18" :sm="18" :lg="20">
+                    <realtime-chart :conf="realtimeChartSpeed" :dataset-datas="dataset.ds1.datas"></realtime-chart>
+                  </el-col>
+                </el-row>
+                <el-row>
+                  <el-col :xs="6" :sm="6" :lg="4">
+                    <bar-percent-chart :conf="barPercentChartTemperature" :dataset-datas="dataset.ds1.datas">
+                    </bar-percent-chart>
+                  </el-col>
+                  <el-col :xs="18" :sm="18" :lg="20">
+                    <realtime-chart :conf="realtimeChartTemperature" :dataset-datas="dataset.ds1.datas">
+                    </realtime-chart>
+                  </el-col>
+                </el-row>
+                <el-row>
+                  <el-col :xs="6" :sm="6" :lg="4">
+                    <bar-percent-chart :conf="barPercentChartHumidity" :dataset-datas="dataset.ds1.datas">
+                    </bar-percent-chart>
+                  </el-col>
+                  <el-col :xs="18" :sm="18" :lg="20">
+                    <realtime-chart :conf="realtimeChartHumidity" :dataset-datas="dataset.ds1.datas"></realtime-chart>
+                  </el-col>
+                </el-row>
+              </div>
+              <el-row class="card-container" :gutter="10" style="margin: 5px 0px;">
+                <el-col :xs="6" :sm="6" :lg="6">
+                  <image-title class="box-card" :conf="{imageUrl:imageTitle02,width:'100%',height:'90px'}">
+                    <div class="text-title">累计生产码数</div>
+                    <div class="text-item"
+                      style="text-align:center;line-height:50px;font-size:24px;font-weight:bold;color:#FD6A01;">
+                      {{dataset.ds1.curRecord && dataset.ds1.curRecord.sumProductionlength}}</div>
+                  </image-title>
+                </el-col>
+                <el-col :xs="6" :sm="6" :lg="6">
+                  <image-title class="box-card" :conf="{imageUrl:imageTitle02,width:'100%',height:'90px'}">
+                    <div class="text-title">大圆机转数</div>
+                    <div class="text-item">平均：{{dataset.dsAvg.curRecord && dataset.dsAvg.curRecord.avgSpeed}}转/mi</div>
+                    <div class="text-item">最大：{{dataset.dsAvg.curRecord && dataset.dsAvg.curRecord.maxSpeed}}转/mi</div>
+                    <div class="text-item">最小：{{dataset.dsAvg.curRecord && dataset.dsAvg.curRecord.minSpeed}}转/mi</div>
+                  </image-title>
+                </el-col>
+                <el-col :xs="6" :sm="6" :lg="6">
+                  <image-title class="box-card" :conf="{imageUrl:imageTitle02,width:'100%',height:'90px'}">
+                    <div class="text-title">温度</div>
+                    <div class="text-item">平均：{{dataset.dsAvg.curRecord && dataset.dsAvg.curRecord.avgTemperature}} °C
+                    </div>
+                    <div class="text-item">最大：{{dataset.dsAvg.curRecord && dataset.dsAvg.curRecord.maxTemperature}} °C
+                    </div>
+                    <div class="text-item">最小：{{dataset.dsAvg.curRecord && dataset.dsAvg.curRecord.minTemperautre}} °C
+                    </div>
+                  </image-title>
+                </el-col>
+                <el-col :xs="6" :sm="6" :lg="6">
+                  <image-title class="box-card" :conf="{imageUrl:imageTitle02,width:'100%',height:'90px'}">
+                    <div class="text-title">湿度</div>
+                    <div class="text-item">平均：{{dataset.dsAvg.curRecord && dataset.dsAvg.curRecord.avgHumidity}} %rh
+                    </div>
+                    <div class="text-item">最大：{{dataset.dsAvg.curRecord && dataset.dsAvg.curRecord.maxHumidity}} %rh
+                    </div>
+                    <div class="text-item">最小：{{dataset.dsAvg.curRecord && dataset.dsAvg.curRecord.minHumidity}} %rh
+                    </div>
+                  </image-title>
+                </el-col>
+              </el-row>
+              <div class="border-item-title">告警时间轴</div>
+              <div class="border-item">
+                <el-row>
+                  <el-col :xs="12" :sm="12" :lg="17">
+                    <hc-timeline :conf="hcTimeline" :dataset-datas="dataset.dsWarning.datas"
+                      :style="[{height:warningTimeHeight}]" />
+                  </el-col>
+                  <el-col :xs="12" :sm="12" :lg="7" style="padding: 10px;">
+                    <image-title style="text-indent: 10px;text-align: left;"
+                      :conf="{imageUrl:imageTitle02,width:'100%',height:'110px'}">
+                      <div class="text-title" style="color: #FD6A01;font-size:18px;font-weight:bold;line-height: 40px;">
+                        今日预警 {{dataset.dsWarningStat.curRecord && dataset.dsWarningStat.curRecord.stateall}} 个</div>
+                      <div class="text-item">
+                        已完成：{{dataset.dsWarningStat.curRecord && dataset.dsWarningStat.curRecord.state0}} 个</div>
+                      <div class="text-item">
+                        已受理：{{dataset.dsWarningStat.curRecord && dataset.dsWarningStat.curRecord.state1}} 个</div>
+                      <div class="text-item">
+                        未处理：{{dataset.dsWarningStat.curRecord && dataset.dsWarningStat.curRecord.state2}} 个</div>
+                    </image-title>
+                  </el-col>
+                </el-row>
+              </div>
+            </el-col>
+          </el-row>
+        </el-main>
+      </el-container>
+    </div>
+  </div>
+</body>
+<!-- import Vue before Element -->
+
+<script src="js/vue.js"></script>
+<!-- import plugins -->
+<script src="js/element-ui/index.js"></script>
+<script src="js/echarts.min.js"></script>
+<script src="js/map/china.js"></script>
+<script src="js/map/provinceall.js"></script>
+
+<script src="js/dist/zhcCmps-vendors.js"></script>
+<script src="js/dist/zhcCmps-main.js"></script>
+<script src="js/datasource/JsWebSocketDataSet.js"></script>
+<script src="./dyj.js"></script>
+<script>
+  new Vue({
+    el: '#app',
+    data: function () {
+      return {
+        isTagFullscreen: false,
+        realtimeChartSpeed: realtimeChartSpeed,
+        barPercentChartSpeed: barPercentChartSpeed,
+        realtimeChartTemperature: realtimeChartTemperature,
+        barPercentChartTemperature: barPercentChartTemperature,
+        realtimeChartHumidity: realtimeChartHumidity,
+        barPercentChartHumidity: barPercentChartHumidity,
+        chinaMapChartConf: {
+          controlName: "ChinaMapChart",
+          controlId: "ChinaMapChart_21",
+          height: "100%",
+          style: "background-color: rgba(1, 5, 61, 0.2);",
+          isGroupData: true,
+          dataset: "dsChina",
+          groupBy: "runAddr",
+          calcFields: [{
+            name: 'state_BSIs',
+            title: '正常生产',
+            filterExpr: 'this.state_BSIs == 1',
+            gpsAddr: "runAddr",
+            gpsEast: "gpsEast",
+            gpsNorth: "gpsNorth",
+            summaryType: 'sum'
+          }, {
+            name: 'state_BSIs',
+            title: '中危生产',
+            filterExpr: 'this.state_BSIs == 2',
+            gpsAddr: "runAddr",
+            gpsEast: "gpsEast",
+            gpsNorth: "gpsNorth",
+            summaryType: 'sum'
+          }, {
+            name: 'state_BSIs',
+            title: '高危生产',
+            filterExpr: 'this.state_BSIs == 3',
+            gpsAddr: "runAddr",
+            gpsEast: "gpsEast",
+            gpsNorth: "gpsNorth",
+            summaryType: 'sum'
+          }, {
+            name: 'state_BSIs',
+            title: '故障停机',
+            filterExpr: 'this.state_BSIs == 4',
+            gpsAddr: "runAddr",
+            gpsEast: "gpsEast",
+            gpsNorth: "gpsNorth",
+            summaryType: 'sum'
+          }, {
+            name: 'state_BSIs',
+            title: '关机状态',
+            filterExpr: 'this.state_BSIs == 0',
+            gpsAddr: "runAddr",
+            gpsEast: "gpsEast",
+            gpsNorth: "gpsNorth",
+            summaryType: 'sum'
+          }],
+          option: {
+            tooltip: {
+              formatter: function (param) {
+                var recd = param.data;
+                var hint = recd.runProvince + "/";
+                if (recd.runProvince != recd.runCity) {
+                  hint += recd.runCity + "/";
+                }
+                hint += recd.runAddr + "<br/>" + recd.company + "<br/><font size=4>" + param.seriesName +
+                  "</font>";
+                return hint;
+              }
+            },
+            legend: {
+              x: "left",
+              y: "bottom",
+              textStyle: {
+                color: "#fff"
+              },
+              padding: 20
+            },
+            series: [{
+              itemStyle: {
+                normal: {
+                  color: "#6CC142"
+                }
+              },
+              zlevel: 2
+            }, {
+              itemStyle: {
+                normal: {
+                  color: "#FFF260"
+                }
+              },
+              zlevel: 3
+            }, {
+              type: "effectScatter",
+              symbolSize: 15,
+              showEffectOn: "render",
+              rippleEffect: {
+                brushType: "stroke"
+              },
+              hoverAnimation: true,
+              itemStyle: {
+                normal: {
+                  color: "#FD6A01",
+                  shadowBlur: 10,
+                  shadowColor: "#333"
+                }
+              },
+              zlevel: 4
+            }, {
+              type: "effectScatter",
+              symbolSize: 15,
+              showEffectOn: "render",
+              rippleEffect: {
+                brushType: "stroke"
+              },
+              hoverAnimation: true,
+              itemStyle: {
+                normal: {
+                  color: "#C23531",
+                  shadowBlur: 10,
+                  shadowColor: "#F56C6C"
+                }
+              },
+              zlevel: 5
+            }, {
+              itemStyle: {
+                normal: {
+                  color: "#626464"
+                }
+              },
+              zlevel: 1
+            }]
+          },
+          events: {
+            click: this.onChinaMapClick
+          }
+        },
+        hcTimeline: hcTimeline,
+        imageTitle02: "url('./images/title-02.png')",
+        warnCount: 30,
+        warnOk: 18,
+        warnOnProcess: 8,
+        warnUnProcess: 4,
+        warnings: [{}],
+        imageTitleConf: {
+          width: "100%",
+          height: "30px",
+          imageUrl: "url(./images/border-title-01.png)",
+          style: "text-align: center;font-size: 24px;font-weight: bold;color: #32d3eb;"
+        },
+        screenHeight: window.innerHeight,
+        backgroundDiv: {
+          backgroundImage: "url('./images/background-01.png')",
+          "background-repeat": "no-repeat",
+          "background-size": "100% 100%"
+        },
+        isDeepProvince: false,
+        curtSelectTitle: "大圆机",
+        curtProvinceText: "",
+        wsConf: {
+          webSocketUrl: "ws://114.115.217.1/amrept-web/dyj/sktcloud/admin.do",
+          target: {
+            dyj_WcuFn0RQ: {
+              datasetId: "ds1"
+            },
+            dyj_OJs1oQ55: {
+              datasetId: "dsChina"
+            },
+            dyj_wtRqUmpQ: {
+              datasetId: "dsAvg"
+            },
+            dyj_aF7kMgt3: {
+              datasetId: "dsWarning"
+            },
+            dyj_oawkevs: {
+              datasetId: "dsWarningStat"
+            }
+          }
+        },
+        dataset: {
+          ds1: new JsWebSocketDataSet({
+            controlName: "JsWebSocketDataSet",
+            controlId: "ds1",
+            datas: []
+          }),
+          dsAvg: new JsWebSocketDataSet({
+            controlName: "JsWebSocketDataSet",
+            controlId: "dsAvg",
+            datas: []
+          }),
+          dsChina: new JsWebSocketDataSet({
+            controlName: "JsWebSocketDataSet",
+            controlId: "dsChina",
+            datas: [{
+                "gpsEast": 119.56,
+                "gpsNorth": 26,
+                "runProvince": "福建",
+                "runAddr": "长乐",
+                "dyjId": "DYJ-0001",
+                "company": "长源纺织",
+                "id": 1,
+                "runCity": "福州",
+                "state_BSIs": 1
+              },
+              {
+                "gpsEast": 119.6,
+                "gpsNorth": 26.1,
+                "runProvince": "福建",
+                "runAddr": "长乐",
+                "dyjId": "DYJ-0002",
+                "company": "长源纺织",
+                "id": 2,
+                "runCity": "福州",
+                "state_BSIs": 2
+              },
+              {
+                "gpsEast": 119.8,
+                "gpsNorth": 26.3,
+                "runProvince": "福建",
+                "runAddr": "长乐",
+                "dyjId": "DYJ-0003",
+                "company": "长源纺织",
+                "id": 3,
+                "runCity": "福州",
+                "state_BSIs": 3
+              },
+              {
+                "gpsEast": 119.1,
+                "gpsNorth": 26.9,
+                "runProvince": "福建",
+                "runAddr": "长乐",
+                "dyjId": "DYJ-0004",
+                "company": "长源纺织",
+                "id": 4,
+                "runCity": "福州",
+                "state_BSIs": 4
+              },
+              {
+                "gpsEast": 118.623,
+                "gpsNorth": 24.7304,
+                "runProvince": "福建",
+                "runAddr": "石狮",
+                "dyjId": "DYJ-0005",
+                "company": "联邦三禾(福建)股份有限公司",
+                "id": 5,
+                "runCity": "泉州",
+                "state_BSIs": 0
+              },
+              {
+                "gpsEast": 118.052,
+                "gpsNorth": 24.5803,
+                "runProvince": "福建",
+                "runAddr": "集美",
+                "dyjId": "DYJ-0006",
+                "company": "华懋(厦门)织造染整有限公司",
+                "id": 6,
+                "runCity": "厦门",
+                "state_BSIs": 1
+              },
+              {
+                "gpsEast": 118.89,
+                "gpsNorth": 25.2755,
+                "runProvince": "福建",
+                "runAddr": "仙游",
+                "dyjId": "DYJ-0007",
+                "company": "莆田和森纺织有限公司",
+                "id": 7,
+                "runCity": "莆田",
+                "state_BSIs": 1
+              },
+              {
+                "gpsEast": 117.539,
+                "gpsNorth": 26.7712,
+                "runProvince": "福建",
+                "runAddr": "将乐",
+                "dyjId": "DYJ-0008",
+                "company": "福建祥源纺织有限公司",
+                "id": 8,
+                "runCity": "三明",
+                "state_BSIs": 2
+              },
+              {
+                "gpsEast": 117.78,
+                "gpsNorth": 36.8806,
+                "runProvince": "山东",
+                "runAddr": "邹平",
+                "dyjId": "DYJ-0009",
+                "company": "山东魏桥创业集团有限公司",
+                "id": 9,
+                "runCity": "滨州",
+                "state_BSIs": 3
+              },
+              {
+                "gpsEast": 116.672,
+                "gpsNorth": 35.4421,
+                "runProvince": "山东",
+                "runAddr": "济宁高新区",
+                "dyjId": "DYJ-0010",
+                "company": "山东如意科技集团有限公司",
+                "id": 10,
+                "runCity": "济宁",
+                "state_BSIs": 4
+              },
+              {
+                "gpsEast": 117.964,
+                "gpsNorth": 36.6752,
+                "runProvince": "山东",
+                "runAddr": "高新技术开发区",
+                "dyjId": "DYJ-0011",
+                "company": "鲁泰纺织股份有限公司",
+                "id": 11,
+                "runCity": "淄博",
+                "state_BSIs": 0
+              },
+              {
+                "gpsEast": 120.413,
+                "gpsNorth": 31.8525,
+                "runProvince": "江苏",
+                "runAddr": "周庄",
+                "dyjId": "DYJ-0012",
+                "company": "江苏三房巷集团有限公司",
+                "id": 12,
+                "runCity": "江阴",
+                "state_BSIs": 1
+              },
+              {
+                "gpsEast": 120.657,
+                "gpsNorth": 31.814,
+                "runProvince": "江苏",
+                "runAddr": "塘桥",
+                "dyjId": "DYJ-0013",
+                "company": "江苏华芳集团有限公司",
+                "id": 13,
+                "runCity": "张家港",
+                "state_BSIs": 1
+              },
+              {
+                "gpsEast": 120.567,
+                "gpsNorth": 31.9898,
+                "runProvince": "江苏",
+                "runAddr": "大新",
+                "dyjId": "DYJ-0014",
+                "company": "张家港市大新毛纺有限公司",
+                "id": 14,
+                "runCity": "张家港",
+                "state_BSIs": 2
+              },
+              {
+                "gpsEast": 113.616,
+                "gpsNorth": 23.0905,
+                "runProvince": "广东",
+                "runAddr": "麻涌",
+                "dyjId": "DYJ-0015",
+                "company": "东莞德永佳纺织制衣有限公司",
+                "id": 15,
+                "runCity": "东莞",
+                "state_BSIs": 2
+              },
+              {
+                "gpsEast": 120.405,
+                "gpsNorth": 30.1339,
+                "runProvince": "浙江",
+                "runAddr": "柯桥",
+                "dyjId": "DYJ-0016",
+                "company": "浙江永通染织集团有限公司",
+                "id": 16,
+                "runCity": "绍兴",
+                "state_BSIs": 3
+              },
+              {
+                "gpsEast": 121.66,
+                "gpsNorth": 29.8919,
+                "runProvince": "浙江",
+                "runAddr": "鄞州",
+                "dyjId": "DYJ-0017",
+                "company": "宁波海天纺织有限公司",
+                "id": 17,
+                "runCity": "宁波",
+                "state_BSIs": 3
+              },
+              {
+                "gpsEast": 102.717,
+                "gpsNorth": 25.026,
+                "runProvince": "云南",
+                "runAddr": "五华",
+                "dyjId": "DYJ-0018",
+                "company": "云南纺织（集团）股份有限公司",
+                "id": 18,
+                "runCity": "昆明",
+                "state_BSIs": 4
+              },
+              {
+                "gpsEast": 112.571,
+                "gpsNorth": 32.9807,
+                "runProvince": "河南",
+                "runAddr": "新能源经济技术开发区",
+                "dyjId": "DYJ-0019",
+                "company": "南阳纺织集团有限公司",
+                "id": 19,
+                "runCity": "南阳",
+                "state_BSIs": 4
+              },
+              {
+                "gpsEast": 115.665,
+                "gpsNorth": 38.5694,
+                "runProvince": "河北",
+                "runAddr": "蠡县",
+                "dyjId": "DYJ-0020",
+                "company": "河北启发纺织集团公司",
+                "id": 20,
+                "runCity": "保定",
+                "state_BSIs": 0
+              },
+              {
+                "gpsEast": 112.502,
+                "gpsNorth": 35.4895,
+                "runProvince": "山西",
+                "runAddr": "阳城",
+                "dyjId": "DYJ-0021",
+                "company": "山西绿洲纺织有限责任公司",
+                "id": 21,
+                "runCity": "晋城",
+                "state_BSIs": 0
+              },
+              {
+                "gpsEast": 114.491,
+                "gpsNorth": 29.9362,
+                "runProvince": "湖北",
+                "runAddr": "咸安",
+                "dyjId": "DYJ-0022",
+                "company": "湖北精华纺织集团有限公司",
+                "id": 22,
+                "runCity": "咸宁",
+                "state_BSIs": 1
+              },
+              {
+                "gpsEast": 110.047,
+                "gpsNorth": 40.5787,
+                "runProvince": "内蒙古自治区",
+                "runAddr": "东河",
+                "dyjId": "DYJ-0023",
+                "company": "内蒙古鹿王羊绒有限公司",
+                "id": 23,
+                "runCity": "包头",
+                "state_BSIs": 2
+              },
+              {
+                "gpsEast": 128.326,
+                "gpsNorth": 45.4505,
+                "runProvince": "黑龙江",
+                "runAddr": "延寿",
+                "dyjId": "DYJ-0024",
+                "company": "黑龙江省延寿县继嘉亚麻纺织有限公司",
+                "id": 24,
+                "runCity": "哈尔滨",
+                "state_BSIs": 1
+              },
+              {
+                "gpsEast": 118.092,
+                "gpsNorth": 31.0564,
+                "runProvince": "安徽",
+                "runAddr": "繁昌",
+                "dyjId": "DYJ-0025",
+                "company": "安徽中天纺织科技股份有限公司",
+                "id": 25,
+                "runCity": "芜湖",
+                "state_BSIs": 3
+              },
+              {
+                "gpsEast": 114.521,
+                "gpsNorth": 38.0617,
+                "runProvince": "河北",
+                "runAddr": "长安",
+                "dyjId": "DYJ-0026",
+                "company": "石家庄常山纺织集团有限责任公司",
+                "id": 26,
+                "runCity": "石家庄",
+                "state_BSIs": 1
+              },
+              {
+                "gpsEast": 108.734,
+                "gpsNorth": 34.3447,
+                "runProvince": "陕西",
+                "runAddr": "渭城",
+                "dyjId": "DYJ-0027",
+                "company": "陕西八方纺织有限责任公司",
+                "id": 27,
+                "runCity": "咸阳",
+                "state_BSIs": 2
+              },
+              {
+                "gpsEast": 104.95,
+                "gpsNorth": 29.1802,
+                "runProvince": "四川",
+                "runAddr": "富顺",
+                "dyjId": "DYJ-0028",
+                "company": "富顺县裕仁纺织有限公司",
+                "id": 28,
+                "runCity": "自贡",
+                "state_BSIs": 2
+              },
+              {
+                "gpsEast": 117.235,
+                "gpsNorth": 39.1078,
+                "runProvince": "天津",
+                "runAddr": "武清",
+                "dyjId": "DYJ-0029",
+                "company": "天津市天元纺织有限公司",
+                "id": 29,
+                "runCity": "天津",
+                "state_BSIs": 3
+              },
+              {
+                "gpsEast": 118.579,
+                "gpsNorth": 24.8311,
+                "runProvince": "福建",
+                "runAddr": "晋江",
+                "dyjId": "DYJ-0030",
+                "company": "福建凤竹纺织科技股份有限公司",
+                "id": 30,
+                "runCity": "泉州",
+                "state_BSIs": 4
+              },
+              {
+                "gpsEast": 118.526,
+                "gpsNorth": 24.9298,
+                "runProvince": "福建",
+                "runAddr": "鲤城",
+                "dyjId": "DYJ-0031",
+                "company": "泉州海天材料科技股份有限公司",
+                "id": 31,
+                "runCity": "泉州",
+                "state_BSIs": 0
+              },
+              {
+                "gpsEast": 118.166,
+                "gpsNorth": 26.6911,
+                "runProvince": "福建",
+                "runAddr": "安丰桥",
+                "dyjId": "DYJ-0032",
+                "company": "福建南纺股份有限公司",
+                "id": 32,
+                "runCity": "南平",
+                "state_BSIs": 1
+              },
+              {
+                "gpsEast": 118.666,
+                "gpsNorth": 24.5908,
+                "runProvince": "福建",
+                "runAddr": "长汀",
+                "dyjId": "DYJ-0033",
+                "company": "福建鸿程纺织有限公司",
+                "id": 33,
+                "runCity": "龙岩",
+                "state_BSIs": 1
+              },
+              {
+                "gpsEast": 119.371,
+                "gpsNorth": 26.0715,
+                "runProvince": "福建",
+                "runAddr": "福兴投资区",
+                "dyjId": "DYJ-0034",
+                "company": "福州福华纺织印染有限公司",
+                "id": 34,
+                "runCity": "福州",
+                "state_BSIs": 2
+              }
+            ],
+            datas: []
+          }),
+          dsWarning: new JsWebSocketDataSet({
+            controlName: "JsWebSocketDataSet",
+            controlId: "dsWarning",
+            datas: [{
+                "exceptionType": 0,
+                "messageType": "warring",
+                "exceptionTime": "2019-11-20 11:16:51",
+                "dyjId": "DYJ-0013",
+                "exceptionState": 0,
+                "id": 79193,
+                "exceptionMessage": "大圆机DYJ-0013所在车间温度超过40℃"
+              },
+              {
+                "exceptionType": 3,
+                "messageType": "danger",
+                "exceptionTime": "2019-11-20 11:17:11",
+                "dyjId": "DYJ-0017",
+                "exceptionState": 2,
+                "id": 79194,
+                "exceptionMessage": "大圆机DYJ-0017缺少润滑油"
+              },
+              {
+                "exceptionType": 3,
+                "messageType": "danger",
+                "exceptionTime": "2019-11-20 11:17:21",
+                "dyjId": "DYJ-0017",
+                "exceptionState": 2,
+                "id": 79195,
+                "exceptionMessage": "大圆机DYJ-0017缺少润滑油"
+              },
+              {
+                "exceptionType": 0,
+                "messageType": "warring",
+                "exceptionTime": "2019-11-20 11:17:41",
+                "dyjId": "DYJ-0011",
+                "exceptionState": 0,
+                "id": 79196,
+                "exceptionMessage": "大圆机DYJ-0011所在车间温度超过40℃"
+              },
+              {
+                "exceptionType": 1,
+                "messageType": "danger",
+                "exceptionTime": "2019-11-20 11:17:41",
+                "dyjId": "DYJ-0018",
+                "exceptionState": 2,
+                "id": 79197,
+                "exceptionMessage": "大圆机DYJ-0018发生坏针异常"
+              },
+              {
+                "exceptionType": 0,
+                "messageType": "warring",
+                "exceptionTime": "2019-11-20 11:17:51",
+                "dyjId": "DYJ-0013",
+                "exceptionState": 0,
+                "id": 79198,
+                "exceptionMessage": "大圆机DYJ-0013所在车间温度超过40℃"
+              },
+            ],
+            datas: []
+          }),
+          dsWarningStat: new JsWebSocketDataSet({
+            controlName: "JsWebSocketDataSet",
+            controlId: "dsWarningStat",
+            datas: []
+          })
+        }
+      }
+    },
+
+    components: {
+
+    },
+    model: {
+      prop: "value",
+      event: "valuechange"
+    },
+    props: {
+      value: {
+        type: Object
+      },
+    },
+
+    computed: {
+      mainHeight() {
+        let height = this.screenHeight - 100 - 20;
+        height -= 84;
+        return height;
+      },
+      chinaMapServerHeight() {
+        let height = this.screenHeight - 15;
+        height -= 84;
+        return height + "px";
+      },
+      warningTimeHeight() {
+        return this.mainHeight - 340 + "px";
+      }
+    },
+    watch: {},
+    methods: {
+      onChinaMapClick(param) {
+        if (param.data) { //点击数据          
+          this.setCurtSelectDyj(param.data);
+        } else {
+          this.$refs.chinaMapDyj.initProvinceChart(param, function (d) {
+            return d.runProvince == param.name
+          });
+        }
+      },
+      // 中国地图选中当前大圆机节点
+      setCurtSelectDyj(recd) {
+        debugger
+        //更新选中标题
+        var hint = recd.runProvince + "/";
+        if (recd.runProvince != recd.runCity) {
+          hint += recd.runCity + "/";
+        }
+        hint += recd.runAddr + "/" + recd.company + " " + recd.dyjId;
+        this.curtSelectTitle = hint;
+        // 发送过滤条件 
+        let val = {
+          "am_websocket": {
+            "dataId": "dyj_WcuFn0RQ",
+            "queryCdions": {
+              "join": "and",
+              "items": [{
+                "sign": "eq",
+                "name": "dyjId",
+                "dataType": "string",
+                "value": recd.dyjId,
+                "enable": true
+              }]
+            }
+          }
+        }
+        // 过滤当前生产数据
+        this.webSocket.send(JSON.stringify(val));
+        // 过滤5分钟统计数据
+        val.am_websocket.dataId = "dyj_wtRqUmpQ"
+        this.webSocket.send(JSON.stringify(val));
+      },
+      backToChina() {
+        debugger;
+        this.$refs.chinaMapDyj.doChartDblckick();
+      },
+      onDeepProvince(pNameText) {
+        this.isDeepProvince = pNameText !== "中国";
+        this.curtProvinceText = pNameText;
+      },
+      // 中国在线用户数
+      dyjChinaCount() {
+        return this.dataset.dsChina.datas.length;
+      },
+      // 当前深度省份在线用户数
+      dyjProvinceCount() {
+        return this.dataset.dsChina.datas.filter(
+          x => x.runProvince === this.curtProvinceText
+        ).length;;
+      },
+      // 连接websocket
+      wsConection(conf) {
+        let me = this;
+        let url = conf.webSocketUrl;
+        this.webSocket = new WebSocket(url);
+        this.webSocket.onerror = this.wsOnError;
+        this.webSocket.onopen = this.wsOnOpen;
+        this.webSocket.onmessage = this.wsOnMessage;
+      },
+      wsClose() {
+        if (this.webSocket) {
+          this.webSocket.close();
+          console.log("web socket 已关闭")
+        }
+      },
+      wsOnError(event) {
+        console.log("web socket error:" + event.data)
+      },
+      wsOnOpen(event) {
+        console.log("websocket连接成功")
+      },
+      wsOnMessage(event) {
+        if (event.data) {
+          let data = JSON.parse(event.data);
+          let dataId = data.dataId;
+          if (dataId == "dyj_oawkevs") debugger; //dyj_aF7kMgt3
+          if (dataId) {
+            let target = this.wsConf.target[dataId];
+            if (!target) return;
+            let datasetId = target.datasetId;
+            if (this.dataset[datasetId]) {
+              this.dataset[datasetId].setData(data.datas);
+            }
+          }
+        }
+      }
+    },
+    mounted() {
+      let scope = this;
+      this.$refs["mainDiv"].style.display = "block";
+      if (document.createEvent) {
+        var event = document.createEvent("HTMLEvents");
+        event.initEvent("resize", true, true);
+        window.dispatchEvent(event);
+      } else if (document.createEventObject) {
+        window.fireEvent("onresize");
+      }
+      this.screenHeight = this.$el.clientHeight;
+      window.addEventListener('resize', function () {
+        scope.screenHeight = scope.$el.clientHeight;
+      })
+      this.wsConection(this.wsConf)
+    }
+  })
+</script>
+
+</html>

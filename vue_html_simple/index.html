@@ -1,0 +1,603 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <!-- import CSS -->
+  <link rel="stylesheet" href="css/element-ui/index.css">
+  <link href="js/dist/vendors.css"/>
+  <style>
+	.image-title {
+		font-size: 16px;
+		color: #ffffff;
+		background-repeat: no-repeat;
+		background-size: 100% 100%;
+	}
+	</style>
+</head>
+<body>
+  <div id="app">
+    <el-button @click="visible = true">Button</el-button>
+	<button-counter></button-counter>
+	<image-title :conf="imageTitleConf">
+		全国大圆机运行监控
+	</image-title>
+	<pie-chart id="PieChart_p2" :conf="pieChartConf"></pie-chart>
+	<line-chart id="LineChart_line1" :conf="lineChartConf"></line-chart>		
+	<realtime-chart :conf="realtimeChartConf" ></realtime-chart>
+	<bar-percent-chart :conf="barPercentChartConf"></bar-percent-chart>
+	<china-map-chart :conf="chinaMapChartConf" ></china-map-chart>
+	
+    <el-dialog :visible.sync="visible" title="Hello world">
+      <p>Try Element</p>
+    </el-dialog>
+    <div id="container" style="height: 500px"></div>
+	
+  </div>
+</body>
+  <!-- import Vue before Element -->
+  <script src="js/vue.js"></script>
+  <!-- import plugins -->
+  <script src="js/element-ui/index.js"></script>
+  <script src="js/echarts.min.js"></script>
+  <script src="js/map/china.js"></script>
+  <script src="js/map/provinceall.js"></script>
+  
+   <script src="js/dist/zhcCmps-vendors.js"></script>	
+   <script src="js/dist/zhcCmps-main.js"></script>	
+   
+  <script>
+    new Vue({
+      el: '#app',
+      data: function() {
+        return { 
+			visible: false,   
+			pieChartConf:{
+				controlName: "PieChart",
+				controlId: "PieChart_p2",
+				height: 250,
+				datas: [{
+					"userCity": "福州",
+					"userCount": 20372,
+					},
+					{
+					"userCity": "厦门",
+					"userCount": 10922,
+					},
+					{
+					"userCity": "泉州",
+					"userCount": 10776,
+					},
+					{
+					"userCity": "龙岩",
+					"userCount": 8600,
+					},
+					{
+					"userCity": "南平",
+					"userCount": 7500,
+					},
+					{
+					"userCity": "三明",
+					"userCount": 6800,
+					},
+					{
+					"userCity": "其它",
+					"userCount": 5800,
+					},
+				],
+				isGroupData: true,
+				groupBy: "userCity",
+				calcFields: [{
+					name: 'userCount',
+					title: '用户数量'
+				}],
+				option: {
+					title: {
+					text: "福建各城市用户占比分析"
+					},
+					series: [{
+					name: "用户数量",
+					radius: ['50%', '70%'],
+					label: {
+						normal: {
+						show: false,
+						position: 'center'
+						},
+						emphasis: {
+						show: true,
+						textStyle: {
+							fontSize: '30',
+							fontWeight: 'bold'
+						}
+						}
+					},
+					}]
+				}
+            },  
+			lineChartConf:{
+                        controlName: "LineChart",
+                        controlId: "LineChart_line1",
+                        height: 250,
+                        datas: [{
+                            "sailArea": "华北",
+                            "sailValue": 20372,
+                          },
+                          {
+                            "sailArea": "华东",
+                            "sailValue": 10922,
+                          },
+                          {
+                            "sailArea": "华中",
+                            "sailValue": 10776,
+                          },
+                          {
+                            "sailArea": "华南",
+                            "sailValue": 30776,
+                          },
+                          {
+                            "sailArea": "酉北",
+                            "sailValue": 6800,
+                          },
+                          {
+                            "sailArea": "东北",
+                            "sailValue": 9000,
+                          },
+                          {
+                            "sailArea": "酉南",
+                            "sailValue": 8600,
+                          },
+                        ],
+                        isGroupData: false,
+                        groupBy: "sailArea",
+                        calcFields: [{
+                          name: 'sailValue',
+                          title: '销售金额',
+                          summaryType: 'sum'
+                        }],
+                        option: {
+                          title: {
+                            text: "基础折线图"
+                          },
+                          legend: {
+                            left: 'right'
+                          },
+                          grid: {
+                            left: '3%',
+                            right: '4%',
+                            bottom: '3%',
+                            containLabel: true
+                          },
+                        }
+                      },
+			realtimeChartConf:{
+                        controlName: "RealtimeChart",
+                        controlId: "LineChart_line33",
+                        height: 250,
+                        datas: [],
+                        isGroupData: false,
+                        pointCount: 10,
+                        groupBy: "nowtime",
+                        calcFields: [{
+                          name: 'temperature',
+                          title: '温度',
+                          summaryType: 'sum'
+                        }, {
+                          name: 'humidity',
+                          title: '湿度',
+                          summaryType: 'sum'
+                        }],
+                        option: {
+                          title: {
+                            text: "实时折线图"
+                          },
+                          tooltip: {
+                            formatter: "{b} <br/>{a0} : {c0} °C<br/>{a1} : {c1} %rh"
+                          },
+                          legend: {
+                            left: 'right'
+                          },
+                          grid: {
+                            left: '3%',
+                            right: '8%',
+                            bottom: '3%',
+                            containLabel: true
+                          },
+                          yAxis: {
+                            min: 20,
+                            max: 40,
+                            axisLabel: {
+                              formatter: '{value}°C'
+                            }
+                          },
+                          series: [{
+                            markPoint: {
+                              data: [{
+                                  type: 'max',
+                                  name: '最大值'
+                                },
+                                {
+                                  type: 'min',
+                                  name: '最小值'
+                                }
+                              ]
+                            },
+                            markLine: {
+                              data: [{
+                                type: 'average',
+                                name: '平均值'
+                              }]
+                            },
+                            smooth: true
+                          }]
+                        }
+                      },
+			barPercentChartConf:{
+                        controlName: "BarPercentChart",
+                        controlId: "BarPercentChart_13",                        
+                        height: 250,
+                        datas: [],
+                        isGroupData: true,
+                        groupBy: "name",
+                        calcFields: [{
+                          name: 'value',
+                          title: '访问来源'
+                        }],
+                        barVal:95,
+                        option: {
+                          title: {
+                            text: "柱形百分比实时图"
+                          },
+                          grid:{   
+                            left:'30%',
+                            right:'30%',
+                            top:'20%'
+                          }
+                        }
+                      },
+			chinaMapChartConf:{
+                      controlName: "ChinaMapChart",
+                      controlId: "ChinaMapChart_21",
+                      height: 450,
+                      style: "background-color: rgba(1, 5, 61, 0.2);",
+                      datas: [{
+                        province: "福建",
+                        addr: "长乐长源纺织M1",
+                        gpsEast: "119.53",
+                        gpsNorth: "25.97",
+                        state: 1
+                      }, {
+                        province: "福建",
+                        addr: "长乐长源纺织M2",
+                        gpsEast: "119.54",
+                        gpsNorth: "25.98",
+                        state: 2
+                      }, {
+                        province: "福建",
+                        addr: "长乐长源纺织M3",
+                        gpsEast: "119.55",
+                        gpsNorth: "25.99",
+                        state: 3
+                      }, {
+                        province: "福建",
+                        addr: "长乐长源纺织M4",
+                        gpsEast: "119.56",
+                        gpsNorth: "26.00",
+                        state: 4
+                      }, {
+                        province: "福建",
+                        addr: "长乐长源纺织M5",
+                        gpsEast: "119.57",
+                        gpsNorth: "26.01",
+                        state: 5
+                      }, {
+                        province: "福建",
+                        addr: "莆田XXX纺织M6",
+                        gpsEast: "119.00",
+                        gpsNorth: "25.5",
+                        state: 1
+                      }, {
+                        province: "福建",
+                        addr: "莆田XXX纺织M7",
+                        gpsEast: "119.01",
+                        gpsNorth: "25.4",
+                        state: 2
+                      }, {
+                        province: "福建",
+                        addr: "莆田XXX纺织M8",
+                        gpsEast: "119.02",
+                        gpsNorth: "25.3",
+                        state: 3
+                      }, {
+                        province: "福建",
+                        addr: "泉州XXX纺织M8",
+                        gpsEast: "118.58",
+                        gpsNorth: "24.93",
+                        state: 1
+                      }, {
+                        province: "福建",
+                        addr: "泉州XXX纺织M9",
+                        gpsEast: "118.56",
+                        gpsNorth: "24.91",
+                        state: 1
+                      }, {
+                        province: "福建",
+                        addr: "泉州XXX纺织M10",
+                        gpsEast: "118.54",
+                        gpsNorth: "24.90",
+                        state: 2
+                      }, {
+                        province: "福建",
+                        addr: "泉州XXX纺织M11",
+                        gpsEast: "118.51",
+                        gpsNorth: "24.86",
+                        state: 3
+                      }, {
+                        province: "福建",
+                        addr: "泉州XXX纺织M12",
+                        gpsEast: "118.49",
+                        gpsNorth: "24.84",
+                        state: 4
+                      }, {
+                        province: "广东",
+                        addr: "广东XXX纺织M13",
+                        gpsEast: "113.280637",
+                        gpsNorth: "23.125178",
+                        state: 3
+                      }, {
+                        province: "陕西",
+                        addr: "延安XXX纺织M14",
+                        gpsEast: "109.47",
+                        gpsNorth: "36.6",
+                        state: 1
+                      }],
+                      isGroupData: true,
+                      groupBy: "addr",
+                      calcFields: [{
+                        name: 'state',
+                        title: '正常生产',
+                        filterExpr: 'this.state === 1',
+                        gpsAddr: "addr",
+                        gpsEast: "gpsEast",
+                        gpsNorth: "gpsNorth",
+                        summaryType: 'sum'
+                      }, {
+                        name: 'state',
+                        title: '中危生产',
+                        filterExpr: 'this.state === 2',
+                        gpsAddr: "addr",
+                        gpsEast: "gpsEast",
+                        gpsNorth: "gpsNorth",
+                        summaryType: 'sum'
+                      }, {
+                        name: 'state',
+                        title: '高危生产',
+                        filterExpr: 'this.state === 3',
+                        gpsAddr: "addr",
+                        gpsEast: "gpsEast",
+                        gpsNorth: "gpsNorth",
+                        summaryType: 'sum'
+                      }, {
+                        name: 'state',
+                        title: '故障停机',
+                        filterExpr: 'this.state === 4',
+                        gpsAddr: "addr",
+                        gpsEast: "gpsEast",
+                        gpsNorth: "gpsNorth",
+                        summaryType: 'sum'
+                      }, {
+                        name: 'state',
+                        title: '关机状态',
+                        filterExpr: 'this.state === 5',
+                        gpsAddr: "addr",
+                        gpsEast: "gpsEast",
+                        gpsNorth: "gpsNorth",
+                        summaryType: 'sum'
+                      }],
+                      option: {
+                        geo:{roam: false},
+                        tooltip: {
+                          formatter: "{b} <br/>{a}",
+                        },
+                        legend: {
+                          x: "left",
+                          y: "bottom",
+                          textStyle: {
+                            color: "#fff"
+                          },
+                          padding: 20
+                        },
+                        series: [{
+                          itemStyle: {
+                            normal: {
+                              color: "#6CC142"
+                            }
+                          },
+                          zlevel: 2
+                        }, {
+                          itemStyle: {
+                            normal: {
+                              color: "#FFF260"
+                            }
+                          },
+                          zlevel: 3
+                        }, {
+                          type: "effectScatter",
+                          symbolSize: 15,
+                          showEffectOn: "render",
+                          rippleEffect: {
+                            brushType: "stroke"
+                          },
+                          hoverAnimation: true,
+                          itemStyle: {
+                            normal: {
+                              color: "#FD6A01",
+                              shadowBlur: 10,
+                              shadowColor: "#333"
+                            }
+                          },
+                          zlevel: 4
+                        }, {
+                          zlevel: 5
+                        }, {
+                          zlevel: 1
+                        }]
+                      },
+                      events: {
+                        click: function (param) {
+                          debugger
+                          if (param.data) { //点击数据
+
+                          } else {
+                            this.initProvinceChart(param, function (d) {
+                              return d.province == param.name
+                            });
+                          }
+                        }
+                      }
+                    },
+			imageTitleConf:{
+				
+				width: "100%",
+				height: "30px",
+				imageUrl: "url(./images/border-title-01.png)",
+				title: "全国大圆机运行监控",
+				style: "text-align: center;font-size: 24px;font-weight: bold;color: #32d3eb;"
+			},
+			cpuVal: 30,
+			barCpuOption: {
+				textStyle: {
+				  color: "#fff"
+				},
+				yAxis: [
+				  {
+					axisLabel: {
+					  show: false
+					}
+				  }
+				]
+			}, 
+		}
+      },
+
+	  components: {
+	
+	  },
+	  model: {
+	    prop: "value",
+	    event: "valuechange"
+	  },
+	  props: {
+	    value: {
+	      type: Object
+	    },
+	    
+	    
+	  },
+	  
+	  computed: {
+	   
+	  },
+	  watch: {},
+	  methods: {
+	  	createEChart(){
+	  	
+	  	var dom = document.getElementById("container");
+		var myChart = echarts.init(dom);
+		var app = {};
+		option = null;
+		option = {
+		    title: {
+		        text: '堆叠区域图'
+		    },
+		    tooltip : {
+		        trigger: 'axis',
+		        axisPointer: {
+		            type: 'cross',
+		            label: {
+		                backgroundColor: '#6a7985'
+		            }
+		        }
+		    },
+		    legend: {
+		        data:['邮件营销','联盟广告','视频广告','直接访问','搜索引擎']
+		    },
+		    toolbox: {
+		        feature: {
+		            saveAsImage: {}
+		        }
+		    },
+		    grid: {
+		        left: '3%',
+		        right: '4%',
+		        bottom: '3%',
+		        containLabel: true
+		    },
+		    xAxis : [
+		        {
+		            type : 'category',
+		            boundaryGap : false,
+		            data : ['周一','周二','周三','周四','周五','周六','周日']
+		        }
+		    ],
+		    yAxis : [
+		        {
+		            type : 'value'
+		        }
+		    ],
+		    series : [
+		        {
+		            name:'邮件营销',
+		            type:'line',
+		            stack: '总量',
+		            areaStyle: {},
+		            data:[120, 132, 101, 134, 90, 230, 210]
+		        },
+		        {
+		            name:'联盟广告',
+		            type:'line',
+		            stack: '总量',
+		            areaStyle: {},
+		            data:[220, 182, 191, 234, 290, 330, 310]
+		        },
+		        {
+		            name:'视频广告',
+		            type:'line',
+		            stack: '总量',
+		            areaStyle: {},
+		            data:[150, 232, 201, 154, 190, 330, 410]
+		        },
+		        {
+		            name:'直接访问',
+		            type:'line',
+		            stack: '总量',
+		            areaStyle: {normal: {}},
+		            data:[320, 332, 301, 334, 390, 330, 320]
+		        },
+		        {
+		            name:'搜索引擎',
+		            type:'line',
+		            stack: '总量',
+		            label: {
+		                normal: {
+		                    show: true,
+		                    position: 'top'
+		                }
+		            },
+		            areaStyle: {normal: {}},
+		            data:[820, 932, 901, 934, 1290, 1330, 1320]
+		        }
+		    ]
+		};
+		;
+		if (option && typeof option === "object") {
+		    myChart.setOption(option, true);
+		}
+	  	
+	  	}
+	    
+	  },
+	  mounted() {
+	  //  this.createEChart();
+	  }
+    })
+  </script>
+</html>
