@@ -7,12 +7,12 @@
         :key="child.controlId"
         :conf="child"
       />
-      <birt-grid-sheet
+      <!-- <birt-grid-sheet
         v-if="child.controlName=='BirtGridSheet'"
         :ref="child.controlId"
         :key="child.controlId"
         :conf="child"
-      />
+      /> -->
       <birt-form-sheet
         v-if="child.controlName=='BirtFormSheet'"
         :ref="child.controlId"

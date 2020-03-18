@@ -6,10 +6,24 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
+function getEntry() {
+  if (NODE_ENV == 'development') {
+    return './src/main.js'
+  } else if (NODE_ENV == 'production') {
+    return './src/components/index.js';
+  } else if (NODE_ENV == 'productionmin') {
+    return './src/components/indexmin.js';
+  }
+}
+
+function isProduction() {
+  return NODE_ENV.indexOf('production') >= 0
+}
+
 module.exports = {
   // entry: './src/main.js',
   // entry: './src/Components/index.js',
-  entry: NODE_ENV == 'development' ? './src/main.js' : './src/components/index.js',
+  entry: getEntry(),
   output: {
     path: resolve('dist'),
     publicPath: '/dist/',
@@ -57,10 +71,10 @@ module.exports = {
     extensions: ['*', '.js', '.vue', '.json']
   },
   externals: {
-    vue:'vue',
+    vue: 'vue',
     echarts: 'echarts',
-    // raphael:'raphael',
-    // jquery:'jquery',
+    raphael: 'raphael',
+    jquery: 'jquery',
     'element-ui': 'element-ui',
     // 'bignumber.js':'bignumber.js'
   },
@@ -83,7 +97,7 @@ module.exports = {
   devtool: '#eval-source-map'
 }
 
-if (process.env.NODE_ENV === 'production') {
+if (isProduction()) {
   module.exports.devtool = '#source-map'
   // http://vue-loader.vuejs.org/en/workflow/production.html
   module.exports.plugins = (module.exports.plugins || []).concat([
@@ -100,6 +114,6 @@ if (process.env.NODE_ENV === 'production') {
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true
-    })  
+    })
   ])
 }

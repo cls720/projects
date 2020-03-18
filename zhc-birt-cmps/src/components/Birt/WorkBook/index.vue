@@ -71,7 +71,10 @@ export default {
       return this.conf.height;
     },
     mainHeight() {
-      let height = this.screenHeight - this.$HCBIRT.tabHeight;
+      let height = this.screenHeight;
+      if (this.$HCBIRT && this.$HCBIRT.tabHeight) {
+        height -= this.$HCBIRT.tabHeight;
+      }
       if (this.isShowToolBar()) {
         height -= 60;
       }

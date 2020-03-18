@@ -9,8 +9,6 @@ import pinyin from "js-pinyin";
 
 import { allData } from "./org.js";
 import { resources } from "./resources";
-import { treeResources } from "./treeResources";
-import { convertToTreeData } from "@/funclib/DataTree.js";
 
 export default {
   data() {

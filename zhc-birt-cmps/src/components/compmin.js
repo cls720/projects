@@ -1,5 +1,5 @@
-import birt from './Birt/complist'
-import hc from './Hc/complist'
+import birt from './Birt/compmin'
+import hc from './Hc/compmin'
 import hcCompose from './HcCompose/complist'
 
 import BirtCellChildren from "./BirtCellChildren/min"
