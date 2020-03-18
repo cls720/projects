@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import HcCmpt from "@/components/Hc/Cmpt";
 import autosize from "@/components/mixins/autosize";
 import datasource from "@/components/mixins/datasource";
 import ViewStyle from "@/components/ViewStyle";
@@ -31,6 +32,7 @@ import ViewStyle from "@/components/ViewStyle";
 export default {
   name: "hc-data-list",
   mixins: [autosize, datasource],
+  extends:HcCmpt,
   components: { ViewStyle },
   inject: ["datasource", "dataset"],
   props: {

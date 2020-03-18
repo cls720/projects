@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import HcCmpt from "@/components/Hc/Cmpt";
 import events from "@/components/mixins/events";
 import autosize from "@/components/mixins/autosize";
 import datasource from "@/components/mixins/datasource";
@@ -38,6 +39,7 @@ import { convertToTreeData } from "@/funclib/DataTree.js";
 
 export default {
   name: "hc-tree",
+  extends: HcCmpt,
   mixins: [events, autosize, datasource],
   props: {
     conf: {
@@ -97,7 +99,7 @@ export default {
       return this.conf.height || "100%";
     },
     confStyle() {
-      debugger
+      debugger;
       return `${this.autoSizeStyle()};${this.conf.style};`;
     },
     nodeClick() {

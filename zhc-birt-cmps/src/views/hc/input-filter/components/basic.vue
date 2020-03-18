@@ -93,6 +93,7 @@
 
 <script>
 import JsWebSocketDataSet from "@/components/DataSource/JsWebSocketDataSet";
+import request from "@/utils/request";
 import DsContainer from "zhc-dataset/src";
 import sysResources from "./sys_resources";
 import { convertToTreeData } from "@/funclib/DataTree.js";
@@ -464,7 +465,7 @@ export default {
     });
     console.log(JSON.stringify(this.treeData));
     debugger;
-    // this.dsContainer = new DsContainer(null,{request:request,queryUrl,saveUrl});
+    // this.dsContainer = new DsContainer({ request: request, queryUrl, saveUrl });
     // this.dsResources2 = this.dsContainer.createDataSet(sysResources);
     // this.dsResources2.setData(this.treeData);
   },

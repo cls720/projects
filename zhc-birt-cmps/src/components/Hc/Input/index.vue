@@ -46,12 +46,13 @@
 </template>
 
 <script>
-import ref from "@/components/mixins/ref";
+import HcCmpt from "@/components/Hc/Cmpt";
 import slot from "@/components/mixins/slot";
 
 export default {
   name: "hc-input",
-  mixins: [ref, slot],
+  extends: HcCmpt,
+  mixins: [slot],
   props: {
     conf: {
       type: Object,

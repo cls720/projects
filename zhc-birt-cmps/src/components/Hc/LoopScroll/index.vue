@@ -24,6 +24,7 @@
   </div>
 </template>
 <script>
+import HcCmpt from "@/components/Hc/Cmpt";
 import autosize from "@/components/mixins/autosize";
 require("comutils/animationFrame")();
 const arrayEqual = require("comutils/arrayEqual");
@@ -31,6 +32,7 @@ const copyObj = require("comutils/copyObj");
 
 export default {
   name: "hc-loop-scroll",
+  extends: HcCmpt,
   mixins: [autosize], 
   data() {
     return {

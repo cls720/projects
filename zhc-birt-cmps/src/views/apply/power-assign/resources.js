@@ -33,7 +33,6 @@ export const resources = [
             "AccessPlan_CW": {
                 "name": "财务经理",
                 "value": "AccessPlan_CW",
-                "isOther": 1
             }
         },
         "opPower": {

@@ -30,11 +30,11 @@
 </template>
 
 <script>
-import ref from "@/components/mixins/ref";
+import HcCmpt from "@/components/Hc/Cmpt";
 
 export default {
   name: "hc-radio-group",
-  mixins: [ref],
+  extends: HcCmpt,
   props: {
     conf: {
       type: Object,

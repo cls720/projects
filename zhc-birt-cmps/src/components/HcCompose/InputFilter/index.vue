@@ -14,11 +14,13 @@
 </template>
 
 <script>
+import HcCmpt from "@/components/Hc/Cmpt";
 import events from "@/components/mixins/events";
 import fusefilter from "@/components/mixins/fusefilter";
 
 export default {
   name: "hc-input-filter",
+  extends: HcCmpt,
   mixins: [events, fusefilter],
   props: {
     conf: {

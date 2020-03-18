@@ -1,24 +1,24 @@
 <template>
-  <el-progress 
+  <el-progress
     :type="type"
-    :percentage="100" 
-    :format="format" 
-    :status="status" 
-    :text-inside="textInside" 
+    :percentage="100"
+    :format="format"
+    :status="status"
+    :text-inside="textInside"
     :stroke-width="strokeWidth"
     :color="color"
     :show-text="showText"
     :stroke-linecap="strokeLinecap"
-  >
-  </el-progress>
+  ></el-progress>
 </template>
 
 <script>
+import HcCmpt from "@/components/Hc/Cmpt";
 
 export default {
   name: "hc-progress",
-  components: {
-  },
+  extends: HcCmpt,
+  components: {},
   props: {
     conf: {
       type: Object,
@@ -43,31 +43,27 @@ export default {
     strokeWidth() {
       return this.conf.strokeWidth;
     },
-    color(){
-       return this.conf.color;
+    color() {
+      return this.conf.color;
     },
-    type(){
-       return this.conf.type;
+    type() {
+      return this.conf.type;
     },
-    showText(){
-       return this.conf.showText;
+    showText() {
+      return this.conf.showText;
     },
-    strokeLinecap(){
-       return this.conf.strokeLinecap;
+    strokeLinecap() {
+      return this.conf.strokeLinecap;
     },
     confStyle() {
       return `${this.autoSizeStyle()};${this.conf.style};`;
     }
   },
   data() {
-    return {
-     
-    };
+    return {};
   },
   mounted() {},
-  methods: {
-  
-  }
+  methods: {}
 };
 </script>
 

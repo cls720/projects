@@ -14,17 +14,19 @@
       :key="grandson.controlId"
       style="display:block"
     >
-      <birt-cell-children :children="[grandson]"/>
+      <birt-cell-children :children="[grandson]" />
     </el-carousel-item>
   </el-carousel>
 </template>
 
 <script>
+import HcCmpt from "@/components/Hc/Cmpt";
 import autosize from "@/components/mixins/autosize";
 
 export default {
   name: "hc-carousel",
-  mixins: [autosize],  
+  mixins: [autosize],
+  extends: HcCmpt,
   props: {
     conf: {
       type: Object,

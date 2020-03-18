@@ -15,10 +15,12 @@
 </template>
 
 <script>
+import HcCmpt from "@/components/Hc/Cmpt";
 import autosize from "@/components/mixins/autosize";
 
 export default {
   name: "hc-timeline",
+  extends: HcCmpt,
   mixins: [autosize],
   props: {
     datasetDatas: {
@@ -73,7 +75,7 @@ export default {
     height() {
       return this.conf.height || "100px";
     },
-    confStyle() {      
+    confStyle() {
       return `overflow:hidden;${this.autoSizeStyle()};${this.conf.style};`;
     }
   },

@@ -15,10 +15,12 @@
 </template>
 
 <script>
+import HcCmpt from "@/components/Hc/Cmpt";
 import events from "@/components/mixins/events";
 
 export default {
   name: "hc-image-title",
+  extends:HcCmpt,
   mixins: [events],
   props: {
     conf: {

@@ -44,12 +44,14 @@
 </template>
 
 <script>
+import HcCmpt from "@/components/Hc/Cmpt";
 import emitter from "@/utils/emitter";
 import events from "@/components/mixins/events";
 import elDragDialog from "@/components/directive/el-drag-dialog";
 
 export default {
   name: "hc-dialog",
+  extends:HcCmpt,
   mixins: [events],
   directives: { elDragDialog },
   props: {

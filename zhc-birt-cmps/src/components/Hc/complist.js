@@ -5,7 +5,6 @@ import HcRadioGroup from './RadioGroup'
 import HcCheckbox from "./Checkbox"
 import HcInput from "./Input"
 import HcLinkHrefs from "./LinkHrefs"
-import HcInputFilter from "./InputFilter"
 import HcToolBar from "./ToolBar"
 import HcTabs from "./Tabs"
 import HcDialog from "./Dialog"
@@ -28,7 +27,6 @@ const cmps = {
     HcCheckbox,
     HcInput,
     HcLinkHrefs,
-    // HcInputFilter,
     HcToolBar,
     HcTabs,
     HcDialog,

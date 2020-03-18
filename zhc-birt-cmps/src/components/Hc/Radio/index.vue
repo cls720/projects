@@ -11,10 +11,12 @@
 </template>
 
 <script>
+import HcCmpt from "@/components/Hc/Cmpt";
 import events from "@/components/mixins/events";
 
 export default {
   name: "hc-radio",
+  extends: HcCmpt,
   mixins: [events],
   props: {
     conf: {
@@ -25,8 +27,7 @@ export default {
     }
   },
   data() {
-    return {
-    };
+    return {};
   },
   computed: {
     title() {

@@ -13,16 +13,18 @@
       :name="grandson.name"
       :style="tabPaneStyle(grandson)"
     >
-      <birt-cell-children :children="grandson.children"/>
+      <birt-cell-children :children="grandson.children" />
     </el-tab-pane>
   </el-tabs>
 </template>
 
 <script>
+import HcCmpt from "@/components/Hc/Cmpt";
 import autosize from "@/components/mixins/autosize";
 
 export default {
   name: "hc-tabs",
+  extends: HcCmpt,
   mixins: [autosize],
   props: {
     conf: {

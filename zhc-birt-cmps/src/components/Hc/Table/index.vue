@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import HcCmpt from "@/components/Hc/Cmpt";
 import autosize from "@/components/mixins/autosize";
 import datasource from "@/components/mixins/datasource";
 import HcTableColumn from "./Column";
@@ -50,6 +51,7 @@ import { convertToTreeData, filterTreeData } from "@/funclib/DataTree.js";
 
 export default {
   name: "hc-table",
+  extends: HcCmpt,
   mixins: [autosize, datasource],
   components: { HcTableColumn },
   props: {

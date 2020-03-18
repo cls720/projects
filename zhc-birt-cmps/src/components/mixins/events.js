@@ -45,22 +45,22 @@ export default {
       }
     },
     // 获取引用组件对象，从当前及父对象爬
-    getRefCompt(refId) {
-      let parent = this;
-      while (parent) {
-        for (var key in parent.$refs) {
-          if (key === refId) {
-            let refCompt = parent.$refs[key];
-            if (refCompt.length > 0) {
-              return refCompt[0]
-            } else {
-              return refCompt
-            }
-          }
-        }
-        parent = parent.$parent;
-      }
-    },
+    // getRefCompt(refId) {
+    //   let parent = this;
+    //   while (parent) {
+    //     for (var key in parent.$refs) {
+    //       if (key === refId) {
+    //         let refCompt = parent.$refs[key];
+    //         if (refCompt.length > 0) {
+    //           return refCompt[0]
+    //         } else {
+    //           return refCompt
+    //         }
+    //       }
+    //     }
+    //     parent = parent.$parent;
+    //   }
+    // },
     // 调用图表渲染完函数配置
     callComptMounted() {
       if (this.conf.mounted) {

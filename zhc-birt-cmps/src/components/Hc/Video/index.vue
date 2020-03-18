@@ -5,10 +5,12 @@
 </template>
 
 <script>
+import HcCmpt from "@/components/Hc/Cmpt";
 import autosize from "@/components/mixins/autosize";
 
 export default {
   name: "HcVideo",
+  extends: HcCmpt,
   mixins: [autosize],
   props: {
     conf: {

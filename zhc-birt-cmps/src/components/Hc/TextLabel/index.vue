@@ -6,11 +6,13 @@
 </template>
 
 <script>
+import HcCmpt from "@/components/Hc/Cmpt";
 import emitter from "@/utils/emitter";
 import events from "@/components/mixins/events";
 
 export default {
   name: "hc-text-label",
+  extends: HcCmpt,
   mixins: [events],
   inject: ["dataset"],
   props: {
