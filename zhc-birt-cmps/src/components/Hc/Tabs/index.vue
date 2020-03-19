@@ -1,10 +1,16 @@
 <template>
   <el-tabs
     v-model="activeTabName"
-    :tab-position="tabPosition"
-    :type="type"
+    :type="conf.type"
+    :closable="conf.closable"
+    :addable="conf.addable"
+    :editable="conf.editable"
+    :tab-position="conf.tabPosition"
+    :stretch="conf.stretch"
+    :before-leave="conf.beforeLeave"
     :height="autoHeightEx()"
     :style="confStyle"
+    @tab-click="tabClick"
   >
     <el-tab-pane
       v-for="grandson in conf.children"
@@ -21,11 +27,12 @@
 <script>
 import HcCmpt from "@/components/Hc/Cmpt";
 import autosize from "@/components/mixins/autosize";
+import events from "@/components/mixins/events";
 
 export default {
   name: "hc-tabs",
   extends: HcCmpt,
-  mixins: [autosize],
+  mixins: [autosize, events],
   props: {
     conf: {
       type: Object,
@@ -35,12 +42,6 @@ export default {
     }
   },
   computed: {
-    tabPosition() {
-      return this.conf.tabPosition;
-    },
-    type() {
-      return this.conf.type;
-    },
     width() {
       return this.conf.width || "100%";
     },
@@ -49,10 +50,14 @@ export default {
     },
     confStyle() {
       return `${this.autoSizeStyle()};${this.conf.style};`;
+    },
+    tabClick() {
+      return this.on("tabClick");
     }
   },
   data() {
     return {
+      elEvents: ["tabClick"],
       activeTabName: "" || this.conf.activeTabName
     };
   },
@@ -72,6 +77,9 @@ export default {
     },
     tabPaneStyle(grandson) {
       return `${grandson.style}`; //display:block;
+    },
+    onTabClick(tabItem) {
+      alert(tabItem);
     }
   }
 };

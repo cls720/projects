@@ -5,6 +5,13 @@ import emitter from "@/utils/emitter";
 
 export default {
   methods: {
+    isPropEvent(eventName) {
+      // 混入类重写elEvents:[],定义el事件列表
+      return this.elEvents && this.elEvents.indexOf(eventName) >= 0;
+    },
+    emptyFn() {
+
+    },
     // 触发事件
     emit(eventName) {
       debugger
@@ -19,18 +26,28 @@ export default {
     * params 附加参数
     */
     on(eventName, callBackFunc) {
-      if (this.isPropEvent && this.isPropEvent(eventName)) {
-        return
-      }
+      debugger
       let args = [...arguments]
       args.shift();
       let me = this;
+      // 处理element组件事件
+      if (this.isPropEvent && this.isPropEvent(eventName)) {
+        let callElFunc = this.conf.events && this.conf.events[eventName];
+        if (callElFunc) {
+          let retuFunc = (...args) => { callElFunc.call(me, ...args) };
+          return retuFunc;
+        } else {
+          return emptyFn;
+        }
+      }
       let eventId = this.getEventId && this.getEventId(eventName);
       if (eventId) {
+        // 处理控件自定义事件
         emitter.on(eventId, (...args) => {
           callBackFunc.call(me, ...args);
         });
       } else {
+        // 处理dom事件
         this.$el.addEventListener(eventName, (...args) => {
           callBackFunc.call(me, ...args);
         });
@@ -44,23 +61,6 @@ export default {
         }
       }
     },
-    // 获取引用组件对象，从当前及父对象爬
-    // getRefCompt(refId) {
-    //   let parent = this;
-    //   while (parent) {
-    //     for (var key in parent.$refs) {
-    //       if (key === refId) {
-    //         let refCompt = parent.$refs[key];
-    //         if (refCompt.length > 0) {
-    //           return refCompt[0]
-    //         } else {
-    //           return refCompt
-    //         }
-    //       }
-    //     }
-    //     parent = parent.$parent;
-    //   }
-    // },
     // 调用图表渲染完函数配置
     callComptMounted() {
       if (this.conf.mounted) {

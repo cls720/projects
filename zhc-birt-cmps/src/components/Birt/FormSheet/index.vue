@@ -1,6 +1,6 @@
 <template>
   <el-container class="zhc-birt-form-sheet" :style="confStyle">
-    <el-main>
+    <el-main style="padding:0px 5px;">
       <birt-cell-children v-if="conf.children" :children="conf.children"/>
     </el-main>
   </el-container>

@@ -14,7 +14,19 @@ const applyRouter = {
       component: () => import('@/views/apply/power-assign'),
       name: 'powerAssign',
       meta: { title: 'PowerAssign 权限分配' }
-    },   
+    },
+    {
+      path: '/power-check',
+      component: () => import('@/views/apply/power-check'),
+      name: 'powerCheck',
+      meta: { title: 'PowerCheck 权限反查' }
+    },
+    {
+      path: '/power-modify',
+      component: () => import('@/views/apply/power-modify'),
+      name: 'powerModify',
+      meta: { title: 'PowerModify 权限修改' }
+    },
   ]
 }
 
