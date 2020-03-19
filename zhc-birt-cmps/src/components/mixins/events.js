@@ -37,7 +37,7 @@ export default {
           let retuFunc = (...args) => { callElFunc.call(me, ...args) };
           return retuFunc;
         } else {
-          return emptyFn;
+          return this.emptyFn;
         }
       }
       let eventId = this.getEventId && this.getEventId(eventName);

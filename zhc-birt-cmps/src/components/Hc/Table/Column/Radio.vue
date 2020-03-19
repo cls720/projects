@@ -19,6 +19,7 @@
           :key="da.value + i"
           v-model="scope.row[prop]"
           :label="da.value"
+          :disabled="disabled(row)"
           @change="setRowChange(scope)"
         >{{da.name}}</el-radio>
       </div>
@@ -26,6 +27,7 @@
         v-else-if="isShow(scope.row)"
         v-model="scope.row[prop]"
         :label="getBindVar(scope.row,radioValue)"
+        :disabled="disabled(row)"
         @change="setRowChange(scope)"
       >{{label}}</el-radio>
       <span v-else>—</span>

@@ -18,6 +18,12 @@ export default {
             }
             return this.conf.isShow;
         },
+        disabled(row) {
+            if (typeof this.conf.disabled === "function") {
+                return this.conf.disabled.call(this, row);
+            }
+            return this.conf.disabled
+        },
         doCheckAllChange(val) {
             debugger;
             this.setRowCheckAll(this.tableRows(), val);

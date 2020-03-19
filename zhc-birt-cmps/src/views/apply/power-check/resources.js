@@ -162,7 +162,7 @@ export const resources = [
         "parentId": "64E78B09-52F1-0A98-E729-E24BEA9CBE13",
         "type": "flow",
         "resUrl": "/systemplate/dgcs/dhwh2/flowdir/cs.flow",
-        
+
     },
     {
         "resId": "D4A11656-0318-B283-4F9C-17D0974D67C0",
@@ -260,7 +260,7 @@ export const resources = [
         "parentId": "64E78B09-52F1-0A98-E729-E24BEA9CBE13",
         "type": "flow",
         "resUrl": "/systemplate/ptpz/xtgn/dhwh/flowdir/lc.flow",
-        
+
     },
     {
         "resId": "8B60A86E-7DB6-C2AC-19BA-0E2A7775C06E",
@@ -439,7 +439,7 @@ export const resources = [
         "parentId": "64E78B09-52F1-0A98-E729-E24BEA9CBE13",
         "type": "link",
         "resUrl": "/bg/taskCenter/main.do",
-       
+
     },
     {
         "resId": "7B87C0D2-0237-C601-1240-AC3769828CC4",
@@ -489,4 +489,65 @@ export const resources = [
         "opDelete": false,
         "opExport": false
     }
+]
+
+export const res1001 = [
+    {
+        "resId": "19B9866D-B3CF-A37A-2345-A97BB34A7169",
+        "name": "测试菜单",
+        "parentId": "-1",
+        "type": "dir",
+        "resUrl": "",
+    },
+    {
+        "resId": "31418B1A-5253-31A2-77F6-B5F18198ABE2",
+        "name": "测试功能",
+        "parentId": "19B9866D-B3CF-A37A-2345-A97BB34A7169",
+        "type": "func",
+        "resUrl": "/systemplate/csgn/csgn/funcdir/csgn1.func",
+        "daValue": "AccessPlan_BZP",
+        "opAdd": false,
+        "opEdit": false,
+        "opDelete": false,
+        "opExport": false,
+        "daPower": {
+            "personalScheme": {
+                "name": "个人",
+                "value": "AccessPlan_BZP"
+            },
+            "groupScheme": {
+                "name": "团队",
+                "value": "AccessPlan_BZG"
+            },
+            "businessScheme": {
+                "name": "企业",
+                "value": "AccessPlan_BZQ"
+            },
+            "AccessPlan_CW": {
+                "name": "财务经理",
+                "value": "AccessPlan_CW",
+            }
+        },
+        "opPower": {
+            "add": {
+                "value": 0
+            },
+            "edit": {
+                "value": 0
+            },
+            "delete": {
+                "value": 0
+            },
+            "export": {
+                "value": 0
+            }
+        }
+    },
+    {
+        "resId": "23DF68DC-EEA7-41E5-0288-02AB9909CB8F",
+        "name": "测试流程",
+        "parentId": "19B9866D-B3CF-A37A-2345-A97BB34A7169",
+        "type": "flow",
+        "resUrl": "/systemplate/csgn/csgn/flowdir/cslc.flow",
+    },
 ]

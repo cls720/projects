@@ -6,11 +6,17 @@
     :sortable="conf.sortable"
     :style="confStyle"
   >
-    <el-checkbox slot="header" :checked="checkAll" @change="doCheckAllChange">{{label}}</el-checkbox>
+    <el-checkbox
+      slot="header"
+      v-if="showCheckAll"
+      :checked="checkAll"
+      @change="doCheckAllChange"
+    >{{label}}</el-checkbox>
     <template slot-scope="scope">
       <el-checkbox
         v-if="isShow(scope.row)"
         v-model="scope.row[prop]"
+        :disabled="disabled(row)"
         @change="setRowChange(scope)"
       >{{label}}</el-checkbox>
       <span v-else>—</span>

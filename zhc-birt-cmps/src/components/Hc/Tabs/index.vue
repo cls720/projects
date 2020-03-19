@@ -11,13 +11,19 @@
     :height="autoHeightEx()"
     :style="confStyle"
     @tab-click="tabClick"
+    @tab-remove="tabRemove"
+    @tab-add="tabAdd"
+    @edit="edit"
   >
     <el-tab-pane
       v-for="grandson in conf.children"
       :key="grandson.controlId"
       :label="grandson.label"
       :name="grandson.name"
-      :style="tabPaneStyle(grandson)"
+      :disabled="grandson.disabled"
+      :closable="grandson.closable"
+      :lazy="grandson.lazy"
+      :style="grandson.style"
     >
       <birt-cell-children :children="grandson.children" />
     </el-tab-pane>
@@ -53,11 +59,20 @@ export default {
     },
     tabClick() {
       return this.on("tabClick");
+    },
+    tabRemove() {
+      return this.on("tabRemove");
+    },
+    tabAdd() {
+      return this.on("tabAdd");
+    },
+    edit() {
+      return this.on("edit");
     }
   },
   data() {
     return {
-      elEvents: ["tabClick"],
+      elEvents: ["tabClick", "tabRemove", "tabAdd", "edit"],
       activeTabName: "" || this.conf.activeTabName
     };
   },
@@ -74,12 +89,6 @@ export default {
       } else {
         return autoHeightEx;
       }
-    },
-    tabPaneStyle(grandson) {
-      return `${grandson.style}`; //display:block;
-    },
-    onTabClick(tabItem) {
-      alert(tabItem);
     }
   }
 };

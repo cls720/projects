@@ -110,4 +110,12 @@ export const ryData = [
     { label: "软件开发部/架构师", id: "org_ry_id1033_2", pid: "org_ry_id1033", kind: ".PSM" },
 ]
 
+export const ryData2 = [
+    { label: "张三 1001", id: "org_ry_id1001", pid: "ry_id", kind: ".PSM" },
+    { label: "李四 1003", id: "org_ry_id1003", pid: "ry_id", kind: ".PSM" },
+    { label: "王五 1012", id: "org_ry_id1012", pid: "ry_id", kind: ".PSM" },
+    { label: "赵六 1027", id: "org_ry_id1027", pid: "ry_id", kind: "DIR" },
+    { label: "朱七 1033", id: "org_ry_id1033", pid: "ry_id", kind: "DIR" },
+]
+
 export const allData = orgData.concat(ptmData).concat(ryData);

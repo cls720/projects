@@ -7,8 +7,9 @@
 <script>
 import pinyin from "js-pinyin";
 
-import { allData } from "./org.js";
-import { resources } from "./resources";
+import { allData, ryData2 } from "./org.js";
+import { resources, res1001 } from "./resources";
+import { pageUser } from "./page-user";
 
 export default {
   data() {
@@ -29,18 +30,19 @@ export default {
               {
                 controlName: "JsWebSocketDataSet",
                 controlId: "dsOrg",
-                datas: allData
+                datas: ryData2
               },
               {
                 controlName: "JsWebSocketDataSet",
                 controlId: "dsRes",
-                datas: []
+                datas: res1001
               }
             ],
             children: [
               {
                 controlName: "BirtFormSheet",
                 controlId: "BirtFormSheet_102",
+                style: "padding:10px;",
                 children: [
                   {
                     controlName: "HcTabs",
@@ -62,13 +64,7 @@ export default {
                         controlId: "HcTabPane_user",
                         label: "按用户反查",
                         name: "user",
-                        children: [
-                          {
-                            controlName: "HcTextLabel",
-                            controlId: "TextLabel_zxyh",
-                            title: "按用户反查..."
-                          }
-                        ]
+                        children: [pageUser]
                       },
                       {
                         controlName: "HcTabPane",
