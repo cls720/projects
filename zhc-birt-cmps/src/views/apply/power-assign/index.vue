@@ -327,7 +327,7 @@ export default {
                             events: {
                               checkChange: function(data, checked, node) {
                                 debugger;
-                                let checkNodes = this.$refs.eltree.getCheckedNodes(
+                                let checkNodes = this.elTree().getCheckedNodes(
                                   false,
                                   true
                                 );
@@ -672,15 +672,13 @@ export default {
                     footer: ["cancel", "confirm"],
                     events: {
                       confirm: function() {
-                        {
-                          let retuData = this.getContent().dataset.dsRes.datas.filter(
-                            function(recd) {
-                              return recd._checked;
-                            }
-                          );
-                          debugger;
-                          this.getWorkBook().dataset.dsRes.setData(retuData);
-                        }
+                        debugger;
+                        let retuData = this.getContent().dataset.dsRes.datas.filter(
+                          function(recd) {
+                            return recd._checked;
+                          }
+                        );
+                        this.getWorkBook().dataset.dsRes.setData(retuData);
                       }
                     },
                     children: [
@@ -796,7 +794,7 @@ export default {
                                         node
                                       ) {
                                         debugger;
-                                        let checkNodes = this.$refs.eltree.getCheckedNodes(
+                                        let checkNodes = this.elTree().getCheckedNodes(
                                           false,
                                           true
                                         );
@@ -815,7 +813,7 @@ export default {
                                       let me = this;
                                       function doPageAfterLoad(param) {
                                         debugger;
-                                        me.$refs.eltree.setCheckedKeys(
+                                        me.elTree().setCheckedKeys(
                                           param.resIds
                                         );
                                       }

@@ -18,15 +18,7 @@ import HcCmpt from "@/components/Hc/Cmpt";
 export default {
   name: "hc-progress",
   extends: HcCmpt,
-  components: {},
-  props: {
-    conf: {
-      type: Object,
-      default: function() {
-        return {};
-      }
-    }
-  },
+  components: {},  
   computed: {
     percentage() {
       return this.conf.percentage;

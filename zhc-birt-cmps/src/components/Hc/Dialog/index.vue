@@ -53,15 +53,7 @@ export default {
   name: "hc-dialog",
   extends:HcCmpt,
   mixins: [events],
-  directives: { elDragDialog },
-  props: {
-    conf: {
-      type: Object,
-      default: function() {
-        return {};
-      }
-    }
-  },
+  directives: { elDragDialog }, 
   computed: {
     visible: {
       get() {

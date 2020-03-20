@@ -11,15 +11,7 @@ import autosize from "@/components/mixins/autosize";
 export default {
   name: "HcVideo",
   extends: HcCmpt,
-  mixins: [autosize],
-  props: {
-    conf: {
-      type: Object,
-      default: function() {
-        return {};
-      }
-    }
-  },
+  mixins: [autosize], 
   computed: {
     videoUrl() {
       return this.conf.videoUrl || "";

@@ -28,14 +28,6 @@ export default {
   name: "hc-steps",
   extends: HcCmpt,
   mixins: [events],
-  props: {
-    conf: {
-      type: Object,
-      default: function() {
-        return {};
-      }
-    }
-  },
   computed: {
     space() {
       return this.conf.space;

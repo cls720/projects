@@ -28,13 +28,7 @@ export default {
       default: function() {
         return [];
       }
-    },
-    conf: {
-      type: Object,
-      default: function() {
-        return {};
-      }
-    }
+    }   
   },
   computed: {
     content() {

@@ -34,15 +34,7 @@ export default {
   mixins: [autosize, datasource],
   extends:HcCmpt,
   components: { ViewStyle },
-  inject: ["datasource", "dataset"],
-  props: {
-    conf: {
-      type: Object,
-      default: function() {
-        return {};
-      }
-    }
-  },
+  inject: ["datasource", "dataset"],  
   computed: {
     width() {
       return this.conf.width || "100%";

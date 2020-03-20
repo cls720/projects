@@ -125,7 +125,7 @@ export default {
                         events: {
                           checkChange: function(data, checked, node) {
                             debugger;
-                            let checkNodes = this.$refs.eltree.getCheckedNodes(
+                            let checkNodes = this.elTree().getCheckedNodes(
                               false,
                               true
                             );
@@ -144,7 +144,7 @@ export default {
                           let me = this;
                           function doPageAfterLoad(param) {
                             debugger;
-                            me.$refs.eltree.setCheckedKeys(param.resIds);
+                            me.elTree().setCheckedKeys(param.resIds);
                           }
                         }
                       }

@@ -15,13 +15,7 @@ export default {
   extends: HcCmpt,
   mixins: [events],
   inject: ["dataset"],
-  props: {
-    conf: {
-      type: Object,
-      default() {
-        return {};
-      }
-    },
+  props: {  
     bindDataset: {
       type: Object,
       default() {

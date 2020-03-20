@@ -52,15 +52,7 @@ import slot from "@/components/mixins/slot";
 export default {
   name: "hc-input",
   extends: HcCmpt,
-  mixins: [slot],
-  props: {
-    conf: {
-      type: Object,
-      default: function() {
-        return {};
-      }
-    }
-  },
+  mixins: [slot], 
   computed: {
     value() {
       return this.inputValue;

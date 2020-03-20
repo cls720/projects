@@ -116,7 +116,7 @@ export default {
                         },
                         mounted: function() {
                           debugger;                          
-                          this.$refs.eltree.setCheckedKeys([]);
+                          this.elTree().setCheckedKeys([]);
                         }
                       }
                     ]

@@ -17,15 +17,7 @@ import events from "@/components/mixins/events";
 export default {
   name: "hc-radio",
   extends: HcCmpt,
-  mixins: [events],
-  props: {
-    conf: {
-      type: Object,
-      default: function() {
-        return {};
-      }
-    }
-  },
+  mixins: [events], 
   data() {
     return {};
   },

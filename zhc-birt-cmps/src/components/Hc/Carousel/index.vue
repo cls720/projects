@@ -26,15 +26,7 @@ import autosize from "@/components/mixins/autosize";
 export default {
   name: "hc-carousel",
   mixins: [autosize],
-  extends: HcCmpt,
-  props: {
-    conf: {
-      type: Object,
-      default: function() {
-        return {};
-      }
-    }
-  },
+  extends: HcCmpt, 
   computed: {
     autoplay() {
       if (this.conf.autoplay == undefined) {

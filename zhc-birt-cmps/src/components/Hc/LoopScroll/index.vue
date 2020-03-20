@@ -46,14 +46,6 @@ export default {
       isHover: false // mouseenter mouseleave 控制this._move()的开关
     };
   },
-  props: {
-    conf: {
-      type: Object,
-      default: function() {
-        return {};
-      }
-    }
-  },
   computed: {
     data() {
       return this.conf.children;

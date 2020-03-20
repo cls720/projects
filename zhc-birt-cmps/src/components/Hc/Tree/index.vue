@@ -39,15 +39,7 @@ import { convertToTreeData } from "@/funclib/DataTree.js";
 export default {
   name: "hc-tree",
   extends: HcCmpt,
-  mixins: [events, autosize, datasource],
-  props: {
-    conf: {
-      type: Object,
-      default: function() {
-        return {};
-      }
-    }
-  },
+  mixins: [events, autosize, datasource], 
   computed: {
     isTreeData() {
       if (this.conf.isTreeData == undefined) {
@@ -112,13 +104,16 @@ export default {
     isPropEvent(eventName) {
       return ["nodeClick", "checkChange"].indexOf(eventName) >= 0;
     },
-    filter(filterKey) {
-      debugger;
+    elTree() {
       if (this.$children && this.$children.length > 0) {
-        this.$children[0].filter(filterKey);
+        return this.$children[0];
       } else {
         console.error("找不到eltree实例");
       }
+    },
+    filter(filterKey) {
+      debugger;
+      this.elTree().filter(filterKey);
     },
     // 根据配置获取转换后的树型数据
     getConvertTreeData() {

@@ -54,7 +54,11 @@ export default {
       }
     }
   },
-  computed: {},
+  computed: {
+    isSlorScope() {
+      return this.conf.slot === "scope";
+    }
+  },
   data() {
     return {
       filterKeyWord: ""

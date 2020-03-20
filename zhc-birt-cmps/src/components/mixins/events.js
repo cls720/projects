@@ -25,8 +25,7 @@ export default {
     * callBackFunc 回调函数
     * params 附加参数
     */
-    on(eventName, callBackFunc) {
-      debugger
+    on(eventName, callBackFunc) {      
       let args = [...arguments]
       args.shift();
       let me = this;

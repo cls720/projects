@@ -37,7 +37,18 @@
     @filter-change="onFilterChange"
     ref="eltable"
   >
-    <hc-table-column v-for="child in conf.children" :key="child.controlId" :conf="child"></hc-table-column>
+    <template v-for="(child,i) in conf.children">
+      <template v-if="child.slot=='scope'">
+        <el-table-column :key="conf.controlId+i" :prop="child.prop" :label="child.label">
+          <template slot-scope="scope">
+            <!-- <el-tag disable-transitions>{{scope.row.resId}}</el-tag> -->
+            <birt-cell-children :children="child.children" :scope="scope" />
+          </template>
+        </el-table-column>
+      </template>
+      <!-- <hc-table-column-scope v-if="child.slot=='scope'" :key="conf.controlId+i" :conf="child"></hc-table-column-scope> -->
+      <hc-table-column v-else :key="conf.controlId+i" :conf="child"></hc-table-column>
+    </template>
   </el-table>
 </template>
 
@@ -46,6 +57,7 @@ import HcCmpt from "@/components/Hc/Cmpt";
 import autosize from "@/components/mixins/autosize";
 import datasource from "@/components/mixins/datasource";
 import HcTableColumn from "./Column";
+import HcTableColumnScope from "./Column/Scope";
 
 import { convertToTreeData, filterTreeData } from "@/funclib/DataTree.js";
 
@@ -53,15 +65,7 @@ export default {
   name: "hc-table",
   extends: HcCmpt,
   mixins: [autosize, datasource],
-  components: { HcTableColumn },
-  props: {
-    conf: {
-      type: Object,
-      default: function() {
-        return {};
-      }
-    }
-  },
+  components: { HcTableColumn, HcTableColumnScope },
   computed: {
     // 返回标准树型数据
     treeData() {

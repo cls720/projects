@@ -172,9 +172,15 @@ export const pageUser = {
                         {
                             controlName: "HcTableColumn",
                             controlId: "HcTableColumn_0",
+                            slot: "scope",
                             prop: "assignName",
                             label: "授权来源",
-                            minWidth: 100,                          
+                            minWidth: 100,
+                            children: [{
+                                controlName: "HcButton",
+                                controlId: "HcButton_link",
+                                title: "{{assignName}}"
+                            }]
                         },
                         {
                             controlName: "HcTableColumn",

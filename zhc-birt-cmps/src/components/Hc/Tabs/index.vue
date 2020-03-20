@@ -38,15 +38,7 @@ import events from "@/components/mixins/events";
 export default {
   name: "hc-tabs",
   extends: HcCmpt,
-  mixins: [autosize, events],
-  props: {
-    conf: {
-      type: Object,
-      default: function() {
-        return {};
-      }
-    }
-  },
+  mixins: [autosize, events],  
   computed: {
     width() {
       return this.conf.width || "100%";

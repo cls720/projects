@@ -34,15 +34,7 @@ import HcCmpt from "@/components/Hc/Cmpt";
 
 export default {
   name: "hc-radio-group",
-  extends: HcCmpt,
-  props: {
-    conf: {
-      type: Object,
-      default: function() {
-        return {};
-      }
-    }
-  },
+  extends: HcCmpt,  
   computed: {
     value: {
       get() {

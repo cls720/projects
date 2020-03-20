@@ -11,7 +11,7 @@
     :autofocus="autofocus"
     :native-type="nativeType"
     :style="confStyle"
-  >{{title}}</el-button>
+  >{{expr(title)}}</el-button>
 </template>
 
 <script>
@@ -21,15 +21,7 @@ import events from "@/components/mixins/events";
 export default {
   name: "hc-button",
   mixins: [events],
-  extends: HcCmpt,
-  props: {
-    conf: {
-      type: Object,
-      default: function() {
-        return {};
-      }
-    }
-  },
+  extends: HcCmpt,  
   computed: {
     title() {
       return this.conf.title || "";
