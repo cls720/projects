@@ -16,7 +16,7 @@
       <el-checkbox
         v-if="isShow(scope.row)"
         v-model="scope.row[prop]"
-        :disabled="disabled(row)"
+        :disabled="disabled(scope.row)"
         @change="setRowChange(scope)"
       >{{label}}</el-checkbox>
       <span v-else>—</span>

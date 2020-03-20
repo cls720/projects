@@ -14,7 +14,6 @@
     @node-click="nodeClick"
     @check-change="onCheckChange"
     @check="onCheck"
-    ref="eltree"
   >
     <template v-if="conf.children && conf.children.length > 0">
       <span class="custom-tree-node" slot-scope="{ node, data }">
@@ -115,7 +114,11 @@ export default {
     },
     filter(filterKey) {
       debugger;
-      this.$refs.eltree.filter(filterKey);
+      if (this.$children && this.$children.length > 0) {
+        this.$children[0].filter(filterKey);
+      } else {
+        console.error("找不到eltree实例");
+      }
     },
     // 根据配置获取转换后的树型数据
     getConvertTreeData() {

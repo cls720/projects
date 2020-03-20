@@ -383,10 +383,14 @@ export default {
                                             hcTable.filterConf,
                                             "name",
                                             function filterRecd(recd) {
-                                              debugger;
+                                              let key =
+                                                recd.name +
+                                                "_" +
+                                                pinyin.getCamelChars(recd.name);
                                               return (
-                                                recd.name.indexOf(filterKey) >=
-                                                0
+                                                key.indexOf(
+                                                  filterKey.toUpperCase()
+                                                ) !== -1
                                               );
                                             }
                                           );

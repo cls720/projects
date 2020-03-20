@@ -3,6 +3,15 @@
  */
 export default {
     inject: ["tableRows"],
+    computed: {
+        showCheckAll() {
+            if (this.conf.showCheckAll == undefined) {
+                return true;
+            } else {
+                return this.conf.showCheckAll;
+            }
+        }
+    },
     data() {
         return {
             checkAll: false

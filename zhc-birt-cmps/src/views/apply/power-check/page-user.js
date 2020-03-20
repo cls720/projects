@@ -171,6 +171,13 @@ export const pageUser = {
                         },
                         {
                             controlName: "HcTableColumn",
+                            controlId: "HcTableColumn_0",
+                            prop: "assignName",
+                            label: "授权来源",
+                            minWidth: 100,                          
+                        },
+                        {
+                            controlName: "HcTableColumn",
                             controlId: "HcTableColumn_2",
                             label: "数据权限",
                             children: [
