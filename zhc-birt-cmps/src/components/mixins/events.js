@@ -14,7 +14,6 @@ export default {
     },
     // 触发事件
     emit(eventName) {
-      debugger
       let args = [...arguments]
       args.shift();
       emitter.emit(eventName, ...args)

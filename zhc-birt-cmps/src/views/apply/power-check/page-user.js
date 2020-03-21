@@ -18,7 +18,6 @@ export const pageUser = {
                     size: "medium",
                     events: {
                         filterChange: function (filterKey, datas) {
-                            debugger;
                             this.getRefCompt("HcTree_user").filter(
                                 filterKey
                             );
@@ -33,7 +32,6 @@ export const pageUser = {
                     idField: "id",
                     labelField: "label",
                     filterNodeMethod: function (value, data, node) {
-                        debugger;
                         let key =
                             node.label +
                             "_" +
@@ -41,7 +39,6 @@ export const pageUser = {
                         return key.indexOf(value.toUpperCase()) !== -1;
                     },
                     height: function (parentHeight) {
-                        debugger;
                         return parentHeight - 140;
                     },
                     style:
@@ -64,7 +61,6 @@ export const pageUser = {
                     parentIdField: "parentId",
                     defaultExpandAll: true,
                     height: function (parentHeight) {
-                        debugger;
                         return parentHeight - 90;
                     },
                     children: [
@@ -83,7 +79,6 @@ export const pageUser = {
                                     placeholder: "功能名称",
                                     events: {
                                         filterChange: function (filterKey, datas) {
-                                            debugger;
                                             let hcTable = this.getRefCompt(
                                                 "HcTable_res"
                                             );
@@ -92,7 +87,6 @@ export const pageUser = {
                                                     hcTable.filterConf,
                                                     "name",
                                                     function filterRecd(recd) {
-                                                        debugger;
                                                         let key =
                                                             recd.name +
                                                             "_" +
@@ -150,7 +144,6 @@ export const pageUser = {
                                                             hcTable.filterConf,
                                                             "type",
                                                             function filterRecd(recd) {
-                                                                debugger;
                                                                 return (
                                                                     recd.type === filterKey
                                                                 );
@@ -175,11 +168,11 @@ export const pageUser = {
                             slot: "scope",
                             prop: "assignName",
                             label: "授权来源",
-                            minWidth: 100,
+                            width: 120,
                             children: [{
                                 controlName: "HcButton",
                                 controlId: "HcButton_link",
-                                title: "{{assignName}}"
+                                title: "{{scope.row.assignName}}"
                             }]
                         },
                         {

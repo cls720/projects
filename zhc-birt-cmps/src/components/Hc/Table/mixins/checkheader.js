@@ -34,7 +34,6 @@ export default {
             return this.conf.disabled
         },
         doCheckAllChange(val) {
-            debugger;
             this.setRowCheckAll(this.tableRows(), val);
         },
         /**
@@ -50,7 +49,6 @@ export default {
             });
         },
         setRowChange(scope) {
-            debugger;
             scope._self.datas[scope.$index][this.prop] = scope.row[this.prop];
         }
     }

@@ -66,7 +66,6 @@ export default {
   },
   methods: {
     filterMethod(keyword, recd) {
-      debugger;
       if (this.conf.filterMethod) {
         this.conf.filterMethod.call(this, keyword, recd);
       }

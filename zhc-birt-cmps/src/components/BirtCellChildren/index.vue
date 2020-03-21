@@ -44,6 +44,7 @@
         :ref="child.controlId"
         :key="child.controlId"
         :conf="child"
+        :scope="scope"
       />
       <hc-radio-group
         v-if="child.controlName=='HcRadioGroup'"
@@ -244,7 +245,8 @@ export default {
       default: function() {
         return [];
       }
-    }
+    },
+    scope: Object
   },
   data() {
     return {};

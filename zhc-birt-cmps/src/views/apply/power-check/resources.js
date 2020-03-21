@@ -541,13 +541,20 @@ export const res1001 = [
             "export": {
                 "value": 0
             }
-        }
+        },
+        assignId:"jt_guid",
+        assignName:"XXX集团",
+        assignKind:".JT"
+
     },
     {
         "resId": "23DF68DC-EEA7-41E5-0288-02AB9909CB8F",
         "name": "测试流程",
         "parentId": "19B9866D-B3CF-A37A-2345-A97BB34A7169",
         "type": "flow",
-        "resUrl": "/systemplate/csgn/csgn/flowdir/cslc.flow",
+        "resUrl": "/systemplate/csgn/csgn/flowdir/cslc.flow",        
+        assignId:"gw_xsy",
+        assignName:"销售员",
+        assignKind:".PTM"
     },
 ]

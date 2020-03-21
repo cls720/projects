@@ -90,7 +90,6 @@ export default {
       return this.conf.height || "100%";
     },
     confStyle() {
-      debugger;
       return `${this.autoSizeStyle()};${this.conf.style};`;
     },
     nodeClick() {
@@ -112,7 +111,6 @@ export default {
       }
     },
     filter(filterKey) {
-      debugger;
       this.elTree().filter(filterKey);
     },
     // 根据配置获取转换后的树型数据

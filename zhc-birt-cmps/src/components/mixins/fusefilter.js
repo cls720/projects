@@ -91,7 +91,6 @@ export default {
         * 执行关键字过滤
         */
         doFilter() {
-            debugger
             let recds = [];
             if (this.filterKey && this.filterKey !== "") {
                 if (this.fuse) {

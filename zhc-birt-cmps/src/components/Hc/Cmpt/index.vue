@@ -3,7 +3,7 @@
  * 所有控件基类
  */
 import ref from "@/components/mixins/ref";
-import { execVueExpr } from "@/utils/MathUtil.js";
+import { execVueExpr } from "@/funclib/ExprUtil.js";
 
 export default {
   name: "hc-cmpt",
@@ -15,17 +15,12 @@ export default {
         return {};
       }
     },
-    scope: {
-      type: Object,
-      default: function() {
-        return {};
-      }
-    }
+    scope: Object
   },
   methods: {
-    expr(value) {     
-      if (value && value.indexOf("}}") > 0) {
-         debugger;
+    expr(value) {
+      if (value && value.indexOf("}}") > 0 && this.scope) {
+        debugger;
         return execVueExpr(value, this.scope);
       } else {
         return value;

@@ -35,18 +35,9 @@
     :tree-props="conf.treeProps"
     :style="confStyle"
     @filter-change="onFilterChange"
-    ref="eltable"
   >
     <template v-for="(child,i) in conf.children">
-      <template v-if="child.slot=='scope'">
-        <el-table-column :key="conf.controlId+i" :prop="child.prop" :label="child.label">
-          <template slot-scope="scope">
-            <!-- <el-tag disable-transitions>{{scope.row.resId}}</el-tag> -->
-            <birt-cell-children :children="child.children" :scope="scope" />
-          </template>
-        </el-table-column>
-      </template>
-      <!-- <hc-table-column-scope v-if="child.slot=='scope'" :key="conf.controlId+i" :conf="child"></hc-table-column-scope> -->
+      <hc-table-column-scope v-if="child.slot=='scope'" :key="conf.controlId+i" :conf="child"></hc-table-column-scope>
       <hc-table-column v-else :key="conf.controlId+i" :conf="child"></hc-table-column>
     </template>
   </el-table>
@@ -56,6 +47,7 @@
 import HcCmpt from "@/components/Hc/Cmpt";
 import autosize from "@/components/mixins/autosize";
 import datasource from "@/components/mixins/datasource";
+
 import HcTableColumn from "./Column";
 import HcTableColumnScope from "./Column/Scope";
 
@@ -69,7 +61,6 @@ export default {
   computed: {
     // 返回标准树型数据
     treeData() {
-      debugger;
       let retuData;
       if (this.idField && this.parentIdField) {
         retuData = this.getConvertTreeData(this.datas);
@@ -131,7 +122,6 @@ export default {
       return true;
     },
     onFilterChange(filterObj) {
-      debugger;
       let filterChangeFunc = this.conf.events && this.conf.events.filterChange;
       if (filterChangeFunc) {
         filterChangeFunc.call(this, filterObj);

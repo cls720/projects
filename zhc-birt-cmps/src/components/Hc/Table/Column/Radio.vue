@@ -86,7 +86,6 @@ export default {
         if (checked) {
           row[this.prop] = rv;
         } else {
-          debugger;
           if (row[this.prop] == rv) {
             row[this.prop] = "";
           }

@@ -21,7 +21,7 @@ import events from "@/components/mixins/events";
 export default {
   name: "hc-button",
   mixins: [events],
-  extends: HcCmpt,  
+  extends: HcCmpt,
   computed: {
     title() {
       return this.conf.title || "";
@@ -57,25 +57,7 @@ export default {
       return this.conf.nativeType;
     },
     confStyle() {
-      debugger;
       return this.conf.style;
-    }
-  },
-  data() {
-    return {};
-  },
-  methods: {
-    /**
-     * 注册控件事件
-     * eventName 事件名
-     * callBackFunc 回调函数
-     * params 附加参数
-     */
-    on(eventName, callBackFunc) {
-      let me = this;
-      this.$el.addEventListener(eventName, () => {
-        callBackFunc.call(me);
-      });
     }
   }
 };

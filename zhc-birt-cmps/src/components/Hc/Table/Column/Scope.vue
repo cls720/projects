@@ -1,7 +1,7 @@
 <template>
   <el-table-column
     :prop="prop"
-    :label="expr(label)"
+    :label="label"
     :width="width"
     :type="conf.type"
     :min-width="conf.minWidth"
@@ -11,8 +11,8 @@
     :filter-method="conf.filterMethod && filterMethod"
     :style="confStyle"
   >
-    <template slot-scope="scope">
-      <birt-cell-children :children="conf.children" :scope="scope" />
+    <template slot-scope="rowscope">
+      <birt-cell-children :children="conf.children" :scope="rowscope" />
     </template>
   </el-table-column>
 </template>

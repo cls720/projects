@@ -70,7 +70,6 @@ export default {
       return this.conf.footer;
     },
     confStyle() {
-      debugger;
       return this.conf.style;
     },
     children() {
@@ -132,7 +131,6 @@ export default {
       }
     },
     doConfirm() {
-      debugger;
       let eventId = this.getEventId("confirm");
       emitter.emit(eventId);
       this.visible = false;
@@ -146,7 +144,6 @@ export default {
       if (openFunc) {
         openFunc.call(this);
       }
-      debugger;
       let childContent = this.getContent();
       if (childContent && childContent.reload) {
         childContent.reload.call(childContent, this.param);
