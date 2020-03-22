@@ -41,5 +41,8 @@ export function execVueExpr(expr, scope) {
       p = r.exec(expr);
     }
   }
+  if ((expr === "false") || (expr === "undefined")) {
+    return false
+  }
   return expr;
 }

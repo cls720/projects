@@ -40,7 +40,7 @@
       </el-card>
 
       <hc-button
-        v-if="child.controlName=='HcButton'"
+        v-if="isRender(child,'HcButton')"
         :ref="child.controlId"
         :key="child.controlId"
         :conf="child"
@@ -236,37 +236,10 @@
 </template>
 
 <script>
+import cellchildren from "./mixins/cellchildren";
+
 export default {
   name: "BirtCellChildren",
-  props: {
-    children: {
-      type: Array,
-      required: true,
-      default: function() {
-        return [];
-      }
-    },
-    scope: Object
-  },
-  data() {
-    return {};
-  },
-  computed: {},
-  methods: {
-    getParentDataSet(datasetId) {
-      // if (!datasetId) console.error("未绑定数据集Id");
-      if (!datasetId) return {};
-      let parent = this.$parent;
-      while (parent) {
-        if (parent.getDataSetInstance) {
-          return parent.getDataSetInstance(datasetId);
-        }
-        parent = parent.$parent;
-      }
-    }
-  }
+  mixins: [cellchildren]
 };
 </script>
-
-<style scoped>
-</style>

@@ -8,7 +8,7 @@
 import pinyin from "js-pinyin";
 
 import { allData, ryData2 } from "./org.js";
-import { resources, res1001 } from "./resources";
+import { resources, res1001, res1003 } from "./resources";
 import { pageUser } from "./page-user";
 
 export default {
@@ -35,7 +35,7 @@ export default {
               {
                 controlName: "JsWebSocketDataSet",
                 controlId: "dsRes",
-                datas: res1001
+                datas: res1003
               }
             ],
             children: [

@@ -1,4 +1,5 @@
 import pinyin from "js-pinyin";
+import axios from 'axios';
 
 export const pageUser = {
     controlName: "ElRow",
@@ -43,6 +44,19 @@ export const pageUser = {
                     },
                     style:
                         "margin-top:10px;overflow: auto;border:1px solid rgb(235, 238, 245)",
+                    events: {
+                        currentChange: function (data, node) {
+                            let param = { userId: data.id };
+                            axios.get('/user/check', param)
+                                .then(function (response) {
+                                    debugger;
+                                    console.log(response);
+                                })
+                                .catch(function (error) {
+                                    console.log(error);
+                                })
+                        }
+                    }
 
                 }
             ]
@@ -172,6 +186,7 @@ export const pageUser = {
                             children: [{
                                 controlName: "HcButton",
                                 controlId: "HcButton_link",
+                                vif: "{{scope.row.assignId}}",
                                 title: "{{scope.row.assignName}}"
                             }]
                         },

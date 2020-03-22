@@ -1,19 +1,44 @@
 <template>
   <el-tree
     :data="treeData"
+    :empty-text="conf.emptyText"
     :node-key="idField"
     :props="props"
-    :default-expanded-keys="conf.defaultExpandedKeys"
-    :default-expand-all="conf.defaultExpandAll"
-    :filter-node-method="conf.filterNodeMethod"
-    :show-checkbox="conf.showCheckbox"
-    :default-checked-keys="conf.defaultCheckedKeys"
+    :render-after-expand="conf.renderAfterExpand"
     :load="conf.load"
+    :render-content="conf.renderContent"
+    :highlight-current="conf.highlightCurrent"
+    :default-expand-all="conf.defaultExpandAll"
+    :expand-on-click-node="conf.expandOnClickNode"
+    :check-on-click-node="conf.checkOnClickNode"
+    :auto-expand-parent="conf.autoExpandParent"
+    :default-expanded-keys="conf.defaultExpandedKeys"
+    :show-checkbox="conf.showCheckbox"
+    :check-strictly="conf.checkStrictly"
+    :default-checked-keys="conf.defaultCheckedKeys"
+    :current-node-key="conf.currentNodeKey"
+    :filter-node-method="conf.filterNodeMethod"
+    :accordion="conf.accordion"
+    :indent="conf.indent"
+    :icon-class="conf.iconClass"
     :lazy="conf.lazy"
+    :draggable="conf.draggable"
+    :allow-drag="conf.allowDrag"
+    :allow-drop="conf.allowDrop"
     :style="confStyle"
     @node-click="nodeClick"
-    @check-change="onCheckChange"
-    @check="onCheck"
+    @node-contextmenu="nodeContextmenu"
+    @check-change="checkChange"
+    @check="check"
+    @current-change="currentChange"
+    @node-expand="nodeExpand"
+    @node-collapse="nodeCollapse"
+    @node-drag-start="nodeDragStart"
+    @node-drag-enter="nodeDragEnter"
+    @node-drag-leave="nodeDragLeave"
+    @node-drag-over="nodeDragOver"
+    @node-drag-end="nodeDragEnd"
+    @node-drop="nodeDrop"
   >
     <template v-if="conf.children && conf.children.length > 0">
       <span class="custom-tree-node" slot-scope="{ node, data }">
@@ -39,7 +64,7 @@ import { convertToTreeData } from "@/funclib/DataTree.js";
 export default {
   name: "hc-tree",
   extends: HcCmpt,
-  mixins: [events, autosize, datasource], 
+  mixins: [events, autosize, datasource],
   computed: {
     isTreeData() {
       if (this.conf.isTreeData == undefined) {
@@ -93,16 +118,65 @@ export default {
       return `${this.autoSizeStyle()};${this.conf.style};`;
     },
     nodeClick() {
-      return (this.conf.events && this.conf.events.nodeClick) || (() => {});
+      return this.on("nodeClick");
+    },
+    nodeContextmenu() {
+      return this.on("nodeContextmenu");
     },
     checkChange() {
-      return (this.conf.events && this.conf.events.checkChange) || (() => {});
+      return this.on("checkChange");
+    },
+    check() {
+      return this.on("check");
+    },
+    currentChange() {
+      return this.on("currentChange");
+    },
+    nodeExpand() {
+      return this.on("nodeExpand");
+    },
+    nodeCollapse() {
+      return this.on("nodeCollapse");
+    },
+    nodeDragStart() {
+      return this.on("nodeDragStart");
+    },
+    nodeDragEnter() {
+      return this.on("nodeDragEnter");
+    },
+    nodeDragLeave() {
+      return this.on("nodeDragLeave");
+    },
+    nodeDragOver() {
+      return this.on("nodeDragOver");
+    },
+    nodeDragEnd() {
+      return this.on("nodeDragEnd");
+    },
+    nodeDrop() {
+      return this.on("nodeDrop");
     }
   },
+  data() {
+    return {
+      elEvents: [
+        "nodeClick",
+        "nodeContextmenu",
+        "checkChange",
+        "check",
+        "currentChange",
+        "nodeExpand",
+        "nodeCollapse",
+        "nodeDragStart",
+        "nodeDragEnter",
+        "nodeDragLeave",
+        "nodeDragOver",
+        "nodeDragEnd",
+        "nodeDrop"
+      ]
+    };
+  },
   methods: {
-    isPropEvent(eventName) {
-      return ["nodeClick", "checkChange"].indexOf(eventName) >= 0;
-    },
     elTree() {
       if (this.$children && this.$children.length > 0) {
         return this.$children[0];
@@ -122,19 +196,7 @@ export default {
         rootValue: this.rootValue
       });
       return treeData;
-    },
-    onCheckChange(data, checked, childHasChecked) {
-      let checkChangeFunc = this.conf.events && this.conf.events.checkChange;
-      if (checkChangeFunc) {
-        checkChangeFunc.call(this, data, checked, childHasChecked);
-      }
-    },
-    onCheck(data, joinNodes) {
-      let checkFunc = this.conf.events && this.conf.events.check;
-      if (checkFunc) {
-        checkFunc.call(this, data, joinNodes);
-      }
-    },
+    },   
     setDatasChecked(nodeKeys) {
       let me = this;
       this.datas.forEach(recd => {

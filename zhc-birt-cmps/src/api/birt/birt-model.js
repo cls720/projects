@@ -1,7 +1,7 @@
 /**
  * 报表模型数据返回接口
  */
-import { treeLookup } from "./birt/lookup/tree-lookup.js";
+import { treeLookup } from "./lookup/tree-lookup.js";
 
 export function getBirtModel(birtUrl, params) {
   return new Promise((resolve, reject) => {
