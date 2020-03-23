@@ -1,7 +1,7 @@
 import pinyin from "js-pinyin";
 import axios from 'axios';
 
-export const pageUser = {
+export const pageRes = {
     controlName: "ElRow",
     controlId: "ElRow_r2",
     gutter: 10,
@@ -14,12 +14,12 @@ export const pageUser = {
             children: [
                 {
                     controlName: "HcInputFilter",
-                    controlId: "HcInputFilter_org",
+                    controlId: "HcInputFilter_restree",
                     fireAction: "keyup",
                     size: "medium",
                     events: {
                         filterChange: function (filterKey, datas) {
-                            this.getRefCompt("HcTree_user").filter(
+                            this.getRefCompt("HcTree_restree").filter(
                                 filterKey
                             );
                         }
@@ -27,11 +27,13 @@ export const pageUser = {
                 },
                 {
                     controlName: "HcTree",
-                    controlId: "HcTree_user",
-                    dataset: "dsOrg",
-                    isTreeData: true,
-                    idField: "id",
-                    labelField: "label",
+                    controlId: "HcTree_restree",
+                    dataset: "dsResTree",
+                    isTreeData: false,
+                    idField: "resId",
+                    parentIdField: "parentId",
+                    labelField: "name",
+                    defaultExpandAll: true,
                     filterNodeMethod: function (value, data, node) {
                         let key =
                             node.label +
@@ -68,7 +70,7 @@ export const pageUser = {
             children: [
                 {
                     controlName: "HcTable",
-                    controlId: "HcTable_res",
+                    controlId: "HcTable_restree",
                     dataset: "dsRes",
                     rowKey: "resId",
                     idField: "resId",
@@ -94,7 +96,7 @@ export const pageUser = {
                                     events: {
                                         filterChange: function (filterKey, datas) {
                                             let hcTable = this.getRefCompt(
-                                                "HcTable_res"
+                                                "HcTable_restree"
                                             );
                                             if (filterKey) {
                                                 hcTable.$set(
@@ -151,7 +153,7 @@ export const pageUser = {
                                             events: {
                                                 change: function (filterKey) {
                                                     let hcTable = this.getRefCompt(
-                                                        "HcTable_res"
+                                                        "HcTable_restree"
                                                     );
                                                     if (filterKey != "all") {
                                                         hcTable.$set(
@@ -187,7 +189,6 @@ export const pageUser = {
                                 controlName: "HcButton",
                                 controlId: "HcButton_link",
                                 vif: "{{scope.row.assignId}}",
-                                type: "text",
                                 title: "{{scope.row.assignName}}"
                             }]
                         },

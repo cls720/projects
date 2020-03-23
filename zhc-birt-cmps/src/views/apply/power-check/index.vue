@@ -10,6 +10,7 @@ import pinyin from "js-pinyin";
 import { allData, ryData2 } from "./org.js";
 import { resources, res1001, res1003 } from "./resources";
 import { pageUser } from "./page-user";
+import { pageRes } from "./page-res";
 
 export default {
   data() {
@@ -34,6 +35,11 @@ export default {
               },
               {
                 controlName: "JsWebSocketDataSet",
+                controlId: "dsResTree",
+                datas: resources
+              },
+              {
+                controlName: "JsWebSocketDataSet",
                 controlId: "dsRes",
                 datas: res1003
               }
@@ -55,7 +61,6 @@ export default {
                     events: {
                       tabClick: function(tabItem) {
                         debugger;
-                        alert(1);
                       }
                     },
                     children: [
@@ -71,13 +76,7 @@ export default {
                         controlId: "HcTabPane_func",
                         label: "按功能反查",
                         name: "func",
-                        children: [
-                          {
-                            controlName: "HcTextLabel",
-                            controlId: "TextLabel_zxyh",
-                            title: "按功能反查..."
-                          }
-                        ]
+                        children: [pageRes]
                       }
                     ]
                   }
