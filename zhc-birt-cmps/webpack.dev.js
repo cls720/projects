@@ -100,7 +100,17 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     noInfo: true,
-    overlay: true
+    overlay: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': '/mock'
+        }
+      }
+    },
+    after: require('./mock/mock-server.js')
   },
   performance: {
     hints: false
