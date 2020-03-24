@@ -1,4 +1,4 @@
-const res = {
+const resCheckByUser = {
     1001: [
         {
             "resId": "19B9866D-B3CF-A37A-2345-A97BB34A7169",
@@ -511,7 +511,7 @@ const resCheckByRes = {
                 "export": {
                     "value": 0
                 }
-            },            
+            },
             assignId: "jt_guid",
             assignName: "XXX集团",
             assignKind: ".JT"
@@ -558,10 +558,521 @@ const resCheckByRes = {
                 "export": {
                     "value": 0
                 }
-            },            
+            },
             assignId: "gw_xsy",
             assignName: "销售员",
             assignKind: ".PTM"
+        },
+    ],
+    "23DF68DC-EEA7-41E5-0288-02AB9909CB8F": [
+        {
+            "resId": "23DF68DC-EEA7-41E5-0288-02AB9909CB8F",
+            "name": "测试流程",
+            "parentId": "19B9866D-B3CF-A37A-2345-A97BB34A7169",
+            "type": "flow",
+            "resUrl": "/systemplate/csgn/csgn/flowdir/cslc.flow",
+            assignId: "dpt_xc_guid",
+            assignName: "软件市场部",
+            assignKind: ".DPT"
+        },
+        {
+            "resId": "23DF68DC-EEA7-41E5-0288-02AB9909CB8F",
+            "name": "测试流程",
+            "parentId": "19B9866D-B3CF-A37A-2345-A97BB34A7169",
+            "type": "flow",
+            "resUrl": "/systemplate/csgn/csgn/flowdir/cslc.flow",
+            assignId: "dpt_xs01_guid",
+            assignName: "销售01组",
+            assignKind: ".DPT"
+        },
+    ],
+    "2F738A4E-3EE1-FF50-0C95-2166A92E5EED": [
+        {
+            "resId": "2F738A4E-3EE1-FF50-0C95-2166A92E5EED",
+            "name": "部门管理",
+            "parentId": "64E78B09-52F1-0A98-E729-E24BEA9CBE13",
+            "type": "func",
+            "resUrl": "/systemplate/ptpz/xtgn/deptManage/funcdir/bmgl.func",
+            "daValue": "AccessPlan_BMG",
+            "opAdd": false,
+            "opEdit": true,
+            "opDelete": false,
+            "opExport": false,
+            "daPower": {
+                "personalScheme": {
+                    "name": "个人",
+                    "value": "AccessPlan_BMP"
+                },
+                "groupScheme": {
+                    "name": "团队",
+                    "value": "AccessPlan_BMG"
+                },
+                "businessScheme": {
+                    "name": "企业",
+                    "value": "AccessPlan_BMB"
+                },
+                "others": [
+                    {
+                        "name": "财务经理",
+                        "value": "AccessPlan_CW"
+                    }
+                ]
+            },
+            "opPower": {
+                "add": {
+                    "value": 0
+                },
+                "edit": {
+                    "value": 0
+                },
+                "delete": {
+                    "value": 0
+                },
+                "export": {
+                    "value": 0
+                }
+            },
+            assignId: "dpt_xs02_guid",
+            assignName: "销售02组",
+            assignKind: ".DPT"
+        },
+        {
+            "resId": "2F738A4E-3EE1-FF50-0C95-2166A92E5EED",
+            "name": "部门管理",
+            "parentId": "64E78B09-52F1-0A98-E729-E24BEA9CBE13",
+            "type": "func",
+            "resUrl": "/systemplate/ptpz/xtgn/deptManage/funcdir/bmgl.func",
+            "daValue": "AccessPlan_BMP",
+            "opAdd": false,
+            "opEdit": false,
+            "opDelete": true,
+            "opExport": false,
+            "daPower": {
+                "personalScheme": {
+                    "name": "个人",
+                    "value": "AccessPlan_BMP"
+                },
+                "groupScheme": {
+                    "name": "团队",
+                    "value": "AccessPlan_BMG"
+                },
+                "businessScheme": {
+                    "name": "企业",
+                    "value": "AccessPlan_BMB"
+                },
+                "others": [
+                    {
+                        "name": "财务经理",
+                        "value": "AccessPlan_CW"
+                    }
+                ]
+            },
+            "opPower": {
+                "add": {
+                    "value": 0
+                },
+                "edit": {
+                    "value": 0
+                },
+                "delete": {
+                    "value": 0
+                },
+                "export": {
+                    "value": 0
+                }
+            },
+            assignId: "dpt_kf01_guid",
+            assignName: "开发01组",
+            assignKind: ".DPT"
+        },
+        {
+            "resId": "2F738A4E-3EE1-FF50-0C95-2166A92E5EED",
+            "name": "部门管理",
+            "parentId": "64E78B09-52F1-0A98-E729-E24BEA9CBE13",
+            "type": "func",
+            "resUrl": "/systemplate/ptpz/xtgn/deptManage/funcdir/bmgl.func",
+            "daValue": "AccessPlan_BMB",
+            "opAdd": true,
+            "opEdit": true,
+            "opDelete": true,
+            "opExport": false,
+            "daPower": {
+                "personalScheme": {
+                    "name": "个人",
+                    "value": "AccessPlan_BMP"
+                },
+                "groupScheme": {
+                    "name": "团队",
+                    "value": "AccessPlan_BMG"
+                },
+                "businessScheme": {
+                    "name": "企业",
+                    "value": "AccessPlan_BMB"
+                },
+                "others": [
+                    {
+                        "name": "财务经理",
+                        "value": "AccessPlan_CW"
+                    }
+                ]
+            },
+            "opPower": {
+                "add": {
+                    "value": 0
+                },
+                "edit": {
+                    "value": 0
+                },
+                "delete": {
+                    "value": 0
+                },
+                "export": {
+                    "value": 0
+                }
+            },
+            assignId: "gw_xsy",
+            assignName: "销售员",
+            assignKind: ".PTM"
+        },
+    ]
+}
+
+const resCheckByOrg = {
+    jt_guid: [
+        {
+            "resId": "19B9866D-B3CF-A37A-2345-A97BB34A7169",
+            "name": "测试菜单",
+            "parentId": "-1",
+            "type": "dir",
+            "resUrl": "",
+        },
+        {
+            "resId": "31418B1A-5253-31A2-77F6-B5F18198ABE2",
+            "name": "测试功能",
+            "parentId": "19B9866D-B3CF-A37A-2345-A97BB34A7169",
+            "type": "func",
+            "resUrl": "/systemplate/csgn/csgn/funcdir/csgn1.func",
+            "daValue": "AccessPlan_BZP",
+            "opAdd": false,
+            "opEdit": false,
+            "opDelete": false,
+            "opExport": false,
+            "daPower": {
+                "personalScheme": {
+                    "name": "个人",
+                    "value": "AccessPlan_BZP"
+                },
+                "groupScheme": {
+                    "name": "团队",
+                    "value": "AccessPlan_BZG"
+                },
+                "businessScheme": {
+                    "name": "企业",
+                    "value": "AccessPlan_BZQ"
+                },
+                "AccessPlan_CW": {
+                    "name": "财务经理",
+                    "value": "AccessPlan_CW",
+                }
+            },
+            "opPower": {
+                "add": {
+                    "value": 0
+                },
+                "edit": {
+                    "value": 0
+                },
+                "delete": {
+                    "value": 0
+                },
+                "export": {
+                    "value": 0
+                }
+            },
+            assignId: "jt_guid",
+            assignName: "XXX集团",
+            assignKind: ".JT"
+        },
+        {
+            "resId": "23DF68DC-EEA7-41E5-0288-02AB9909CB8F",
+            "name": "测试流程",
+            "parentId": "19B9866D-B3CF-A37A-2345-A97BB34A7169",
+            "type": "flow",
+            "resUrl": "/systemplate/csgn/csgn/flowdir/cslc.flow",
+            assignId: "jt_guid",
+            assignName: "XXX集团",
+            assignKind: ".JT"
+        },
+    ],
+    gw_jsy: [
+        {
+            "resId": "64E78B09-52F1-0A98-E729-E24BEA9CBE13",
+            "name": "系统管理",
+            "parentId": "-1",
+            "type": "dir",
+            "resUrl": "",
+        },
+        {
+            "resId": "9964B5C9-E606-2F7C-CF87-53E8F69096EC",
+            "name": "编制管理",
+            "parentId": "64E78B09-52F1-0A98-E729-E24BEA9CBE13",
+            "type": "func",
+            "resUrl": "/systemplate/ptpz/xtgn/bzManage/funcdir/bzgl.func",
+            "daValue": "AccessPlan_BZG",
+            "opAdd": false,
+            "opEdit": false,
+            "opDelete": false,
+            "opExport": false,
+            "daPower": {
+                "personalScheme": {
+                    "name": "个人",
+                    "value": "AccessPlan_BZP"
+                },
+                "groupScheme": {
+                    "name": "团队",
+                    "value": "AccessPlan_BZG"
+                },
+                "businessScheme": {
+                    "name": "企业",
+                    "value": "AccessPlan_BZQ"
+                },
+                "others": [
+                    {
+                        "name": "财务经理",
+                        "value": "AccessPlan_CW"
+                    }
+                ]
+            },
+            "opPower": {
+                "add": {
+                    "value": 0
+                },
+                "edit": {
+                    "value": 0
+                },
+                "delete": {
+                    "value": 0
+                },
+                "export": {
+                    "value": 0
+                }
+            },
+            assignId: "gw_jsy",
+            assignName: "技术员",
+            assignKind: ".PTM"
+        },
+        {
+            "resId": "9964B5C9-E606-2F7C-CF87-53E8F69096EC",
+            "name": "编制管理",
+            "parentId": "64E78B09-52F1-0A98-E729-E24BEA9CBE13",
+            "type": "func",
+            "resUrl": "/systemplate/ptpz/xtgn/bzManage/funcdir/bzgl.func",
+            "daValue": "AccessPlan_BZG",
+            "opAdd": false,
+            "opEdit": false,
+            "opDelete": false,
+            "opExport": false,
+            "daPower": {
+                "personalScheme": {
+                    "name": "个人",
+                    "value": "AccessPlan_BZP"
+                },
+                "groupScheme": {
+                    "name": "团队",
+                    "value": "AccessPlan_BZG"
+                },
+                "businessScheme": {
+                    "name": "企业",
+                    "value": "AccessPlan_BZQ"
+                },
+                "others": [
+                    {
+                        "name": "财务经理",
+                        "value": "AccessPlan_CW"
+                    }
+                ]
+            },
+            "opPower": {
+                "add": {
+                    "value": 0
+                },
+                "edit": {
+                    "value": 0
+                },
+                "delete": {
+                    "value": 0
+                },
+                "export": {
+                    "value": 0
+                }
+            },
+            assignId: "gw_jsy",
+            assignName: "技术员",
+            assignKind: ".PTM"
+        },
+        {
+            "resId": "2F738A4E-3EE1-FF50-0C95-2166A92E5EED",
+            "name": "部门管理",
+            "parentId": "64E78B09-52F1-0A98-E729-E24BEA9CBE13",
+            "type": "func",
+            "resUrl": "/systemplate/ptpz/xtgn/deptManage/funcdir/bmgl.func",
+            "daValue": "AccessPlan_BMB",
+            "opAdd": false,
+            "opEdit": false,
+            "opDelete": false,
+            "opExport": false,
+            "daPower": {
+                "personalScheme": {
+                    "name": "个人",
+                    "value": "AccessPlan_BMP"
+                },
+                "groupScheme": {
+                    "name": "团队",
+                    "value": "AccessPlan_BMG"
+                },
+                "businessScheme": {
+                    "name": "企业",
+                    "value": "AccessPlan_BMB"
+                },
+                "others": [
+                    {
+                        "name": "财务经理",
+                        "value": "AccessPlan_CW"
+                    }
+                ]
+            },
+            "opPower": {
+                "add": {
+                    "value": 0
+                },
+                "edit": {
+                    "value": 0
+                },
+                "delete": {
+                    "value": 0
+                },
+                "export": {
+                    "value": 0
+                }
+            },
+            assignId: "gw_jsy",
+            assignName: "技术员",
+            assignKind: ".PTM"
+        },
+    ],
+    org_ry_id1001: [
+        {
+            "resId": "64E78B09-52F1-0A98-E729-E24BEA9CBE13",
+            "name": "系统管理",
+            "parentId": "-1",
+            "type": "dir",
+            "resUrl": "",
+        },
+        {
+            "resId": "4A3AACDF-781F-3CE7-5AED-252F6A17E4EE",
+            "name": "单号维护流程",
+            "parentId": "64E78B09-52F1-0A98-E729-E24BEA9CBE13",
+            "type": "flow",
+            "resUrl": "/systemplate/ptpz/xtgn/dhwh/flowdir/lc.flow",
+            assignId: "org_ry_id1001",
+            assignName: "张三",
+            assignKind: ".PSM"
+        },
+        {
+            "resId": "8B60A86E-7DB6-C2AC-19BA-0E2A7775C06E",
+            "name": "岗位管理",
+            "parentId": "64E78B09-52F1-0A98-E729-E24BEA9CBE13",
+            "type": "func",
+            "resUrl": "/systemplate/ptpz/xtgn/roleManage/funcdir/gwgl.func",
+            "daValue": "AccessPlan_BZQ",
+            "opAdd": false,
+            "opEdit": false,
+            "opDelete": false,
+            "opExport": false,
+            "daPower": {
+                "personalScheme": {
+                    "name": "个人",
+                    "value": "AccessPlan_BZP"
+                },
+                "groupScheme": {
+                    "name": "团队",
+                    "value": "AccessPlan_BZG"
+                },
+                "businessScheme": {
+                    "name": "企业",
+                    "value": "AccessPlan_BZQ"
+                },
+                "AccessPlan_CW": {
+                    "name": "财务经理",
+                    "value": "AccessPlan_CW",
+                    "isOther": 1
+                }
+            },
+            "opPower": {
+                "add": {
+                    "value": 0
+                },
+                "edit": {
+                    "value": 0
+                },
+                "delete": {
+                    "value": 0
+                },
+                "export": {
+                    "value": 0
+                }
+            },
+            assignId: "org_ry_id1001",
+            assignName: "张三",
+            assignKind: ".PSM"
+        },
+        {
+            "resId": "AA8CE6D9-8DD7-F9D5-D94B-69574B825713",
+            "name": "工程树管理",
+            "parentId": "64E78B09-52F1-0A98-E729-E24BEA9CBE13",
+            "type": "func",
+            "resUrl": "/systemplate/ptpz/xtgj/gcsgl/funcdir/gcsgl.func",
+            "daValue": "AccessPlan_BZP",
+            "opAdd": false,
+            "opEdit": false,
+            "opDelete": false,
+            "opExport": false,
+            "daPower": {
+                "personalScheme": {
+                    "name": "个人",
+                    "value": "AccessPlan_BZP"
+                },
+                "groupScheme": {
+                    "name": "团队",
+                    "value": "AccessPlan_BZG"
+                },
+                "businessScheme": {
+                    "name": "企业",
+                    "value": "AccessPlan_BZQ"
+                },
+                "AccessPlan_CW": {
+                    "name": "财务经理",
+                    "value": "AccessPlan_CW",
+                    "isOther": 1
+                }
+            },
+            "opPower": {
+                "add": {
+                    "value": 0
+                },
+                "edit": {
+                    "value": 0
+                },
+                "delete": {
+                    "value": 0
+                },
+                "export": {
+                    "value": 0
+                }
+            },
+            assignId: "org_ry_id1001",
+            assignName: "张三",
+            assignKind: ".PSM"
         },
     ]
 }
@@ -575,7 +1086,31 @@ export default [
             let param = config.query;
             return {
                 status: 200,
-                dataPack: { rows: res[param.userId] }
+                dataPack: { rows: resCheckByUser[param.userId] }
+            }
+        }
+    },
+    {
+        url: '/res/check',
+        type: 'get',
+        response: config => {
+            console.log(config.query);
+            let param = config.query;
+            return {
+                status: 200,
+                dataPack: { rows: resCheckByRes[param.resId] }
+            }
+        }
+    },
+    {
+        url: '/org/modify',
+        type: 'get',
+        response: config => {
+            console.log(config.query);
+            let param = config.query;
+            return {
+                status: 200,
+                dataPack: { rows: resCheckByOrg[param.id] }
             }
         }
     }

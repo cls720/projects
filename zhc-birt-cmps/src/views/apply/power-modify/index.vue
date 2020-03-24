@@ -9,13 +9,15 @@ import pinyin from "js-pinyin";
 
 import { allData } from "./org.js";
 import { resources } from "./resources";
+import { pageOrg } from "./page-org";
+import { pageRes } from "./page-res";
 
 export default {
   data() {
     return {
       birtModel1: {
         controlName: "BirtWorkBook",
-        controlId: "BirtWorkBook_check",
+        controlId: "BirtWorkBook_modify",
         showToolBar: false,
         totalPage: 1,
         renderType: "pages",
@@ -41,33 +43,27 @@ export default {
               {
                 controlName: "BirtFormSheet",
                 controlId: "BirtFormSheet_102",
-                children: [  
+                children: [
                   {
                     controlName: "HcTabs",
-                    controlId: "HcTabs_user",
+                    controlId: "HcTabs_org",
                     tabPosition: "top",
-                    activeTabName: "user",
+                    activeTabName: "org",
                     height: function(parentHeight) {
                       return parentHeight - 20;
                     },
                     children: [
                       {
                         controlName: "HcTabPane",
-                        controlId: "HcTabPane_user",
-                        label: "按用户反查",
-                        name: "user",
-                        children: [
-                          {
-                            controlName: "HcTextLabel",
-                            controlId: "TextLabel_zxyh",
-                            title: "按用户反查..."
-                          }
-                        ]
+                        controlId: "HcTabPane_org",
+                        label: "按分配对象修改",
+                        name: "org",
+                        children: pageOrg
                       },
                       {
                         controlName: "HcTabPane",
                         controlId: "HcTabPane_func",
-                        label: "按功能反查",
+                        label: "按功能修改",
                         name: "func",
                         children: [
                           {

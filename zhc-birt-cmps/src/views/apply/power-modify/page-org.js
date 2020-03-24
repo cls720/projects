@@ -1,7 +1,159 @@
 import pinyin from "js-pinyin";
 import axios from 'axios';
+import { pageDlgres } from "./page-dlgres";
 
-export const pageUser = {
+export const pageOrg = [{
+    controlName: "ElRow",
+    controlId: "ElRow_r1",
+    gutter: 10,
+    children: [
+        {
+            controlName: "ElCol",
+            controlId: "ElCol_r1_c1",
+            span: 20,
+            children: [
+                {
+                    controlName: "HcSteps",
+                    controlId: "HcSteps_1",
+                    simple: true,
+                    active: 3,
+                    style: "color:black;",
+                    children: [
+                        {
+                            controlName: "HcStep",
+                            controlId: "HcStep_1",
+                            title: "选择分配对象",
+                            icon: "el-icon-user",
+                            status: "process"
+                        },
+                        {
+                            controlName: "HcStep",
+                            controlId: "HcStep_2",
+                            title: "选择预分配功能",
+                            icon: "el-icon-s-order",
+                            status: "process"
+                        },
+                        {
+                            controlName: "HcStep",
+                            controlId: "HcStep_3",
+                            title: "分配数据权限、操作权限",
+                            icon: "el-icon-key",
+                            status: "process",
+                            style: "color:red"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            controlName: "ElCol",
+            controlId: "ElCol_r1_c2",
+            span: 4,
+            children: [
+                {
+                    controlName: "HcButton",
+                    controlId: "HcButton_save",
+                    title: "保存",
+                    type: "primary",
+                    icon: "el-icon-s-claim",
+                    disabled: false,
+                    style: "width:95%;font-size:16px;",
+                    events: {
+                        click: function () {
+                            debugger;
+                            let orgData = this.getWorkBook().dataset.dsOrg.datas.filter(
+                                function (recd) {
+                                    return recd._checked;
+                                }
+                            );
+                            let chkClearorg = this.getRefCompt(
+                                "HcCheckbox_clearorg"
+                            ).conf.value;
+                            let chkClearres = this.getRefCompt(
+                                "HcCheckbox_clearres"
+                            ).conf.value;
+
+                            const h = this.$createElement;
+                            let message = [
+                                h(
+                                    "span",
+                                    {
+                                        style: "line-height:30px;font-size:16px;"
+                                    },
+                                    "是否确认保存?"
+                                )
+                            ];
+                            if (chkClearorg) {
+                                message.push(h("br", null, ""));
+                                message.push(h("i", "确定"));
+                                message.push(
+                                    h(
+                                        "i",
+                                        { style: "color: red" },
+                                        "分配对象“清空添加”"
+                                    )
+                                );
+                                message.push(
+                                    h(
+                                        "i",
+                                        "，即将清空已选组织人员的所有权限，重新分配当前权限"
+                                    )
+                                );
+                            }
+                            if (
+                                this.getRefCompt("HcCheckbox_clearres").conf
+                                    .value
+                            ) {
+                                message.push(h("br", null, ""));
+                                message.push(h("i", "确定"));
+                                message.push(
+                                    h(
+                                        "i",
+                                        { style: "color: red" },
+                                        "分配功能“清空添加"
+                                    )
+                                );
+                                message.push(
+                                    h(
+                                        "i",
+                                        "，即将清空已选功能菜单的所有权限，重新分配当前权限"
+                                    )
+                                );
+                            }
+                            this.$msgbox({
+                                title: "保存确认",
+                                message: h("p", null, message),
+                                showCancelButton: true,
+                                confirmButtonText: "保存",
+                                cancelButtonText: "取消",
+                                beforeClose: (action, instance, done) => {
+                                    if (action === "confirm") {
+                                        instance.confirmButtonLoading = true;
+                                        instance.confirmButtonText = "执行中...";
+                                        setTimeout(() => {
+                                            done();
+                                            setTimeout(() => {
+                                                instance.confirmButtonLoading = false;
+                                            }, 300);
+                                        }, 3000);
+                                    } else {
+                                        done();
+                                    }
+                                }
+                            }).then(action => {
+                                this.$message({
+                                    type: "info",
+                                    message: "保存成功"
+                                });
+                            });
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+},
+{
     controlName: "ElRow",
     controlId: "ElRow_r2",
     gutter: 10,
@@ -19,7 +171,8 @@ export const pageUser = {
                     size: "medium",
                     events: {
                         filterChange: function (filterKey, datas) {
-                            this.getRefCompt("HcTree_user").filter(
+                            debugger;
+                            this.getRefCompt("HcTree_org").filter(
                                 filterKey
                             );
                         }
@@ -27,13 +180,14 @@ export const pageUser = {
                 },
                 {
                     controlName: "HcTree",
-                    controlId: "HcTree_user",
-                    dataset: "dsUser",
-                    isTreeData: true,
+                    controlId: "HcTree_org",
+                    dataset: "dsOrg",
+                    isTreeData: false,
                     idField: "id",
+                    parentIdField: "pid",
                     labelField: "label",
-                    highlightCurrent:true,
                     filterNodeMethod: function (value, data, node) {
+                        debugger;
                         let key =
                             node.label +
                             "_" +
@@ -41,7 +195,8 @@ export const pageUser = {
                         return key.indexOf(value.toUpperCase()) !== -1;
                     },
                     height: function (parentHeight) {
-                        return parentHeight - 140;
+                        debugger;
+                        return parentHeight - 190;
                     },
                     style:
                         "margin-top:10px;overflow: auto;border:1px solid rgb(235, 238, 245)",
@@ -49,19 +204,18 @@ export const pageUser = {
                         currentChange: function (data, node) {
                             debugger
                             let me = this;
-                            let param = { userId: data.id };
-                            axios.get('/api/user/check?id=' + data.id, { params: param })
+                            let param = { orgId: data.id, kind: data.kind };
+                            axios.get('/api/org/modify?id=' + data.id, { params: param })
                                 .then(function (response) {
                                     debugger;
-                                    let targetDataset = me.getWorkBook().dataset.dsUserRes;
-                                    targetDataset.setData(response.data.dataPack.rows);
+                                    let targetDataset = me.getWorkBook().dataset.dsRes;
+                                    targetDataset.setData(response.data.dataPack.rows || []);
                                 })
                                 .catch(function (error) {
                                     console.log(error);
                                 })
                         }
                     }
-
                 }
             ]
         },
@@ -73,13 +227,14 @@ export const pageUser = {
                 {
                     controlName: "HcTable",
                     controlId: "HcTable_res",
-                    dataset: "dsUserRes",
+                    dataset: "dsRes",
                     rowKey: "resId",
                     idField: "resId",
                     parentIdField: "parentId",
                     defaultExpandAll: true,
                     height: function (parentHeight) {
-                        return parentHeight - 90;
+                        debugger;
+                        return parentHeight - 120;
                     },
                     children: [
                         {
@@ -97,6 +252,7 @@ export const pageUser = {
                                     placeholder: "功能名称",
                                     events: {
                                         filterChange: function (filterKey, datas) {
+                                            debugger;
                                             let hcTable = this.getRefCompt(
                                                 "HcTable_res"
                                             );
@@ -109,7 +265,11 @@ export const pageUser = {
                                                             recd.name +
                                                             "_" +
                                                             pinyin.getCamelChars(recd.name);
-                                                        return key.indexOf(filterKey.toUpperCase()) !== -1;
+                                                        return (
+                                                            key.indexOf(
+                                                                filterKey.toUpperCase()
+                                                            ) !== -1
+                                                        );
                                                     }
                                                 );
                                             } else {
@@ -119,7 +279,32 @@ export const pageUser = {
                                                 );
                                             }
                                         }
-                                    }
+                                    },
+                                    children: [
+                                        {
+                                            controlName: "HcButton",
+                                            controlId: "HcButton_opendialog",
+                                            title: "",
+                                            icon: "el-icon-edit",
+                                            events: {
+                                                click: function () {
+                                                    debugger;
+                                                    let resKeys = [];
+                                                    this.getWorkBook().dataset.dsRes.datas.forEach(
+                                                        recd => {
+                                                            if (recd.type != "dir")
+                                                                resKeys.push(recd.resId);
+                                                        }
+                                                    );
+                                                    this.getRefCompt(
+                                                        "HcDialog_res"
+                                                    ).doOpen({
+                                                        resIds: resKeys
+                                                    });
+                                                }
+                                            }
+                                        }
+                                    ]
                                 },
                                 {
                                     controlName: "ElRow",
@@ -162,6 +347,7 @@ export const pageUser = {
                                                             hcTable.filterConf,
                                                             "type",
                                                             function filterRecd(recd) {
+                                                                debugger;
                                                                 return (
                                                                     recd.type === filterKey
                                                                 );
@@ -182,24 +368,8 @@ export const pageUser = {
                         },
                         {
                             controlName: "HcTableColumn",
-                            controlId: "HcTableColumn_0",
-                            slot: "scope",
-                            prop: "assignName",
-                            label: "授权来源",
-                            width: 120,
-                            children: [{
-                                controlName: "HcButton",
-                                controlId: "HcButton_link",
-                                vif: "{{scope.row.assignId}}",
-                                type: "text",
-                                size: "small",
-                                title: "{{scope.row.assignName}}"
-                            }]
-                        },
-                        {
-                            controlName: "HcTableColumn",
                             controlId: "HcTableColumn_2",
-                            label: "数据权限",
+                            label: "数据权限分配",
                             children: [
                                 {
                                     controlName: "HcTableColumnRadio",
@@ -211,8 +381,6 @@ export const pageUser = {
                                             return false;
                                         }
                                     },
-                                    disabled: true,
-                                    showCheckAll: false,
                                     prop: "daValue",
                                     radioValue: "daPower.personalScheme.value",
                                     label: "个人",
@@ -228,8 +396,6 @@ export const pageUser = {
                                             return false;
                                         }
                                     },
-                                    disabled: true,
-                                    showCheckAll: false,
                                     prop: "daValue",
                                     radioValue: "daPower.groupScheme.value",
                                     label: "团队",
@@ -245,8 +411,6 @@ export const pageUser = {
                                             return false;
                                         }
                                     },
-                                    disabled: true,
-                                    showCheckAll: false,
                                     prop: "daValue",
                                     radioValue: "daPower.businessScheme.value",
                                     label: "企业",
@@ -262,7 +426,6 @@ export const pageUser = {
                                             return false;
                                         }
                                     },
-                                    disabled: true,
                                     showCheckAll: false,
                                     prop: "daValue",
                                     radioValue: "daPower.others",
@@ -287,8 +450,6 @@ export const pageUser = {
                                             return false;
                                         }
                                     },
-                                    disabled: true,
-                                    showCheckAll: false,
                                     prop: "opAdd",
                                     label: "添加",
                                     width: 75
@@ -303,8 +464,6 @@ export const pageUser = {
                                             return false;
                                         }
                                     },
-                                    disabled: true,
-                                    showCheckAll: false,
                                     prop: "opEdit",
                                     label: "修改",
                                     width: 75
@@ -319,8 +478,6 @@ export const pageUser = {
                                             return false;
                                         }
                                     },
-                                    disabled: true,
-                                    showCheckAll: false,
                                     prop: "opDelete",
                                     label: "删除",
                                     width: 75
@@ -335,8 +492,6 @@ export const pageUser = {
                                             return false;
                                         }
                                     },
-                                    disabled: true,
-                                    showCheckAll: false,
                                     prop: "opExport",
                                     label: "导出",
                                     width: 75
@@ -348,4 +503,25 @@ export const pageUser = {
             ]
         }
     ]
-}
+},
+{
+    controlName: "HcDialog",
+    controlId: "HcDialog_res",
+    visible: false,
+    title: "选择资源树",
+    footer: ["cancel", "confirm"],
+    events: {
+        confirm: function () {
+            debugger;
+            let retuData = this.getContent().dataset.dsRes.datas.filter(
+                function (recd) {
+                    return recd._checked;
+                }
+            );
+            this.getWorkBook().dataset.dsRes.setData(retuData);
+        }
+    },
+    children: [
+        pageDlgres
+    ]
+}]

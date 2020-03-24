@@ -49,11 +49,15 @@ export const pageRes = {
                         "margin-top:10px;overflow: auto;border:1px solid rgb(235, 238, 245)",
                     events: {
                         currentChange: function (data, node) {
-                            let param = { userId: data.id };
-                            axios.get('/user/check', param)
+                            debugger
+                            if (data.type == 'dir') return;
+                            let me = this;
+                            let param = { resId: data.resId };
+                            axios.get('/api/res/check?id=' + data.resId, { params: param })
                                 .then(function (response) {
                                     debugger;
-                                    console.log(response);
+                                    let targetDataset = me.getWorkBook().dataset.dsResUser;
+                                    targetDataset.setData(response.data.dataPack.rows || []);
                                 })
                                 .catch(function (error) {
                                     console.log(error);
@@ -85,99 +89,8 @@ export const pageRes = {
                             controlName: "HcTableColumn",
                             controlId: "HcTableColumn_0",
                             prop: "name",
-                            label: "功能名称",
-                            minWidth: 300,
-                            children: [
-                                {
-                                    controlName: "HcInputFilter",
-                                    controlId: "HcInputFilter_res",
-                                    slot: "header",
-                                    size: "small",
-                                    placeholder: "功能名称",
-                                    events: {
-                                        filterChange: function (filterKey, datas) {
-                                            let hcTable = this.getRefCompt(
-                                                "HcTable_resuser"
-                                            );
-                                            if (filterKey) {
-                                                hcTable.$set(
-                                                    hcTable.filterConf,
-                                                    "name",
-                                                    function filterRecd(recd) {
-                                                        let key =
-                                                            recd.name +
-                                                            "_" +
-                                                            pinyin.getCamelChars(recd.name);
-                                                        return key.indexOf(filterKey.toUpperCase()) !== -1;
-                                                    }
-                                                );
-                                            } else {
-                                                hcTable.$delete(
-                                                    hcTable.filterConf,
-                                                    "name"
-                                                );
-                                            }
-                                        }
-                                    }
-                                },
-                                {
-                                    controlName: "ElRow",
-                                    controlId: "ElRow_ck_type",
-                                    slot: "header",
-                                    style: "margin-top:10px;text-align:right;",
-                                    children: [
-                                        {
-                                            controlName: "HcRadioGroup",
-                                            controlId: "HcRadioGroup_1",
-                                            value: "all",
-                                            size: "small",
-                                            children: [
-                                                {
-                                                    controlName: "HcRadioButton",
-                                                    controlId: "HcRadioButton_func",
-                                                    label: "func",
-                                                    title: "功能"
-                                                },
-                                                {
-                                                    controlName: "HcRadioButton",
-                                                    controlId: "HcRadioButton_flow",
-                                                    label: "flow",
-                                                    title: "流程"
-                                                },
-                                                {
-                                                    controlName: "HcRadioButton",
-                                                    controlId: "HcRadioButton_all",
-                                                    label: "all",
-                                                    title: "全部"
-                                                }
-                                            ],
-                                            events: {
-                                                change: function (filterKey) {
-                                                    let hcTable = this.getRefCompt(
-                                                        "HcTable_resuser"
-                                                    );
-                                                    if (filterKey != "all") {
-                                                        hcTable.$set(
-                                                            hcTable.filterConf,
-                                                            "type",
-                                                            function filterRecd(recd) {
-                                                                return (
-                                                                    recd.type === filterKey
-                                                                );
-                                                            }
-                                                        );
-                                                    } else {
-                                                        hcTable.$delete(
-                                                            hcTable.filterConf,
-                                                            "type"
-                                                        );
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    ]
-                                }
-                            ]
+                            label: "当前功能名称",
+                            minWidth: 300,                          
                         },
                         {
                             controlName: "HcTableColumn",
@@ -190,7 +103,9 @@ export const pageRes = {
                                 controlName: "HcButton",
                                 controlId: "HcButton_link",
                                 vif: "{{scope.row.assignId}}",
-                                title: "{{scope.row.assignName}}"
+                                title: "{{scope.row.assignName}}",
+                                type: "text",
+                                size: "small"
                             }]
                         },
                         {
