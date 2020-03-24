@@ -30,18 +30,23 @@ export default {
             dataSets: [
               {
                 controlName: "JsWebSocketDataSet",
-                controlId: "dsOrg",
+                controlId: "dsUser",
                 datas: ryData2
               },
               {
                 controlName: "JsWebSocketDataSet",
-                controlId: "dsResTree",
-                datas: resources
+                controlId: "dsUserRes",
+                datas: []
               },
               {
                 controlName: "JsWebSocketDataSet",
                 controlId: "dsRes",
-                datas: res1003
+                datas: resources
+              },
+              {
+                controlName: "JsWebSocketDataSet",
+                controlId: "dsResUser",
+                datas: []
               }
             ],
             children: [

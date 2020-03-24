@@ -28,10 +28,11 @@ export const pageUser = {
                 {
                     controlName: "HcTree",
                     controlId: "HcTree_user",
-                    dataset: "dsOrg",
+                    dataset: "dsUser",
                     isTreeData: true,
                     idField: "id",
                     labelField: "label",
+                    highlightCurrent:true,
                     filterNodeMethod: function (value, data, node) {
                         let key =
                             node.label +
@@ -46,11 +47,14 @@ export const pageUser = {
                         "margin-top:10px;overflow: auto;border:1px solid rgb(235, 238, 245)",
                     events: {
                         currentChange: function (data, node) {
+                            debugger
+                            let me = this;
                             let param = { userId: data.id };
-                            axios.get('/user/check', param)
+                            axios.get('/api/user/check?id=' + data.id, { params: param })
                                 .then(function (response) {
                                     debugger;
-                                    console.log(response);
+                                    let targetDataset = me.getWorkBook().dataset.dsUserRes;
+                                    targetDataset.setData(response.data.dataPack.rows);
                                 })
                                 .catch(function (error) {
                                     console.log(error);
@@ -69,7 +73,7 @@ export const pageUser = {
                 {
                     controlName: "HcTable",
                     controlId: "HcTable_res",
-                    dataset: "dsRes",
+                    dataset: "dsUserRes",
                     rowKey: "resId",
                     idField: "resId",
                     parentIdField: "parentId",

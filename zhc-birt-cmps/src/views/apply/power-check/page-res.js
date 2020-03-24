@@ -28,11 +28,12 @@ export const pageRes = {
                 {
                     controlName: "HcTree",
                     controlId: "HcTree_restree",
-                    dataset: "dsResTree",
+                    dataset: "dsRes",
                     isTreeData: false,
                     idField: "resId",
                     parentIdField: "parentId",
                     labelField: "name",
+                    highlightCurrent: true,
                     defaultExpandAll: true,
                     filterNodeMethod: function (value, data, node) {
                         let key =
@@ -70,11 +71,11 @@ export const pageRes = {
             children: [
                 {
                     controlName: "HcTable",
-                    controlId: "HcTable_restree",
-                    dataset: "dsRes",
-                    rowKey: "resId",
-                    idField: "resId",
-                    parentIdField: "parentId",
+                    controlId: "HcTable_resuser",
+                    dataset: "dsResUser",
+                    rowKey: "rowIndex",
+                    // idField: "resId",
+                    // parentIdField: "parentId",
                     defaultExpandAll: true,
                     height: function (parentHeight) {
                         return parentHeight - 90;
@@ -96,7 +97,7 @@ export const pageRes = {
                                     events: {
                                         filterChange: function (filterKey, datas) {
                                             let hcTable = this.getRefCompt(
-                                                "HcTable_restree"
+                                                "HcTable_resuser"
                                             );
                                             if (filterKey) {
                                                 hcTable.$set(
@@ -153,7 +154,7 @@ export const pageRes = {
                                             events: {
                                                 change: function (filterKey) {
                                                     let hcTable = this.getRefCompt(
-                                                        "HcTable_restree"
+                                                        "HcTable_resuser"
                                                     );
                                                     if (filterKey != "all") {
                                                         hcTable.$set(
