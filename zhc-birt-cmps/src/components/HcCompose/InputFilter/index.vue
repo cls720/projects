@@ -75,7 +75,7 @@ export default {
       let iconf = {
         controlName: "HcInput",
         controlName: "HcInput_key",
-        placeholder: "请输入关键字",
+        placeholder: this.conf.placeholder || "请输入关键字",
         size: this.size,
         events: {},
         children: this.buttonChildren

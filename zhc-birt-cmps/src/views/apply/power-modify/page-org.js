@@ -202,7 +202,8 @@ export const pageOrg = [
                         style:
                             "margin-top:10px;overflow: auto;border:1px solid rgb(235, 238, 245)",
                         cancelNodeChange: function () {
-                            return true;
+                            debugger;
+                            return false;
                         },
                         events: {
                             currentChange: function (data, node) {
@@ -369,6 +370,13 @@ export const pageOrg = [
                                         ]
                                     }
                                 ]
+                            },
+                            {
+                                controlName: "HcTableColumn",
+                                controlId: "HcTableColumn_0",
+                                prop: "assignName",
+                                label: "授权来源",
+                                width: 120
                             },
                             {
                                 controlName: "HcTableColumn",

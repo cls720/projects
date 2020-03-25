@@ -36,7 +36,17 @@ export default {
               {
                 controlName: "HcDataset",
                 controlId: "dsRes",
-                data:[]
+                data: []
+              },
+              {
+                controlName: "JsWebSocketDataSet",
+                controlId: "dsResTree",
+                datas: resources
+              },
+              {
+                controlName: "HcDataset",
+                controlId: "dsRes2",
+                data: []
               }
             ],
             children: [
@@ -65,13 +75,7 @@ export default {
                         controlId: "HcTabPane_func",
                         label: "按功能修改",
                         name: "func",
-                        children: [
-                          {
-                            controlName: "HcTextLabel",
-                            controlId: "TextLabel_zxyh",
-                            title: "按功能反查..."
-                          }
-                        ]
+                        children: pageRes
                       }
                     ]
                   }

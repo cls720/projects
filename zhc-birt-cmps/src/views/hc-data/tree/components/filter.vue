@@ -2,6 +2,7 @@
   <div>
     <h4>3. 过滤</h4>
     <hc-input-filter :conf="hcInputFilterConf" style="width:300px;"></hc-input-filter>
+    <el-button @click="doClick">通过key选中树节点</el-button>
     <hc-tree ref="tree" :conf="hcTreeConf"></hc-tree>
   </div>
 </template>
@@ -44,13 +45,15 @@ export default {
         controlName: "HcTree",
         controlId: "HcTree_3",
         datas: [],
+        idField: "id",
+        currentNodeKey:"jt_guid",
         showCheckbox: true,
         defaultExpandAll: true,
         filterNodeMethod: function(value, data) {
           debugger;
           if (!value) return true;
           return data.label.indexOf(value) !== -1;
-        },        
+        },
         events: {}
       }
     };
@@ -69,6 +72,11 @@ export default {
     onFilterChange(filterKey, datas) {
       debugger;
       this.$refs.tree.filter(filterKey);
+    },
+    doClick() {
+      debugger;
+      this.$refs.tree.currentNodeKey = "org_kjgs_guid";
+      this.$refs.tree.elTree().setCurrentKey("org_kjgs_guid");
     }
   }
 };
