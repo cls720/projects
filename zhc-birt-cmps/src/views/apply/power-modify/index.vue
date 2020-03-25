@@ -34,9 +34,9 @@ export default {
                 datas: allData
               },
               {
-                controlName: "JsWebSocketDataSet",
+                controlName: "HcDataset",
                 controlId: "dsRes",
-                datas: []
+                data:[]
               }
             ],
             children: [

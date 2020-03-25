@@ -21,6 +21,18 @@ export default class JsWebSocketDataSet {
   }
 
   /**
+ * 数据当前显示数据
+ */
+  getData() {
+    return this.datas || [];
+  }
+
+  setData(datas, option) {
+    this.datas.splice(0, this.datas.length, ...datas);
+    this.setCurRecord(this.last());
+  }
+
+  /**
    * 数据集加载后台源数据
    * @param {*} datas 
    * @param {*} option 
@@ -37,10 +49,7 @@ export default class JsWebSocketDataSet {
     }
   }
 
-  setData(datas, option) {
-    this.datas.splice(0, this.datas.length, ...datas);
-    this.setCurRecord(this.last());
-  }
+
 
   setCurRecord(rec) {
     // if (rec == this.curRecord)

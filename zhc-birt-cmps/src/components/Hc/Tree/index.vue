@@ -30,7 +30,7 @@
     @node-contextmenu="nodeContextmenu"
     @check-change="checkChange"
     @check="check"
-    @current-change="currentChange"
+    @current-change="onCurrentChange"
     @node-expand="nodeExpand"
     @node-collapse="nodeCollapse"
     @node-drag-start="nodeDragStart"
@@ -173,7 +173,8 @@ export default {
         "nodeDragOver",
         "nodeDragEnd",
         "nodeDrop"
-      ]
+      ],
+      lastKey: ""
     };
   },
   methods: {
@@ -196,7 +197,7 @@ export default {
         rootValue: this.rootValue
       });
       return treeData;
-    },   
+    },
     setDatasChecked(nodeKeys) {
       let me = this;
       this.datas.forEach(recd => {
@@ -204,6 +205,27 @@ export default {
         let idValue = recd[me.idField];
         recd[me.checkField] = nodeKeys.indexOf(idValue) >= 0;
       });
+    },
+    onCurrentChange(data, node) {
+      debugger;
+      let curtKey = this.elTree().getCurrentKey();
+      if (this.lastKey) {
+        if (curtKey === this.lastKey) return;
+        let cancelNodeChangeFunc = this.conf.cancelNodeChange;
+        if (cancelNodeChangeFunc) {
+          let isCancel = cancelNodeChangeFunc.call(this, data, node);
+          if (isCancel) {
+            this.elTree().setCurrentKey(this.lastKey);
+            return;
+          }
+        }
+      }
+      this.lastKey = curtKey;
+      let currentChangeFunc =
+        this.conf.events && this.conf.events.currentChange;
+      if (currentChangeFunc) {
+        currentChangeFunc.call(this, data, node);
+      }
     }
   }
 };
