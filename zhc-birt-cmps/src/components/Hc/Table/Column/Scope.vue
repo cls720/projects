@@ -5,6 +5,7 @@
     :width="width"
     :type="conf.type"
     :min-width="conf.minWidth"
+    :fixed="conf.fixed"
     :sortable="conf.sortable"
     :filters="conf.filters"
     :filter-multiple="conf.filterMultiple"

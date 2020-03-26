@@ -9,8 +9,6 @@ export default class HcDataset {
             console.error("数据集data属性未配置")
         }
         Object.assign(this, option);
-        // 属性是否修改
-        this._dirty = false;
         // 属性当前记录        
         this.curtRecord = {
             __empty: true
@@ -48,24 +46,6 @@ export default class HcDataset {
      */
     setData(data) {
         this.data.splice(0, this.data.length, ...data);
-    }
-
-    /**
-     * 获取数据集修改后的数据
-     */
-    getDirtyData() {
-        return this.dirtyData || [];
-    }
-
-    /**
-     * 设置数据集修改后数据
-     * @param {*} data 
-     */
-    setDirtyData(data) {
-        if (!this.dirtyData) {
-            this.dirtyData = [];
-        }
-        this.dirtyData.splice(0, this.dirtyData.length, ...data);
     }
 
     /**

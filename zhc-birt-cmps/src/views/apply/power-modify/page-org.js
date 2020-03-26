@@ -23,21 +23,21 @@ export const pageOrg = [
                             {
                                 controlName: "HcStep",
                                 controlId: "HcStep_1",
-                                title: "选择分配对象",
+                                title: "选择修改对象",
                                 icon: "el-icon-user",
                                 status: "process"
                             },
                             {
                                 controlName: "HcStep",
                                 controlId: "HcStep_2",
-                                title: "选择预分配功能",
+                                title: "修改分配功能列表",
                                 icon: "el-icon-s-order",
                                 status: "process"
                             },
                             {
                                 controlName: "HcStep",
                                 controlId: "HcStep_3",
-                                title: "分配数据权限、操作权限",
+                                title: "修改数据权限、操作权限",
                                 icon: "el-icon-key",
                                 status: "process",
                                 style: "color:red"
@@ -213,7 +213,7 @@ export const pageOrg = [
                                 axios.get('/api/org/modify?id=' + data.id, { params: param })
                                     .then(function (response) {
                                         debugger;
-                                        let targetDataset = me.getWorkBook().dataset.dsRes;
+                                        let targetDataset = me.getWorkBook().dataset.dsEditRes;
                                         targetDataset.setData(response.data.dataPack.rows || []);
                                     })
                                     .catch(function (error) {
@@ -232,9 +232,10 @@ export const pageOrg = [
                     {
                         controlName: "HcTable",
                         controlId: "HcTable_res",
-                        dataset: "dsRes",
+                        dataset: "dsEditRes",
                         rowKey: "resId",
                         idField: "resId",
+                        indent: 0,
                         parentIdField: "parentId",
                         defaultExpandAll: true,
                         height: function (parentHeight) {
@@ -242,6 +243,7 @@ export const pageOrg = [
                             return parentHeight - 120;
                         },
                         children: [
+
                             {
                                 controlName: "HcTableColumn",
                                 controlId: "HcTableColumn_0",
@@ -295,14 +297,14 @@ export const pageOrg = [
                                                     click: function () {
                                                         debugger;
                                                         let resKeys = [];
-                                                        this.getWorkBook().dataset.dsRes.getData().forEach(
+                                                        this.getWorkBook().dataset.dsEditRes.getData().forEach(
                                                             recd => {
                                                                 if (recd.type != "dir")
                                                                     resKeys.push(recd.resId);
                                                             }
                                                         );
                                                         this.getRefCompt(
-                                                            "HcDialog_res"
+                                                            "HcDialog_resmodify"
                                                         ).doOpen({
                                                             resIds: resKeys
                                                         });
@@ -370,6 +372,20 @@ export const pageOrg = [
                                         ]
                                     }
                                 ]
+                            },
+                            {
+                                controlName: "HcTableColumn",
+                                controlId: "HcTableColumn_operate",
+                                label: "操作",
+                                width: 80,
+                                slot: "scope",
+                                children: [{
+                                    controlName: "HcButton",
+                                    controlId: "HcButton_del",
+                                    size: "mini",
+                                    type: "danger",
+                                    title: "删除"
+                                }]
                             },
                             {
                                 controlName: "HcTableColumn",
@@ -518,7 +534,7 @@ export const pageOrg = [
     },
     {
         controlName: "HcDialog",
-        controlId: "HcDialog_res",
+        controlId: "HcDialog_resmodify",
         visible: false,
         title: "选择资源树",
         footer: ["cancel", "confirm"],
@@ -530,7 +546,13 @@ export const pageOrg = [
                         return recd._checked;
                     }
                 );
-                this.getWorkBook().dataset.dsRes.setData(retuData);
+                let curtNode = this.getRefCompt("HcTree_org").elTree().getCurrentNode();
+                retuData.forEach(recd => {
+                    recd.assignId = curtNode.id;
+                    recd.assignName = curtNode.label;
+                    recd.assignKind = curtNode.kind;
+                })
+                this.getWorkBook().dataset.dsEditRes.setData(retuData);
             }
         },
         children: [

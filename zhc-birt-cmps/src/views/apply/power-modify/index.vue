@@ -34,8 +34,8 @@ export default {
                 datas: allData
               },
               {
-                controlName: "HcDataset",
-                controlId: "dsRes",
+                controlName: "HcEditDataset",
+                controlId: "dsEditRes",
                 data: []
               },
               {
