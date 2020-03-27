@@ -124,7 +124,8 @@ export const pageDlgres = {
                                 }
                             },
                             mounted: function () {
-                                this.getRefCompt("BirtWorkBook_0").on(
+                                debugger
+                                this.getWorkBook().on(
                                     "afterLoad",
                                     doPageAfterLoad
                                 );

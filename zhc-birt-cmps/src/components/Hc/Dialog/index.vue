@@ -51,9 +51,9 @@ import elDragDialog from "@/components/directive/el-drag-dialog";
 
 export default {
   name: "hc-dialog",
-  extends:HcCmpt,
+  extends: HcCmpt,
   mixins: [events],
-  directives: { elDragDialog }, 
+  directives: { elDragDialog },
   computed: {
     visible: {
       get() {
@@ -130,23 +130,32 @@ export default {
         return childWorkBook;
       }
     },
+    // 处理对话框确定返回
     doConfirm() {
       let eventId = this.getEventId("confirm");
       emitter.emit(eventId);
       this.visible = false;
     },
+    // 打开对话框,加载下推参数
     doOpen(param) {
-      this.param = param;
+      debugger;
       this.visible = true;
+      this.param = param;
+      this.$nextTick(() => {
+        this.doContentReload();
+      });
+    },
+    // 执行对话框内容页加载
+    doContentReload() {
+      let childContent = this.getContent();
+      if (childContent && childContent.reload) {
+        childContent.reload.call(childContent, this.param);
+      }
     },
     onOpen() {
       let openFunc = this.conf.events && this.conf.events.open;
       if (openFunc) {
         openFunc.call(this);
-      }
-      let childContent = this.getContent();
-      if (childContent && childContent.reload) {
-        childContent.reload.call(childContent, this.param);
       }
     },
     onOpened() {

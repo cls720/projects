@@ -195,8 +195,7 @@ export const pageOrg = [
                                 pinyin.getCamelChars(node.label);
                             return key.indexOf(value.toUpperCase()) !== -1;
                         },
-                        height: function (parentHeight) {
-                            debugger;
+                        height: function (parentHeight) {                            
                             return parentHeight - 190;
                         },
                         style:
@@ -238,8 +237,7 @@ export const pageOrg = [
                         indent: 0,
                         parentIdField: "parentId",
                         defaultExpandAll: true,
-                        height: function (parentHeight) {
-                            debugger;
+                        height: function (parentHeight) {                            
                             return parentHeight - 120;
                         },
                         children: [
