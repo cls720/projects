@@ -97,7 +97,7 @@ export default {
     };
   },
   provide: function() {
-    return { tableRows: () => this.datas };
+    return { tableRows: () => this.datas};
   },
   mounted() {},
   methods: {

@@ -36,6 +36,7 @@ export default {
               {
                 controlName: "HcEditDataset",
                 controlId: "dsEditRes",
+                rowKey: "resId",
                 data: []
               },
               {

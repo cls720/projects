@@ -6,8 +6,9 @@ import HcDataset from "./HcDataset"
 
 export default class HcEditDataset extends HcDataset {
     constructor(option) {
-        if (option.rowKey) {
-            console.error("数据集主键rowKey未配置")
+        debugger;
+        if (!option.rowKey) {
+            console.error(`数据集${option.controlId}主键rowKey未配置`)
         }
         super(option);
         // 属性是否修改
@@ -20,7 +21,7 @@ export default class HcEditDataset extends HcDataset {
      */
     setData(data) {
         super.setData(data);
-        this.setDirtyData(data);
+        this.setDirtyData(JSON.parse(JSON.stringify(data)));
     }
 
     /**
@@ -43,32 +44,64 @@ export default class HcEditDataset extends HcDataset {
 
     /**
      * 添加数据
-     * @param {*} data 
+     * @param {*} recd 
      */
-    add(data) {
-        this.getData().push(data);
-        this.getDirtyData().push({ ...data, ...{ _state: "rsInsert" } })
+    add(recd) {
+        this.getData().push(recd);
+        this.getDirtyData().push({ ...recd, ...{ _state: "rsInsert" } })
     }
 
-    remove(data) {
+    /**
+     * 修改记录
+     * 
+     * @param {*} recd 
+     * @param {*} field 
+     * @param {*} value 
+     */
+    edit(recd, field, value) {
+        recd[field] = value;
+        let dirtyRecdIndex = this._getRowIndex(recd, this.dirtyData);
+        if (dirtyRecdIndex != -1) {
+            let dirtyRecd = thid.dirtyData[dirtyRecdIndex]
+            dirtyRecd[field] = value;
+            dirtyRecd._state = "rsUpdate";
+        }
+    }
 
+    remove(recd) {
+        debugger
+        let removeIndex = this._getRowIndex(recd, this.data);
+        if (removeIndex != -1) {
+            let removeRecd = this.data[removeIndex];
+            this.data.splice(removeIndex, 1);
+        }
+
+        let removeDirtyIndex = this._getRowIndex(recd, this.dirtyData);
+        if (removeDirtyIndex != -1) {
+            let removeDirtyRecd = this.dirtyData[removeDirtyIndex];
+            if (removeDirtyRecd._state == "rsInsert") {
+                this.dirtyData.splice(removeDirtyIndex, 1);
+            } else {
+                removeDirtyRecd._state = "rsDelete";
+            }
+        }
     }
 
     /**
      * 获取行记录主键值
-     * @param {*} data 
+     * @param {*} recd 
      */
-    _getRowKeyValue(data) {
+    _getRowKeyValue(recd) {
         if (typeof this.rowKey == "string") {
-            return data[this.rowKey]
+            return recd[this.rowKey]
         } else if (Array.isArray(this.rowKey)) {
             let rowKeyValue = "";
             this.rowKey.forEach(fieldName => {
-                rowKeyValue += data[fieldName];
+                rowKeyValue += recd[fieldName];
             });
             return rowKeyValue;
         } else if (typeof this.rowKey == "function") {
-            return this.rowKey.call(this, data);
+            return this.rowKey.call(this, recd);
         }
     }
     /**
@@ -77,8 +110,10 @@ export default class HcEditDataset extends HcDataset {
      * @param {*} data 被查找数据列表
      */
     _getRowIndex(recd, data) {
+        debugger
         let keyValue = this._getRowKeyValue(recd);
-        for (i = 0, l = data.length; i < l; i++) {
+        if (keyValue === undefined) return -1;
+        for (var i = 0, l = data.length; i < l; i++) {
             let curtKeyValue = this._getRowKeyValue(data[i]);
             if (keyValue === curtKeyValue) return i;
         }

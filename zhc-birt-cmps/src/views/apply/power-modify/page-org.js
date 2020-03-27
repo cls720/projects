@@ -195,7 +195,7 @@ export const pageOrg = [
                                 pinyin.getCamelChars(node.label);
                             return key.indexOf(value.toUpperCase()) !== -1;
                         },
-                        height: function (parentHeight) {                            
+                        height: function (parentHeight) {
                             return parentHeight - 190;
                         },
                         style:
@@ -237,7 +237,7 @@ export const pageOrg = [
                         indent: 0,
                         parentIdField: "parentId",
                         defaultExpandAll: true,
-                        height: function (parentHeight) {                            
+                        height: function (parentHeight) {
                             return parentHeight - 120;
                         },
                         children: [
@@ -382,14 +382,20 @@ export const pageOrg = [
                                     controlId: "HcButton_del",
                                     size: "mini",
                                     type: "danger",
-                                    title: "删除"
+                                    title: "删除",
+                                    events: {
+                                        click() {
+                                            debugger;
+                                            this.scope._self.store.remove(this.scope.row)
+                                        }
+                                    }
                                 }]
                             },
                             {
                                 controlName: "HcTableColumn",
                                 controlId: "HcTableColumn_0",
                                 prop: "assignName",
-                                label: "授权来源",
+                                label: "授权对象",
                                 width: 120
                             },
                             {

@@ -2,7 +2,6 @@
  * 复选框全选操作列混入
  */
 export default {
-    inject: ["tableRows"],
     computed: {
         showCheckAll() {
             if (this.conf.showCheckAll == undefined) {

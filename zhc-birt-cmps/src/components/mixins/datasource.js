@@ -20,6 +20,12 @@ export default {
             }
             return retuDatas;
         },
+        store() {
+            if (this.conf.dataset) {
+                let wb = this.getWorkBook();
+                return wb && wb.dataset[this.conf.dataset];
+            }
+        }
     },
     methods: {
 
