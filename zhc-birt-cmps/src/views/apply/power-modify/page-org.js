@@ -62,68 +62,11 @@ export const pageOrg = [
                         events: {
                             click: function () {
                                 debugger;
-                                let orgData = this.getWorkBook().dataset.dsOrg.datas.filter(
-                                    function (recd) {
-                                        return recd._checked;
-                                    }
-                                );
-                                let chkClearorg = this.getRefCompt(
-                                    "HcCheckbox_clearorg"
-                                ).conf.value;
-                                let chkClearres = this.getRefCompt(
-                                    "HcCheckbox_clearres"
-                                ).conf.value;
+                                let saveData = this.getWorkBook().dataset.dsEditRes.getDirtyData();
 
-                                const h = this.$createElement;
-                                let message = [
-                                    h(
-                                        "span",
-                                        {
-                                            style: "line-height:30px;font-size:16px;"
-                                        },
-                                        "是否确认保存?"
-                                    )
-                                ];
-                                if (chkClearorg) {
-                                    message.push(h("br", null, ""));
-                                    message.push(h("i", "确定"));
-                                    message.push(
-                                        h(
-                                            "i",
-                                            { style: "color: red" },
-                                            "分配对象“清空添加”"
-                                        )
-                                    );
-                                    message.push(
-                                        h(
-                                            "i",
-                                            "，即将清空已选组织人员的所有权限，重新分配当前权限"
-                                        )
-                                    );
-                                }
-                                if (
-                                    this.getRefCompt("HcCheckbox_clearres").conf
-                                        .value
-                                ) {
-                                    message.push(h("br", null, ""));
-                                    message.push(h("i", "确定"));
-                                    message.push(
-                                        h(
-                                            "i",
-                                            { style: "color: red" },
-                                            "分配功能“清空添加"
-                                        )
-                                    );
-                                    message.push(
-                                        h(
-                                            "i",
-                                            "，即将清空已选功能菜单的所有权限，重新分配当前权限"
-                                        )
-                                    );
-                                }
                                 this.$msgbox({
                                     title: "保存确认",
-                                    message: h("p", null, message),
+                                    message: "是否确认保存?",
                                     showCancelButton: true,
                                     confirmButtonText: "保存",
                                     cancelButtonText: "取消",
@@ -386,7 +329,15 @@ export const pageOrg = [
                                     events: {
                                         click() {
                                             debugger;
-                                            this.scope._self.store.remove(this.scope.row)
+                                            function deleteChildren(store, recd) {
+                                                if (recd.children) {
+                                                    recd.children.forEach(child => {
+                                                        deleteChildren(store, child);
+                                                    })
+                                                }
+                                                store.remove(recd)
+                                            }
+                                            deleteChildren(this.scope._self.store, this.scope.row);
                                         }
                                     }
                                 }]
@@ -552,11 +503,23 @@ export const pageOrg = [
                 );
                 let curtNode = this.getRefCompt("HcTree_org").elTree().getCurrentNode();
                 retuData.forEach(recd => {
-                    recd.assignId = curtNode.id;
-                    recd.assignName = curtNode.label;
-                    recd.assignKind = curtNode.kind;
+                    if (recd.kind != 'dir') {
+                        recd.assignId = curtNode.id;
+                        recd.assignName = curtNode.label;
+                        recd.assignKind = curtNode.kind;
+                    }
                 })
-                this.getWorkBook().dataset.dsEditRes.setData(retuData);
+                let dsEditRes = this.getWorkBook().dataset.dsEditRes
+                // 添加新增选择
+                dsEditRes.add(retuData);
+                // 删除取消选择    
+                let oldResIds = this.param.resIds;
+                oldResIds.forEach(key => {
+                    for (var i = 0, l = retuData.length; i < l; i++) {
+                        if (key == retuData[i].resId) return;
+                    }
+                    dsEditRes.remove(key);
+                })
             }
         },
         children: [

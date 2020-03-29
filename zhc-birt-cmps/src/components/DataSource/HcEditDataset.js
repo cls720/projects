@@ -44,11 +44,25 @@ export default class HcEditDataset extends HcDataset {
 
     /**
      * 添加数据
-     * @param {*} recd 
+     * @param {*} data 
      */
-    add(recd) {
-        this.getData().push(recd);
-        this.getDirtyData().push({ ...recd, ...{ _state: "rsInsert" } })
+    add(data) {
+        if (Array.isArray(data)) {
+            data.forEach(recd => {
+                this._addRecd(recd);
+            })
+        } else {
+            this._addRecd(data);
+        }
+    }
+
+    _addRecd(recd) {
+        let existIndex = this._getRowIndex(recd, this.data);
+        if (existIndex == -1) {
+            this.getData().push(recd);
+            this.getDirtyData().push({ ...recd, ...{ _state: "rsInsert" } })
+            this._setDirty(true);
+        }
     }
 
     /**
@@ -65,26 +79,33 @@ export default class HcEditDataset extends HcDataset {
             let dirtyRecd = thid.dirtyData[dirtyRecdIndex]
             dirtyRecd[field] = value;
             dirtyRecd._state = "rsUpdate";
+            this._setDirty(true);
         }
     }
 
-    remove(recd) {
+    remove(recdOrKey) {
         debugger
-        let removeIndex = this._getRowIndex(recd, this.data);
+        let removeIndex = this._getRowIndex(recdOrKey, this.data);
         if (removeIndex != -1) {
             let removeRecd = this.data[removeIndex];
             this.data.splice(removeIndex, 1);
         }
 
-        let removeDirtyIndex = this._getRowIndex(recd, this.dirtyData);
+        let removeDirtyIndex = this._getRowIndex(recdOrKey, this.dirtyData);
         if (removeDirtyIndex != -1) {
             let removeDirtyRecd = this.dirtyData[removeDirtyIndex];
             if (removeDirtyRecd._state == "rsInsert") {
                 this.dirtyData.splice(removeDirtyIndex, 1);
             } else {
                 removeDirtyRecd._state = "rsDelete";
+                this._setDirty(true);
             }
         }
+    }
+
+    // 标记数据是否更改
+    _setDirty(isDirty) {
+        this._dirty = isDirty;
     }
 
     /**
@@ -92,6 +113,7 @@ export default class HcEditDataset extends HcDataset {
      * @param {*} recd 
      */
     _getRowKeyValue(recd) {
+        if (typeof recd == "string") return recd;
         if (typeof this.rowKey == "string") {
             return recd[this.rowKey]
         } else if (Array.isArray(this.rowKey)) {
@@ -106,11 +128,10 @@ export default class HcEditDataset extends HcDataset {
     }
     /**
      * 获取数据下标
-     * @param {*} recd 查找记录对象
+     * @param {*} recd 查找记录对象或key值
      * @param {*} data 被查找数据列表
      */
     _getRowIndex(recd, data) {
-        debugger
         let keyValue = this._getRowKeyValue(recd);
         if (keyValue === undefined) return -1;
         for (var i = 0, l = data.length; i < l; i++) {
