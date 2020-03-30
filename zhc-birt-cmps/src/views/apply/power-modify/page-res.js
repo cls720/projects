@@ -23,21 +23,21 @@ export const pageRes = [
                             {
                                 controlName: "HcStep",
                                 controlId: "HcStep_1",
-                                title: "选择分配对象",
+                                title: "选择修改功能",
                                 icon: "el-icon-user",
                                 status: "process"
                             },
                             {
                                 controlName: "HcStep",
                                 controlId: "HcStep_2",
-                                title: "选择预分配功能",
+                                title: "选择授权对象",
                                 icon: "el-icon-s-order",
                                 status: "process"
                             },
                             {
                                 controlName: "HcStep",
                                 controlId: "HcStep_3",
-                                title: "分配数据权限、操作权限",
+                                title: "修改数据权限、操作权限",
                                 icon: "el-icon-key",
                                 status: "process",
                                 style: "color:red"
@@ -57,73 +57,17 @@ export const pageRes = [
                         title: "保存",
                         type: "primary",
                         icon: "el-icon-s-claim",
-                        disabled: false,
+                        disabled: true,
                         style: "width:95%;font-size:16px;",
                         events: {
                             click: function () {
                                 debugger;
-                                let orgData = this.getWorkBook().dataset.dsOrg.datas.filter(
-                                    function (recd) {
-                                        return recd._checked;
-                                    }
-                                );
-                                let chkClearorg = this.getRefCompt(
-                                    "HcCheckbox_clearorg"
-                                ).conf.value;
-                                let chkClearres = this.getRefCompt(
-                                    "HcCheckbox_clearres"
-                                ).conf.value;
+                                let saveData = this.getWorkBook().dataset.dsEditRes2.getData();
+                                let saveDirtyData = this.getWorkBook().dataset.dsEditRes2.getDirtyData();
 
-                                const h = this.$createElement;
-                                let message = [
-                                    h(
-                                        "span",
-                                        {
-                                            style: "line-height:30px;font-size:16px;"
-                                        },
-                                        "是否确认保存?"
-                                    )
-                                ];
-                                if (chkClearorg) {
-                                    message.push(h("br", null, ""));
-                                    message.push(h("i", "确定"));
-                                    message.push(
-                                        h(
-                                            "i",
-                                            { style: "color: red" },
-                                            "分配对象“清空添加”"
-                                        )
-                                    );
-                                    message.push(
-                                        h(
-                                            "i",
-                                            "，即将清空已选组织人员的所有权限，重新分配当前权限"
-                                        )
-                                    );
-                                }
-                                if (
-                                    this.getRefCompt("HcCheckbox_clearres").conf
-                                        .value
-                                ) {
-                                    message.push(h("br", null, ""));
-                                    message.push(h("i", "确定"));
-                                    message.push(
-                                        h(
-                                            "i",
-                                            { style: "color: red" },
-                                            "分配功能“清空添加"
-                                        )
-                                    );
-                                    message.push(
-                                        h(
-                                            "i",
-                                            "，即将清空已选功能菜单的所有权限，重新分配当前权限"
-                                        )
-                                    );
-                                }
                                 this.$msgbox({
                                     title: "保存确认",
-                                    message: h("p", null, message),
+                                    message: "是否确认保存?",
                                     showCancelButton: true,
                                     confirmButtonText: "保存",
                                     cancelButtonText: "取消",
@@ -148,6 +92,15 @@ export const pageRes = [
                                     });
                                 });
                             }
+                        },
+                        mounted: function () {
+                            debugger
+                            let dsEditRes2 = this.getWorkBook().dataset.dsEditRes2;
+                            let me = this;
+                            dsEditRes2.on("dirtyChange", (isDirty) => {
+                                debugger
+                                me.conf.disabled = !isDirty;
+                            })
                         }
                     }
                 ]
@@ -209,7 +162,7 @@ export const pageRes = [
                                 axios.get('/api/res/check?id=' + data.resId, { params: param })
                                     .then(function (response) {
                                         debugger;
-                                        let targetDataset = me.getWorkBook().dataset.dsResUser;
+                                        let targetDataset = me.getWorkBook().dataset.dsEditRes2;
                                         targetDataset.setData(response.data.dataPack.rows || []);
                                     })
                                     .catch(function (error) {
@@ -228,8 +181,8 @@ export const pageRes = [
                 children: [
                     {
                         controlName: "HcTable",
-                        controlId: "HcTable_resuser",
-                        dataset: "dsRes2",
+                        controlId: "HcTable_res2",
+                        dataset: "dsEditRes2",
                         rowKey: "rowIndex",
                         // idField: "resId",
                         // parentIdField: "parentId",
@@ -249,7 +202,7 @@ export const pageRes = [
                                 controlName: "HcTableColumn",
                                 controlId: "HcTableColumn_0",
                                 prop: "assignName",
-                                label: "授权来源",
+                                label: "授权对象",
                                 minWidth: 200,
                                 children: [
                                     {
@@ -258,22 +211,22 @@ export const pageRes = [
                                         slot: "header",
                                         fireAction: "keyup",
                                         size: "small",
-                                        placeholder: "授权来源",
+                                        placeholder: "授权对象",
                                         events: {
                                             filterChange: function (filterKey, datas) {
                                                 debugger;
                                                 let hcTable = this.getRefCompt(
-                                                    "HcTable_res"
+                                                    "HcTable_res2"
                                                 );
                                                 if (filterKey) {
                                                     hcTable.$set(
                                                         hcTable.filterConf,
-                                                        "name",
+                                                        "assignName",
                                                         function filterRecd(recd) {
                                                             let key =
-                                                                recd.name +
+                                                                recd.assignName +
                                                                 "_" +
-                                                                pinyin.getCamelChars(recd.name);
+                                                                pinyin.getCamelChars(recd.assignName);
                                                             return (
                                                                 key.indexOf(
                                                                     filterKey.toUpperCase()
@@ -284,7 +237,7 @@ export const pageRes = [
                                                 } else {
                                                     hcTable.$delete(
                                                         hcTable.filterConf,
-                                                        "name"
+                                                        "assignName"
                                                     );
                                                 }
                                             }
@@ -298,17 +251,17 @@ export const pageRes = [
                                                 events: {
                                                     click: function () {
                                                         debugger;
-                                                        let resKeys = [];
-                                                        this.getWorkBook().dataset.dsRes.getData().forEach(
+                                                        let orgKeys = [];
+                                                        this.getWorkBook().dataset.dsEditRes2.getData().forEach(
                                                             recd => {
                                                                 if (recd.type != "dir")
-                                                                    resKeys.push(recd.resId);
+                                                                    orgKeys.push(recd.assignId);
                                                             }
                                                         );
                                                         this.getRefCompt(
-                                                            "HcDialog_res"
+                                                            "HcDialog_org"
                                                         ).doOpen({
-                                                            resIds: resKeys
+                                                            orgIds: orgKeys
                                                         });
                                                     }
                                                 }
@@ -316,6 +269,34 @@ export const pageRes = [
                                         ]
                                     }
                                 ]
+                            },
+                            {
+                                controlName: "HcTableColumn",
+                                controlId: "HcTableColumn_operate2",
+                                label: "操作",
+                                width: 80,
+                                slot: "scope",
+                                children: [{
+                                    controlName: "HcButton",
+                                    controlId: "HcButton_del",
+                                    size: "mini",
+                                    type: "danger",
+                                    title: "删除",
+                                    events: {
+                                        click() {
+                                            debugger;
+                                            function deleteChildren(store, recd) {
+                                                if (recd.children) {
+                                                    recd.children.forEach(child => {
+                                                        deleteChildren(store, child);
+                                                    })
+                                                }
+                                                store.remove(recd)
+                                            }
+                                            deleteChildren(this.scope._self.store, this.scope.row);
+                                        }
+                                    }
+                                }]
                             },
                             {
                                 controlName: "HcTableColumn",
@@ -332,8 +313,6 @@ export const pageRes = [
                                                 return false;
                                             }
                                         },
-                                        disabled: true,
-                                        showCheckAll: false,
                                         prop: "daValue",
                                         radioValue: "daPower.personalScheme.value",
                                         label: "个人",
@@ -349,8 +328,6 @@ export const pageRes = [
                                                 return false;
                                             }
                                         },
-                                        disabled: true,
-                                        showCheckAll: false,
                                         prop: "daValue",
                                         radioValue: "daPower.groupScheme.value",
                                         label: "团队",
@@ -366,8 +343,6 @@ export const pageRes = [
                                                 return false;
                                             }
                                         },
-                                        disabled: true,
-                                        showCheckAll: false,
                                         prop: "daValue",
                                         radioValue: "daPower.businessScheme.value",
                                         label: "企业",
@@ -383,7 +358,6 @@ export const pageRes = [
                                                 return false;
                                             }
                                         },
-                                        disabled: true,
                                         showCheckAll: false,
                                         prop: "daValue",
                                         radioValue: "daPower.others",
@@ -408,8 +382,6 @@ export const pageRes = [
                                                 return false;
                                             }
                                         },
-                                        disabled: true,
-                                        showCheckAll: false,
                                         prop: "opAdd",
                                         label: "添加",
                                         width: 75
@@ -424,8 +396,6 @@ export const pageRes = [
                                                 return false;
                                             }
                                         },
-                                        disabled: true,
-                                        showCheckAll: false,
                                         prop: "opEdit",
                                         label: "修改",
                                         width: 75
@@ -440,8 +410,6 @@ export const pageRes = [
                                                 return false;
                                             }
                                         },
-                                        disabled: true,
-                                        showCheckAll: false,
                                         prop: "opDelete",
                                         label: "删除",
                                         width: 75
@@ -456,8 +424,6 @@ export const pageRes = [
                                                 return false;
                                             }
                                         },
-                                        disabled: true,
-                                        showCheckAll: false,
                                         prop: "opExport",
                                         label: "导出",
                                         width: 75
@@ -472,22 +438,39 @@ export const pageRes = [
     },
     {
         controlName: "HcDialog",
-        controlId: "HcDialog_res",
+        controlId: "HcDialog_org",
         visible: false,
         title: "选择分配对象",
         footer: ["cancel", "confirm"],
         events: {
             confirm: function () {
                 debugger;
-                let retuData = this.getContent().dataset.dsRes2.getData().filter(
+                let retuData = this.getContent().dataset.dsOrg.getData().filter(
                     function (recd) {
                         return recd._checked;
                     }
                 );
-                this.getWorkBook().dataset.dsRes2.setData(retuData);
+                let curtNode = this.getRefCompt("HcTree_restree").elTree().getCurrentNode();
+                retuData.forEach(recd => {
+                    if (recd.kind != 'dir') {
+                        recd.resId = curtNode.resId;
+                        recd.name = curtNode.name;
+                    }
+                })
+                let dsEditRes2 = this.getWorkBook().dataset.dsEditRes2
+                // 添加新增选择
+                dsEditRes2.add(retuData);
+                // 删除取消选择    
+                let oldOrgIds = this.param.orgIds || [];
+                oldOrgIds.forEach(key => {
+                    for (var i = 0, l = retuData.length; i < l; i++) {
+                        if (key == retuData[i].id) return;
+                    }
+                    dsEditRes.remove(key);
+                })
             }
         },
         children: [
-            //pageDlgorg
+            pageDlgorg
         ]
     }]

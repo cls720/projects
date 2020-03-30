@@ -1,8 +1,9 @@
-import { resources } from "./resources";
+import pinyin from "js-pinyin";
+import { allData } from "./org.js";
 
-export const pageDlgres = {
+export const pageDlgorg = {
     controlName: "BirtWorkBook",
-    controlId: "BirtWorkBook_0",
+    controlId: "BirtWorkBook_dlgorg",
     showToolBar: false,
     totalPage: 1,
     renderType: "pages",
@@ -16,8 +17,8 @@ export const pageDlgres = {
             dataSets: [
                 {
                     controlName: "JsWebSocketDataSet",
-                    controlId: "dsRes",
-                    datas: resources
+                    controlId: "dsOrg",
+                    datas: allData
                 }
             ],
             children: [
@@ -32,7 +33,7 @@ export const pageDlgres = {
                             events: {
                                 filterChange: function (filterKey, datas) {
                                     debugger;
-                                    this.getRefCompt("HcTree_res").filter(
+                                    this.getRefCompt("HcTree_org").filter(
                                         filterKey
                                     );
                                 }
@@ -71,7 +72,7 @@ export const pageDlgres = {
                                     events: {
                                         change: function (val) {
                                             this.getRefCompt(
-                                                "HcTree_res"
+                                                "HcTree_org"
                                             ).filter(val);
                                         }
                                     }
@@ -80,12 +81,12 @@ export const pageDlgres = {
                         },
                         {
                             controlName: "HcTree",
-                            controlId: "HcTree_res",
-                            dataset: "dsRes",
+                            controlId: "HcTree_org",
+                            dataset: "dsOrg",
                             isTreeData: false,
-                            idField: "resId",
-                            parentIdField: "parentId",
-                            labelField: "name",
+                            idField: "id",
+                            parentIdField: "pid",
+                            labelField: "label",
                             showCheckbox: true,
                             defaultExpandAll: true,
                             filterNodeMethod: function (
@@ -124,7 +125,7 @@ export const pageDlgres = {
                                 }
                             },
                             mounted: function () {
-                                this.getRefCompt("BirtWorkBook_0").on(
+                                this.getRefCompt("BirtWorkBook_dlgorg").on(
                                     "afterLoad",
                                     doPageAfterLoad
                                 );
@@ -132,7 +133,7 @@ export const pageDlgres = {
                                 function doPageAfterLoad(param) {
                                     debugger;
                                     me.elTree().setCheckedKeys(
-                                        param.resIds
+                                        param.orgIds
                                     );
                                 }
                             }

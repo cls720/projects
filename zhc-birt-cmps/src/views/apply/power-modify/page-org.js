@@ -57,7 +57,7 @@ export const pageOrg = [
                         title: "保存",
                         type: "primary",
                         icon: "el-icon-s-claim",
-                        disabled: false,
+                        disabled: true,
                         style: "width:95%;font-size:16px;",
                         events: {
                             click: function () {
@@ -92,6 +92,15 @@ export const pageOrg = [
                                     });
                                 });
                             }
+                        },
+                        mounted: function () {
+                            debugger
+                            let dsEditRes = this.getWorkBook().dataset.dsEditRes;
+                            let me = this;
+                            dsEditRes.on("dirtyChange", (isDirty) => {
+                                debugger
+                                me.conf.disabled = !isDirty;
+                            })
                         }
                     }
                 ]
@@ -126,7 +135,7 @@ export const pageOrg = [
                     {
                         controlName: "HcTree",
                         controlId: "HcTree_org",
-                        dataset: "dsOrg",
+                        dataset: "dsOrgTree",
                         isTreeData: false,
                         idField: "id",
                         parentIdField: "pid",
@@ -185,7 +194,6 @@ export const pageOrg = [
                             return parentHeight - 120;
                         },
                         children: [
-
                             {
                                 controlName: "HcTableColumn",
                                 controlId: "HcTableColumn_0",
@@ -317,6 +325,13 @@ export const pageOrg = [
                             },
                             {
                                 controlName: "HcTableColumn",
+                                controlId: "HcTableColumn_0",
+                                prop: "assignName",
+                                label: "授权对象",
+                                width: 120
+                            },
+                            {
+                                controlName: "HcTableColumn",
                                 controlId: "HcTableColumn_operate",
                                 label: "操作",
                                 width: 80,
@@ -342,14 +357,7 @@ export const pageOrg = [
                                         }
                                     }
                                 }]
-                            },
-                            {
-                                controlName: "HcTableColumn",
-                                controlId: "HcTableColumn_0",
-                                prop: "assignName",
-                                label: "授权对象",
-                                width: 120
-                            },
+                            },                    
                             {
                                 controlName: "HcTableColumn",
                                 controlId: "HcTableColumn_2",

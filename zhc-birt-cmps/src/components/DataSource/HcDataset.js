@@ -61,4 +61,19 @@ export default class HcDataset {
         this.setData(data, option);
         emitter.emit("afterLoadData" + this.controlId, data);
     }
+
+    /**
+    * 注册控件事件
+    * eventName 事件名
+    * callBackFunc 回调函数    
+    */
+    on(eventName, callBackFunc) {
+        let args = [...arguments]
+        args.shift();
+        let me = this;
+        // 处理控件自定义事件
+        emitter.on(eventName + this.controlId, (...args) => {
+            callBackFunc.call(me, ...args);
+        });
+    }
 }

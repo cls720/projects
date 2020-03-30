@@ -1,3 +1,4 @@
+import pinyin from "js-pinyin";
 import { resources } from "./resources";
 
 export const pageDlgres = {

@@ -127,7 +127,10 @@ export default class HcEditDataset extends HcDataset {
 
     // 标记数据是否更改
     _setDirty(isDirty) {
-        this._dirty = isDirty;
+        if (this._dirty !== isDirty) {
+            this._dirty = isDirty;
+            emitter.emit("dirtyChange" + this.controlId, isDirty);
+        }
     }
 
     /**

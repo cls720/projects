@@ -82,6 +82,7 @@ export default {
       return rest;
     },
     titleChildren() {
+      debugger
       let rest = [];
       (this.conf.children || []).forEach(child => {
         if (child.slot == "title") {

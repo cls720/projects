@@ -30,7 +30,7 @@ export default {
             dataSets: [
               {
                 controlName: "JsWebSocketDataSet",
-                controlId: "dsOrg",
+                controlId: "dsOrgTree",
                 datas: allData
               },
               {
@@ -45,8 +45,9 @@ export default {
                 datas: resources
               },
               {
-                controlName: "HcDataset",
-                controlId: "dsRes2",
+                controlName: "HcEditDataset",
+                controlId: "dsEditRes2",
+                rowKey: "assignId",
                 data: []
               }
             ],
