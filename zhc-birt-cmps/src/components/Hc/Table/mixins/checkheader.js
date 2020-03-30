@@ -39,9 +39,14 @@ export default {
          * 设置所有行选中值
          */
         setRowCheckAll(rows, checked) {
+            debugger
             let me = this;
+            let store = this.store();
             rows.forEach(row => {
                 row[me.prop] = checked;
+                if (store && store.edit) {
+                    store.edit(row, me.prop)
+                }
                 if (row.children) {
                     me.setRowCheckAll(row.children, checked);
                 }
@@ -49,7 +54,12 @@ export default {
         },
         setRowChange(scope) {
             debugger;
-            scope._self.datas[scope.$index][this.prop] = scope.row[this.prop];
+            let store = scope._self.store;
+            if (store && store.edit) {
+                store.edit(scope.row, this.prop)
+            } else {
+                scope._self.datas[scope.$index][this.prop] = scope.row[this.prop];
+            }
         }
     }
 }

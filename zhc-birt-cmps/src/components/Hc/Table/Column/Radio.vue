@@ -81,13 +81,21 @@ export default {
      * 设置所有行选中值
      */
     setRowCheckAll(rows, checked) {
+      debugger;
+      let store = this.store();
       rows.forEach(row => {
         let rv = this.getBindVar(row, this.radioValue);
         if (checked) {
           row[this.prop] = rv;
+          if (store && store.edit) {
+            store.edit(row, this.prop);
+          }
         } else {
           if (row[this.prop] == rv) {
             row[this.prop] = "";
+            if (store && store.edit) {
+              store.edit(row, this.prop);
+            }
           }
         }
         //row[this.prop] = checked ? this.getBindVar(row, this.radioValue) : "";

@@ -21,8 +21,7 @@ export default {
     /**
     * 注册控件事件
     * eventName 事件名
-    * callBackFunc 回调函数
-    * params 附加参数
+    * callBackFunc 回调函数    
     */
     on(eventName, callBackFunc) {      
       let args = [...arguments]

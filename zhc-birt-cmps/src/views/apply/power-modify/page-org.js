@@ -62,7 +62,8 @@ export const pageOrg = [
                         events: {
                             click: function () {
                                 debugger;
-                                let saveData = this.getWorkBook().dataset.dsEditRes.getDirtyData();
+                                let saveData = this.getWorkBook().dataset.dsEditRes.getData();
+                                let saveDirtyData = this.getWorkBook().dataset.dsEditRes.getDirtyData();
 
                                 this.$msgbox({
                                     title: "保存确认",

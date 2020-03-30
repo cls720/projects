@@ -68,16 +68,33 @@ export default class HcEditDataset extends HcDataset {
     /**
      * 修改记录
      * 
-     * @param {*} recd 
-     * @param {*} field 
-     * @param {*} value 
+     * @param {*} recd 修改记录
+     * @param {*} field 修改字段列表 string|array
      */
-    edit(recd, field, value) {
-        recd[field] = value;
-        let dirtyRecdIndex = this._getRowIndex(recd, this.dirtyData);
-        if (dirtyRecdIndex != -1) {
-            let dirtyRecd = thid.dirtyData[dirtyRecdIndex]
-            dirtyRecd[field] = value;
+    edit(recd, field) {
+        debugger
+        let editIndex = this._getRowIndex(recd, this.data);
+        if (editIndex != -1) {
+            let editRecd = this.data[editIndex];
+            if (typeof field == "string") {
+                editRecd[field] = recd[field];
+            } else if (Array.isArray(field)) {
+                field.forEach(f => {
+                    editRecd[f] = recd[f];
+                })
+            }
+        }
+
+        let dirtyEditIndex = this._getRowIndex(recd, this.dirtyData);
+        if (dirtyEditIndex != -1) {
+            let dirtyRecd = this.dirtyData[dirtyEditIndex]
+            if (typeof field == "string") {
+                dirtyRecd[field] = recd[field];
+            } else if (Array.isArray(field)) {
+                field.forEach(f => {
+                    dirtyRecd[f] = recd[f];
+                })
+            }
             dirtyRecd._state = "rsUpdate";
             this._setDirty(true);
         }
@@ -101,6 +118,11 @@ export default class HcEditDataset extends HcDataset {
                 this._setDirty(true);
             }
         }
+    }
+
+    // 是否有修改数据
+    isDirty() {
+        return this._dirty;
     }
 
     // 标记数据是否更改

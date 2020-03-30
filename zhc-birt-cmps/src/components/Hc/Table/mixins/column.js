@@ -2,7 +2,7 @@
  * 表格列混入,定义列共有属性方法
  */
 export default {
-    inject: ["tableRows"],
+    inject: ["tableRows", "store"],
     props: {
     },
     computed: {
