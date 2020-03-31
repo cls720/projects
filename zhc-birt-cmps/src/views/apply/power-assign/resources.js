@@ -22,10 +22,7 @@ export const resources = [
                 "name": "个人",
                 "value": "AccessPlan_BZP"
             },
-            "groupScheme": {
-                "name": "团队",
-                "value": "AccessPlan_BZG"
-            },
+           
             "businessScheme": {
                 "name": "企业",
                 "value": "AccessPlan_BZQ"

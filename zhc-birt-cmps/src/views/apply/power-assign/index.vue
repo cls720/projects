@@ -10,6 +10,8 @@ import pinyin from "js-pinyin";
 import { allData } from "./org.js";
 import { resources } from "./resources";
 
+const resources2 = JSON.parse(JSON.stringify(resources));
+
 export default {
   data() {
     return {
@@ -32,9 +34,10 @@ export default {
                 datas: allData
               },
               {
-                controlName: "JsWebSocketDataSet",
+                controlName: "HcEditDataset",
                 controlId: "dsRes",
-                datas: []
+                rowKey: "resId",
+                data: []
               }
             ],
             children: [
@@ -412,12 +415,12 @@ export default {
                                           click: function() {
                                             debugger;
                                             let resKeys = [];
-                                            this.getWorkBook().dataset.dsRes.datas.forEach(
-                                              recd => {
+                                            this.getWorkBook()
+                                              .dataset.dsRes.getData()
+                                              .forEach(recd => {
                                                 if (recd.type != "dir")
                                                   resKeys.push(recd.resId);
-                                              }
-                                            );
+                                              });
                                             this.getRefCompt(
                                               "HcDialog_res"
                                             ).doOpen({
@@ -528,6 +531,39 @@ export default {
                               },
                               {
                                 controlName: "HcTableColumn",
+                                controlId: "HcTableColumn_operate",
+                                label: "操作",
+                                width: 80,
+                                slot: "scope",
+                                children: [
+                                  {
+                                    controlName: "HcButton",
+                                    controlId: "HcButton_del",
+                                    size: "mini",
+                                    type: "danger",
+                                    title: "删除",
+                                    events: {
+                                      click() {
+                                        debugger;
+                                        function deleteChildren(store, recd) {
+                                          if (recd.children) {
+                                            recd.children.forEach(child => {
+                                              deleteChildren(store, child);
+                                            });
+                                          }
+                                          store.remove(recd);
+                                        }
+                                        deleteChildren(
+                                          this.scope._self.store,
+                                          this.scope.row
+                                        );
+                                      }
+                                    }
+                                  }
+                                ]
+                              },
+                              {
+                                controlName: "HcTableColumn",
                                 controlId: "HcTableColumn_2",
                                 label: "数据权限分配",
                                 children: [
@@ -535,7 +571,10 @@ export default {
                                     controlName: "HcTableColumnRadio",
                                     controlId: "HcTableColumn_2_1",
                                     isShow: function(row) {
-                                      if (row.daPower) {
+                                      if (
+                                        row.daPower &&
+                                        row.daPower.personalScheme
+                                      ) {
                                         return true;
                                       } else {
                                         return false;
@@ -550,7 +589,10 @@ export default {
                                     controlName: "HcTableColumnRadio",
                                     controlId: "HcTableColumn_2_2",
                                     isShow: function(row) {
-                                      if (row.daPower) {
+                                      if (
+                                        row.daPower &&
+                                        row.daPower.groupScheme
+                                      ) {
                                         return true;
                                       } else {
                                         return false;
@@ -565,7 +607,10 @@ export default {
                                     controlName: "HcTableColumnRadio",
                                     controlId: "HcTableColumn_2_3",
                                     isShow: function(row) {
-                                      if (row.daPower) {
+                                      if (
+                                        row.daPower &&
+                                        row.daPower.businessScheme
+                                      ) {
                                         return true;
                                       } else {
                                         return false;
@@ -673,12 +718,23 @@ export default {
                     events: {
                       confirm: function() {
                         debugger;
-                        let retuData = this.getContent().dataset.dsRes.datas.filter(
-                          function(recd) {
+                        let retuData = this.getContent()
+                          .dataset.dsRes2.getData()
+                          .filter(function(recd) {
                             return recd._checked;
+                          });
+
+                        let dsRes = this.getWorkBook().dataset.dsRes;
+                        // 添加新增选择
+                        dsRes.add(retuData);
+                        // 删除取消选择
+                        let oldResIds = this.param.resIds;
+                        oldResIds.forEach(key => {
+                          for (var i = 0, l = retuData.length; i < l; i++) {
+                            if (key == retuData[i].resId) return;
                           }
-                        );
-                        this.getWorkBook().dataset.dsRes.setData(retuData);
+                          dsRes.remove(key);
+                        });
                       }
                     },
                     children: [
@@ -698,8 +754,8 @@ export default {
                             dataSets: [
                               {
                                 controlName: "JsWebSocketDataSet",
-                                controlId: "dsRes",
-                                datas: resources
+                                controlId: "dsRes2",
+                                datas: resources2
                               }
                             ],
                             children: [
@@ -763,7 +819,7 @@ export default {
                                   {
                                     controlName: "HcTree",
                                     controlId: "HcTree_res",
-                                    dataset: "dsRes",
+                                    dataset: "dsRes2",
                                     isTreeData: false,
                                     idField: "resId",
                                     parentIdField: "parentId",

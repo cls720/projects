@@ -13,6 +13,7 @@ export default class HcEditDataset extends HcDataset {
         super(option);
         // 属性是否修改
         this._dirty = false;
+        this.dirtyData = [];
     }
 
     /**
@@ -28,7 +29,7 @@ export default class HcEditDataset extends HcDataset {
      * 获取数据集修改后的数据
      */
     getDirtyData() {
-        return this.dirtyData || [];
+        return this.dirtyData;
     }
 
     /**
@@ -36,9 +37,6 @@ export default class HcEditDataset extends HcDataset {
      * @param {*} data 
      */
     setDirtyData(data) {
-        if (!this.dirtyData) {
-            this.dirtyData = [];
-        }
         this.dirtyData.splice(0, this.dirtyData.length, ...data);
     }
 
