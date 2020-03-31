@@ -80,49 +80,35 @@ export const pageDlgorg = {
                             ]
                         },
                         {
-                            controlName: "HcTree",
+                            controlName: "HcTable",
                             controlId: "HcTree_org",
                             dataset: "dsOrg",
-                            isTreeData: false,
+                            rowKey: "id",
                             idField: "id",
                             parentIdField: "pid",
-                            labelField: "label",
-                            showCheckbox: true,
                             defaultExpandAll: true,
-                            filterNodeMethod: function (
-                                value,
-                                data,
-                                node
-                            ) {
-                                debugger;
-                                if (!value || value === "0") return true;
-                                if (value === "1") return node.checked;
-                                if (value === "2") return !node.checked;
-                                let key =
-                                    node.label +
-                                    "_" +
-                                    pinyin.getCamelChars(node.label);
-                                return (
-                                    key.indexOf(value.toUpperCase()) !== -1
-                                );
-                            },
+                            children: [
+                                {
+                                    controlName: "HcTableColumn",
+                                    controlId: "HcTableColumn_chk",
+                                    type: "selection",
+                                    width: 55
+                                },
+                                {
+                                    controlName: "HcTableColumn",
+                                    controlId: "HcTableColumn_0",
+                                    prop: "label",
+                                    label: "组织名称",
+                                    minWidth: 300,
+                                }, {
+                                    controlName: "HcTableColumn",
+                                    controlId: "HcTableColumn_0",
+                                    prop: "kind",
+                                    label: "类型",
+                                    minWidth: 300,
+                                }],
                             events: {
-                                checkChange: function (
-                                    data,
-                                    checked,
-                                    node
-                                ) {
-                                    debugger;
-                                    let checkNodes = this.elTree().getCheckedNodes(
-                                        false,
-                                        true
-                                    );
-                                    let keys = [];
-                                    checkNodes.forEach(recd => {
-                                        keys.push(recd.resId);
-                                    });
-                                    this.setDatasChecked(keys);
-                                }
+
                             },
                             mounted: function () {
                                 this.getRefCompt("BirtWorkBook_dlgorg").on(

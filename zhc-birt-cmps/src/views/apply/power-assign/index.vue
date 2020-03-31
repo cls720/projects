@@ -10,8 +10,6 @@ import pinyin from "js-pinyin";
 import { allData } from "./org.js";
 import { resources } from "./resources";
 
-const resources2 = JSON.parse(JSON.stringify(resources));
-
 export default {
   data() {
     return {
@@ -99,7 +97,7 @@ export default {
                             title: "保存",
                             type: "primary",
                             icon: "el-icon-s-claim",
-                            disabled: false,
+                            disabled: true,
                             style: "width:95%;font-size:16px;",
                             events: {
                               click: function() {
@@ -190,6 +188,15 @@ export default {
                                   });
                                 });
                               }
+                            },
+                            mounted: function() {
+                              debugger;
+                              let dsRes = this.getWorkBook().dataset.dsRes;
+                              let me = this;
+                              dsRes.on("dirtyChange", isDirty => {
+                                debugger;
+                                me.conf.disabled = !isDirty;
+                              });
                             }
                           }
                         ]
@@ -755,7 +762,7 @@ export default {
                               {
                                 controlName: "JsWebSocketDataSet",
                                 controlId: "dsRes2",
-                                datas: resources2
+                                datas: resources
                               }
                             ],
                             children: [

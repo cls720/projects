@@ -473,4 +473,5 @@ export const pageRes = [
         children: [
             pageDlgorg
         ]
-    }]
+    }
+]

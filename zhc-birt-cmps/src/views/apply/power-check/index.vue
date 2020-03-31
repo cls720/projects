@@ -7,7 +7,7 @@
 <script>
 import pinyin from "js-pinyin";
 
-import { allData, ryData2 } from "./org.js";
+import { ryData2 } from "./org.js";
 import { resources, res1001, res1003 } from "./resources";
 import { pageUser } from "./page-user";
 import { pageRes } from "./page-res";

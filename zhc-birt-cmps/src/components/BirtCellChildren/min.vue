@@ -12,7 +12,7 @@
         :ref="child.controlId"
         :key="child.controlId"
         :conf="child"
-      /> -->
+      />-->
       <birt-form-sheet
         v-if="child.controlName=='BirtFormSheet'"
         :ref="child.controlId"
@@ -44,6 +44,7 @@
         :ref="child.controlId"
         :key="child.controlId"
         :conf="child"
+        :scope="scope"
       />
       <hc-radio-group
         v-if="child.controlName=='HcRadioGroup'"
@@ -87,7 +88,7 @@
         :ref="child.controlId"
         :key="child.controlId"
         :conf="child"
-        :dataset-datas="getParentDataSet(child.dataset).datas"
+        :dataset-datas="getParentDataSet(child.dataset).getData()"
       />
       <hc-loop-scroll
         v-if="child.controlName=='HcLoopScroll'"
@@ -124,21 +125,21 @@
         :ref="child.controlId"
         :key="child.controlId"
         :conf="child"
-        :dataset-datas="getParentDataSet(child.dataset).datas"
+        :dataset-datas="getParentDataSet(child.dataset).getData()"
       />
       <hc-table
         v-if="child.controlName=='HcTable'"
         :ref="child.controlId"
         :key="child.controlId"
         :conf="child"
-        :dataset-datas="getParentDataSet(child.dataset).datas"
+        :dataset-datas="getParentDataSet(child.dataset).getData()"
       />
       <hc-tree
         v-if="child.controlName=='HcTree'"
         :ref="child.controlId"
         :key="child.controlId"
         :conf="child"
-        :dataset-datas="getParentDataSet(child.dataset).datas"
+        :dataset-datas="getParentDataSet(child.dataset).getData()"
       />
       <hc-input-filter
         v-if="child.controlName=='HcInputFilter'"
@@ -156,37 +157,13 @@
   </div>
 </template>
 
+
 <script>
+import cellchildren from "./mixins/cellchildren";
+
 export default {
   name: "BirtCellChildren",
-  props: {
-    children: {
-      type: Array,
-      required: true,
-      default: function() {
-        return [];
-      }
-    }
-  },
-  data() {
-    return {};
-  },
-  computed: {},
-  methods: {
-    getParentDataSet(datasetId) {
-      // if (!datasetId) console.error("未绑定数据集Id");
-      if (!datasetId) return {};
-      let parent = this.$parent;
-      while (parent) {
-        if (parent.getDataSetInstance) {
-          return parent.getDataSetInstance(datasetId);
-        }
-        parent = parent.$parent;
-      }
-    }
-  }
+  mixins: [cellchildren]
 };
 </script>
 
-<style scoped>
-</style>
