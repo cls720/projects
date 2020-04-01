@@ -23,14 +23,14 @@ export const pageRes = [
                             {
                                 controlName: "HcStep",
                                 controlId: "HcStep_1",
-                                title: "选择修改功能",
+                                title: "选择分配功能",
                                 icon: "el-icon-user",
                                 status: "process"
                             },
                             {
                                 controlName: "HcStep",
                                 controlId: "HcStep_2",
-                                title: "选择授权对象",
+                                title: "修改授权对象",
                                 icon: "el-icon-s-order",
                                 status: "process"
                             },
@@ -149,7 +149,7 @@ export const pageRes = [
                             return key.indexOf(value.toUpperCase()) !== -1;
                         },
                         height: function (parentHeight) {
-                            return parentHeight - 140;
+                            return parentHeight - 115;
                         },
                         style:
                             "margin-top:10px;overflow: auto;border:1px solid rgb(235, 238, 245)",
@@ -188,7 +188,7 @@ export const pageRes = [
                         // parentIdField: "parentId",
                         defaultExpandAll: true,
                         height: function (parentHeight) {
-                            return parentHeight - 90;
+                            return parentHeight - 65;
                         },
                         children: [
                             {

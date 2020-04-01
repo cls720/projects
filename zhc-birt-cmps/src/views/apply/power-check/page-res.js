@@ -43,7 +43,7 @@ export const pageRes = {
                         return key.indexOf(value.toUpperCase()) !== -1;
                     },
                     height: function (parentHeight) {
-                        return parentHeight - 140;
+                        return parentHeight - 122;
                     },
                     style:
                         "margin-top:10px;overflow: auto;border:1px solid rgb(235, 238, 245)",
@@ -82,7 +82,7 @@ export const pageRes = {
                     // parentIdField: "parentId",
                     defaultExpandAll: true,
                     height: function (parentHeight) {
-                        return parentHeight - 90;
+                        return parentHeight - 75;
                     },
                     children: [
                         {

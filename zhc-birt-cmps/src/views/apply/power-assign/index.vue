@@ -330,7 +330,7 @@ export default {
                             },
                             height: function(parentHeight) {
                               debugger;
-                              return parentHeight - 210;
+                              return parentHeight - 160;
                             },
                             style:
                               "margin-top:10px;overflow: auto;border:1px solid rgb(235, 238, 245)",
@@ -366,7 +366,7 @@ export default {
                             defaultExpandAll: true,
                             height: function(parentHeight) {
                               debugger;
-                              return parentHeight - 120;
+                              return parentHeight - 70;
                             },
                             children: [
                               {

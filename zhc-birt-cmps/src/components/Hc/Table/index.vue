@@ -34,7 +34,23 @@
     :load="conf.load"
     :tree-props="conf.treeProps"
     :style="confStyle"
-    @filter-change="onFilterChange"
+    @select="select"
+    @select-all="selectAll"
+    @selection-change="selectionChange"
+    @cell-mouse-enter="cellMouseEnter"
+    @cell-mouse-leave="cellMouseLeave"
+    @cell-click="cellClick"
+    @cell-dblclick="cellDblclick"
+    @row-click="rowClick"
+    @row-contextmenu="rowContextmenu"
+    @row-dblclick="rowDblclick"
+    @header-click="headerClick"
+    @header-contextmenu="headerContextmenu"
+    @sort-change="sortChange"
+    @filter-change="filterChange"
+    @current-change="currentChange"
+    @header-dragend="headerDragend"
+    @expand-change="expandChange"
   >
     <template v-for="(child,i) in conf.children">
       <hc-table-column-scope v-if="child.slot=='scope'" :key="conf.controlId+i" :conf="child"></hc-table-column-scope>
@@ -45,6 +61,7 @@
 
 <script>
 import HcCmpt from "@/components/Hc/Cmpt";
+import events from "@/components/mixins/events";
 import autosize from "@/components/mixins/autosize";
 import datasource from "@/components/mixins/datasource";
 
@@ -56,7 +73,7 @@ import { convertToTreeData, filterTreeData } from "@/funclib/DataTree.js";
 export default {
   name: "hc-table",
   extends: HcCmpt,
-  mixins: [autosize, datasource],
+  mixins: [events, autosize, datasource],
   components: { HcTableColumn, HcTableColumnScope },
   computed: {
     // 返回标准树型数据
@@ -89,18 +106,94 @@ export default {
     },
     confStyle() {
       return `${this.autoSizeStyle()};${this.conf.style};`;
+    },
+    select() {
+      return this.on("select");
+    },
+    selectAll() {
+      return this.on("selectAll");
+    },
+    selectionChange() {
+      return this.on("selectionChange");
+    },
+    cellMouseEnter() {
+      return this.on("cellMouseEnter");
+    },
+    cellMouseLeave() {
+      return this.on("cellMouseLeave");
+    },
+    cellClick() {
+      return this.on("cellClick");
+    },
+    cellDblclick() {
+      return this.on("cellDblclick");
+    },
+    rowClick() {
+      return this.on("rowClick");
+    },
+    rowContextmenu() {
+      return this.on("rowContextmenu");
+    },
+    rowDblclick() {
+      return this.on("rowDblclick");
+    },
+    headerClick() {
+      return this.on("headerClick");
+    },
+    headerContextmenu() {
+      return this.on("headerContextmenu");
+    },
+    sortChange() {
+      return this.on("sortChange");
+    },
+    filterChange() {
+      return this.on("filterChange");
+    },
+    currentChange() {
+      return this.on("currentChange");
+    },
+    headerDragend() {
+      return this.on("headerDragend");
+    },
+    expandChange() {
+      return this.on("expandChange");
     }
   },
   data() {
     return {
+      elEvents: [
+        "select",
+        "selectAll",
+        "selectionChange",
+        "cellMouseEnter",
+        "cellMouseLeave",
+        "cellClick",
+        "cellDblclick",
+        "rowClick",
+        "rowContextmenu",
+        "rowDblclick",
+        "headerClick",
+        "headerContextmenu",
+        "sortChange",
+        "filterChange",
+        "currentChange",
+        "headerDragend",
+        "expandChange"
+      ],
       filterConf: {}
     };
   },
   provide: function() {
     return { tableRows: () => this.datas, store: () => this.store };
   },
-  mounted() {},
   methods: {
+    elTable() {
+      if (this.$children && this.$children.length > 0) {
+        return this.$children[0];
+      } else {
+        console.error("找不到eltable实例");
+      }
+    },
     // 根据配置获取转换后的树型数据
     getConvertTreeData(datas) {
       let cloneDatas = JSON.parse(JSON.stringify(datas));
@@ -120,12 +213,6 @@ export default {
         if (!isOk) return false;
       }
       return true;
-    },
-    onFilterChange(filterObj) {
-      let filterChangeFunc = this.conf.events && this.conf.events.filterChange;
-      if (filterChangeFunc) {
-        filterChangeFunc.call(this, filterObj);
-      }
     }
   }
 };

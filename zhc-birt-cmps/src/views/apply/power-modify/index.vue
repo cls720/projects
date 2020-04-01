@@ -59,7 +59,7 @@ export default {
                   {
                     controlName: "HcTabs",
                     controlId: "HcTabs_org",
-                    tabPosition: "top",
+                    tabPosition: "left",
                     activeTabName: "org",
                     height: function(parentHeight) {
                       return parentHeight - 20;
@@ -68,7 +68,7 @@ export default {
                       {
                         controlName: "HcTabPane",
                         controlId: "HcTabPane_org",
-                        label: "按分配对象修改",
+                        label: "按授权对象修改",
                         name: "org",
                         children: pageOrg
                       },
