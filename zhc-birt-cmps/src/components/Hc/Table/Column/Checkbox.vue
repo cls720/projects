@@ -17,6 +17,7 @@
         v-if="isShow(scope.row)"
         v-model="scope.row[prop]"
         :disabled="disabled(scope.row)"
+        :border="conf.border"
         @change="setRowChange(scope)"
       >{{label}}</el-checkbox>
       <span v-else>—</span>

@@ -357,7 +357,7 @@ export const pageOrg = [
                                         }
                                     }
                                 }]
-                            },                    
+                            },
                             {
                                 controlName: "HcTableColumn",
                                 controlId: "HcTableColumn_2",

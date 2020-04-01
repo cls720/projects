@@ -54,7 +54,21 @@
   >
     <template v-for="(child,i) in conf.children">
       <hc-table-column-scope v-if="child.slot=='scope'" :key="conf.controlId+i" :conf="child"></hc-table-column-scope>
-      <hc-table-column v-else :key="conf.controlId+i" :conf="child"></hc-table-column>
+      <hc-table-column
+        v-else-if="child.controlName=='HcTableColumn'"
+        :key="conf.controlId+i"
+        :conf="child"
+      ></hc-table-column>
+      <hc-table-column-radio
+        v-else-if="child.controlName=='HcTableColumnRadio'"
+        :key="conf.controlId+i"
+        :conf="child"
+      ></hc-table-column-radio>
+      <hc-table-column-checkbox
+        v-else-if="child.controlName=='HcTableColumnCheckbox'"
+        :key="conf.controlId+i"
+        :conf="child"
+      ></hc-table-column-checkbox>
     </template>
   </el-table>
 </template>
@@ -66,6 +80,8 @@ import autosize from "@/components/mixins/autosize";
 import datasource from "@/components/mixins/datasource";
 
 import HcTableColumn from "./Column";
+import HcTableColumnRadio from "./Column/Radio";
+import HcTableColumnCheckbox from "./Column/Checkbox";
 import HcTableColumnScope from "./Column/Scope";
 
 import { convertToTreeData, filterTreeData } from "@/funclib/DataTree.js";
@@ -74,7 +90,12 @@ export default {
   name: "hc-table",
   extends: HcCmpt,
   mixins: [events, autosize, datasource],
-  components: { HcTableColumn, HcTableColumnScope },
+  components: {
+    HcTableColumn,
+    HcTableColumnRadio,
+    HcTableColumnCheckbox,
+    HcTableColumnScope
+  },
   computed: {
     // 返回标准树型数据
     treeData() {

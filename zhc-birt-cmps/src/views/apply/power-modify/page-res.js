@@ -445,17 +445,19 @@ export const pageRes = [
         events: {
             confirm: function () {
                 debugger;
-                let retuData = this.getContent().dataset.dsOrg.getData().filter(
+                let retuData = [];
+                let assignData = this.getContent().dataset.dsOrg.getData().filter(
                     function (recd) {
-                        return recd._checked;
+                        return recd.isAssign;
                     }
                 );
                 let curtNode = this.getRefCompt("HcTree_restree").elTree().getCurrentNode();
-                retuData.forEach(recd => {
-                    if (recd.kind != 'dir') {
-                        recd.resId = curtNode.resId;
-                        recd.name = curtNode.name;
-                    }
+                assignData.forEach(recd => {
+                    let resNode = JSON.parse(JSON.stringify(curtNode));
+                    resNode.assignId = recd.id;
+                    resNode.assignName = recd.label;
+                    resNode.assignKind = recd.kind;
+                    retuData.push(resNode);
                 })
                 let dsEditRes2 = this.getWorkBook().dataset.dsEditRes2
                 // 添加新增选择
@@ -464,9 +466,9 @@ export const pageRes = [
                 let oldOrgIds = this.param.orgIds || [];
                 oldOrgIds.forEach(key => {
                     for (var i = 0, l = retuData.length; i < l; i++) {
-                        if (key == retuData[i].id) return;
+                        if (key == retuData[i].assignId) return;
                     }
-                    dsEditRes.remove(key);
+                    dsEditRes2.remove(key);
                 })
             }
         },

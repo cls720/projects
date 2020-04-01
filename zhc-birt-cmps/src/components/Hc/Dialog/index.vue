@@ -46,13 +46,14 @@
 <script>
 import HcCmpt from "@/components/Hc/Cmpt";
 import emitter from "@/utils/emitter";
+import autosize from "@/components/mixins/autosize";
 import events from "@/components/mixins/events";
 import elDragDialog from "@/components/directive/el-drag-dialog";
 
 export default {
   name: "hc-dialog",
   extends: HcCmpt,
-  mixins: [events],
+  mixins: [events, autosize],
   directives: { elDragDialog },
   computed: {
     visible: {
@@ -70,7 +71,7 @@ export default {
       return this.conf.footer;
     },
     confStyle() {
-      return this.conf.style;
+      return `${this.autoSizeStyle()};${this.conf.style};`;
     },
     children() {
       let rest = [];
@@ -82,7 +83,7 @@ export default {
       return rest;
     },
     titleChildren() {
-      debugger
+      debugger;
       let rest = [];
       (this.conf.children || []).forEach(child => {
         if (child.slot == "title") {

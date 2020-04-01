@@ -1,5 +1,6 @@
 import pinyin from "js-pinyin";
 import { allData } from "./org.js";
+import { Tree } from "element-ui";
 
 export const pageDlgorg = {
     controlName: "BirtWorkBook",
@@ -29,8 +30,8 @@ export const pageDlgorg = {
                         {
                             controlName: "ElRow",
                             controlId: "ElRow_org_toolbar",
-                            style: "margin-top:10px;",                            
-                            gutter:10,
+                            style: "margin-top:10px;",
+                            gutter: 10,
                             children: [
                                 {
                                     controlName: "ElCol",
@@ -106,9 +107,31 @@ export const pageDlgorg = {
                                         ],
                                         events: {
                                             change: function (val) {
-                                                this.getRefCompt(
+                                                let hcTable = this.getRefCompt(
                                                     "HcTree_org"
-                                                ).filter(val);
+                                                );
+                                                if (val == "0") {
+                                                    hcTable.$delete(
+                                                        hcTable.filterConf,
+                                                        "isAssign")
+                                                }
+                                                else if (val == "1") {
+                                                    hcTable.$set(
+                                                        hcTable.filterConf,
+                                                        "isAssign",
+                                                        function filterRecd(recd) {
+                                                            return recd.isAssign;
+                                                        }
+                                                    );
+                                                } else {
+                                                    hcTable.$set(
+                                                        hcTable.filterConf,
+                                                        "isAssign",
+                                                        function filterRecd(recd) {
+                                                            return !recd.isAssign;
+                                                        }
+                                                    );
+                                                }
                                             }
                                         }
                                     }]
@@ -127,22 +150,21 @@ export const pageDlgorg = {
                             children: [
                                 {
                                     controlName: "HcTableColumn",
-                                    controlId: "HcTableColumn_chk",
-                                    type: "selection",
-                                    width: 55
-                                },
-                                {
-                                    controlName: "HcTableColumn",
                                     controlId: "HcTableColumn_0",
                                     prop: "label",
                                     label: "组织名称",
-                                    minWidth: 300,
-                                }, {
-                                    controlName: "HcTableColumn",
-                                    controlId: "HcTableColumn_0",
-                                    prop: "kind",
-                                    label: "类型",
-                                    minWidth: 300,
+                                    minWidth: 260,
+                                },
+                                {
+                                    controlName: "HcTableColumnCheckbox",
+                                    controlId: "HcTableColumn_3_chk",
+                                    isShow: function (row) {
+                                        debugger
+                                        return row.kind != "DIR"
+                                    },
+                                    prop: "isAssign",
+                                    label: "授权",
+                                    width: 100
                                 }],
                             events: {
 
@@ -156,15 +178,17 @@ export const pageDlgorg = {
                                 let me = this;
                                 function doPageAfterLoad(param) {
                                     debugger;
-                                    me.elTable().toggleAllSelection()
-                                    // me.datas.filter(recd => {
-                                    //     let rowIndex = param.orgIds.indexOf(recd.id);
-                                    //     if (rowIndex != -1) {
-                                    //         me.elTable().toggleRowSelection(recd);
-                                    //         return true;
-                                    //     }
-                                    //     return false
-                                    // });
+                                    // me.elTable().toggleAllSelection()
+                                    me.datas.filter(recd => {
+                                        let rowIndex = param.orgIds.indexOf(recd.id);
+                                        if (rowIndex != -1) {
+                                            recd.isAssign = true;
+                                            return true;
+                                        } else {
+                                            recd.isAssign = false
+                                        }
+                                        return false
+                                    });
                                 }
                             }
                         }

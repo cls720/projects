@@ -3,19 +3,22 @@ export const orgData = [
         label: "XXX集团",
         id: "jt_guid",
         pid: "-1",
-        kind: ".JT"
+        kind: ".JT",
+        isAssign:false
     },
     {
         label: "XXX科技公司",
         id: "org_kjgs_guid",
         pid: "jt_guid",
-        kind: ".ORG"
+        kind: ".ORG",
+        isAssign:false
     },
     {
         label: "软件市场部",
         id: "dpt_xc_guid",
         pid: "org_kjgs_guid",
-        kind: ".DPT"
+        kind: ".DPT",
+        isAssign:false
     },
     {
         label: "销售01组",
@@ -109,5 +112,10 @@ export const ryData = [
     { label: "软件开发部/技术员", id: "org_ry_id1033_1", pid: "org_ry_id1033", kind: ".PSM" },
     { label: "软件开发部/架构师", id: "org_ry_id1033_2", pid: "org_ry_id1033", kind: ".PSM" },
 ]
+
+var allData1 = orgData.concat(ptmData).concat(ryData);
+allData1.forEach(recd => {
+    allData1.isAssign = false;
+})
 
 export const allData = orgData.concat(ptmData).concat(ryData);
