@@ -20,6 +20,14 @@ export default {
           confirm: function() {
             alert("ok");
           }
+        },
+        children: [],
+        mounted: function() {
+          this.conf.children.push({
+            controlName: "HcButton",
+            controlId: "HcButton_autolaod",
+            title: "mounted 动态添加"
+          });
         }
       },
       hcButtonConf: {

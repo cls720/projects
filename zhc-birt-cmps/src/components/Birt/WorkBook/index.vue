@@ -226,6 +226,7 @@ export default {
     },
     // 获取当前报表样式拼装
     getCurtSheetStyle() {
+      debugger;
       return (
         (this.curtSheet.style || "") +
         `height:${this.autoHeight()}px;overflow:auto;`

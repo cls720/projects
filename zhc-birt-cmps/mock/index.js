@@ -4,10 +4,12 @@ import {
 } from '../src/utils'
 
 import powerCheck from './power-check'
+import lookup from "./lookup"
 
 
 const mocks = [
-  ...powerCheck
+  ...powerCheck,
+  ...lookup
 ]
 
 // for front mock
