@@ -5,7 +5,7 @@
     :title="conf.title"
     :width="width"
     :fullscreen="conf.fullscreen"
-    :top="conf.top"
+    :top="conf.top || '0'"
     :modal="conf.modal"
     :modal-append-to-body="conf.modalAppendToBody"
     :append-to-body="conf.appendToBody"
@@ -29,7 +29,12 @@
       v-if="titleChildren.length > 0"
       :children="titleChildren"
     />
-    <birt-cell-children ref="content" v-if="children.length > 0" :children="children" />
+    <birt-cell-children
+      ref="content"
+      v-if="children.length > 0"
+      :children="children"
+      :style="contentStyle"
+    />
     <birt-cell-children
       ref="footer"
       slot="footer"
@@ -65,13 +70,28 @@ export default {
       }
     },
     width() {
-      return this.conf.width;
+      return this.conf.width || "75%";
+    },
+    height() {
+      let retuH;
+      if (typeof this.conf.height === "function") {
+        retuH = this.conf.height.call(this, this.getParentHeight());
+      } else {
+        retuH = this.conf.height;
+      }
+      if (!retuH) {
+        retuH = Math.floor(this.getParentHeight() * 0.75);
+      }
+      return retuH;
     },
     footer() {
       return this.conf.footer;
     },
     confStyle() {
-      return `${this.autoSizeStyle()};${this.conf.style};`;
+      return this.conf.style;
+    },
+    contentStyle() {
+      return `height:${this.autoHeight}px;`;
     },
     children() {
       let rest = [];
@@ -110,6 +130,23 @@ export default {
   methods: {
     isPropEvent(eventName) {
       return ["open", "opened", "close", "closed"].indexOf(eventName) >= 0;
+    },
+    getParentHeight() {
+      return window.innerHeight;
+    },
+    autoHeight() {
+      let retuH = this.height;
+      // 扣除头高
+      retuH -= 44;
+      // 扣除底工具条
+      if (this.footer && this.footer.length > 0) {
+        retuH -= 50;
+      }
+      return retuH;
+    },
+    setDialogTop() {
+      let top = Math.floor((this.getParentHeight() - this.height) / 2);
+      this.$el.getElementsByClassName("el-dialog")[0].style.top = top + "px";
     },
     /**
      * 获取注册事件ID
@@ -155,6 +192,7 @@ export default {
       }
     },
     onOpen() {
+      this.setDialogTop();
       let openFunc = this.conf.events && this.conf.events.open;
       if (openFunc) {
         openFunc.call(this);
@@ -181,3 +219,23 @@ export default {
   }
 };
 </script>
+
+<style scoped lang="scss">
+.el-dialog__wrapper /deep/ {
+  overflow: hidden;
+  .el-dialog {
+    .el-dialog__header {
+      padding: 10px 20px 10px;
+      .el-dialog__headerbtn {
+        top: 10px;
+      }
+    }
+    .el-dialog__body {
+      padding: 5px 20px;
+    }
+    .el-dialog__footer {
+      padding: 5px 20px 5px;
+    }
+  }
+}
+</style>

@@ -721,6 +721,7 @@ export default {
                     controlId: "HcDialog_res",
                     visible: false,
                     title: "选择资源树",
+                    width: "50%",
                     footer: ["cancel", "confirm"],
                     events: {
                       confirm: function() {
@@ -751,7 +752,9 @@ export default {
                         showToolBar: false,
                         totalPage: 1,
                         renderType: "pages",
-                        height: 300,
+                        height: function(parentHeight) {
+                          return parentHeight;
+                        },
                         children: [
                           {
                             controlName: "BirtSheet",

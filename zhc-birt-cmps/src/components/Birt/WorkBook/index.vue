@@ -37,12 +37,13 @@
 
 <script>
 import events from "@/components/mixins/events";
+import autosize from "@/components/mixins/autosize";
 import DataSourceFactory from "@/components/DataSource/DataSourceFactory";
 import WebSocketConection from "@/components/DataSource/WebSocketConection";
 
 export default {
   name: "birt-work-book",
-  mixins: [events],
+  mixins: [events, autosize],
   props: {
     conf: {
       type: Object,
@@ -68,7 +69,12 @@ export default {
       return this.conf.width;
     },
     height() {
-      return this.conf.height;
+      if (typeof this.conf.height == "function") {
+        let ph = this.getParentHeight() || this.mainHeight;
+        return this.conf.height.call(this, ph);
+      } else {
+        return this.conf.height;
+      }
     },
     mainHeight() {
       let height = this.screenHeight;
@@ -152,11 +158,7 @@ export default {
     },
     autoHeight() {
       if (this.height) {
-        if (typeof this.height == "function") {
-          return this.height.call(this, this.mainHeight);
-        } else {
-          return this.height;
-        }
+        return this.height;
       } else {
         return this.mainHeight;
       }

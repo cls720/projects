@@ -501,6 +501,7 @@ export const pageOrg = [
         controlId: "HcDialog_resmodify",
         visible: false,
         title: "选择资源树",
+        width:"50%",
         footer: ["cancel", "confirm"],
         events: {
             confirm: function () {

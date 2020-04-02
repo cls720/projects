@@ -7,7 +7,9 @@ export const pageDlgres = {
     showToolBar: false,
     totalPage: 1,
     renderType: "pages",
-    height: 400,
+    height: function (parentHeight) {
+        return parentHeight;
+    },
     children: [
         {
             controlName: "BirtSheet",

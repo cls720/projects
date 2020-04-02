@@ -441,6 +441,7 @@ export const pageRes = [
         controlId: "HcDialog_org",
         visible: false,
         title: "选择分配对象",
+        width:"50%",
         footer: ["cancel", "confirm"],
         events: {
             confirm: function () {

@@ -35,7 +35,9 @@ export default {
             showToolBar: false,
             totalPage: 1,
             renderType: "pages",
-            height: 300,
+            height: function(parentHeight) {
+              return parentHeight;
+            },
             children: [
               {
                 controlName: "BirtSheet",
