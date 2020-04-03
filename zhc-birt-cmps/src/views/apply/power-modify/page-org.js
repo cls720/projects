@@ -1,6 +1,10 @@
 import pinyin from "js-pinyin";
 import axios from 'axios';
 import { pageDlgres } from "./page-dlgres";
+import dynamicLoadScript from "@/utils/dynamicLoadScript"
+
+
+console.log(JSON.stringify(pageDlgres));
 
 export const pageOrg = [
     {
@@ -537,13 +541,17 @@ export const pageOrg = [
         ],
         mounted: function () {
             let me = this;
-            axios.get('api/lookup/data/tree/self')
-                .then(function (response) {
-                    debugger;
-                    me.children.push(JSON.parse(response.data.dataPack));
-                })
-                .catch(function (error) {
-                    console.log(error);
-                })
+            dynamicLoadScript("http://192.168.1.183:5001/amrept-web/resources/eap5/lookup/page-dlgres.js", (info, source) => {
+                debugger;
+                me.children.push(pageDlgres1);
+            })
+            // axios.get('api/lookup/data/tree/self')
+            //     .then(function (response) {
+            //         debugger;
+            //         me.children.push(JSON.parse(response.data.dataPack));
+            //     })
+            //     .catch(function (error) {
+            //         console.log(error);
+            //     })
         }
     }]
