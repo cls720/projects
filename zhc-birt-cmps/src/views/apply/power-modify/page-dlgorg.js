@@ -49,7 +49,7 @@ export const pageDlgorg = {
                                                 filterChange: function (filterKey, datas) {
                                                     debugger;
                                                     let hcTable = this.getRefCompt(
-                                                        "HcTree_org"
+                                                        "HcTable_org"
                                                     );
                                                     if (filterKey) {
                                                         hcTable.$set(
@@ -110,7 +110,7 @@ export const pageDlgorg = {
                                         events: {
                                             change: function (val) {
                                                 let hcTable = this.getRefCompt(
-                                                    "HcTree_org"
+                                                    "HcTable_org"
                                                 );
                                                 if (val == "0") {
                                                     hcTable.$delete(
@@ -143,12 +143,16 @@ export const pageDlgorg = {
                         },
                         {
                             controlName: "HcTable",
-                            controlId: "HcTree_org",
+                            controlId: "HcTable_org",
                             dataset: "dsOrg",
                             rowKey: "id",
                             idField: "id",
-                            parentIdField: "pid",
-                            defaultExpandAll: true,
+                            parentIdField: "pid", 
+                            height: function (parentHeight) {
+                                return parentHeight - 42;
+                            },
+                            // defaultExpandAll: true,
+
                             children: [
                                 {
                                     controlName: "HcTableColumn",

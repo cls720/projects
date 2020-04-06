@@ -115,7 +115,7 @@ export const pageOrg = [
         controlName: "ElRow",
         controlId: "ElRow_r2",
         gutter: 10,
-        style: "margin-top:20px;",
+        style: "margin-top:10px;",
         children: [
             {
                 controlName: "ElCol",
@@ -153,7 +153,7 @@ export const pageOrg = [
                             return key.indexOf(value.toUpperCase()) !== -1;
                         },
                         height: function (parentHeight) {
-                            return parentHeight - 115;
+                            return parentHeight - 105;
                         },
                         style:
                             "margin-top:10px;overflow: auto;border:1px solid rgb(235, 238, 245)",
@@ -195,7 +195,7 @@ export const pageOrg = [
                         parentIdField: "parentId",
                         defaultExpandAll: true,
                         height: function (parentHeight) {
-                            return parentHeight - 65;
+                            return parentHeight - 55;
                         },
                         children: [
                             {
@@ -537,21 +537,13 @@ export const pageOrg = [
             }
         },
         children: [
-            // pageDlgres
+            pageDlgres
         ],
         mounted: function () {
             let me = this;
-            dynamicLoadScript("http://192.168.1.183:5001/amrept-web/resources/eap5/lookup/page-dlgres.js", (info, source) => {
-                debugger;
-                me.children.push(pageDlgres1);
-            })
-            // axios.get('api/lookup/data/tree/self')
-            //     .then(function (response) {
-            //         debugger;
-            //         me.children.push(JSON.parse(response.data.dataPack));
-            //     })
-            //     .catch(function (error) {
-            //         console.log(error);
-            //     })
+            // dynamicLoadScript("http://eaptpl.histron.cn/amrept-web/resources/eap5/lookup/page-dlgres.js", (info, source) => {
+            //     debugger;
+            //     me.children.push(pageDlgres1);
+            // })            
         }
     }]

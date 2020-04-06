@@ -19,7 +19,7 @@ export const pageDlgres = {
             dataSets: [
                 {
                     controlName: "JsWebSocketDataSet",
-                    controlId: "dsRes",
+                    controlId: "dsRes2",
                     datas: resources
                 }
             ],
@@ -52,7 +52,7 @@ export const pageDlgres = {
                                                     );
                                                 }
                                             }
-                                        },
+                                        }
                                     ]
                                 },
                                 {
@@ -100,7 +100,7 @@ export const pageDlgres = {
                         {
                             controlName: "HcTree",
                             controlId: "HcTree_res",
-                            dataset: "dsRes",
+                            dataset: "dsRes2",
                             isTreeData: false,
                             idField: "resId",
                             parentIdField: "parentId",
@@ -148,8 +148,7 @@ export const pageDlgres = {
                                 }
                             },
                             mounted: function () {
-                                debugger
-                                this.getWorkBook().on(
+                                this.getRefCompt("BirtWorkBook_0").on(
                                     "afterLoad",
                                     doPageAfterLoad
                                 );

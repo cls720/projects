@@ -62,7 +62,7 @@ export default {
                     tabPosition: "left",
                     activeTabName: "org",
                     height: function(parentHeight) {
-                      return parentHeight - 20;
+                      return parentHeight;
                     },
                     children: [
                       {

@@ -38,7 +38,7 @@ import events from "@/components/mixins/events";
 export default {
   name: "hc-tabs",
   extends: HcCmpt,
-  mixins: [autosize, events],  
+  mixins: [autosize, events],
   computed: {
     width() {
       return this.conf.width || "100%";
@@ -87,4 +87,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.el-tabs /deep/ {
+  .el-tabs__header {
+    margin: 0px;
+  }
+}
 </style>

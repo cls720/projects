@@ -53,7 +53,6 @@ export default {
               {
                 controlName: "BirtFormSheet",
                 controlId: "BirtFormSheet_102",
-                style: "padding:10px;",
                 children: [
                   {
                     controlName: "HcTabs",
@@ -61,7 +60,7 @@ export default {
                     tabPosition: "top",
                     activeTabName: "user",
                     height: function(parentHeight) {
-                      return parentHeight - 20;
+                      return parentHeight;
                     },
                     events: {
                       tabClick: function(tabItem) {

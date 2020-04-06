@@ -7,8 +7,8 @@
 <script>
 import pinyin from "js-pinyin";
 
+import { pageDlgres } from "./page-dlgres";
 import { allData } from "./org.js";
-import { resources } from "./resources";
 
 export default {
   data() {
@@ -104,7 +104,8 @@ export default {
                                 debugger;
                                 let orgData = this.getWorkBook().dataset.dsOrg.datas.filter(
                                   function(recd) {
-                                    return recd._checked;
+                                    // return recd._checked;
+                                    return recd.isAssign;
                                   }
                                 );
                                 let chkClearorg = this.getRefCompt(
@@ -207,12 +208,12 @@ export default {
                     controlName: "ElRow",
                     controlId: "ElRow_r2",
                     gutter: 10,
-                    style: "margin-top:20px;",
+                    style: "margin-top:10px;",
                     children: [
                       {
                         controlName: "ElCol",
                         controlId: "ElCol_r2_c1",
-                        span: 6,
+                        span: 7,
                         children: [
                           {
                             controlName: "HcInputFilter",
@@ -221,9 +222,25 @@ export default {
                             events: {
                               filterChange: function(filterKey, datas) {
                                 debugger;
-                                this.getRefCompt("HcTree_org").filter(
-                                  filterKey
-                                );
+                                let hcTable = this.getRefCompt("HcTree_org");
+                                if (filterKey) {
+                                  hcTable.$set(
+                                    hcTable.filterConf,
+                                    "label",
+                                    function filterRecd(recd) {
+                                      let key =
+                                        recd.label +
+                                        "_" +
+                                        pinyin.getCamelChars(recd.label);
+                                      return (
+                                        key.indexOf(filterKey.toUpperCase()) !==
+                                        -1
+                                      );
+                                    }
+                                  );
+                                } else {
+                                  hcTable.$delete(hcTable.filterConf, "label");
+                                }
                               }
                             }
                           },
@@ -235,7 +252,7 @@ export default {
                               {
                                 controlName: "ElCol",
                                 controlId: "ElCol_ct_1",
-                                span: 8,
+                                span: 6,
                                 style: "line-height:30px",
                                 children: [
                                   {
@@ -267,7 +284,7 @@ export default {
                               {
                                 controlName: "ElCol",
                                 controlId: "ElCol_ct_2",
-                                span: 16,
+                                span: 18,
                                 style: "text-align:right;",
                                 children: [
                                   {
@@ -297,10 +314,31 @@ export default {
                                     ],
                                     events: {
                                       change: function(val) {
-                                        debugger;
-                                        this.getRefCompt("HcTree_org").filter(
-                                          val
+                                        let hcTable = this.getRefCompt(
+                                          "HcTree_org"
                                         );
+                                        if (val == "0") {
+                                          hcTable.$delete(
+                                            hcTable.filterConf,
+                                            "isAssign"
+                                          );
+                                        } else if (val == "1") {
+                                          hcTable.$set(
+                                            hcTable.filterConf,
+                                            "isAssign",
+                                            function filterRecd(recd) {
+                                              return recd.isAssign;
+                                            }
+                                          );
+                                        } else {
+                                          hcTable.$set(
+                                            hcTable.filterConf,
+                                            "isAssign",
+                                            function filterRecd(recd) {
+                                              return !recd.isAssign;
+                                            }
+                                          );
+                                        }
                                       }
                                     }
                                   }
@@ -309,52 +347,46 @@ export default {
                             ]
                           },
                           {
-                            controlName: "HcTree",
+                            controlName: "HcTable",
                             controlId: "HcTree_org",
                             dataset: "dsOrg",
-                            isTreeData: false,
+                            rowKey: "id",
                             idField: "id",
                             parentIdField: "pid",
-                            labelField: "label",
-                            showCheckbox: true,
-                            filterNodeMethod: function(value, data, node) {
-                              debugger;
-                              if (!value || value === "0") return true;
-                              if (value === "1") return node.checked;
-                              if (value === "2") return !node.checked;
-                              let key =
-                                node.label +
-                                "_" +
-                                pinyin.getCamelChars(node.label);
-                              return key.indexOf(value.toUpperCase()) !== -1;
-                            },
+                            showHeader: false,
+                            // defaultExpandAll: true,
                             height: function(parentHeight) {
-                              debugger;
-                              return parentHeight - 160;
+                              return parentHeight - 145;
                             },
                             style:
-                              "margin-top:10px;overflow: auto;border:1px solid rgb(235, 238, 245)",
-                            events: {
-                              checkChange: function(data, checked, node) {
-                                debugger;
-                                let checkNodes = this.elTree().getCheckedNodes(
-                                  false,
-                                  true
-                                );
-                                let keys = [];
-                                checkNodes.forEach(recd => {
-                                  keys.push(recd.id);
-                                });
-                                this.setDatasChecked(keys);
+                              "margin-top:10px;border-top:1px solid rgb(235, 238, 245);",
+                            children: [
+                              {
+                                controlName: "HcTableColumn",
+                                controlId: "HcTableColumn_0",
+                                prop: "label",
+                                label: "组织名称",
+                                minWidth: 220
+                              },
+                              {
+                                controlName: "HcTableColumnCheckbox",
+                                controlId: "HcTableColumn_3_chk",
+                                isShow: function(row) {
+                                  debugger;
+                                  return row.kind != "DIR";
+                                },
+                                prop: "isAssign",
+                                label: "授权",
+                                width: 75
                               }
-                            }
+                            ]
                           }
                         ]
                       },
                       {
                         controlName: "ElCol",
                         controlId: "ElCol_r2_c2",
-                        span: 18,
+                        span: 17,
                         children: [
                           {
                             controlName: "HcTable",
@@ -366,7 +398,7 @@ export default {
                             defaultExpandAll: true,
                             height: function(parentHeight) {
                               debugger;
-                              return parentHeight - 70;
+                              return parentHeight - 56;
                             },
                             children: [
                               {
@@ -745,153 +777,7 @@ export default {
                         });
                       }
                     },
-                    children: [
-                      {
-                        controlName: "BirtWorkBook",
-                        controlId: "BirtWorkBook_0",
-                        showToolBar: false,
-                        totalPage: 1,
-                        renderType: "pages",
-                        height: function(parentHeight) {
-                          return parentHeight;
-                        },
-                        children: [
-                          {
-                            controlName: "BirtSheet",
-                            controlId: "BirtSheet_0",
-                            name: "sheet0", //配置页,children为其算法分页，如插入分页符或A4纸数据过长换页
-                            pageIndex: 0,
-                            dataSets: [
-                              {
-                                controlName: "JsWebSocketDataSet",
-                                controlId: "dsRes2",
-                                datas: resources
-                              }
-                            ],
-                            children: [
-                              {
-                                controlName: "BirtFormSheet",
-                                controlId: "BirtFormSheet_02",
-                                children: [
-                                  {
-                                    controlName: "HcInputFilter",
-                                    controlId: "HcInputFilter_diaog_res",
-                                    size: "medium",
-                                    events: {
-                                      filterChange: function(filterKey, datas) {
-                                        debugger;
-                                        this.getRefCompt("HcTree_res").filter(
-                                          filterKey
-                                        );
-                                      }
-                                    }
-                                  },
-                                  {
-                                    controlName: "ElRow",
-                                    controlId: "ElRow_org_toolbar",
-                                    style: "margin-top:10px;text-align:right;",
-                                    children: [
-                                      {
-                                        controlName: "HcRadioGroup",
-                                        controlId: "HcRadioGroup_1",
-                                        value: "0",
-                                        size: "small",
-                                        children: [
-                                          {
-                                            controlName: "HcRadioButton",
-                                            controlId: "HcRadioButton_1",
-                                            label: "1",
-                                            title: "已选"
-                                          },
-                                          {
-                                            controlName: "HcRadioButton",
-                                            controlId: "HcRadioButton_2",
-                                            label: "2",
-                                            title: "未选"
-                                          },
-                                          {
-                                            controlName: "HcRadioButton",
-                                            controlId: "HcRadioButton_0",
-                                            label: "0",
-                                            title: "全部"
-                                          }
-                                        ],
-                                        events: {
-                                          change: function(val) {
-                                            this.getRefCompt(
-                                              "HcTree_res"
-                                            ).filter(val);
-                                          }
-                                        }
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    controlName: "HcTree",
-                                    controlId: "HcTree_res",
-                                    dataset: "dsRes2",
-                                    isTreeData: false,
-                                    idField: "resId",
-                                    parentIdField: "parentId",
-                                    labelField: "name",
-                                    showCheckbox: true,
-                                    defaultExpandAll: true,
-                                    filterNodeMethod: function(
-                                      value,
-                                      data,
-                                      node
-                                    ) {
-                                      debugger;
-                                      if (!value || value === "0") return true;
-                                      if (value === "1") return node.checked;
-                                      if (value === "2") return !node.checked;
-                                      let key =
-                                        node.label +
-                                        "_" +
-                                        pinyin.getCamelChars(node.label);
-                                      return (
-                                        key.indexOf(value.toUpperCase()) !== -1
-                                      );
-                                    },
-                                    events: {
-                                      checkChange: function(
-                                        data,
-                                        checked,
-                                        node
-                                      ) {
-                                        debugger;
-                                        let checkNodes = this.elTree().getCheckedNodes(
-                                          false,
-                                          true
-                                        );
-                                        let keys = [];
-                                        checkNodes.forEach(recd => {
-                                          keys.push(recd.resId);
-                                        });
-                                        this.setDatasChecked(keys);
-                                      }
-                                    },
-                                    mounted: function() {
-                                      this.getRefCompt("BirtWorkBook_0").on(
-                                        "afterLoad",
-                                        doPageAfterLoad
-                                      );
-                                      let me = this;
-                                      function doPageAfterLoad(param) {
-                                        debugger;
-                                        me.elTree().setCheckedKeys(
-                                          param.resIds
-                                        );
-                                      }
-                                    }
-                                  }
-                                ]
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    ]
+                    children: [pageDlgres]
                   }
                 ]
               }
