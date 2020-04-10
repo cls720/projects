@@ -27,6 +27,12 @@ const applyRouter = {
       name: 'powerModify',
       meta: { title: 'PowerModify 权限修改' }
     },
+    {
+      path: '/func-point',
+      component: () => import('@/views/apply/func-point'),
+      name: 'funcPoint',
+      meta: { title: 'FuncPoint 功能点对比' }
+    },
   ]
 }
 

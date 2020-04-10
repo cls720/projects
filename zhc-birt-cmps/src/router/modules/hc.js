@@ -46,10 +46,22 @@ const hcRouter = {
       meta: { title: 'HcSteps 步骤条' }
     },
     {
+      path: '/tabs',
+      component: () => import('@/views/hc/tabs'),
+      name: 'hcTabs',
+      meta: { title: 'HcTabs 选项卡' }
+    },
+    {
       path: '/dialog',
       component: () => import('@/views/hc/dialog'),
       name: 'hcDialog',
       meta: { title: 'HcDialog 对话框' }
+    },
+    {
+      path: '/compare',
+      component: () => import('@/views/hc/compare'),
+      name: 'hcCompare',
+      meta: { title: 'HcCompare 参数对比' }
     },
     // {
     //   path: '/text-label',

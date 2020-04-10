@@ -18,6 +18,7 @@ import HcTree from "./Tree"
 import HcTimeline from "./Timeline"
 import HcDivider from "./Divider"
 import HcVideo from "./Video"
+import HcCompare from "./Compare"
 
 const cmps = {
     HcButton,
@@ -39,6 +40,7 @@ const cmps = {
     HcTree,
     HcTimeline,
     HcDivider,
-    HcVideo
+    HcVideo,
+    HcCompare
 };
 export default cmps
