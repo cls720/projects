@@ -1,7 +1,7 @@
 <template>
   <div style="padding:20px;">
     <h4>1. 基础应用</h4>
-    <hc-compare :conf="hcCheckbox"></hc-compare>
+    <hc-compare :conf="hcCompare"></hc-compare>
   </div>
 </template>
 
@@ -9,6 +9,10 @@
 export default {
   data() {
     return { 
+      hcCompare:{
+        controlName:"HcCompare",
+        controlId:"HcCompare_basic"
+      }
     };
   },
   methods: {}
