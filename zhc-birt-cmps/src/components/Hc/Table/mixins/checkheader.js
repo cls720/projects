@@ -58,7 +58,12 @@ export default {
             if (store && store.edit) {
                 store.edit(scope.row, this.prop)
             } else {
-                scope._self.datas[scope.$index][this.prop] = scope.row[this.prop];
+                let idField = scope._self.idField;
+                let recd = scope._self.datas[scope.$index];
+                if (recd[idField] != scope.row[idField]) {
+                    recd = scope._self.getRecdByIdValue(scope.row[idField]);
+                }
+                recd[this.prop] = scope.row[this.prop];
             }
         }
     }

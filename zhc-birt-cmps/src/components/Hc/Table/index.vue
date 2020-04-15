@@ -234,6 +234,15 @@ export default {
         if (!isOk) return false;
       }
       return true;
+    },
+    // 根据id值获取对应的记录对象
+    getRecdByIdValue(id) {
+      for (let i = 0, l = this.datas.length; i < l; i++) {
+        let recd = this.datas[i];
+        if (recd[this.idField] == id) {
+          return recd;
+        }
+      }
     }
   }
 };

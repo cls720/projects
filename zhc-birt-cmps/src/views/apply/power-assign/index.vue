@@ -371,8 +371,7 @@ export default {
                               {
                                 controlName: "HcTableColumnCheckbox",
                                 controlId: "HcTableColumn_3_chk",
-                                isShow: function(row) {
-                                  debugger;
+                                isShow: function(row) {                                  
                                   return row.kind != "DIR";
                                 },
                                 prop: "isAssign",
