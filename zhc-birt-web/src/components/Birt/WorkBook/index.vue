@@ -87,6 +87,7 @@ export default {
       return (this.conf && this.conf.tabPosition) || "right";
     },
     sheets() {
+      debugger;
       let sheets = [];
       this.conf.children.forEach(child => {
         if (child.controlName == "BirtSheet") {
@@ -96,6 +97,7 @@ export default {
       return sheets;
     },
     curtSheet() {
+      debugger;
       if (this.sheets.length > 0) {
         let pageCount = 0;
         for (var i = 0, l = this.sheets.length; i < l; i++) {
@@ -184,10 +186,12 @@ export default {
       return this.conf.totalPage;
     },
     isRenderTabs() {
+      debugger;
       return this.renderType === "tabs";
     },
     // 根据当前页，获取当前sheet所对应layout页
     getCurtSheetConf() {
+      debugger;
       if (this.curtSheet.children) {
         if (this.curtSheet.pageIndex === undefined) {
           console.error("报表模型数据格式错误,sheet.pageIndex起始页未定义");

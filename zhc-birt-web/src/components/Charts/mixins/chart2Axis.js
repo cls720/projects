@@ -41,9 +41,6 @@ export default {
         if (this.stackBy) {
           this.mergeStackBy(item);
         }
-        if (this.mergeAreaStyle) {
-          this.mergeAreaStyle(item)
-        }
         seri.push(item);
       });
       return seri;

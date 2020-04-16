@@ -1,4 +1,4 @@
-import Bus from "@/utils/bus";
+import emitter from "@/utils/emitter";
 
 export default class JsWebSocketDataSet {
   constructor(option) {
@@ -27,6 +27,6 @@ export default class JsWebSocketDataSet {
     // if (rec == this.curRecord)
     //   return;    
     this.curRecord = rec
-    Bus.$emit("curRecordChange" + this.controlId, rec);
+    emitter.emit("curRecordChange" + this.controlId, rec);
   }
 }

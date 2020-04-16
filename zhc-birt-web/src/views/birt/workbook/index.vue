@@ -27,6 +27,7 @@ export default {
     loadBirtModel(birtUrl, params) {
       let me = this;
       getBirtModel(birtUrl, params).then(response => {
+        debugger;
         const data = response.data;
         //Vue.set(me, "birtModel", data);
         // Object.assign(me.birtModel, data);

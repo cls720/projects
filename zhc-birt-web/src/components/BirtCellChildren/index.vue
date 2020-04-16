@@ -74,12 +74,6 @@
         :conf="child"
         :dataset-datas="getParentDataSet(child.dataset).datas"
       />
-       <area-chart
-        v-if="child.controlName=='AreaChart'"
-        :ref="child.controlId"
-        :conf="child"
-        :dataset-datas="getParentDataSet(child.dataset).datas"
-      />
       <realtime-chart
         v-if="child.controlName=='RealtimeChart'"
         :ref="child.controlId"
@@ -131,7 +125,6 @@ import PieChart from "@/components/Charts/PieChart.vue";
 import BarChart from "@/components/Charts/BarChart.vue";
 import BarPercentChart from "@/components/Charts/BarPercentChart.vue";
 import LineChart from "@/components/Charts/LineChart.vue";
-import AreaChart from "@/components/Charts/AreaChart.vue";
 import RealtimeChart from "@/components/Charts/RealtimeChart.vue";
 import RadarChart from "@/components/Charts/RadarChart.vue";
 import FunnelChart from "@/components/Charts/FunnelChart.vue";
@@ -155,7 +148,6 @@ export default {
     BarChart,
     BarPercentChart,
     LineChart,
-    AreaChart,
     RealtimeChart,
     RadarChart,
     FunnelChart,

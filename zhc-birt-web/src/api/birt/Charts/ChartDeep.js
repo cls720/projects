@@ -2,29 +2,31 @@ export var chartDeepModel =
 {
   controlName: "BirtWorkBook",
   controlId: "BirtWorkBook_0",
-  showToolBar:false,
-  dataSources: [{
-    controlName: "WebSocketConection",
-    controlId: "wsc1",
-    webSocketUrl: "ws://114.118.97.228:8080/amrept-web/dyj/sktcloud/admin.do",
-    target: {
-      dyj_WcuFn0RQ: {
-        datasetId: "ds1"
-      },
-      dyj_OJs1oQ55: {
-        datasetId: "dsChina"
-      },
-      dyj_wtRqUmpQ: {
-        datasetId: "dsAvg"
-      },
-      dyj_aF7kMgt3: {
-        datasetId: "dsWarning"
-      },
-      dyj_oawkevs: {
-        datasetId: "dsWarningStat"
+  showToolBar: false,
+  dataSources: [
+    {
+      controlName: "WebSocketConection",
+      controlId: "wsc1",
+      webSocketUrl: "ws://114.118.97.228:8080/amrept-web/dyj/sktcloud/admin.do",
+      target: {
+        dyj_WcuFn0RQ: {
+          datasetId: "ds1"
+        },
+        dyj_OJs1oQ55: {
+          datasetId: "dsChina"
+        },
+        dyj_wtRqUmpQ: {
+          datasetId: "dsAvg"
+        },
+        dyj_aF7kMgt3: {
+          datasetId: "dsWarning"
+        },
+        dyj_oawkevs: {
+          datasetId: "dsWarningStat"
+        }
       }
     }
-  }],
+  ],
   children: [
     {
       controlName: "BirtSheet",
@@ -716,6 +718,7 @@ export var chartDeepModel =
                             }
                           }
                         }
+                        debugger
                         // 过滤当前生产数据
                         this.datasource.wsc1.webSocket.send(JSON.stringify(val));
                         // 过滤5分钟统计数据
@@ -1247,13 +1250,13 @@ export var chartDeepModel =
                       style: "padding: 5px 0px;",
                       children: [{
                         controlName: "HcTextLabel",
-                        controlId: "TextLable_rc41_2",
+                        controlId: "TextLable_rc41_3",
                         title: "大圆机转数",
                         height: "30px",
                         style: "text-align:center;"
                       }, {
                         controlName: "HcTextLabel",
-                        controlId: "TextLable_rc41_2",
+                        controlId: "TextLable_rc41_4",
                         dataset: "dsAvg",
                         title: function (curRecord) {
                           return "平均：" + (curRecord.avgSpeed || "") + "转/mi";
@@ -1262,7 +1265,7 @@ export var chartDeepModel =
                         style: "text-align:center"
                       }, {
                         controlName: "HcTextLabel",
-                        controlId: "TextLable_rc41_2",
+                        controlId: "TextLable_rc41_5",
                         dataset: "dsAvg",
                         title: function (curRecord) {
                           return "最大：" + (curRecord.maxSpeed || "") + "转/mi";
@@ -1271,7 +1274,7 @@ export var chartDeepModel =
                         style: "text-align:center"
                       }, {
                         controlName: "HcTextLabel",
-                        controlId: "TextLable_rc41_2",
+                        controlId: "TextLable_rc41_6",
                         dataset: "dsAvg",
                         title: function (curRecord) {
                           return "最小：" + (curRecord.minSpeed || "") + "转/mi";
@@ -1298,7 +1301,7 @@ export var chartDeepModel =
                         style: "text-align:center;"
                       }, {
                         controlName: "HcTextLabel",
-                        controlId: "TextLable_rc41_2",
+                        controlId: "TextLable_rc41_7",
                         title: "平均：25 °C",
                         dataset: "dsAvg",
                         title: function (curRecord) {
@@ -1308,7 +1311,7 @@ export var chartDeepModel =
                         style: "text-align:center"
                       }, {
                         controlName: "HcTextLabel",
-                        controlId: "TextLable_rc41_2",
+                        controlId: "TextLable_rc41_8",
                         dataset: "dsAvg",
                         title: function (curRecord) {
                           return "最大：" + (curRecord.maxTemperature || "") + " °C";
@@ -1317,7 +1320,7 @@ export var chartDeepModel =
                         style: "text-align:center"
                       }, {
                         controlName: "HcTextLabel",
-                        controlId: "TextLable_rc41_2",
+                        controlId: "TextLable_rc41_9",
                         dataset: "dsAvg",
                         title: function (curRecord) {
                           return "最小：" + (curRecord.minTemperautre || "") + " °C";
@@ -1344,7 +1347,7 @@ export var chartDeepModel =
                         style: "text-align:center;"
                       }, {
                         controlName: "HcTextLabel",
-                        controlId: "TextLable_rc41_2",
+                        controlId: "TextLable_rc41_10",
                         dataset: "dsAvg",
                         title: function (curRecord) {
                           return "平均：" + (curRecord.avgHumidity || "") + " %rh";
@@ -1353,7 +1356,7 @@ export var chartDeepModel =
                         style: "text-align:center"
                       }, {
                         controlName: "HcTextLabel",
-                        controlId: "TextLable_rc41_2",
+                        controlId: "TextLable_rc41_12",
                         dataset: "dsAvg",
                         title: function (curRecord) {
                           return "最大：" + (curRecord.maxHumidity || "") + " %rh";

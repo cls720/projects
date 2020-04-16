@@ -1,8 +1,9 @@
 <template>
   <div :class="className" :style="imageStyle">
-    <template v-if="conf.children" v-for="child in conf.children">
+    <template v-for="child in conf.children">
       <hc-text-label
         :ref="child.controlId"
+        :key="child.controlId"
         v-if="child.controlName=='HcTextLabel'"
         :conf="child"
         :bind-dataset="getParentDataSet(child.dataset)"
@@ -50,9 +51,7 @@ export default {
       if (this.comptEvents && this.comptEvents.click) {
         imgcss = "cursor: pointer;";
       }
-      imgcss += `width:${this.width};height:${this.height};backgroundImage:${
-        this.imageUrl
-      };line-height:${this.height};${this.conf.style}`;
+      imgcss += `width:${this.width};height:${this.height};backgroundImage:${this.imageUrl};line-height:${this.height};${this.conf.style}`;
       return imgcss;
     }
   },

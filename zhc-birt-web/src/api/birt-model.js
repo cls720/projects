@@ -105,9 +105,6 @@ import {
   lineModel
 } from "./birt/Charts/Line";
 import {
-  areaModel
-} from "./birt/Charts/Area";
-import {
   radarModel
 } from "./birt/Charts/Radar";
 import {
@@ -202,8 +199,6 @@ export function getBirtModel(birtUrl, params) {
       result.data = barModel;
     } else if (birtUrl === "/chart/basic/line") {
       result.data = lineModel;
-    } else if (birtUrl === "/chart/basic/area") {
-      result.data = areaModel;
     } else if (birtUrl === "/chart/basic/radar") {
       result.data = radarModel;
     } else if (birtUrl === "/chart/basic/funnel") {

@@ -19,6 +19,7 @@ export default {
   computed: {
     // 是否柱形极坐标
     isAngleAxis() {
+      if (this.controlId == "BarChart_zwfb") debugger;
       return this.conf.isAngleAxis;
     },
     // 叠加柱图分组字段

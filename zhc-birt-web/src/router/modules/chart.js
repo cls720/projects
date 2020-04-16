@@ -41,15 +41,7 @@ const chartRouter = {
           meta: {
             title: 'lineChart'
           }
-        },      
-        {
-          path: 'area',
-          component: () => import('@/views/birt/workbook/index'),
-          name: 'AreaChart',
-          meta: {
-            title: 'areaChart'
-          }
-        },        
+        },       
         {
           path: 'radar',
           component: () => import('@/views/birt/workbook/index'),

@@ -2,19 +2,20 @@
   <table class="zhc-birt-data-list" :style="confStyle">
     <thead>
       <tr>
-        <th v-for="th in conf.cols" :style="getThStyle(th)"></th>
+        <th v-for="(th, i) in conf.cols" :style="getThStyle(th)" :key="'td'+i"></th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="tr in trRows" :style="{height:tr.rowHeight+'px'}">
+      <tr v-for="(tr,j) in trRows" :style="{height:tr.rowHeight+'px'}" :key="'tr'+j">
         <td
-          v-for="td in tr.tds"
+          v-for="(td, key) in tr.tds"
+          :key="key"
           :style="getTdStyle(td)"
           :rowspan="td.rowspan"
           :colspan="td.colspan"
         >
-          <view-style v-if="td.viewStyle" :td-obj="td"/>
-          <hc-link-hrefs v-else-if="td.hrefs && (td.hrefs.length > 0)" :td-obj="td"/>
+          <view-style v-if="td.viewStyle" :td-obj="td" />
+          <hc-link-hrefs v-else-if="td.hrefs && (td.hrefs.length > 0)" :td-obj="td" />
           <span v-else>{{td.value}}</span>
         </td>
       </tr>
@@ -55,6 +56,7 @@ export default {
       let trRows = {};
       let i = 1;
       for (var trkey in this.conf.rows) {
+        debugger;
         let tr = this.conf.rows[trkey];
         let extendArrow = this.getTrExtendArrow(tr);
         if (extendArrow && this.datasetDatas) {
@@ -66,6 +68,7 @@ export default {
             });
           }
         } else {
+          debugger;
           let curtRecd = this.dataset[this.conf.dataset].curRecord;
           trRows["r" + i] = me.getTrExprInstance(tr, curtRecd);
           i++;

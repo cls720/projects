@@ -138,8 +138,7 @@ const birtRouter = {
         meta: {
           title: 'bomDetailBirt'
         }
-      },
-        ,]
+      }]
     },
     {
       path: 'tab',
