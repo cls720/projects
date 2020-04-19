@@ -46,6 +46,12 @@ const hcRouter = {
       meta: { title: 'HcSteps 步骤条' }
     },
     {
+      path: '/menu',
+      component: () => import('@/views/hc/menu'),
+      name: 'hcMenu',
+      meta: { title: 'HcMenu 导航菜单' }
+    },
+    {
       path: '/tabs',
       component: () => import('@/views/hc/tabs'),
       name: 'hcTabs',
