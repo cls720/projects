@@ -15,7 +15,7 @@
     @select="select"
     @open="open"
     @close="close"
-  >
+  >   
     <template v-for="(child,i) in conf.children">
       <hc-menu-child :key="conf.controlId+i" :conf="child"></hc-menu-child>
     </template>
