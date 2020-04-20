@@ -1,6 +1,6 @@
 <template>
   <el-row>
-    <el-col span="4" style="border:1px solid red">
+    <el-col :span="4">
       <div class="navtabs">
         <ul>
           <li>
@@ -57,7 +57,7 @@
         </ul>
       </div>
     </el-col>
-    <el-col span="20">
+    <el-col :span="20">
       <h1>adsfadf</h1>
     </el-col>
   </el-row>
@@ -141,7 +141,6 @@ export default {
 
 <style scoped>
 .navtabs {
-  border: 1px dashed blue;
 }
 .navtabs ul {
   list-style: none;
@@ -149,135 +148,24 @@ export default {
   padding: 5px 0px;
   background-color: #eef3f9;
 }
-.navtabs ul li {
-  line-height: 30px;
-  background: url(//x.autoimg.cn/car/images/csicon20150812.png) no-repeat;
-  background-position: 140px -274px;
-}
-.navtabs ul li > a.active {
-  background-position: 0 -229px;
-}
-.navtabs ul li > a.active:hover {
-  background: url(//x.autoimg.cn/car/images/csicon20150812.png) no-repeat;
-}
-.pzbox {
-  width: 1000px;
-  margin: 0 auto;
-  _overflow: hidden;
-  font-size: 12px;
-}
-.operation {
-  display: table;
-  height: 100px;
-  z-index: 1200;
-  overflow: visible;
-  background-color: #fff;
+
+.navtabs a {
+  display: block;
+  height: 25px;
+  line-height: 25px;
+  margin: 2px 0;
+  text-align: center;
+  padding-right: 25px;
 }
 
-.tbset {
-  width: auto;
-  height: 100px;
-  border-left: solid 1px #d9e5f3;
-  border-bottom: solid 1px #d9e5f3;
+.navtabs a:hover {
+  color: #5c6962;
+  background-color: #cfe0f4;
 }
-.btn_delbar {
-  height: 16px;
-  line-height: 16px;
-  padding: 4px;
-  text-align: center;
-  position: relative;
-}
-.sys_ow {
-  width: 168px;
-  color: #993000;
-  overflow: hidden;
-  text-align: left;
-  white-space: nowrap;
-}
-.carbox {
-  width: 156px;
-  padding: 0px 10px;
-  text-align: center;
-  line-height: 15px;
-}
-.btn_delbar a.btn_del {
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  width: 16px;
-  height: 16px;
-  line-height: 16px;
-  display: inline-block;
-  overflow: hidden;
-  background-position: -80px -172px;
-}
-.conbox {
-  position: relative;
-  top: -1px;
-  z-index: 5;
-}
-.fdbox {
-  width: 202px;
-  position: absolute;
-  z-index: 1000;
-  left: 0px;
-  top: 0px;
-  background-color: #fff;
-}
-
-.video-tips {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 5;
-  font-size: 14px;
-  color: #f3f7ff;
-  padding: 18px;
-  border-radius: 5px;
-  background: #000;
-  background: rgba(0, 0, 0, 0.8);
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  white-space: nowrap;
-}
-.tbcs:not(:last-child) {
-  border-bottom: 0 none;
-}
-.pztip {
-  line-height: normal;
-  margin-top: 10px;
+.navtabs a.active {
+  /* color: #fff; */
+  color: #333;
   font-weight: bold;
-  color: #d60000;
-}
-.followcon {
-  position: absolute;
-  z-index: 100;
-  display: none;
-  width: 127px;
-}
-.followcon .folul {
-  float: left;
-  width: 121px;
-  margin: 0 5px;
-  padding: 5px 0px;
-  background-color: #eef3f9;
-}
-
-.followcon li.top {
-  background-position: 100px -339px;
-}
-
-.followcon li {
-  float: left;
-  width: 121px;
-  height: 100%;
-  background-position: 100px -274px;
-  _overflow: hidden;
-}
-
-.followcon li.bottom {
-  background-position: -34px -273px;
+  margin: 0 0 0 -4px;
 }
 </style>

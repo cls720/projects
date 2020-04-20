@@ -13,6 +13,8 @@ import HcCarousel from "./Carousel"
 import HcTable from "./Table"
 import HcDataList from "./DataList"
 import HcLoopScroll from "./LoopScroll"
+import HcMenu from "./Menu"
+import HcMenuChild from "./Menu/MenuChild"
 import HcProgress from "./Progress"
 import HcTree from "./Tree"
 import HcTimeline from "./Timeline"
@@ -36,6 +38,8 @@ const cmps = {
     HcTable,
     HcDataList,
     HcLoopScroll,
+    HcMenu,
+    HcMenuChild,
     HcProgress,
     HcTree,
     HcTimeline,
