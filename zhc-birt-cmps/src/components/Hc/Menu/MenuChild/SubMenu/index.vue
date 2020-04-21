@@ -5,12 +5,15 @@
     :show-timeout="conf.showTimeout	"
     :hide-timeout="conf.hideTimeout	"
     :disabled="conf.disabled"
-    :popper-append-to-body="conf.popperAppendToBody"
+    :popper-append-to-body="popperAppendToBody"
     :style="confStyle"
   >
-    <template slot="title">{{expr(conf.title)}}</template>
+    <template slot="title">
+      <i v-if="conf.icon" :class="conf.icon"></i>
+      {{expr(conf.title)}}
+    </template>
     <template v-for="(child,i) in conf.children">
-      <hc-menu-child v-if="isMenuChild(child.controlName)" :key="conf.controlId+i" :conf="child"></hc-menu-child>
+      <hc-menu-child :key="conf.controlId+i" :conf="child"></hc-menu-child>
     </template>
   </el-submenu>
 </template>
@@ -22,16 +25,14 @@ export default {
   name: "hc-sub-menu",
   extends: HcCmpt,
   computed: {
+    popperAppendToBody() {
+      if (this.conf.popperAppendToBody == undefined) {
+        return false;
+      }
+      return this.conf.popperAppendToBody;
+    },
     confStyle() {
       return this.conf.style;
-    }
-  },
-  methods: {
-    isMenuChild(controlName) {
-      return (
-        ["HcSubMenu", "HcMenuItem", "HcMenuItemGroup"].indexOf(controlName) !=
-        -1
-      );
     }
   }
 };

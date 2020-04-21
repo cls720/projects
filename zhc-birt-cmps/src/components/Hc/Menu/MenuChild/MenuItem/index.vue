@@ -4,7 +4,12 @@
     :route="conf.route"
     :disabled="conf.disabled"
     :style="confStyle"
-  >{{expr(conf.title)}}</el-menu-item>
+  >
+    <template slot="title">
+      <i v-if="conf.icon" :class="conf.icon"></i>
+      {{expr(conf.title)}}
+    </template>
+  </el-menu-item>
 </template>
 
 <script>
