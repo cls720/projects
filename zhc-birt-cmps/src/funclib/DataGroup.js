@@ -5,7 +5,7 @@
  */
 import {
   numberPlus
-} from '@/utils/MathUtil.js'
+} from '@/funclib/MathUtil.js'
 
 /**
  * showdoc
@@ -31,7 +31,7 @@ import {
  *  返回==>
  *  [{"userCity":"福州","value":2},{"userCity":"北京","value":1}]
  */
-export function dataGroupBy(datas, group) {  
+export function dataGroupBy(datas, group) {
   var groupJson = {};
   var groupKeys = [];
   datas.forEach(data => {
