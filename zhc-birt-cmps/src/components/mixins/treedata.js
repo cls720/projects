@@ -11,6 +11,10 @@ export default {
     parentIdField() {
       return this.conf.parentIdField;
     },
+    // 标签显示字段
+    labelField() {
+      return this.conf.labelField;
+    },
     checkField() {
       return this.conf.checkField || "_checked";
     },
@@ -21,13 +25,18 @@ export default {
   methods: {
     // 根据配置获取转换后的树型数据
     getConvertTreeData() {
-      let cloneDatas = JSON.parse(JSON.stringify(this.datas));
-      let treeData = convertToTreeData(cloneDatas, {
-        id: this.idField,
-        parentId: this.parentIdField,
-        rootValue: this.rootValue
-      });
-      return treeData;
+      // 判断是否需要转换树型数据
+      if (this.parentIdField) {
+        let cloneDatas = JSON.parse(JSON.stringify(this.datas));
+        let treeData = convertToTreeData(cloneDatas, {
+          id: this.idField,
+          parentId: this.parentIdField,
+          rootValue: this.rootValue
+        });
+        return treeData;
+      } else {
+        return this.datas;
+      }
     },
   }
 }
