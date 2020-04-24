@@ -49,7 +49,15 @@ const chartRouter = {
           meta: {
             title: 'areaChart'
           }
-        },        
+        },   
+        {
+          path: 'compose',
+          component: () => import('@/views/birt/workbook/index'),
+          name: 'ComposeChart',
+          meta: {
+            title: 'composeChart'
+          }
+        },          
         {
           path: 'radar',
           component: () => import('@/views/birt/workbook/index'),

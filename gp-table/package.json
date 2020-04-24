@@ -4,7 +4,7 @@
   "description": "vue group policy table component",
   "main": "libs/index.js",
   "author": "04297",
-  "license": "MIT",  
+  "license": "MIT",
   "files": [
     "libs",
     "umd"

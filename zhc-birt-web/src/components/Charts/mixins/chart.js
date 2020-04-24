@@ -112,7 +112,6 @@ export default {
       if (this.conf.controlId == "BarChart_gwlx") debugger;
       if (this.isGroupData) {
         this.calcFields.forEach(calcField => {
-          // if (me.chartType == "china") debugger;
           retuGroupDatas.push(
             convertSeriesData(
               dataFilterByExpr(me.datas, calcField.filterExpr),

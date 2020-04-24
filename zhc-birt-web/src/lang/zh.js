@@ -30,6 +30,7 @@ export default {
     barChart: "柱图",
     lineChart: "线图",
     areaChart: "区域图",
+    composeChart:"合成图",
     radarChart: "雷达图",
     funnelChart: "漏斗图",
     gaugeChart: "仪表盘",

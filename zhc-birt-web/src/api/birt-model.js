@@ -108,6 +108,9 @@ import {
   areaModel
 } from "./birt/Charts/Area";
 import {
+  composeModel
+} from "./birt/Charts/Compose";
+import {
   radarModel
 } from "./birt/Charts/Radar";
 import {
@@ -194,7 +197,7 @@ export function getBirtModel(birtUrl, params) {
       result.data = carouselModel;
     } else if (birtUrl === "/birt/advince/loop-scroll") {
       result.data = loopScrollModel;
-    }else if (birtUrl === "/birt/advince/media") {
+    } else if (birtUrl === "/birt/advince/media") {
       result.data = mediaModel;
     } else if (birtUrl === "/chart/basic/pie") {
       result.data = pieModel;
@@ -204,6 +207,8 @@ export function getBirtModel(birtUrl, params) {
       result.data = lineModel;
     } else if (birtUrl === "/chart/basic/area") {
       result.data = areaModel;
+    } else if (birtUrl === "/chart/basic/compose") {
+      result.data = composeModel;
     } else if (birtUrl === "/chart/basic/radar") {
       result.data = radarModel;
     } else if (birtUrl === "/chart/basic/funnel") {

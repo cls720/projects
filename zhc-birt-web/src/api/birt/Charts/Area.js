@@ -521,7 +521,8 @@ export const areaModel =
                                   name: '平均值'
                                 }]
                               },
-                              smooth: true
+                              smooth: true,
+                              areaStyle:{}
                             }]
                           },
                           mounted: function () {
