@@ -16,6 +16,12 @@ const hcDataRouter = {
       meta: { title: 'HcTable 表格' }
     },
     {
+      path: '/datalist',
+      component: () => import('@/views/hc-data/datalist'),
+      name: 'hcDataList',
+      meta: { title: 'HcDataList 数据列表' }
+    },
+    {
       path: '/tree',
       component: () => import('@/views/hc-data/tree'),
       name: 'hcTree',

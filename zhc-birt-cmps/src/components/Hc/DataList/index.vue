@@ -32,9 +32,8 @@ import ViewStyle from "@/components/ViewStyle";
 export default {
   name: "hc-data-list",
   mixins: [autosize, datasource],
-  extends:HcCmpt,
+  extends: HcCmpt,
   components: { ViewStyle },
-  inject: ["datasource", "dataset"],  
   computed: {
     width() {
       return this.conf.width || "100%";
@@ -46,6 +45,7 @@ export default {
       return `${this.autoSizeStyle()};${this.conf.style};`;
     },
     trRows() {
+      debugger
       let me = this;
       let trRows = {};
       let i = 1;
@@ -61,9 +61,13 @@ export default {
             });
           }
         } else {
-          let curtRecd = this.dataset[this.conf.dataset].curRecord;
-          trRows["r" + i] = me.getTrExprInstance(tr, curtRecd);
-          i++;
+          let wb = this.getWorkBook();
+          if (wb && this.conf.dataset) {
+            let curtRecd = this.getWorkBook().dataset[this.conf.dataset]
+              .curRecord;
+            trRows["r" + i] = me.getTrExprInstance(tr, curtRecd);
+            i++;
+          }
         }
       }
       return trRows;

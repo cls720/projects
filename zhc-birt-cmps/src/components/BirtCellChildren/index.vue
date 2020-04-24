@@ -96,6 +96,12 @@
         :key="child.controlId"
         :conf="child"
       />
+      <hc-menu
+        v-if="child.controlName=='HcMenu'"
+        :ref="child.controlId"
+        :key="child.controlId"
+        :conf="child"
+      />
       <hc-progress
         v-if="child.controlName=='HcProgress'"
         :ref="child.controlId"

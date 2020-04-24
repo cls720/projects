@@ -35,40 +35,74 @@ export default {
                 controlId: "BirtFormSheet_02",
                 children: [
                   {
-                    controlName: "HcTabs",
-                    controlId: "HcTabs_funcpoints",
-                    tabPosition: "left",
-                    activeTabName: "user",
-                    height: 100,
-                    events: {
-                      tabClick: function(tabItem) {
-                        console.log(JSON.stringify(tabItem));
-                      }
-                    },
+                    controlName: "ElRow",
+                    controlId: "ElRow_l",
                     children: [
                       {
-                        controlName: "HcTabPane",
-                        controlId: "HcTabPane_user",
-                        label: "按用户反查",
-                        name: "user",
+                        controlName: "ElCol",
+                        controlId: "ElCol_l4",
+                        span: 4,
                         children: [
                           {
-                            controlName: "HcTextLabel",
-                            controlId: "TextLabel_byUser",
-                            title: "用户页面内容1"
+                            controlName: "HcMenu",
+                            controlId: "HcMenu_basic04",
+                            events: {
+                              open: function(key, keyPath) {
+                                console.log(key, keyPath);
+                              },
+                              close: function(key, keyPath) {
+                                console.log(key, keyPath);
+                              }
+                            },
+                            labelField: "title",
+                            datas: [
+                              {
+                                id: "1",
+                                pid: "-1",
+                                title: "主题分类一",
+                                index: "1",
+                                icon: "el-icon-location"
+                              },                            
+                              {
+                                id: "2",
+                                pid: "-1",
+                                title: "主题分类二",
+                                index: "2",
+                                icon: "el-icon-menu"
+                              },
+                              {
+                                id: "3",
+                                pid: "-1",
+                                title: "主题分类三",
+                                index: "3",
+                                icon: "el-icon-document"
+                              },
+                              {
+                                id: "4",
+                                pid: "-1",
+                                title: "主题分类四",
+                                index: "4",
+                                icon: "el-icon-setting"
+                              }
+                            ]
                           }
                         ]
                       },
                       {
-                        controlName: "HcTabPane",
-                        controlId: "HcTabPane_func",
-                        label: "按功能反查",
-                        name: "func",
+                        controlName: "ElCol",
+                        controlId: "ElCol_r20",
+                        span: 20,
                         children: [
                           {
-                            controlName: "HcTextLabel",
-                            controlId: "TextLabel_byFunc",
-                            title: "功能页面内容1"
+                            controlName: "HcButton",
+                            controlId: "HcButton_1",
+                            title: "",
+                            icon: "el-icon-edit",
+                            events: {
+                              click: function(e) {
+                                alert("click:" + e);
+                              }
+                            }
                           }
                         ]
                       }
