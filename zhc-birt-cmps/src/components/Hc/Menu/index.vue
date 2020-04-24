@@ -16,7 +16,7 @@
     @open="open"
     @close="close"
   >
-    <template v-for="(child,i) in conf.children">
+    <template v-for="(child,i) in menuChildren()">
       <hc-menu-child :key="conf.controlId+i" :conf="child"></hc-menu-child>
     </template>
   </el-menu>
@@ -29,7 +29,7 @@ import autosize from "@/components/mixins/autosize";
 import datasource from "@/components/mixins/datasource";
 import treedata from "@/components/mixins/treedata";
 
-import { randomString } from "@/utils/StringUtil.js";
+import { randomString } from "@/funclib/StringUtil.js";
 
 export default {
   name: "hc-menu",
@@ -63,27 +63,29 @@ export default {
       }
     },
     menuChildren() {
-      let menus = this.conf.children || [];
+      let menus = [].concat(this.conf.children || []);
       let treeData = this.getConvertTreeData();
-      let me = this;
-      this.datas.forEach(recd => {
-        let menuItem = {};
-        if (recd.children && recd.children.length > 0) {
-          menuItem.controlName = "HcSubMenu";
-          menuItem.controlId = "HcSubMenu" + randomString(6);
-          menuItem.title = recd[me.labelField];
-          Object.assign(menuItem, recd);
-        }
-      });
+      this.addSubMenu(menus, treeData);
+      return menus;
     },
-    addSubMenu(menu, recd) {
-      let menuItem = {};
-      if (recd.children && recd.children.length > 0) {
-        menuItem.controlName = "HcSubMenu";
-        menuItem.controlId = "HcSubMenu" + randomString(6);
-        menuItem.title = recd[this.labelField];
-        Object.assign(menuItem, recd);
-        this.addSubMenu();
+    addSubMenu(menu, data) {
+      if (data && data.length > 0) {
+        let me = this;
+        data.forEach(recd => {
+          let menuItem = {};
+          Object.assign(menuItem, recd);
+          menuItem.title = recd[this.labelField];
+          if (recd.children && recd.children.length > 0) {
+            menuItem.controlName = "HcSubMenu";
+            menuItem.controlId = "HcSubMenu" + randomString(6);
+            menuItem.children = [];
+            me.addSubMenu(menuItem.children, recd.children);
+          } else {
+            menuItem.controlName = "HcMenuItem";
+            menuItem.controlId = "HcMenuItem" + randomString(6);
+          }
+          menu.push(menuItem);
+        });
       }
     }
   }

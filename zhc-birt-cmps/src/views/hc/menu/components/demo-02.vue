@@ -18,7 +18,7 @@ export default {
     return {
       hcMenu: {
         controlName: "HcMenu",
-        controlId: "HcMenu_basic03",
+        controlId: "HcMenu_basic02_1",
         events: {
           open: function(key, keyPath) {
             console.log(key, keyPath);
@@ -123,7 +123,7 @@ export default {
       },
       hcMenu2: {
         controlName: "HcMenu",
-        controlId: "HcMenu_basic04",
+        controlId: "HcMenu_basic02_2",
         backgroundColor: "#545c64",
         textColor: "#fff",
         activeTextColor: "#ffd04b",

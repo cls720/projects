@@ -19,7 +19,7 @@ export function randomString(len) {
     var $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz012345678';
     var maxPos = $chars.length;
     var str = '';
-    for (i = 0; i < len; i++) {
+    for (var i = 0; i < len; i++) {
         str += $chars.charAt(Math.floor(Math.random() * maxPos));
     }
     return str;
