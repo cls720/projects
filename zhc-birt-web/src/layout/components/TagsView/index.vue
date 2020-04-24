@@ -42,7 +42,7 @@ import ScrollPane from "./ScrollPane";
 import { generateTitle } from "@/utils/i18n";
 import path from "path";
 import { debuglog } from "util";
-import bus from "@/utils/bus";
+import emitter from "@/utils/emitter";
 
 export default {
   components: { ScrollPane },
@@ -185,8 +185,9 @@ export default {
       });
     },
     closeSelectedTag(view) {
+      debugger;
       this.cancel = false;
-      bus.$emit("beforetagclose", this, view);
+      emitter.emit("beforetagclose", this, view);
       if (!this.cancel) {
         this.delView(view);
       }

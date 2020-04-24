@@ -22,7 +22,6 @@ JsBarcode("#imgcode", "123", {
 });
 */
 import JsBarcode from "jsbarcode";
-import { Stream } from "stream";
 
 export default {
   name: "BarCode",

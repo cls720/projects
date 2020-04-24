@@ -1,4 +1,4 @@
-import bus from "@/utils/bus";
+import emitter from "@/utils/emitter";
 import { constantRoutes } from "@/router";
 const PUSHKEY = "__push"
 import {
@@ -146,10 +146,10 @@ export default {
     // }
 
 
-    bus.$on("beforetagclose", this._beforeclose);
+    emitter.on("beforetagclose", this._beforeclose);
   },
   destroyed() {
-    bus.$off("beforetagclose", this.dirtychange);
+    emitter.off("beforetagclose", this.dirtychange);
   }
 }
 

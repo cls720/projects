@@ -29,8 +29,11 @@ export default {
     pieChart: "饼图",
     barChart: "柱图",
     lineChart: "线图",
+<<<<<<< HEAD
     areaChart: "区域图",
     composeChart:"合成图",
+=======
+>>>>>>> c450d958661e3c9aa90c10d8cef3947af33b3750
     radarChart: "雷达图",
     funnelChart: "漏斗图",
     gaugeChart: "仪表盘",

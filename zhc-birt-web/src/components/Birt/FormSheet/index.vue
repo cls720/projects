@@ -10,7 +10,7 @@
 import autosize from "@/components/mixins/autosize";
 
 export default {
-  name: "hc-form-birt",
+  name: "birt-form-sheet",
   mixins: [autosize],
   components: {
     BirtCellChildren: () => import("@/components/BirtCellChildren")

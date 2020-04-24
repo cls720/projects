@@ -8,7 +8,7 @@
 import autosize from "@/components/mixins/autosize";
 
 export default {
-  name: "hc-video",
+  name: "HcVideo",
   mixins: [autosize],
   props: {
     conf: {

@@ -13,6 +13,7 @@ import LineChart from './LineChart.vue'
 import PieChart from './PieChart.vue'
 import RadarChart from './RadarChart.vue'
 import RealtimeChart from './RealtimeChart.vue'
+import HcVideo from "@/components/Hc/Video"
 
 const cmps = {
   BaseEChart,
@@ -25,6 +26,7 @@ const cmps = {
   PieChart,
   RadarChart,
   RealtimeChart,
+  HcVideo  
 };
 const install = () => {
   for (var key in cmps) {

@@ -105,12 +105,15 @@ import {
   lineModel
 } from "./birt/Charts/Line";
 import {
+<<<<<<< HEAD
   areaModel
 } from "./birt/Charts/Area";
 import {
   composeModel
 } from "./birt/Charts/Compose";
 import {
+=======
+>>>>>>> c450d958661e3c9aa90c10d8cef3947af33b3750
   radarModel
 } from "./birt/Charts/Radar";
 import {
@@ -205,10 +208,13 @@ export function getBirtModel(birtUrl, params) {
       result.data = barModel;
     } else if (birtUrl === "/chart/basic/line") {
       result.data = lineModel;
+<<<<<<< HEAD
     } else if (birtUrl === "/chart/basic/area") {
       result.data = areaModel;
     } else if (birtUrl === "/chart/basic/compose") {
       result.data = composeModel;
+=======
+>>>>>>> c450d958661e3c9aa90c10d8cef3947af33b3750
     } else if (birtUrl === "/chart/basic/radar") {
       result.data = radarModel;
     } else if (birtUrl === "/chart/basic/funnel") {

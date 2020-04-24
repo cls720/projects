@@ -41,6 +41,7 @@ const chartRouter = {
           meta: {
             title: 'lineChart'
           }
+<<<<<<< HEAD
         },      
         {
           path: 'area',
@@ -58,6 +59,9 @@ const chartRouter = {
             title: 'composeChart'
           }
         },          
+=======
+        },       
+>>>>>>> c450d958661e3c9aa90c10d8cef3947af33b3750
         {
           path: 'radar',
           component: () => import('@/views/birt/workbook/index'),

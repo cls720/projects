@@ -13,7 +13,7 @@ export default {
     return {
       hcMenu: {
         controlName: "HcMenu",
-        controlId: "HcMenu_basic01",
+        controlId: "HcMenu_basic01_1",
         mode: "horizontal",
         events: {
           select: function(key, keyPath) {
@@ -83,7 +83,7 @@ export default {
       },
       hcMenu2: {
         controlName: "HcMenu",
-        controlId: "HcMenu_basic02",
+        controlId: "HcMenu_basic01_2",
         mode: "horizontal",
         events: {
           select: function(key, keyPath) {
