@@ -43,6 +43,14 @@ export default {
                 }
                 parent = parent.$parent;
             }
+        },
+        getDataSetData(datasetId) {
+            if (datasetId) {
+                let ds = this.getParentDataSet(datasetId);
+                return ds.getData() || [];
+            } else {
+                return [];
+            }
         }
     }
 }

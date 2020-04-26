@@ -139,23 +139,23 @@ export default {
           "border-spacing:0px;border-collapse: collapse;table-layout:fixed;word-break:break-all;",
         rows: {
           r1: {
-            rowHeight: 20,
+            rowHeight: 25,
             tds: {
               A1: {
-                value: "福州",
-                style: "text-align:center;color:#fff;font-size:12px;"
+                value: "地区",
+                style: "text-align:center;color:#3cc;background-color:#0C1D3B;"
               },
               B1: {
-                value: "张三",
-                style: "text-align:center;color:#fff;font-size:12px;"
+                value: "姓名",
+                style: "text-align:center;color:#3cc;background-color:#0C1D3B;"
               },
               C1: {
-                value: "08:30:22",
-                style: "text-align:center;color:#fff;font-size:12px;"
+                value: "登录时间",
+                style: "text-align:center;color:#3cc;background-color:#0C1D3B;"
               },
               D1: {
-                value: "1.5",
-                style: "text-align:center;color:#fff;font-size:12px;"
+                value: "在线小时",
+                style: "text-align:center;color:#3cc;background-color:#0C1D3B;"
               }
             }
           },
@@ -163,24 +163,45 @@ export default {
             rowHeight: 20,
             tds: {
               A1: {
+                value: "福州",
+                style: "text-align:center;font-size:12px;"
+              },
+              B1: {
+                value: "张三",
+                style: "text-align:center;font-size:12px;"
+              },
+              C1: {
+                value: "08:30:22",
+                style: "text-align:center;font-size:12px;"
+              },
+              D1: {
+                value: "1.5",
+                style: "text-align:center;font-size:12px;"
+              }
+            }
+          },
+          r3: {
+            rowHeight: 20,
+            tds: {
+              A1: {
                 value: "${recd.userCity}",
                 extendArrow: "down",
-                style: "text-align:center;color:#fff;font-size:12px;"
+                style: "text-align:center;font-size:12px;"
               },
               B1: {
                 value: "${recd.userXm}",
                 extendArrow: "down",
-                style: "text-align:center;color:#fff;font-size:12px;"
+                style: "text-align:center;font-size:12px;"
               },
               C1: {
                 value: "${recd.loginTime}",
                 extendArrow: "down",
-                style: "text-align:center;color:#fff;font-size:12px;"
+                style: "text-align:center;font-size:12px;"
               },
               D1: {
                 value: "${recd.onLineHour}",
                 extendArrow: "down",
-                style: "text-align:center;color:#fff;font-size:12px;"
+                style: "text-align:center;font-size:12px;"
               }
             }
           }

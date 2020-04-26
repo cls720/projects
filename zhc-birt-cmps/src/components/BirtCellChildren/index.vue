@@ -88,7 +88,7 @@
         :ref="child.controlId"
         :key="child.controlId"
         :conf="child"
-        :dataset-datas="getParentDataSet(child.dataset).getData()"
+        :dataset-datas="getDataSetData(child.dataset)"
       />
       <hc-loop-scroll
         v-if="child.controlName=='HcLoopScroll'"
@@ -131,21 +131,21 @@
         :ref="child.controlId"
         :key="child.controlId"
         :conf="child"
-        :dataset-datas="getParentDataSet(child.dataset).getData()"
+        :dataset-datas="getDataSetData(child.dataset)"
       />
       <hc-table
         v-if="child.controlName=='HcTable'"
         :ref="child.controlId"
         :key="child.controlId"
         :conf="child"
-        :dataset-datas="getParentDataSet(child.dataset).getData()"
+        :dataset-datas="getDataSetData(child.dataset)"
       />
       <hc-tree
         v-if="child.controlName=='HcTree'"
         :ref="child.controlId"
         :key="child.controlId"
         :conf="child"
-        :dataset-datas="getParentDataSet(child.dataset).getData()"
+        :dataset-datas="getDataSetData(child.dataset)"
       />
       <hc-input-filter
         v-if="child.controlName=='HcInputFilter'"
@@ -165,77 +165,77 @@
         :ref="child.controlId"
         :key="child.controlId"
         :conf="child"
-        :dataset-datas="getParentDataSet(child.dataset).getData()"
+        :dataset-datas="getDataSetData(child.dataset)"
       />
       <bar-chart
         v-if="child.controlName=='BarChart'"
         :ref="child.controlId"
         :key="child.controlId"
         :conf="child"
-        :dataset-datas="getParentDataSet(child.dataset).getData()"
+        :dataset-datas="getDataSetData(child.dataset)"
       />
       <bar-percent-chart
         v-if="child.controlName=='BarPercentChart'"
         :ref="child.controlId"
         :key="child.controlId"
         :conf="child"
-        :dataset-datas="getParentDataSet(child.dataset).getData()"
+        :dataset-datas="getDataSetData(child.dataset)"
       />
       <line-chart
         v-if="child.controlName=='LineChart'"
         :ref="child.controlId"
         :key="child.controlId"
         :conf="child"
-        :dataset-datas="getParentDataSet(child.dataset).getData()"
+        :dataset-datas="getDataSetData(child.dataset)"
       />
       <area-chart
         v-if="child.controlName=='AreaChart'"
         :ref="child.controlId"
         :key="child.controlId"
         :conf="child"
-        :dataset-datas="getParentDataSet(child.dataset).getData()"
+        :dataset-datas="getDataSetData(child.dataset)"
       />
       <compose-chart
         v-if="child.controlName=='ComposeChart'"
         :ref="child.controlId"
         :key="child.controlId"
         :conf="child"
-        :dataset-datas="getParentDataSet(child.dataset).getData()"
+        :dataset-datas="getDataSetData(child.dataset)"
       />
       <realtime-chart
         v-if="child.controlName=='RealtimeChart'"
         :ref="child.controlId"
         :key="child.controlId"
         :conf="child"
-        :dataset-datas="getParentDataSet(child.dataset).getData()"
+        :dataset-datas="getDataSetData(child.dataset)"
       />
       <radar-chart
         v-if="child.controlName=='RadarChart'"
         :ref="child.controlId"
         :key="child.controlId"
         :conf="child"
-        :dataset-datas="getParentDataSet(child.dataset).getData()"
+        :dataset-datas="getDataSetData(child.dataset)"
       />
       <funnel-chart
         v-if="child.controlName=='FunnelChart'"
         :ref="child.controlId"
         :key="child.controlId"
         :conf="child"
-        :dataset-datas="getParentDataSet(child.dataset).getData()"
+        :dataset-datas="getDataSetData(child.dataset)"
       />
       <gauge-chart
         v-if="child.controlName=='GaugeChart'"
         :ref="child.controlId"
         :key="child.controlId"
         :conf="child"
-        :dataset-datas="getParentDataSet(child.dataset).getData()"
+        :dataset-datas="getDataSetData(child.dataset)"
       />
       <china-map-chart
         v-if="child.controlName=='ChinaMapChart'"
         :ref="child.controlId"
         :key="child.controlId"
         :conf="child"
-        :dataset-datas="getParentDataSet(child.dataset).getData()"
+        :dataset-datas="getDataSetData(child.dataset)"
       />
     </template>
   </div>

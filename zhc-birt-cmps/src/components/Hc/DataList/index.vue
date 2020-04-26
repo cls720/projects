@@ -45,16 +45,16 @@ export default {
       return `${this.autoSizeStyle()};${this.conf.style};`;
     },
     trRows() {
-      debugger
+      debugger;
       let me = this;
       let trRows = {};
       let i = 1;
       for (var trkey in this.conf.rows) {
         let tr = this.conf.rows[trkey];
         let extendArrow = this.getTrExtendArrow(tr);
-        if (extendArrow && this.datasetDatas) {
+        if (extendArrow && this.datas) {
           if (extendArrow == "down") {
-            this.datasetDatas.forEach(recd => {
+            this.datas.forEach(recd => {
               let extendTr = me.getTrExprInstance(tr, recd);
               trRows["r" + i] = extendTr;
               i++;
@@ -62,12 +62,10 @@ export default {
           }
         } else {
           let wb = this.getWorkBook();
-          if (wb && this.conf.dataset) {
-            let curtRecd = this.getWorkBook().dataset[this.conf.dataset]
-              .curRecord;
-            trRows["r" + i] = me.getTrExprInstance(tr, curtRecd);
-            i++;
-          }
+          let dsId = this.conf.dataset;
+          let curtRecd = wb && dsId && wb.dataset[dsId];
+          trRows["r" + i] = me.getTrExprInstance(tr, curtRecd);
+          i++;
         }
       }
       return trRows;

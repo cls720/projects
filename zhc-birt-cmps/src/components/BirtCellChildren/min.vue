@@ -88,7 +88,7 @@
         :ref="child.controlId"
         :key="child.controlId"
         :conf="child"
-        :dataset-datas="getParentDataSet(child.dataset).getData()"
+        :dataset-datas="getDataSetData(child.dataset)"
       />
       <hc-loop-scroll
         v-if="child.controlName=='HcLoopScroll'"
@@ -125,21 +125,21 @@
         :ref="child.controlId"
         :key="child.controlId"
         :conf="child"
-        :dataset-datas="getParentDataSet(child.dataset).getData()"
+        :dataset-datas="getDataSetData(child.dataset)"
       />
       <hc-table
         v-if="child.controlName=='HcTable'"
         :ref="child.controlId"
         :key="child.controlId"
         :conf="child"
-        :dataset-datas="getParentDataSet(child.dataset).getData()"
+        :dataset-datas="getDataSetData(child.dataset)"
       />
       <hc-tree
         v-if="child.controlName=='HcTree'"
         :ref="child.controlId"
         :key="child.controlId"
         :conf="child"
-        :dataset-datas="getParentDataSet(child.dataset).getData()"
+        :dataset-datas="getDataSetData(child.dataset)"
       />
       <hc-input-filter
         v-if="child.controlName=='HcInputFilter'"
