@@ -34,6 +34,32 @@ export default class HcDataset {
     }
 
     /**
+     * 执行数据集过滤 
+     * @param {*} keyWord 
+     */
+    filter(keyWord) {
+
+    }
+
+    /**
+     * 清除数据集过滤条件
+     */
+    clearFilter() {
+        this.setData(this.lastBeforeFilterData);
+    }
+
+    /**
+     * 设置过滤数据包
+     * @param {*} data 
+     */
+    setFilterData(data) {
+        debugger
+        let cloneData = JSON.parse(JSON.stringify(this.getData()));
+        this.lastBeforeFilterData = cloneData;
+        this.setData(data);
+    }
+
+    /**
      * 数据当前显示数据
      */
     getData() {

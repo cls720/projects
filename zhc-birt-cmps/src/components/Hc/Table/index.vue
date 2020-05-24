@@ -201,6 +201,7 @@ export default {
         "headerDragend",
         "expandChange"
       ],
+      // 计算字段treeData依赖此过滤配置
       filterConf: {}
     };
   },
@@ -227,6 +228,7 @@ export default {
     },
     // 应用各列过滤配置
     doFilterConf(data) {
+      debugger
       let isOk = true;
       for (var key in this.filterConf) {
         let filterFunc = this.filterConf[key];

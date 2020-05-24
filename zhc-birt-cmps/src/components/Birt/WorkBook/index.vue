@@ -194,7 +194,7 @@ export default {
     },
     // 初始化工作表数据集
     initDataSets(dataSets) {
-      if (dataSets) {
+      if (dataSets) {        
         let me = this;
         dataSets.forEach(ds => {
           if (!me.dataset[ds.controlId]) {
