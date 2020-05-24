@@ -8,7 +8,7 @@
 import pinyin from "js-pinyin";
 
 import { pageDlgres } from "./page-dlgres";
-import { allData } from "./org.js";
+import { allData, filterData } from "./org.js";
 
 export default {
   data() {
@@ -27,9 +27,9 @@ export default {
             pageIndex: 0,
             dataSets: [
               {
-                controlName: "JsWebSocketDataSet",
+                controlName: "HcDataset",
                 controlId: "dsOrg",
-                datas: allData
+                data: allData
               },
               {
                 controlName: "HcEditDataset",
@@ -224,22 +224,24 @@ export default {
                                 debugger;
                                 let hcTable = this.getRefCompt("HcTree_org");
                                 if (filterKey) {
-                                  hcTable.$set(
-                                    hcTable.filterConf,
-                                    "label",
-                                    function filterRecd(recd) {
-                                      let key =
-                                        recd.label +
-                                        "_" +
-                                        pinyin.getCamelChars(recd.label);
-                                      return (
-                                        key.indexOf(filterKey.toUpperCase()) !==
-                                        -1
-                                      );
-                                    }
-                                  );
+                                  // hcTable.$set(
+                                  //   hcTable.filterConf,
+                                  //   "label",
+                                  //   function filterRecd(recd) {
+                                  //     let key =
+                                  //       recd.label +
+                                  //       "_" +
+                                  //       pinyin.getCamelChars(recd.label);
+                                  //     return (
+                                  //       key.indexOf(filterKey.toUpperCase()) !==
+                                  //       -1
+                                  //     );
+                                  //   }
+                                  // );
+                                  hcTable.store.setFilterData(filterData);
                                 } else {
-                                  hcTable.$delete(hcTable.filterConf, "label");
+                                  // hcTable.$delete(hcTable.filterConf, "label");
+                                  hcTable.store.clearFilter();
                                 }
                               }
                             }
@@ -371,7 +373,7 @@ export default {
                               {
                                 controlName: "HcTableColumnCheckbox",
                                 controlId: "HcTableColumn_3_chk",
-                                isShow: function(row) {                                  
+                                isShow: function(row) {
                                   return row.kind != "DIR";
                                 },
                                 prop: "isAssign",

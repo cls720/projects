@@ -1185,4 +1185,30 @@ export const allData = [
     }
 ];
 
+export const filterData = [
+    {
+        "kind": ".OGNROOT",
+        "pid": "-1",
+        "id": "0009F370-6801-4DDE-AC26-061BC66D61B3",
+        "label": "组织机构",
+        "nodeType": "org",
+        "orgId": "ORGANIZE"
+    },
+    {
+        "kind": ".DPT",
+        "pid": "0009F370-6801-4DDE-AC26-061BC66D61B3",
+        "id": "4dbc3f48-1b2c-11e9-b189-005056ba54a4",
+        "label": "PAAS开发平台",
+        "nodeType": "org",
+        "orgId": ".PAASKFPT"
+    },
+    {
+        "kind": ".JT",
+        "pid": "0009F370-6801-4DDE-AC26-061BC66D61B3",
+        "id": "4f209031-c289-11e8-96b5-005056ba54a4",
+        "label": "B集团",
+        "nodeType": "org",
+        "orgId": ".BJT"
+    },
+]
 //export const allData = orgData.concat(ptmData).concat(ryData);
