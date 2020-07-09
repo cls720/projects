@@ -1,6 +1,6 @@
 <template>
   <el-table
-    :data="treeData"
+    :data="datas"
     :height="autoHeight()"
     :max-height="conf.maxHeight"
     :stripe="conf.stripe"
@@ -99,6 +99,7 @@ export default {
   computed: {
     // 返回标准树型数据
     treeData() {
+      debugger
       let retuData;
       if (this.idField && this.parentIdField) {
         retuData = this.getConvertTreeData(this.datas);
@@ -124,10 +125,7 @@ export default {
     },
     height() {
       return this.conf.height;
-    },
-    confStyle() {
-      return `${this.autoSizeStyle()};${this.conf.style};`;
-    },
+    },   
     select() {
       return this.on("select");
     },

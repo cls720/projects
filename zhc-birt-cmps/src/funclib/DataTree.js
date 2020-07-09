@@ -148,3 +148,45 @@ export function filterTreeData(datas, filterFunc) {
   }
   return newChildren;
 }
+
+/**
+ * showdoc
+ * @catalog JS工具类/DataTree
+ * @title findParentTreeData 查找树父节点数据
+ * @description 根据树当前节点id值,返回所有父级节点数据
+ * @method static
+ * @url import { findParentTreeData } from '@/funclib/DataTree.js'
+ * @param dataMap 必选 {key1:{},key2:{}} map缓存映射
+ * @param pidField 必选 string 树父id字段名
+ * @param value 必选 string 查找id值
+ * @return [{'f1':'v1','f2':'v2'},{},...]
+ * @remark 测试用例
+ *  findParentTreeData(
+ *    {1:{id:1,v:"a",pid:"-1"},2:{id:2,v:"b",pid:"-1"},3:{id:"3",v:"a.1",pid:"1"},4:{id:"4",v:"a.1.1",pid:"3"}},
+ *    "pid",
+ *    3
+ *  )
+ *  返回==>
+ *  [{"id":1,"v":"a","pid":"-1"},{"id":"3","v":"a.1","pid":"1"}]
+ */
+export function findParentTreeData(dataMap, pidField, value) {
+  let parentData = [];
+  if (dataMap) {
+    do {
+      let parentRecd = dataMap[value];
+      if (parentRecd) {
+        parentData.unshift(parentRecd);
+        if (value === parentRecd[pidField]) {
+          console.error("dataMap 数据映射有问题，父节点值[" + value + "]找到自身或是父ID字段名错误，出现死循环，异常退出")
+          break;
+        }
+        value = parentRecd[pidField];
+      } else {
+        break;
+      }
+    } while (true)
+  } else {
+    console.error("dataMap数据键值缓存为空，找不到父节点，可能数据集未配置rowKey主键属性")
+  }
+  return parentData
+}

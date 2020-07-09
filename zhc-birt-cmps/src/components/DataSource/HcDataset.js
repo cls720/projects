@@ -2,9 +2,16 @@
  * 报表数据集
  */
 import emitter from "@/utils/emitter";
+import DatasetFilterInfc from "./interface/DatasetFilterInfc"
+import DatasetTreeInfc from "./interface/DatasetTreeInfc"
+import DatasetPaggingInfc from "./interface/DatasetPaggingInfc"
 
-export default class HcDataset {
+import { mix } from '@/funclib/ObjectUtil';
+
+export default class HcDataset extends mix(DatasetFilterInfc, DatasetTreeInfc, DatasetPaggingInfc) {
     constructor(option) {
+        super();
+        debugger
         if (!option.data) {
             console.error("数据集data属性未配置")
         }
@@ -13,6 +20,55 @@ export default class HcDataset {
         this.curtRecord = {
             __empty: true
         };
+    }
+
+    /**
+    * 获取行记录主键值
+    * @param {*} recd 
+    */
+    _getRowKeyValue(recd) {
+        // 主键未配置返回空
+        if (!this.rowKey) return;
+        if (typeof recd == "string") return recd;
+        if (typeof this.rowKey == "string") {
+            return recd[this.rowKey]
+        } else if (Array.isArray(this.rowKey)) {
+            let rowKeyValue = "";
+            this.rowKey.forEach(fieldName => {
+                rowKeyValue += recd[fieldName];
+            });
+            return rowKeyValue;
+        } else if (typeof this.rowKey == "function") {
+            return this.rowKey.call(this, recd);
+        }
+    }
+
+    // 设置数据map映射关系，方便查找 
+    _setDataMap() {
+        let me = this;
+        let dataMap = {};
+        this.data.forEach(r => {
+            let keyVal = me._getRowKeyValue(r);
+            if (keyVal != undefined) {
+                dataMap[keyVal] = r;
+            }
+        });
+        // 设置主键值map映射
+        this.dataMap = dataMap;
+    }
+
+    // 获取数据记录集map缓存
+    _getDataMap() {
+        // 当不存在map缓存，且数据有设置主键时计算返存map
+        if (!this.dataMap && this.rowKey) {
+            this._setDataMap();
+        }
+        return this.dataMap;
+    }
+
+    // 清空map缓存
+    _clearDataMap() {
+        this.dataMap = null;
     }
 
     /**
@@ -34,35 +90,13 @@ export default class HcDataset {
     }
 
     /**
-     * 执行数据集过滤 
-     * @param {*} keyWord 
-     */
-    filter(keyWord) {
-
-    }
-
-    /**
-     * 清除数据集过滤条件
-     */
-    clearFilter() {
-        this.setData(this.lastBeforeFilterData);
-    }
-
-    /**
-     * 设置过滤数据包
-     * @param {*} data 
-     */
-    setFilterData(data) {
-        debugger
-        let cloneData = JSON.parse(JSON.stringify(this.getData()));
-        this.lastBeforeFilterData = cloneData;
-        this.setData(data);
-    }
-
-    /**
      * 数据当前显示数据
      */
     getData() {
+        debugger
+        if (this._isTree()) {
+            return this.getTreeData();
+        }
         return this.data;
     }
 
@@ -72,6 +106,7 @@ export default class HcDataset {
      */
     setData(data) {
         this.data.splice(0, this.data.length, ...data);
+        this._clearDataMap();
     }
 
     /**
@@ -101,5 +136,12 @@ export default class HcDataset {
         emitter.on(eventName + this.controlId, (...args) => {
             callBackFunc.call(me, ...args);
         });
+    }
+
+    // 执行请求后台数据
+    requestData(param) {
+        if (this.requestFunc) {
+            return this.requestFunc.call(this, param);
+        }
     }
 }

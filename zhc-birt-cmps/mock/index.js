@@ -3,11 +3,13 @@ import {
   param2Obj
 } from '../src/utils'
 
+import powerAssign from './power-assign'
 import powerCheck from './power-check'
 import lookup from "./lookup"
 
 
 const mocks = [
+  ...powerAssign,
   ...powerCheck,
   ...lookup
 ]

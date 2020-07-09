@@ -27,7 +27,7 @@ export default {
             pageIndex: 0,
             dataSets: [
               {
-                controlName: "HcDataset",
+                controlName: "HcEditDataset",
                 controlId: "dsOrg",
                 data: allData
               },

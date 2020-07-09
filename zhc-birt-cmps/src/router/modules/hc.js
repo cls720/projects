@@ -10,6 +10,18 @@ const hcRouter = {
   },
   children: [
     {
+      path: '/row',
+      component: () => import('@/views/hc/row'),
+      name: 'hcRow',
+      meta: { title: 'HcRow 行布局' }
+    },
+    {
+      path: '/col',
+      component: () => import('@/views/hc/col'),
+      name: 'hcCol',
+      meta: { title: 'HcCol 列布局' }
+    },
+    {
       path: '/button',
       component: () => import('@/views/hc/button'),
       name: 'hcButton',

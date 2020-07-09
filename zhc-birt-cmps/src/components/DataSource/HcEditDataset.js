@@ -132,24 +132,6 @@ export default class HcEditDataset extends HcDataset {
     }
 
     /**
-     * 获取行记录主键值
-     * @param {*} recd 
-     */
-    _getRowKeyValue(recd) {
-        if (typeof recd == "string") return recd;
-        if (typeof this.rowKey == "string") {
-            return recd[this.rowKey]
-        } else if (Array.isArray(this.rowKey)) {
-            let rowKeyValue = "";
-            this.rowKey.forEach(fieldName => {
-                rowKeyValue += recd[fieldName];
-            });
-            return rowKeyValue;
-        } else if (typeof this.rowKey == "function") {
-            return this.rowKey.call(this, recd);
-        }
-    }
-    /**
      * 获取数据下标
      * @param {*} recd 查找记录对象或key值
      * @param {*} data 被查找数据列表

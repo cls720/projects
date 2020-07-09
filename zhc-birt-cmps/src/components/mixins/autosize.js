@@ -3,7 +3,17 @@
  */
 
 export default {
-  computed: {},
+  computed: {
+    width() {
+      return this.conf.width;
+    },
+    height() {
+      return this.conf.height;
+    },
+    confStyle() {
+      return `${this.autoSizeStyle()};${this.conf.style};`;
+    }
+  },
   methods: {
     // 获取依赖父宽度
     getParentWidth() {
@@ -39,7 +49,7 @@ export default {
         }
       } else {
         retuW = this.width;
-      }     
+      }
       return retuW;
     },
     // 获取自适应高度

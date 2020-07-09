@@ -1,3 +1,5 @@
+import HcRow from "./Row"
+import HcCol from "./Col"
 import HcButton from "./Button"
 import HcTextLabel from "./TextLabel"
 import HcImageTitle from './ImageTitle'
@@ -20,6 +22,8 @@ import HcDivider from "./Divider"
 import HcVideo from "./Video"
 
 const cmps = {
+    HcRow,
+    HcCol,
     HcButton,
     HcTextLabel,
     HcImageTitle,

@@ -21,6 +21,12 @@ const hcComposeRouter = {
       name: 'hcTreeLookup',
       meta: { title: 'HcTreeLookup 树形查找定义' }
     },
+    {
+      path: '/table-transfer',
+      component: () => import('@/views/hc-compose/table-transfer'),
+      name: 'hcTableTransfer',
+      meta: { title: 'HcTableTransfer 网格穿梭框' }
+    },
   ]
 }
 

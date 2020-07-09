@@ -39,6 +39,16 @@
         <birt-cell-children v-if="child.children" :children="child.children" />
       </el-card>
 
+      <hc-row
+        v-if="child.controlName=='HcRow'"       
+        :key="child.controlId"
+        :conf="child"
+      />
+      <hc-col
+        v-if="child.controlName=='HcCol'"       
+        :key="child.controlId"
+        :conf="child"
+      />
       <hc-button
         v-if="child.controlName=='HcButton'"
         :ref="child.controlId"
