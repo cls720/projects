@@ -24,7 +24,7 @@
     "js-pinyin": "^0.1.9",
     "jsbarcode": "^3.11.0",
     "lodash": "^4.17.15",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "raphael": "^2.3.0"
   },
   "browserslist": [
